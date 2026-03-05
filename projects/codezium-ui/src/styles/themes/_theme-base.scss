@@ -15,13 +15,21 @@
     /* --- 2. TEXTOS Y TIPOGRAFÍA --- */
     --cz-theme-text-primary: var(--cz-color-gray-900);
     --cz-theme-text-secondary: var(--cz-color-gray-600);
-    --cz-theme-text-muted: var(--cz-color-gray-400);
+    --cz-theme-text-muted: var(--cz-color-gray-500);
     --cz-theme-text-inverse: var(--cz-color-white);
 
     /* --- 3. BORDES Y SEPARADORES --- */
     --cz-theme-border-color: var(--cz-color-gray-200);
     --cz-theme-border-width: 1px;
     --cz-theme-divider: var(--cz-color-gray-200);
+
+    /* --- 4. INPUT COMPONENT TOKENS (Light Mode) --- */
+    --cz-theme-input-border: var(--cz-color-gray-600);
+    --cz-theme-input-border-hover: var(--cz-color-gray-500);
+    --cz-theme-input-placeholder: var(--cz-color-gray-400);
+    --cz-theme-input-label: var(--cz-color-gray-600);
+    --cz-theme-input-label-active: var(--cz-color-gray-900);
+    --cz-theme-input-bg: var(--cz-color-white);
 
     /* --- 4. FORMAS Y GEOMETRÍA --- */
     --cz-theme-radius-base: var(--cz-radius-md);
@@ -54,6 +62,14 @@
     /* --- 3. BORDES Y SEPARADORES --- */
     --cz-theme-border-color: rgba(255, 255, 255, 0.12);
     --cz-theme-divider: rgba(255, 255, 255, 0.08);
+
+    /* --- 4. INPUT COMPONENT TOKENS (Dark Mode) --- */
+    --cz-theme-input-border: rgba(255, 255, 255, 0.2);
+    --cz-theme-input-border-hover: rgba(255, 255, 255, 0.35);
+    --cz-theme-input-placeholder: var(--cz-slate-500, #64748b);
+    --cz-theme-input-label: var(--cz-slate-400, #94a3b8);
+    --cz-theme-input-label-active: var(--cz-color-white, #ffffff);
+    --cz-theme-input-bg: var(--cz-navy, #1e293b);
 
     /* --- 5. PROFUNDIDAD (Sombras) --- */
     --cz-theme-shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.3);

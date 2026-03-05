@@ -82,7 +82,25 @@
             <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px;">
 
                 <!-- Standard -->
-                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale"
+                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="primary"
+                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
+                </cz-input-text>
+                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="secondary"
+                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
+                </cz-input-text>
+                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="success"
+                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
+                </cz-input-text>
+                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="danger"
+                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
+                </cz-input-text>
+                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="warning"
+                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
+                </cz-input-text>
+                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="info"
+                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
+                </cz-input-text>
+                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="dark"
                     placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
                 </cz-input-text>
 
@@ -103,6 +121,10 @@
 
             </div>
         </section>
+
+
+
+
 
         <!-- SECTION: Input Sizes -->
         <section>

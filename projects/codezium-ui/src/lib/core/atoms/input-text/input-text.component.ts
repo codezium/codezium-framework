@@ -1,24 +1,25 @@
 import {
-    Component,
-    input,
-    computed,
-    Optional,
-    Self,
-    ViewEncapsulation,
-    signal
+  Component,
+  input,
+  computed,
+  Optional,
+  Self,
+  ViewEncapsulation,
+  signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgControl, ControlValueAccessor } from '@angular/forms';
 import { CZ_VALIDATION_MESSAGES, CzValidationLocale, CzValidationErrorKeys } from '../../i18n';
 
 export type CzInputSize = 'sm' | 'md' | 'lg';
-export type CzLabelPosition = 'over' | 'in' | 'float';
+export type CzLabelPosition = 'none' | 'over' | 'in' | 'float';
+export type CzInputColor = '' | 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark';
 
 @Component({
-    selector: 'cz-input-text',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
+  selector: 'cz-input-text',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
     <div 
       class="cz-input-wrapper"
       [class.cz-input-fluid]="fluid()"
@@ -28,9 +29,10 @@ export type CzLabelPosition = 'over' | 'in' | 'float';
       [class.cz-input-focused]="isFocused()"
       [attr.data-size]="size()"
       [attr.data-label-position]="labelPosition()"
+      [attr.data-color]="color() || null"
     >
-      @if (label() && labelPosition() === 'over') {
-        <label class="cz-input-label-over">{{ label() }}</label>
+      @if (label() && labelPosition() === 'none') {
+        <label class="cz-input-label-static">{{ label() }}</label>
       }
 
       <div class="cz-input-container" [class.cz-float-active]="isFocused() || hasValue()">
@@ -46,8 +48,12 @@ export type CzLabelPosition = 'over' | 'in' | 'float';
           [class.cz-has-value]="hasValue()"
         />
 
-        @if (label() && (labelPosition() === 'in' || labelPosition() === 'float')) {
-          <label class="cz-input-label-inner">{{ label() }}</label>
+        @if (label()) {
+            @if (labelPosition() === 'over') {
+              <label class="cz-input-label-over">{{ label() }}</label>
+            } @else if (labelPosition() === 'in' || labelPosition() === 'float') {
+              <label class="cz-input-label-inner">{{ label() }}</label>
+            }
         }
       </div>
 
@@ -69,121 +75,122 @@ export type CzLabelPosition = 'over' | 'in' | 'float';
       </div>
     </div>
   `,
-    styleUrls: ['./input-text.component.scss'],
-    encapsulation: ViewEncapsulation.None
+  styleUrls: ['./input-text.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CzInputTextComponent implements ControlValueAccessor {
-    // Inputs definidos usando Signals (Angular 17/20+)
-    label = input<string>('');
-    labelPosition = input<CzLabelPosition>('over');
-    size = input<CzInputSize>('md');
-    filled = input<boolean>(false);
-    fluid = input<boolean>(false);
-    disabled = input<boolean>(false);
-    placeholder = input<string>('');
-    type = input<string>('text');
-    helpText = input<string>('');
+  // Inputs definidos usando Signals (Angular 17/20+)
+  label = input<string>('');
+  labelPosition = input<CzLabelPosition>('none');
+  size = input<CzInputSize>('md');
+  color = input<CzInputColor>('');
+  filled = input<boolean>(false);
+  fluid = input<boolean>(false);
+  disabled = input<boolean>(false);
+  placeholder = input<string>('');
+  type = input<string>('text');
+  helpText = input<string>('');
 
-    // Permite al usuario desactivar los mensajes embebidos generados automáticamente (default: true)
-    showErrors = input<boolean>(true);
+  // Permite al usuario desactivar los mensajes embebidos generados automáticamente (default: true)
+  showErrors = input<boolean>(true);
 
-    // Sistema de Internacionalización y Sobrescritura de mensajes
-    locale = input<CzValidationLocale>('es');
-    customErrors = input<Partial<CzValidationErrorKeys>>();
+  // Sistema de Internacionalización y Sobrescritura de mensajes
+  locale = input<CzValidationLocale>('es');
+  customErrors = input<Partial<CzValidationErrorKeys>>();
 
-    // Estados Locales Reactivos
-    value = signal<string>('');
-    isFocused = signal<boolean>(false);
-    formsDisabled = signal<boolean>(false);
+  // Estados Locales Reactivos
+  value = signal<string>('');
+  isFocused = signal<boolean>(false);
+  formsDisabled = signal<boolean>(false);
 
-    // Computeds inteligentes
-    actualDisabled = computed(() => this.disabled() || this.formsDisabled());
-    hasValue = computed(() => {
-        const v = this.value();
-        return v !== null && v !== undefined && v.toString().length > 0;
-    });
+  // Computeds inteligentes
+  actualDisabled = computed(() => this.disabled() || this.formsDisabled());
+  hasValue = computed(() => {
+    const v = this.value();
+    return v !== null && v !== undefined && v.toString().length > 0;
+  });
 
-    actualPlaceholder = computed(() => {
-        // Si es flotante y no está enfocado, el placeholder se oculta para no aplastar al label interior.
-        if ((this.labelPosition() === 'float' || this.labelPosition() === 'in') && this.label()) {
-            return this.isFocused() ? this.placeholder() : '';
+  actualPlaceholder = computed(() => {
+    // Si es flotante y no está enfocado, el placeholder se oculta para no aplastar al label interior.
+    if ((this.labelPosition() === 'float' || this.labelPosition() === 'in') && this.label()) {
+      return this.isFocused() ? this.placeholder() : '';
+    }
+    return this.placeholder();
+  });
+
+  // Callbacks del ControlValueAccessor
+  onChange: any = () => { };
+  onTouched: any = () => { };
+
+  constructor(@Optional() @Self() public ngControl: NgControl) {
+    if (this.ngControl != null) {
+      // Configuramos este componente como el valueAccessor para el modelo de datos padre
+      this.ngControl.valueAccessor = this;
+    }
+  }
+
+  // --- Validación Automática ---
+  get isInvalid(): boolean {
+    if (!this.ngControl) return false;
+    return !!(this.ngControl.invalid && (this.ngControl.touched || this.ngControl.dirty));
+  }
+
+  get errorMessage(): string | null {
+    if (!this.isInvalid || !this.ngControl?.errors) return null;
+    const errors = this.ngControl.errors;
+
+    // Cargar Diccionario (Base en Locale + Overwrites customizados del usuario)
+    const dictionary = {
+      ...CZ_VALIDATION_MESSAGES[this.locale()],
+      ...this.customErrors()
+    };
+
+    // Resolución dinámica y extensible de errores
+    for (const key of Object.keys(errors)) {
+      const mappedError = dictionary[key];
+      if (mappedError) {
+        // Si la traducción requiere parámetros, los inyectamos
+        if (typeof mappedError === 'function') {
+          // Soporte nativo para params 'minlength' & 'maxlength' (Angular docs standard)
+          return mappedError(errors[key].requiredLength || errors[key]);
         }
-        return this.placeholder();
-    });
-
-    // Callbacks del ControlValueAccessor
-    onChange: any = () => { };
-    onTouched: any = () => { };
-
-    constructor(@Optional() @Self() public ngControl: NgControl) {
-        if (this.ngControl != null) {
-            // Configuramos este componente como el valueAccessor para el modelo de datos padre
-            this.ngControl.valueAccessor = this;
-        }
+        return mappedError; // Traducciones planas como 'required', 'email', 'customKey'
+      }
     }
 
-    // --- Validación Automática ---
-    get isInvalid(): boolean {
-        if (!this.ngControl) return false;
-        return !!(this.ngControl.invalid && (this.ngControl.touched || this.ngControl.dirty));
-    }
+    return dictionary.default;
+  }
 
-    get errorMessage(): string | null {
-        if (!this.isInvalid || !this.ngControl?.errors) return null;
-        const errors = this.ngControl.errors;
+  // --- Métodos de ControlValueAccessor ---
+  writeValue(val: any): void {
+    this.value.set(val === null || val === undefined ? '' : val);
+  }
 
-        // Cargar Diccionario (Base en Locale + Overwrites customizados del usuario)
-        const dictionary = {
-            ...CZ_VALIDATION_MESSAGES[this.locale()],
-            ...this.customErrors()
-        };
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
 
-        // Resolución dinámica y extensible de errores
-        for (const key of Object.keys(errors)) {
-            const mappedError = dictionary[key];
-            if (mappedError) {
-                // Si la traducción requiere parámetros, los inyectamos
-                if (typeof mappedError === 'function') {
-                    // Soporte nativo para params 'minlength' & 'maxlength' (Angular docs standard)
-                    return mappedError(errors[key].requiredLength || errors[key]);
-                }
-                return mappedError; // Traducciones planas como 'required', 'email', 'customKey'
-            }
-        }
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
 
-        return dictionary.default;
-    }
+  setDisabledState(isDisabled: boolean): void {
+    this.formsDisabled.set(isDisabled);
+  }
 
-    // --- Métodos de ControlValueAccessor ---
-    writeValue(val: any): void {
-        this.value.set(val === null || val === undefined ? '' : val);
-    }
+  // --- Eventos del DOM Nativos ---
+  onInputChange(event: Event): void {
+    const val = (event.target as HTMLInputElement).value;
+    this.value.set(val);
+    this.onChange(val); // Notifica a Angular core
+  }
 
-    registerOnChange(fn: any): void {
-        this.onChange = fn;
-    }
+  onBlur(): void {
+    this.isFocused.set(false);
+    this.onTouched(); // Notifica a Angular core (desencadena touched validations)
+  }
 
-    registerOnTouched(fn: any): void {
-        this.onTouched = fn;
-    }
-
-    setDisabledState(isDisabled: boolean): void {
-        this.formsDisabled.set(isDisabled);
-    }
-
-    // --- Eventos del DOM Nativos ---
-    onInputChange(event: Event): void {
-        const val = (event.target as HTMLInputElement).value;
-        this.value.set(val);
-        this.onChange(val); // Notifica a Angular core
-    }
-
-    onBlur(): void {
-        this.isFocused.set(false);
-        this.onTouched(); // Notifica a Angular core (desencadena touched validations)
-    }
-
-    onFocus(): void {
-        this.isFocused.set(true);
-    }
+  onFocus(): void {
+    this.isFocused.set(true);
+  }
 }
