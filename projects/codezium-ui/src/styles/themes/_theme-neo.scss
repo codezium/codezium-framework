@@ -5,12 +5,12 @@
    ========================================================================== */
 
 [data-theme="neo"] {
-    /* --- 1. SUPERFICIES Y FONDOS --- */
+    /* --- LIGHT MODE BY DEFAULT --- */
     /* En Neomorfismo, la superficie y el fondo base casi siempre DEBEN ser iguales */
     --cz-theme-html-bg: var(--cz-neo-bg);
     --cz-theme-surface: var(--cz-neo-bg);
     --cz-theme-surface-hover: var(--cz-neo-bg);
-    --cz-theme-surface-active: var(--cz-neo-bg); // El estado de apretado se controla usualmente solo con la sombra
+    --cz-theme-surface-active: var(--cz-neo-bg);
 
     /* --- 2. TEXTOS Y TIPOGRAFÍA --- */
     --cz-theme-text-primary: var(--cz-neo-text);
@@ -19,26 +19,42 @@
     --cz-theme-text-inverse: var(--cz-color-white);
 
     /* --- 3. BORDES Y SEPARADORES --- */
-    /* El contorno real en el Neomorfismo suele venir de la sombra, no del borde físico */
     --cz-theme-border-color: transparent;
     --cz-theme-border-width: 0px;
     --cz-theme-divider: var(--cz-neo-border);
 
     /* --- 4. FORMAS Y GEOMETRÍA --- */
-    /* Los radios suelen ser más suaves y pronunciados */
     --cz-theme-radius-base: var(--cz-neo-radius-md);
     --cz-theme-radius-sm: var(--cz-neo-radius-sm);
     --cz-theme-radius-lg: var(--cz-neo-radius-lg);
 
     /* --- 5. PROFUNDIDAD (Sombras y Filtros) --- */
-    /* Sombra convexa doble que genera la ilusión 3D */
     --cz-theme-shadow-base: var(--cz-neo-box-shadow);
-
-    /* Sombra cóncava interior cuando se interactúa / hace click (inset) */
     --cz-theme-shadow-hover: var(--cz-neo-box-shadow-inset);
 
     --cz-theme-backdrop-filter: none;
 
     /* --- 6. ANIMACIONES --- */
     --cz-theme-transition-base: var(--cz-neo-transition);
+}
+
+[data-theme="neo"].dark,
+.dark [data-theme="neo"] {
+    /* --- DARK MODE --- */
+    --cz-theme-html-bg: var(--cz-navy, #1e293b);
+    --cz-theme-surface: var(--cz-navy, #1e293b);
+    --cz-theme-surface-hover: var(--cz-navy, #1e293b);
+    --cz-theme-surface-active: var(--cz-navy, #1e293b);
+
+    --cz-theme-text-primary: var(--cz-color-white);
+    --cz-theme-text-secondary: var(--cz-slate-300);
+    --cz-theme-text-muted: var(--cz-slate-500);
+    --cz-theme-text-inverse: var(--cz-color-gray-900);
+
+    --cz-theme-border-color: transparent;
+    --cz-theme-divider: rgba(255, 255, 255, 0.1);
+
+    /* Dark neomorphism shadows: highlight with faint light, shadow with deep black */
+    --cz-theme-shadow-base: 6px 6px 12px rgba(0, 0, 0, 0.5), -6px -6px 12px rgba(255, 255, 255, 0.05);
+    --cz-theme-shadow-hover: inset 6px 6px 12px rgba(0, 0, 0, 0.5), inset -6px -6px 12px rgba(255, 255, 255, 0.05);
 }

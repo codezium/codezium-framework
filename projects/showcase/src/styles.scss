@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+/* Codezium UI Design System */
+@use '../../codezium-ui/src/styles/main';
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Showcase-specific overrides — dark background for the landing page */
+body {
+    background: #0f0f1a;
+    color: var(--cz-color-white);
+    font-family: var(--cz-font-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

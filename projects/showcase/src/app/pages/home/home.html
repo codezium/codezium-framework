@@ -1,0 +1,307 @@
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<header class="cz-nav" role="banner">
+    <div class="cz-nav__inner">
+        <!-- Brand -->
+        <div class="cz-nav__brand" aria-label="Codezium UI">
+            <img class="cz-nav__logo-img" src="icons/codezium-icon.png" alt="Codezium Logo" aria-hidden="true"
+                width="32" height="32" />
+            <span class="cz-nav__logo-text">Codezium</span>
+        </div>
+
+        <!-- Desktop Links -->
+        <nav class="cz-nav__links" aria-label="Main navigation">
+            <ul role="list">
+                <li><a href="#features">{{ t().nav.features }}</a></li>
+                <li><a href="#components">{{ t().nav.components }}</a></li>
+                <li><a href="#themes">{{ t().nav.themes }}</a></li>
+                <li><a href="#docs">{{ t().nav.docs }}</a></li>
+            </ul>
+        </nav>
+
+        <div class="cz-nav__actions">
+            <!-- Language Switcher -->
+            <div class="cz-lang-switcher" (clickoutside)="closeLangDropdown()">
+                <button class="cz-lang-btn" [attr.aria-expanded]="langDropdownOpen()" aria-haspopup="listbox"
+                    (click)="toggleLangDropdown()" id="lang-switcher-btn">
+                    {{ currentLangDisplay() }}
+                    <svg class="cz-lang-btn__chevron" [class.open]="langDropdownOpen()" width="12" height="12"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </button>
+                @if (langDropdownOpen()) {
+                <ul class="cz-lang-dropdown" role="listbox" aria-labelledby="lang-switcher-btn">
+                    @for (locale of locales; track locale.code) {
+                    <li role="option" [attr.aria-selected]="activeLocale() === locale.code"
+                        [class.active]="activeLocale() === locale.code" (click)="setLocale(locale.code)">
+                        <span class="cz-lang-dropdown__flag">{{ locale.flag }}</span>
+                        {{ locale.label }}
+                    </li>
+                    }
+                </ul>
+                }
+            </div>
+
+            <!-- Get Started CTA -->
+            <a href="#docs" class="cz-btn cz-btn--primary cz-nav__cta">
+                {{ t().nav.getStarted }}
+            </a>
+
+            <!-- Mobile menu toggle -->
+            <button class="cz-nav__burger" [attr.aria-expanded]="mobileMenuOpen()" aria-controls="mobile-nav"
+                aria-label="Toggle navigation" (click)="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Mobile nav menu -->
+@if (mobileMenuOpen()) {
+<nav class="cz-mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+    <ul role="list">
+        <li><a href="#features" (click)="toggleMobileMenu()">{{ t().nav.features }}</a></li>
+        <li><a href="#components" (click)="toggleMobileMenu()">{{ t().nav.components }}</a></li>
+        <li><a href="#themes" (click)="toggleMobileMenu()">{{ t().nav.themes }}</a></li>
+        <li><a href="#docs" (click)="toggleMobileMenu()">{{ t().nav.docs }}</a></li>
+    </ul>
+</nav>
+}
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="cz-hero" aria-labelledby="hero-title">
+    <div class="cz-hero__content">
+        <div class="cz-hero__text">
+            <div class="cz-hero__badge cz-animate-fade-in-down">{{ t().hero.badge }}</div>
+            <h1 class="cz-hero__title cz-animate-fade-in-up cz-delay-100" id="hero-title">
+                {{ t().hero.titleLine1 }}
+                <span class="cz-hero__title--accent">{{ t().hero.titleAccent }}</span>
+                {{ t().hero.titleLine2 }}
+            </h1>
+            <p class="cz-hero__description cz-animate-fade-in-up cz-delay-200">{{ t().hero.description }}</p>
+            <div class="cz-hero__cta cz-animate-fade-in-up cz-delay-300">
+                <a href="#docs" class="cz-btn cz-btn--primary cz-btn--lg">
+                    {{ t().hero.ctaPrimary }}
+                </a>
+                <a [href]="githubUrl" class="cz-btn cz-btn--ghost cz-btn--lg" target="_blank" rel="noopener noreferrer">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path
+                            d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+                    </svg>
+                    {{ t().hero.ctaGithub }}
+                </a>
+            </div>
+        </div>
+
+        <!-- Code Preview Card — hidden on mobile -->
+        <div class="cz-hero__code-preview cz-animate-fade-in-left cz-delay-500" aria-hidden="true">
+            <div class="cz-code-card cz-hover-translate-y">
+                <div class="cz-code-card__header">
+                    <span class="cz-code-card__dot cz-code-card__dot--red"></span>
+                    <span class="cz-code-card__dot cz-code-card__dot--yellow"></span>
+                    <span class="cz-code-card__dot cz-code-card__dot--green"></span>
+                    <span class="cz-code-card__filename">app.component.html</span>
+                </div>
+                <pre class="cz-code-card__body"><code><span class="tok-tag">&lt;cz-input-text</span>
+  <span class="tok-attr">label</span>="<span class="tok-string">Email</span>"
+  <span class="tok-attr">labelPosition</span>="<span class="tok-string">float</span>"
+  <span class="tok-attr">[formControl]</span>="<span class="tok-string">emailCtrl</span>"
+  <span class="tok-attr">locale</span>="<span class="tok-string">es</span>"
+<span class="tok-tag">&gt;&lt;/cz-input-text&gt;</span>
+
+<span class="tok-tag">&lt;button</span>
+  <span class="tok-attr">czKeyFilter</span>="<span class="tok-string">alphanum</span>"
+  <span class="tok-attr">[czIcon]</span>="<span class="tok-string">HomeIcon</span>"
+<span class="tok-tag">&gt;</span>Go Home<span class="tok-tag">&lt;/button&gt;</span></code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     WHY CODEZIUM — Features
+     ============================================================ -->
+<section class="cz-why" id="features" aria-labelledby="features-title">
+    <div class="cz-container">
+        <div class="cz-section-header">
+            <h2 id="features-title">{{ t().why.title }}</h2>
+            <p>{{ t().why.subtitle }}</p>
+        </div>
+        <div class="cz-cards-grid">
+            @for (feature of t().why.features; track feature.title) {
+            <article class="cz-feature-card cz-hover-translate-y cz-animate-fade-in-up"
+                [style.animation-delay]="$index * 100 + 'ms'">
+                <div class="cz-feature-card__icon" aria-hidden="true">{{ feature.icon }}</div>
+                <h3>{{ feature.title }}</h3>
+                <p>{{ feature.description }}</p>
+            </article>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     COMPONENTS PREVIEW
+     ============================================================ -->
+<section class="cz-components" id="components" aria-labelledby="components-title">
+    <div class="cz-container">
+        <div class="cz-section-header cz-section-header--left">
+            <h2 id="components-title">{{ t().components.title }}</h2>
+            <p>{{ t().components.subtitle }}</p>
+            <a href="#docs" class="cz-link">{{ t().components.exploreLink }}</a>
+        </div>
+
+        <div class="cz-components__preview">
+            <!-- Stats card -->
+            <div class="cz-preview-card cz-hover-scale-up cz-animate-fade-in-right cz-delay-200">
+                <div class="cz-preview-card__header">
+                    <span>{{ t().components.card1.title }}</span>
+                    <button class="cz-icon-btn" aria-label="Options">···</button>
+                </div>
+                <div class="cz-preview-card__body">
+                    <div class="cz-stat-row">
+                        <div class="cz-stat-row__icon" aria-hidden="true">📈</div>
+                        <div>
+                            <strong>{{ t().components.card1.item1.name }}</strong>
+                            <span>{{ t().components.card1.item1.updated }}</span>
+                        </div>
+                        <div class="cz-stat-row__value cz-stat-row__value--green">+15.5%</div>
+                    </div>
+                    <div class="cz-stat-row">
+                        <div class="cz-stat-row__icon" aria-hidden="true">👥</div>
+                        <div>
+                            <strong>{{ t().components.card1.item2.name }}</strong>
+                            <span>{{ t().components.card1.item2.updated }}</span>
+                        </div>
+                        <div class="cz-stat-row__value">349</div>
+                    </div>
+                </div>
+                <button class="cz-btn cz-btn--primary cz-btn--fluid">
+                    {{ t().components.card1.btnViewDetails }}
+                </button>
+            </div>
+
+            <!-- Form preview card -->
+            <div class="cz-preview-card cz-hover-scale-up cz-animate-fade-in-right cz-delay-300">
+                <p class="cz-preview-card__label">{{ t().components.card2.title }}</p>
+                <div class="cz-form-field">
+                    <label>{{ t().components.card2.labelName }}</label>
+                    <div class="cz-fake-input">John Doe</div>
+                </div>
+                <div class="cz-form-field">
+                    <label>{{ t().components.card2.labelMessage }}</label>
+                    <div class="cz-fake-input cz-fake-input--tall">{{ t().components.card2.placeholder }}</div>
+                </div>
+                <div class="cz-form-check">
+                    <input type="checkbox" id="privacy-check" checked />
+                    <label for="privacy-check">{{ t().components.card2.privacy }}</label>
+                </div>
+                <button class="cz-btn cz-btn--dark cz-btn--fluid">
+                    {{ t().components.card2.btnSend }}
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     THEMES
+     ============================================================ -->
+<section class="cz-themes" id="themes" aria-labelledby="themes-title">
+    <div class="cz-container">
+        <div class="cz-section-header">
+            <h2 id="themes-title">{{ t().themes.title }}</h2>
+            <p>{{ t().themes.subtitle }}</p>
+        </div>
+        <div class="cz-themes__grid">
+            <div class="cz-theme-card cz-theme-card--base cz-hover-scale-up cz-animate-fade-in-up cz-delay-100">
+                <div class="cz-theme-card__preview">
+                    <div class="cz-theme-swatch cz-theme-swatch--base"></div>
+                </div>
+                <h3>{{ t().themes.base.name }}</h3>
+                <p>{{ t().themes.base.description }}</p>
+            </div>
+            <div class="cz-theme-card cz-theme-card--glass cz-hover-scale-up cz-animate-fade-in-up cz-delay-200">
+                <div class="cz-theme-card__preview">
+                    <div class="cz-theme-swatch cz-theme-swatch--glass"></div>
+                </div>
+                <h3>{{ t().themes.glass.name }}</h3>
+                <p>{{ t().themes.glass.description }}</p>
+            </div>
+            <div class="cz-theme-card cz-theme-card--neo cz-hover-scale-up cz-animate-fade-in-up cz-delay-300">
+                <div class="cz-theme-card__preview">
+                    <div class="cz-theme-swatch cz-theme-swatch--neo"></div>
+                </div>
+                <h3>{{ t().themes.neo.name }}</h3>
+                <p>{{ t().themes.neo.description }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CTA BANNER
+     ============================================================ -->
+<section class="cz-cta">
+    <div class="cz-container">
+        <h2>{{ t().cta.title }}</h2>
+        <p>{{ t().cta.subtitle }}</p>
+        <div class="cz-cta__actions">
+            <a href="#docs" class="cz-btn cz-btn--white cz-btn--lg">{{ t().cta.btnDownload }}</a>
+            <a href="#docs" class="cz-btn cz-btn--outline-white cz-btn--lg">{{ t().cta.btnDocs }}</a>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="cz-footer" role="contentinfo">
+    <div class="cz-container">
+        <div class="cz-footer__grid">
+            <div class="cz-footer__brand">
+                <div class="cz-nav__brand">
+                    <img class="cz-nav__logo-img" src="icons/codezium-icon.png" alt="Codezium Logo" aria-hidden="true"
+                        width="32" height="32" />
+                    <span class="cz-nav__logo-text">Codezium</span>
+                </div>
+                <p>{{ t().footer.tagline }}</p>
+            </div>
+            <div class="cz-footer__col">
+                <h4>{{ t().footer.resources }}</h4>
+                <ul>
+                    <li><a href="#">{{ t().footer.links.documentation }}</a></li>
+                    <li><a href="#">{{ t().footer.links.components }}</a></li>
+                    <li><a [href]="githubUrl" target="_blank" rel="noopener noreferrer">{{ t().footer.links.github
+                            }}</a></li>
+                    <li><a href="#">{{ t().footer.links.npm }}</a></li>
+                </ul>
+            </div>
+            <div class="cz-footer__col">
+                <h4>{{ t().footer.community }}</h4>
+                <ul>
+                    <li><a href="#">{{ t().footer.links.discord }}</a></li>
+                    <li><a href="#">{{ t().footer.links.twitter }}</a></li>
+                    <li><a href="#">{{ t().footer.links.discussions }}</a></li>
+                    <li><a href="#">{{ t().footer.links.caseStudies }}</a></li>
+                </ul>
+            </div>
+            <div class="cz-footer__col">
+                <h4>{{ t().footer.support }}</h4>
+                <ul>
+                    <li><a href="#">{{ t().footer.links.enterprise }}</a></li>
+                    <li><a href="#">{{ t().footer.links.faq }}</a></li>
+                    <li><a href="#">{{ t().footer.links.contact }}</a></li>
+                    <li><a href="#">{{ t().footer.links.privacy }}</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="cz-footer__bottom">
+            <span>© {{ currentYear() }} Codezium UI. {{ t().footer.copyright }}</span>
+        </div>
+    </div>
+</footer>

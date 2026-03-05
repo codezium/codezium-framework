@@ -1,3 +1,5 @@
+@use "sass:map";
+
 /* ==========================================================================
    GENERAL UTILITIES (_utilities.scss)
    Clases utilitarias variadas con prefijo cz- para manipulación de dimensiones,
@@ -335,7 +337,6 @@
 
 
 /* --- 8. GLOBAL CONTAINERS --- */
-@use "sass:map";
 
 .cz-layout {
   display: flex;

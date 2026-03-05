@@ -5,26 +5,24 @@
    ========================================================================== */
 
 [data-theme="glass"] {
-    /* --- 1. SUPERFICIES Y FONDOS --- */
-    /* El HTML o contenedor global puede tener un degradado oscuro o malla */
-    --cz-theme-html-bg: var(--cz-color-gray-900);
+    /* --- LIGHT MODE BY DEFAULT --- */
+    --cz-theme-html-bg: var(--cz-color-gray-100);
 
-    /* Superficie de los componentes (Tarjetas, Modales, Inputs) translúcida */
-    --cz-theme-surface: var(--cz-color-glass-bg);
-    --cz-theme-surface-hover: rgba(255, 255, 255, 0.15);
-    --cz-theme-surface-active: rgba(255, 255, 255, 0.20);
+    /* Superficie de los componentes (Tarjetas, Modales, Inputs) translúcida clara */
+    --cz-theme-surface: rgba(255, 255, 255, 0.4);
+    --cz-theme-surface-hover: rgba(255, 255, 255, 0.6);
+    --cz-theme-surface-active: rgba(255, 255, 255, 0.8);
 
     /* --- 2. TEXTOS Y TIPOGRAFÍA --- */
-    --cz-theme-text-primary: var(--cz-color-white);
-    --cz-theme-text-secondary: rgba(255, 255, 255, 0.7);
-    --cz-theme-text-muted: rgba(255, 255, 255, 0.5);
-    --cz-theme-text-inverse: var(--cz-color-gray-900);
+    --cz-theme-text-primary: var(--cz-color-gray-900);
+    --cz-theme-text-secondary: var(--cz-color-gray-700);
+    --cz-theme-text-muted: var(--cz-color-gray-500);
+    --cz-theme-text-inverse: var(--cz-color-white);
 
     /* --- 3. BORDES Y SEPARADORES --- */
-    /* Borde característico del glassmorfismo */
-    --cz-theme-border-color: var(--cz-color-glass-border);
+    --cz-theme-border-color: rgba(255, 255, 255, 0.5);
     --cz-theme-border-width: var(--cz-glass-border-width);
-    --cz-theme-divider: rgba(255, 255, 255, 0.1);
+    --cz-theme-divider: rgba(0, 0, 0, 0.1);
 
     /* --- 4. FORMAS Y GEOMETRÍA --- */
     --cz-theme-radius-base: var(--cz-glass-radius);
@@ -32,12 +30,33 @@
     --cz-theme-radius-lg: var(--cz-radius-xl);
 
     /* --- 5. PROFUNDIDAD (Sombras y Filtros) --- */
-    --cz-theme-shadow-base: var(--cz-shadow-glass);
-    --cz-theme-shadow-hover: var(--cz-shadow-glass);
+    --cz-theme-shadow-base: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    --cz-theme-shadow-hover: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
 
     /* El toque mágico del glassmorfismo */
     --cz-theme-backdrop-filter: blur(var(--cz-glass-blur));
 
     /* --- 6. ANIMACIONES --- */
     --cz-theme-transition-base: var(--cz-transition-glass);
+}
+
+[data-theme="glass"].dark,
+.dark [data-theme="glass"] {
+    /* --- DARK MODE --- */
+    --cz-theme-html-bg: var(--cz-dark-navy, #0f172a);
+
+    --cz-theme-surface: var(--cz-color-glass-bg);
+    --cz-theme-surface-hover: rgba(255, 255, 255, 0.15);
+    --cz-theme-surface-active: rgba(255, 255, 255, 0.20);
+
+    --cz-theme-text-primary: var(--cz-color-white);
+    --cz-theme-text-secondary: rgba(255, 255, 255, 0.7);
+    --cz-theme-text-muted: rgba(255, 255, 255, 0.5);
+    --cz-theme-text-inverse: var(--cz-color-gray-900);
+
+    --cz-theme-border-color: var(--cz-color-glass-border);
+    --cz-theme-divider: rgba(255, 255, 255, 0.1);
+
+    --cz-theme-shadow-base: var(--cz-shadow-glass);
+    --cz-theme-shadow-hover: var(--cz-shadow-glass);
 }

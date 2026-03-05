@@ -1,0 +1,125 @@
+<div class="cz-container" style="padding-top: var(--cz-spacing-2xl); padding-bottom: var(--cz-spacing-4xl);">
+
+    <!-- CONTROLS HEADER -->
+    <header
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--cz-spacing-2xl); padding-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-theme-border-color);">
+        <div>
+            <h1
+                style="font-family: var(--cz-font-heading); margin-bottom: var(--cz-spacing-xs); color: var(--cz-theme-text-primary);">
+                Component Test Area</h1>
+            <p style="color: var(--cz-theme-text-muted); font-size: var(--cz-font-size-sm); margin: 0;">Interactive
+                preview for atoms and molecules</p>
+        </div>
+
+        <div style="display: flex; gap: var(--cz-spacing-sm);">
+            <!-- Locale Selection -->
+            <select [ngModel]="activeLocale" (ngModelChange)="setLocale($event)"
+                style="background: transparent; border: 1px solid var(--cz-theme-border-color); color: var(--cz-theme-text-primary); border-radius: var(--cz-radius-md); padding: 4px 8px; cursor: pointer;">
+                <option value="en" style="color: black;">EN</option>
+                <option value="es" style="color: black;">ES</option>
+                <option value="pt" style="color: black;">PT</option>
+                <option value="fr" style="color: black;">FR</option>
+                <option value="de" style="color: black;">DE</option>
+            </select>
+
+            <!-- Theme Selection -->
+            <div
+                style="display: flex; background: rgba(128,128,128,0.1); border-radius: var(--cz-radius-md); padding: 4px;">
+                <button (click)="setTheme('base')"
+                    [style.background]="activeTheme === 'base' ? 'var(--cz-color-primary-500)' : 'transparent'"
+                    [style.color]="activeTheme === 'base' ? 'white' : 'var(--cz-theme-text-secondary)'"
+                    style="border: none; border-radius: var(--cz-radius-sm); padding: 6px 12px; cursor: pointer; font-weight: 500;">
+                    Base
+                </button>
+                <button (click)="setTheme('glass')"
+                    [style.background]="activeTheme === 'glass' ? 'var(--cz-color-primary-500)' : 'transparent'"
+                    [style.color]="activeTheme === 'glass' ? 'white' : 'var(--cz-theme-text-secondary)'"
+                    style="border: none; border-radius: var(--cz-radius-sm); padding: 6px 12px; cursor: pointer; font-weight: 500;">
+                    Glass
+                </button>
+                <button (click)="setTheme('neo')"
+                    [style.background]="activeTheme === 'neo' ? 'var(--cz-color-primary-500)' : 'transparent'"
+                    [style.color]="activeTheme === 'neo' ? 'white' : 'var(--cz-theme-text-secondary)'"
+                    style="border: none; border-radius: var(--cz-radius-sm); padding: 6px 12px; cursor: pointer; font-weight: 500;">
+                    Neo
+                </button>
+            </div>
+
+            <!-- Dark Mode Toggle -->
+            <button (click)="toggleDarkMode()"
+                style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--cz-theme-border-color); background: transparent; color: var(--cz-theme-text-primary); cursor: pointer;">
+                @if (isDarkMode) {
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </svg>
+                } @else {
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+                }
+            </button>
+        </div>
+    </header>
+
+    <form [formGroup]="testForm" class="cz-grid" style="gap: var(--cz-spacing-2xl);">
+
+        <!-- SECTION: Input Text Variants -->
+        <section>
+            <h2
+                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
+                CzInputText Variants</h2>
+
+            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px;">
+
+                <!-- Standard -->
+                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale"
+                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
+                </cz-input-text>
+
+                <!-- Float Label -->
+                <cz-input-text formControlName="email" label="Email Address" labelPosition="float"
+                    [locale]="activeLocale" type="email" helpText="This input uses the floating label variant.">
+                </cz-input-text>
+
+                <!-- Outline / In position -->
+                <cz-input-text label="Search Database (Uncontrolled)" labelPosition="in" [locale]="activeLocale"
+                    placeholder="Type to search..." [filled]="true">
+                </cz-input-text>
+
+                <!-- Disabled State -->
+                <cz-input-text formControlName="disabledField" label="System ID" [locale]="activeLocale"
+                    labelPosition="float" helpText="This field is completely disabled programmatically.">
+                </cz-input-text>
+
+            </div>
+        </section>
+
+        <!-- SECTION: Input Sizes -->
+        <section>
+            <h2
+                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
+                Sizes & Fluidity</h2>
+
+            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 600px;">
+
+                <cz-input-text label="Small Input" size="sm" placeholder="size='sm'"></cz-input-text>
+                <cz-input-text label="Medium Input (Default)" size="md" placeholder="size='md'"></cz-input-text>
+                <cz-input-text label="Large Input" size="lg" placeholder="size='lg'"></cz-input-text>
+                <cz-input-text label="Fluid Input" [fluid]="true"
+                    placeholder="[fluid]='true' takes 100% width of container"></cz-input-text>
+
+            </div>
+        </section>
+
+    </form>
+</div>

@@ -1,10 +1,10 @@
+@use "sass:math";
+
 /* ==========================================================================
    FLEX EXTENSIONS & FLEX-GRID SYSTEM (_flex.scss)
    Utilidades Flex y una adaptación de Flex-Grid estilo Bootstrap de 12 columnas.
    NOTA: Utildades display (flex, row/col), justificaciones y gaps YA existen en _grid.scss.
    ========================================================================== */
-
-@use "sass:math";
 
 /* --- 1. UTILIDADES FLEX FALTANTES --- */
 
@@ -117,20 +117,20 @@ $gutter-width: var(--cz-spacing-md);
 @for $i from 1 through $flex-grid-columns {
   .cz-col-#{$i} {
     @extend %col-base;
-    flex: 0 0 percentage(math.div($i, $flex-grid-columns));
-    max-width: percentage(math.div($i, $flex-grid-columns));
+    flex: 0 0 math.percentage(math.div($i, $flex-grid-columns));
+    max-width: math.percentage(math.div($i, $flex-grid-columns));
   }
 
   .cz-offset-#{$i} {
-    margin-left: percentage(math.div($i, $flex-grid-columns));
+    margin-left: math.percentage(math.div($i, $flex-grid-columns));
   }
 }
 
 /* Row Cols (Igualar anchos de hijos automáticamente) */
 @for $i from 1 through 6 {
   .cz-row-cols-#{$i}>* {
-    flex: 0 0 percentage(math.div(1, $i));
-    max-width: percentage(math.div(1, $i));
+    flex: 0 0 math.percentage(math.div(1, $i));
+    max-width: math.percentage(math.div(1, $i));
   }
 }
 
@@ -177,19 +177,19 @@ $breakpoints: (
 
     @for $i from 1 through $flex-grid-columns {
       .cz-col-#{$bp-name}-#{$i} {
-        flex: 0 0 percentage(math.div($i, $flex-grid-columns));
-        max-width: percentage(math.div($i, $flex-grid-columns));
+        flex: 0 0 math.percentage(math.div($i, $flex-grid-columns));
+        max-width: math.percentage(math.div($i, $flex-grid-columns));
       }
 
       .cz-offset-#{$bp-name}-#{$i} {
-        margin-left: percentage(math.div($i, $flex-grid-columns));
+        margin-left: math.percentage(math.div($i, $flex-grid-columns));
       }
     }
 
     @for $i from 1 through 6 {
       .cz-row-cols-#{$bp-name}-#{$i}>* {
-        flex: 0 0 percentage(math.div(1, $i));
-        max-width: percentage(math.div(1, $i));
+        flex: 0 0 math.percentage(math.div(1, $i));
+        max-width: math.percentage(math.div(1, $i));
       }
     }
 
