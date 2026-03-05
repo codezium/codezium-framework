@@ -1,0 +1,172 @@
+/* ==========================================================================
+   CzInputText Atom
+   ========================================================================== */
+
+.cz-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cz-spacing-xs);
+    width: auto;
+    align-items: flex-start;
+
+    &.cz-input-fluid {
+        width: 100%;
+
+        .cz-input-container {
+            width: 100%;
+        }
+    }
+
+    /* Label OVER */
+    .cz-input-label-over {
+        font-size: var(--cz-text-sm);
+        font-weight: 500;
+        color: var(--cz-theme-text-primary);
+    }
+
+    /* Contenedor relativo para Float/In labels */
+    .cz-input-container {
+        position: relative;
+        display: inline-flex;
+        width: 100%;
+
+        .cz-input-native {
+            font-family: inherit;
+            width: 100%;
+            background: var(--cz-theme-surface);
+            color: var(--cz-theme-text-primary);
+            border: var(--cz-theme-border-width) solid var(--cz-theme-border-color);
+            border-radius: var(--cz-theme-radius-base);
+            transition: var(--cz-theme-transition-base);
+            outline: none;
+            box-sizing: border-box;
+
+            &::placeholder {
+                color: var(--cz-theme-text-muted);
+            }
+        }
+
+        .cz-input-label-inner {
+            position: absolute;
+            left: var(--cz-spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            transition: var(--cz-theme-transition-base);
+            color: var(--cz-theme-text-muted);
+            font-size: var(--cz-text-base);
+            z-index: 1;
+        }
+    }
+
+    /* Tamaños (Sizes) */
+    &[data-size="sm"] .cz-input-native {
+        font-size: var(--cz-text-sm);
+        padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
+    }
+
+    &[data-size="md"] .cz-input-native {
+        font-size: var(--cz-text-base);
+        padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    }
+
+    &[data-size="lg"] .cz-input-native {
+        font-size: var(--cz-text-lg);
+        padding: var(--cz-spacing-md) var(--cz-spacing-lg);
+    }
+
+    /* Estado: Filled */
+    &.cz-input-filled .cz-input-native {
+        background: var(--cz-theme-surface-active);
+        border-color: transparent;
+    }
+
+    /* Estado: Focus */
+    &.cz-input-focused .cz-input-native {
+        border-color: var(--cz-color-primary);
+        box-shadow: 0 0 0 2px var(--cz-color-primary-100);
+    }
+
+    /* Estado: Hover */
+    &:not(.cz-input-focused):not(.cz-input-disabled):hover .cz-input-native {
+        border-color: var(--cz-color-primary-400);
+    }
+
+    /* Estado: Disabled */
+    &.cz-input-disabled {
+        opacity: 0.6;
+        pointer-events: none;
+
+        .cz-input-native {
+            background: var(--cz-color-gray-100); // Fondo inactivo neutral
+            color: var(--cz-color-gray-500);
+        }
+    }
+
+    /* Estado: Validaciones y Error */
+    &.cz-input-has-error {
+        .cz-input-native {
+            border-color: var(--cz-color-danger) !important;
+        }
+
+        &.cz-input-focused .cz-input-native {
+            box-shadow: 0 0 0 2px var(--cz-color-danger-100) !important;
+        }
+
+        .cz-input-label-inner,
+        .cz-input-label-over {
+            color: var(--cz-color-danger) !important;
+        }
+    }
+
+    .cz-input-error-text {
+        color: var(--cz-color-danger);
+        font-size: var(--cz-text-xs);
+        margin-top: 2px;
+    }
+
+    .cz-input-help-text {
+        color: var(--cz-theme-text-muted);
+        font-size: var(--cz-text-xs);
+        margin-top: 2px;
+    }
+
+    /* Label Variant: "IN" */
+    &[data-label-position="in"] {
+        .cz-input-native {
+            /* Ampliamos el espacio superior para contener ambos textos */
+            padding-top: var(--cz-spacing-xl);
+            padding-bottom: var(--cz-spacing-xs);
+        }
+
+        .cz-input-label-inner {
+            top: var(--cz-spacing-sm);
+            transform: none;
+            font-size: var(--cz-text-xs);
+            color: var(--cz-theme-text-secondary);
+        }
+    }
+
+    /* Label Variant: "FLOAT" (Estilo Material / Prime) */
+    &[data-label-position="float"] {
+        .cz-input-container.cz-float-active {
+            .cz-input-label-inner {
+                top: 0;
+                font-size: var(--cz-text-xs);
+                transform: translateY(-50%);
+                background: var(--cz-theme-surface);
+                /* Oculta la línea de borde posterior */
+                padding: 0 var(--cz-spacing-xxs);
+                color: var(--cz-color-primary);
+            }
+        }
+
+        &:not(.cz-input-focused)[data-label-position="float"] .cz-input-container.cz-float-active .cz-input-label-inner {
+            color: var(--cz-theme-text-secondary);
+        }
+
+        &.cz-input-has-error .cz-input-container.cz-float-active .cz-input-label-inner {
+            color: var(--cz-color-danger);
+        }
+    }
+}
