@@ -10,7 +10,7 @@
       "projectType": "library",
       "root": "projects/codezium-ui",
       "sourceRoot": "projects/codezium-ui/src",
-      "prefix": "lib",
+      "prefix": "cz",
       "architect": {
         "build": {
           "builder": "@angular/build:ng-packagr",
@@ -55,7 +55,9 @@
                 "input": "projects/showcase/public"
               }
             ],
-            "styles": ["projects/showcase/src/styles.scss"]
+            "styles": [
+              "projects/showcase/src/styles.scss"
+            ]
           },
           "configurations": {
             "production": {
