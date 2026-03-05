@@ -8,7 +8,9 @@
 @use 'core/variables';
 
 /* --- 2. THEMES (Variaciones de Variables Base por Tema) --- */
-/* (Aquí irán los uses de base, glass, y neo) */
+@use 'themes/theme-base';
+@use 'themes/theme-glass';
+@use 'themes/theme-neo';
 
 /* --- 3. CORE DESIGN UTILITIES (Estilos Nucleares del Sistema) --- */
 @use 'core/colors';

@@ -1,0 +1,43 @@
+/* ==========================================================================
+   GLASSMORPHISM THEME (_theme-glass.scss)
+   Sobreescribe las variables semánticas (`--cz-theme-*`) cuando 
+   `data-theme="glass"` está presente. 
+   ========================================================================== */
+
+[data-theme="glass"] {
+    /* --- 1. SUPERFICIES Y FONDOS --- */
+    /* El HTML o contenedor global puede tener un degradado oscuro o malla */
+    --cz-theme-html-bg: var(--cz-color-gray-900);
+
+    /* Superficie de los componentes (Tarjetas, Modales, Inputs) translúcida */
+    --cz-theme-surface: var(--cz-color-glass-bg);
+    --cz-theme-surface-hover: rgba(255, 255, 255, 0.15);
+    --cz-theme-surface-active: rgba(255, 255, 255, 0.20);
+
+    /* --- 2. TEXTOS Y TIPOGRAFÍA --- */
+    --cz-theme-text-primary: var(--cz-color-white);
+    --cz-theme-text-secondary: rgba(255, 255, 255, 0.7);
+    --cz-theme-text-muted: rgba(255, 255, 255, 0.5);
+    --cz-theme-text-inverse: var(--cz-color-gray-900);
+
+    /* --- 3. BORDES Y SEPARADORES --- */
+    /* Borde característico del glassmorfismo */
+    --cz-theme-border-color: var(--cz-color-glass-border);
+    --cz-theme-border-width: var(--cz-glass-border-width);
+    --cz-theme-divider: rgba(255, 255, 255, 0.1);
+
+    /* --- 4. FORMAS Y GEOMETRÍA --- */
+    --cz-theme-radius-base: var(--cz-glass-radius);
+    --cz-theme-radius-sm: var(--cz-radius-md);
+    --cz-theme-radius-lg: var(--cz-radius-xl);
+
+    /* --- 5. PROFUNDIDAD (Sombras y Filtros) --- */
+    --cz-theme-shadow-base: var(--cz-shadow-glass);
+    --cz-theme-shadow-hover: var(--cz-shadow-glass);
+
+    /* El toque mágico del glassmorfismo */
+    --cz-theme-backdrop-filter: blur(var(--cz-glass-blur));
+
+    /* --- 6. ANIMACIONES --- */
+    --cz-theme-transition-base: var(--cz-transition-glass);
+}

@@ -1,0 +1,38 @@
+/* ==========================================================================
+   BASE THEME (_theme-base.scss)
+   Tema por defecto que mapea los Component Tokens a las primitivas.
+   Forma la base de la aplicación.
+   ========================================================================== */
+
+:root,
+[data-theme="base"] {
+    /* --- 1. SUPERFICIES Y FONDOS --- */
+    --cz-theme-html-bg: var(--cz-color-gray-50);
+    --cz-theme-surface: var(--cz-color-white);
+    --cz-theme-surface-hover: var(--cz-color-gray-50);
+    --cz-theme-surface-active: var(--cz-color-gray-100);
+
+    /* --- 2. TEXTOS Y TIPOGRAFÍA --- */
+    --cz-theme-text-primary: var(--cz-color-gray-900);
+    --cz-theme-text-secondary: var(--cz-color-gray-600);
+    --cz-theme-text-muted: var(--cz-color-gray-400);
+    --cz-theme-text-inverse: var(--cz-color-white);
+
+    /* --- 3. BORDES Y SEPARADORES --- */
+    --cz-theme-border-color: var(--cz-color-gray-200);
+    --cz-theme-border-width: 1px;
+    --cz-theme-divider: var(--cz-color-gray-200);
+
+    /* --- 4. FORMAS Y GEOMETRÍA --- */
+    --cz-theme-radius-base: var(--cz-radius-md);
+    --cz-theme-radius-sm: var(--cz-radius-sm);
+    --cz-theme-radius-lg: var(--cz-radius-lg);
+
+    /* --- 5. PROFUNDIDAD (Sombras y Filtros) --- */
+    --cz-theme-shadow-base: var(--cz-shadow-sm);
+    --cz-theme-shadow-hover: var(--cz-shadow-md);
+    --cz-theme-backdrop-filter: none;
+
+    /* --- 6. ANIMACIONES --- */
+    --cz-theme-transition-base: var(--cz-transition-normal);
+}
