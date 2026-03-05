@@ -1,0 +1,219 @@
+/* ==========================================================================
+   TYPOGRAPHY UTILITIES (_text.scss)
+   Clases utilitarias con prefijo cz- para manipulación de color, tamaño, peso y formato de texto.
+   ========================================================================== */
+
+/* --- 1. Familias Tipográficas --- */
+.cz-font-base {
+    font-family: var(--cz-font-base) !important;
+}
+
+.cz-font-heading {
+    font-family: var(--cz-font-heading) !important;
+}
+
+.cz-font-code {
+    font-family: var(--cz-font-code) !important;
+}
+
+.cz-font-neo {
+    font-family: var(--cz-neo-font-family) !important;
+}
+
+
+/* --- 2. Colores de Texto Base y Paletas --- */
+$text-intents: (
+    "primary",
+    "secondary",
+    "success",
+    "warning",
+    "danger",
+    "info",
+    "gray"
+);
+
+// Generar clases para intents sin peso (, .cz-text-primary, .cz-text-warning)
+@each $intent in $text-intents {
+    .cz-text-#{$intent} {
+        color: var(--cz-color-#{$intent}) !important;
+    }
+}
+
+// Generar clases para pesos de 50 a 900 (.cz-text-primary-500, .cz-text-gray-900)
+$weights: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900;
+
+@each $intent in $text-intents {
+    @each $weight in $weights {
+        .cz-text-#{$intent}-#{$weight} {
+            color: var(--cz-color-#{$intent}-#{$weight}) !important;
+        }
+    }
+}
+
+// Otros colores base absolutos
+.cz-text-light {
+    color: var(--cz-color-light) !important;
+}
+
+.cz-text-dark {
+    color: var(--cz-color-dark) !important;
+}
+
+.cz-text-white {
+    color: var(--cz-color-white) !important;
+}
+
+.cz-text-black {
+    color: var(--cz-color-black) !important;
+}
+
+/* Colores de Texto Temáticos */
+.cz-text-muted {
+    color: var(--cz-color-gray-500) !important;
+}
+
+.cz-text-glass {
+    color: var(--cz-color-glass-text-white) !important;
+}
+
+.cz-text-glass-muted {
+    color: var(--cz-color-glass-muted) !important;
+}
+
+.cz-text-neo {
+    color: var(--cz-neo-text) !important;
+}
+
+.cz-text-neo-secondary {
+    color: var(--cz-neo-text-secondary) !important;
+}
+
+
+/* --- 3. Tamaños de Fuente --- */
+.cz-text-xs {
+    font-size: var(--cz-font-size-xs) !important;
+}
+
+.cz-text-sm {
+    font-size: var(--cz-font-size-sm) !important;
+}
+
+.cz-text-base {
+    font-size: var(--cz-font-size) !important;
+}
+
+.cz-text-md {
+    font-size: var(--cz-font-size-md) !important;
+}
+
+.cz-text-lg {
+    font-size: var(--cz-font-size-lg) !important;
+}
+
+.cz-text-xl {
+    font-size: var(--cz-font-size-xl) !important;
+}
+
+.cz-text-2xl {
+    font-size: var(--cz-font-size-2xl) !important;
+}
+
+.cz-text-3xl {
+    font-size: var(--cz-font-size-3xl) !important;
+}
+
+.cz-text-4xl {
+    font-size: var(--cz-font-size-4xl) !important;
+}
+
+
+/* --- 4. Grossor de Fuente (Font-Weight) --- */
+.cz-font-light {
+    font-weight: var(--cz-font-weight-light) !important;
+}
+
+.cz-font-normal {
+    font-weight: var(--cz-font-weight-normal) !important;
+}
+
+.cz-font-medium {
+    font-weight: var(--cz-font-weight-medium) !important;
+}
+
+.cz-font-semibold {
+    font-weight: var(--cz-font-weight-semibold) !important;
+}
+
+.cz-font-bold {
+    font-weight: var(--cz-font-weight-bold) !important;
+}
+
+
+/* --- 5. Interlineado (Line-Height) --- */
+.cz-leading-tight {
+    line-height: var(--cz-line-height-tight) !important;
+}
+
+.cz-leading-sm {
+    line-height: var(--cz-line-height-sm) !important;
+}
+
+.cz-leading-base {
+    line-height: var(--cz-line-height-base) !important;
+}
+
+
+/* --- 6. Alineación de Texto --- */
+.cz-text-left {
+    text-align: left !important;
+}
+
+.cz-text-center {
+    text-align: center !important;
+}
+
+.cz-text-right {
+    text-align: right !important;
+}
+
+.cz-text-justify {
+    text-align: justify !important;
+}
+
+
+/* --- 7. Transformaciones de Texto --- */
+.cz-uppercase {
+    text-transform: uppercase !important;
+}
+
+.cz-lowercase {
+    text-transform: lowercase !important;
+}
+
+.cz-capitalize {
+    text-transform: capitalize !important;
+}
+
+.cz-truncate {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+
+/* --- 8. Decoración y Estilos Adicionales --- */
+.cz-underline {
+    text-decoration: underline !important;
+}
+
+.cz-line-through {
+    text-decoration: line-through !important;
+}
+
+.cz-no-underline {
+    text-decoration: none !important;
+}
+
+.cz-italic {
+    font-style: italic !important;
+}

@@ -1,0 +1,232 @@
+/* ==========================================================================
+   GRID & LAYOUT UTILITIES (_grid.scss)
+   Sistema de grillas (1-12) y herramientas Flexbox con breakpoints y prefijo cz-.
+   ========================================================================== */
+
+/* --- 1. DISPLAY UTILITIES --- */
+.cz-grid {
+   display: grid !important;
+}
+
+.cz-inline-grid {
+   display: inline-grid !important;
+}
+
+.cz-flex {
+   display: flex !important;
+}
+
+.cz-inline-flex {
+   display: inline-flex !important;
+}
+
+.cz-block {
+   display: block !important;
+}
+
+.cz-inline-block {
+   display: inline-block !important;
+}
+
+.cz-inline {
+   display: inline !important;
+}
+
+.cz-hidden {
+   display: none !important;
+}
+
+/* --- 2. GRID TEMPLATE COLUMNS (1 - 12) --- */
+$grid-columns: 12;
+
+@for $i from 1 through $grid-columns {
+   .cz-grid-cols-#{$i} {
+      grid-template-columns: repeat(#{$i}, minmax(0, 1fr)) !important;
+   }
+}
+
+/* Columna individual abarcativa */
+@for $i from 1 through $grid-columns {
+   .cz-col-span-#{$i} {
+      grid-column: span #{$i} / span #{$i} !important;
+   }
+}
+
+/* --- 3. GAPS (Espaciados entre filas / columnas) --- */
+/* Mapeado a las mismas variables de --cz-spacing-* */
+$gaps: (
+   "none": "0",
+   "xs": var(--cz-spacing-xs),
+   "sm": var(--cz-spacing-sm),
+   "md": var(--cz-spacing-md),
+   "lg": var(--cz-spacing-lg),
+   "xl": var(--cz-spacing-xl),
+   "2xl": var(--cz-spacing-2xl)
+);
+
+@each $size, $value in $gaps {
+   .cz-gap-#{$size} {
+      gap: #{$value} !important;
+   }
+
+   .cz-gap-x-#{$size} {
+      column-gap: #{$value} !important;
+   }
+
+   .cz-gap-y-#{$size} {
+      row-gap: #{$value} !important;
+   }
+}
+
+
+/* --- 4. RESPONSIVE BREAKPOINTS (sm, md, lg, xl, 2xl) --- */
+/* Breakpoints basados en estándares modernos (Mobile-first) */
+$breakpoints: (
+   "sm": "640px",
+   "md": "768px",
+   "lg": "1024px",
+   "xl": "1280px",
+   "2xl": "1536px"
+);
+
+@each $bp, $min-width in $breakpoints {
+   @media (min-width: #{$min-width}) {
+
+      /* Display en este breakpoint */
+      .cz-#{$bp}\:hidden {
+         display: none !important;
+      }
+
+      .cz-#{$bp}\:flex {
+         display: flex !important;
+      }
+
+      .cz-#{$bp}\:grid {
+         display: grid !important;
+      }
+
+      .cz-#{$bp}\:block {
+         display: block !important;
+      }
+
+      /* Grillas por breakpoint */
+      @for $i from 1 through $grid-columns {
+         .cz-#{$bp}\:grid-cols-#{$i} {
+            grid-template-columns: repeat(#{$i}, minmax(0, 1fr)) !important;
+         }
+
+         .cz-#{$bp}\:col-span-#{$i} {
+            grid-column: span #{$i} / span #{$i} !important;
+         }
+      }
+
+      /* Gaps por Breakpoint */
+      @each $size, $value in $gaps {
+         .cz-#{$bp}\:gap-#{$size} {
+            gap: #{$value} !important;
+         }
+      }
+   }
+}
+
+
+/* --- 5. FLEXBOX & ALIGNMENT --- */
+/* Dirección */
+.cz-flex-row {
+   flex-direction: row !important;
+}
+
+.cz-flex-row-reverse {
+   flex-direction: row-reverse !important;
+}
+
+.cz-flex-col {
+   flex-direction: column !important;
+}
+
+.cz-flex-col-reverse {
+   flex-direction: column-reverse !important;
+}
+
+.cz-flex-wrap {
+   flex-wrap: wrap !important;
+}
+
+.cz-flex-nowrap {
+   flex-wrap: nowrap !important;
+}
+
+/* Justify Content */
+.cz-justify-start {
+   justify-content: flex-start !important;
+}
+
+.cz-justify-end {
+   justify-content: flex-end !important;
+}
+
+.cz-justify-center {
+   justify-content: center !important;
+}
+
+.cz-justify-between {
+   justify-content: space-between !important;
+}
+
+.cz-justify-around {
+   justify-content: space-around !important;
+}
+
+.cz-justify-evenly {
+   justify-content: space-evenly !important;
+}
+
+/* Align Items */
+.cz-items-start {
+   align-items: flex-start !important;
+}
+
+.cz-items-end {
+   align-items: flex-end !important;
+}
+
+.cz-items-center {
+   align-items: center !important;
+}
+
+.cz-items-baseline {
+   align-items: baseline !important;
+}
+
+.cz-items-stretch {
+   align-items: stretch !important;
+}
+
+/* Flex Crecer / Encoger */
+.cz-flex-1 {
+   flex: 1 1 0% !important;
+}
+
+.cz-flex-auto {
+   flex: 1 1 auto !important;
+}
+
+.cz-flex-none {
+   flex: none !important;
+}
+
+.cz-grow {
+   flex-grow: 1 !important;
+}
+
+.cz-grow-0 {
+   flex-grow: 0 !important;
+}
+
+.cz-shrink {
+   flex-shrink: 1 !important;
+}
+
+.cz-shrink-0 {
+   flex-shrink: 0 !important;
+}

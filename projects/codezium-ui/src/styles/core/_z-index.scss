@@ -1,0 +1,101 @@
+/* ==========================================================================
+   Z-INDEX UTILITIES (_z-index.scss)
+   Clases utilitarias con prefijo cz- para control de profundidad en el eje Z.
+   ========================================================================== */
+
+/* --- 1. CAPAS COMUNES POR FUNCIONALIDAD (Semánticas) --- */
+/* Ideal para mantener consistencia en componentes globales */
+.cz-z-base {
+    z-index: 10 !important;
+}
+
+/* Elementos base, cards estáticas, inputs */
+.cz-z-content {
+    z-index: 20 !important;
+}
+
+/* Contenido sobre el base, banners, alertas inline */
+.cz-z-dropdown {
+    z-index: 30 !important;
+}
+
+/* Menús desplegables integrados */
+.cz-z-sticky {
+    z-index: 40 !important;
+}
+
+/* Elementos fijos interactivos o bars laterales */
+.cz-z-navbar {
+    z-index: 50 !important;
+}
+
+/* Header principal de la App */
+.cz-z-overlay {
+    z-index: 60 !important;
+}
+
+/* Fondo oscuro detrás de un modal (Backdrop) */
+.cz-z-modal {
+    z-index: 70 !important;
+}
+
+/* Ventanas emergentes (Modales, Popovers grandes) */
+.cz-z-popover {
+    z-index: 80 !important;
+}
+
+/* Ventanitas de acción flotantes */
+.cz-z-toast {
+    z-index: 90 !important;
+}
+
+/* Notificaciones globales flotantes (Toasts) */
+.cz-z-tooltip {
+    z-index: 100 !important;
+}
+
+/* Tooltips clásicos que deben sobreponerse a todo */
+.cz-z-loader {
+    z-index: 999 !important;
+}
+
+/* Spinners o pantallas de carga globales absolutas */
+.cz-z-max {
+    z-index: 9999 !important;
+}
+
+/* Escudo máximo para emergencias visuales */
+
+/* --- 2. ESCALA NUMÉRICA BÁSICA (Helpers de utilería fina) --- */
+.cz-z-auto {
+    z-index: auto !important;
+}
+
+.cz-z-0 {
+    z-index: 0 !important;
+}
+
+.cz-z-10 {
+    z-index: 10 !important;
+}
+
+.cz-z-20 {
+    z-index: 20 !important;
+}
+
+.cz-z-30 {
+    z-index: 30 !important;
+}
+
+.cz-z-40 {
+    z-index: 40 !important;
+}
+
+.cz-z-50 {
+    z-index: 50 !important;
+}
+
+/* Control de flujo negativo (Para enviar elementos literalmente "al fondo") */
+.cz-z-n1 {
+    z-index: -1 !important;
+}

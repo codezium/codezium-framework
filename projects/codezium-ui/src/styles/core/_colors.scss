@@ -1,0 +1,249 @@
+/* ==========================================================================
+   COLOR UTILITIES (_colors.scss)
+   Generación sistemática de clases (text, bg, border) para _variables.scss
+   ========================================================================== */
+
+$weights: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900;
+
+/* --- 1. Paletas Completas (Primitivos & Semánticos) --- */
+
+// A. Variables: var(--cz-color-{nombre}-{peso})
+// Clases generadas: .cz-text-color-success-500, .cz-bg-color-gray-100...
+$color-prefix-palettes: (
+    "primary",
+    "secondary",
+    "success",
+    "danger",
+    "warning",
+    "info",
+    "gray"
+);
+
+@each $palette in $color-prefix-palettes {
+    @each $weight in $weights {
+        .cz-text-color-#{$palette}-#{$weight} {
+            color: var(--cz-color-#{$palette}-#{$weight}) !important;
+        }
+
+        .cz-bg-color-#{$palette}-#{$weight} {
+            background-color: var(--cz-color-#{$palette}-#{$weight}) !important;
+        }
+
+        .cz-border-color-#{$palette}-#{$weight} {
+            border-color: var(--cz-color-#{$palette}-#{$weight}) !important;
+        }
+    }
+}
+
+// B. Variables: var(--cz-{nombre}-{peso})
+// Clases generadas: .cz-text-blue-500, .cz-bg-tertiary-100...
+$standard-palettes: (
+    "primary",
+    // Alias a blue
+    "secondary",
+    // Alias de capa pink
+    "tertiary",
+    "quaternary",
+    "quinary",
+    "slate",
+    "blue",
+    "green",
+    "eucalyptus"
+);
+
+@each $palette in $standard-palettes {
+    @each $weight in $weights {
+        .cz-text-#{$palette}-#{$weight} {
+            color: var(--cz-#{$palette}-#{$weight}) !important;
+        }
+
+        .cz-bg-#{$palette}-#{$weight} {
+            background-color: var(--cz-#{$palette}-#{$weight}) !important;
+        }
+
+        .cz-border-#{$palette}-#{$weight} {
+            border-color: var(--cz-#{$palette}-#{$weight}) !important;
+        }
+    }
+}
+
+
+/* --- 2. Colores Semánticos Base --- */
+// Clases: .cz-text-primary, .cz-bg-success, .cz-border-light...
+$semantic-colors: (
+    "primary",
+    "secondary",
+    "success",
+    "danger",
+    "warning",
+    "info",
+    "light",
+    "dark",
+    "white",
+    "black",
+    "accent"
+);
+
+@each $color in $semantic-colors {
+    .cz-text-#{$color} {
+        color: var(--cz-color-#{$color}) !important;
+    }
+
+    .cz-bg-#{$color} {
+        background-color: var(--cz-color-#{$color}) !important;
+    }
+
+    .cz-border-#{$color} {
+        border-color: var(--cz-color-#{$color}) !important;
+    }
+}
+
+
+/* --- 3. Paletas de Bases Secundarias (Alt) --- */
+// Clases: .cz-text-tertiary, .cz-bg-blue...
+$alt-base-colors: (
+    "tertiary",
+    "quaternary",
+    "quinary",
+    "blue",
+    "blue-two",
+    "gray",
+    "eucalyptus",
+    "green",
+    "slate"
+);
+
+@each $color in $alt-base-colors {
+    .cz-text-#{$color} {
+        color: var(--cz-#{$color}) !important;
+    }
+
+    .cz-bg-#{$color} {
+        background-color: var(--cz-#{$color}) !important;
+    }
+
+    .cz-border-#{$color} {
+        border-color: var(--cz-#{$color}) !important;
+    }
+}
+
+// Resolviendo alias "alt" conflictivos (para var(--cz-primary) y var(--cz-secondary) sin chocar con --cz-color-primary)
+.cz-text-alt-primary {
+    color: var(--cz-primary) !important;
+}
+
+.cz-bg-alt-primary {
+    background-color: var(--cz-primary) !important;
+}
+
+.cz-border-alt-primary {
+    border-color: var(--cz-primary) !important;
+}
+
+.cz-text-alt-secondary {
+    color: var(--cz-secondary) !important;
+}
+
+.cz-bg-alt-secondary {
+    background-color: var(--cz-secondary) !important;
+}
+
+.cz-border-alt-secondary {
+    border-color: var(--cz-secondary) !important;
+}
+
+
+/* --- 4. Fondos Transparentes (Tints) --- */
+// Clases: .cz-bg-tint-primary, .cz-bg-tint-danger...
+$tint-colors: (
+    "primary",
+    "secondary",
+    "success",
+    "danger",
+    "warning",
+    "info",
+    "light",
+    "dark",
+    "white",
+    "black"
+);
+
+@each $color in $tint-colors {
+    .cz-bg-tint-#{$color} {
+        background-color: var(--cz-base-tint-#{$color}) !important;
+    }
+
+    .cz-text-tint-#{$color} {
+        color: var(--cz-base-tint-#{$color}) !important;
+    }
+
+    .cz-border-tint-#{$color} {
+        border-color: var(--cz-base-tint-#{$color}) !important;
+    }
+}
+
+
+/* --- 5. Paletas Navy --- */
+// Clases: .cz-text-navy, .cz-bg-dark-navy...
+$navy-colors: (
+    "dark-navy",
+    "navy",
+    "light-navy",
+    "lightest-navy"
+);
+
+@each $navy in $navy-colors {
+    .cz-text-#{$navy} {
+        color: var(--cz-#{$navy}) !important;
+    }
+
+    .cz-bg-#{$navy} {
+        background-color: var(--cz-#{$navy}) !important;
+    }
+
+    .cz-border-#{$navy} {
+        border-color: var(--cz-#{$navy}) !important;
+    }
+}
+
+
+/* --- 6. Fondos y Superficies Especiales --- */
+.cz-bg-surface {
+    background-color: var(--cz-bg-surface) !important;
+}
+
+.cz-bg-surface-green {
+    background-color: var(--cz-bg-surface-green) !important;
+}
+
+.cz-bg-surface-contrast {
+    background-color: var(--cz-bg-surface-contrast) !important;
+}
+
+.cz-bg-card {
+    background-color: var(--cz-card-background) !important;
+}
+
+.cz-bg-cool {
+    background-color: var(--cz-background-cool) !important;
+}
+
+.cz-bg-cool-transparent {
+    background-color: var(--cz-background-cool-transparent) !important;
+}
+
+.cz-bg-code {
+    background-color: var(--cz-bg-code) !important;
+}
+
+.cz-bg-code-light {
+    background-color: var(--cz-bg-code-light) !important;
+}
+
+.cz-text-code {
+    color: var(--cz-color-code) !important;
+}
+
+.cz-text-code-dark {
+    color: var(--cz-color-code-dark) !important;
+}

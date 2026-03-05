@@ -1,0 +1,205 @@
+/* ==========================================================================
+   SHADOW UTILITIES (_shadow.scss)
+   Clases utilitarias directas para manipular sombras, glow, insets y focus.
+   ========================================================================== */
+
+/* --- 1. BASE SHADOWS (cz-shadow-*) --- */
+.cz-shadow-none {
+    box-shadow: var(--cz-shadow-none) !important;
+}
+
+.cz-shadow-xs {
+    box-shadow: var(--cz-shadow-xs) !important;
+}
+
+.cz-shadow-sm {
+    box-shadow: var(--cz-shadow-sm) !important;
+}
+
+.cz-shadow-md {
+    box-shadow: var(--cz-shadow-md) !important;
+}
+
+.cz-shadow-lg {
+    box-shadow: var(--cz-shadow-lg) !important;
+}
+
+.cz-shadow-xl {
+    box-shadow: var(--cz-shadow-xl) !important;
+}
+
+.cz-shadow-2xl {
+    box-shadow: var(--cz-shadow-2xl) !important;
+}
+
+.cz-shadow-3xl {
+    box-shadow: var(--cz-shadow-3xl) !important;
+}
+
+.cz-shadow-4xl {
+    box-shadow: var(--cz-shadow-4xl) !important;
+}
+
+.cz-shadow-5xl {
+    box-shadow: var(--cz-shadow-5xl) !important;
+}
+
+.cz-shadow-6xl {
+    box-shadow: var(--cz-shadow-6xl) !important;
+}
+
+.cz-shadow-inner {
+    box-shadow: var(--cz-shadow-inner) !important;
+}
+
+.cz-shadow-glow {
+    box-shadow: var(--cz-shadow-glow) !important;
+}
+
+
+/* --- 2. FOCUS SHADOWS (INTERACTIVE / RINGS) --- */
+// Usadas para resaltar focus de un input, un botón o para efecto focus-visible
+$focus-intents: (
+    "primary",
+    "secondary",
+    "success",
+    "danger",
+    "warning",
+    "info",
+    "light",
+    "dark",
+    "default"
+);
+
+@each $intent in $focus-intents {
+    .cz-shadow-focus-#{$intent} {
+        box-shadow: var(--cz-focus-shadow-#{$intent}) !important;
+    }
+}
+
+// Sombras genéricas inputs
+$input-focus: (
+    "primary",
+    "secondary",
+    "success",
+    "danger",
+    "warning",
+    "info",
+    "light",
+    "dark",
+    "default"
+);
+
+@each $input in $input-focus {
+    .cz-shadow-input-focus-#{$input} {
+        box-shadow: var(--cz-input-focus-#{$input}) !important;
+    }
+}
+
+
+/* --- 3. SOFT COLORED DROP SHADOWS --- */
+// Genera sombras tenues coloreadas utilizando los .base-tints (útiles para tarjetas flotantes o botones hero)
+$soft-shadow-colors: (
+    "primary",
+    "secondary",
+    "success",
+    "danger",
+    "warning",
+    "info",
+    "light",
+    "dark",
+    "white",
+    "black"
+);
+
+@each $color in $soft-shadow-colors {
+    .cz-shadow-soft-#{$color} {
+        // 0 4px 14px utilizando base tints: rgba(color, 0.1 / 0.15)
+        box-shadow: 0 4px 14px 0 var(--cz-base-tint-#{$color}) !important;
+    }
+}
+
+
+/* --- 4. GLASSMORPHISM SHADOWS --- */
+.cz-shadow-glass {
+    box-shadow: var(--cz-shadow-glass) !important;
+}
+
+.cz-shadow-glass-inset {
+    box-shadow: var(--cz-shadow-glass-inset) !important;
+}
+
+// Permite incrustar la sombra coloreada de glass programáticamente (e.g., bg-glass-primary)
+$glass-tints: (
+    "primary",
+    "secondary",
+    "success",
+    "danger",
+    "warning",
+    "info",
+    "light",
+    "dark",
+    "white",
+    "black"
+);
+
+@each $tint in $glass-tints {
+    .cz-shadow-glass-#{$tint} {
+        box-shadow: 0 8px 32px var(--cz-glass-tint-#{$tint}) !important;
+    }
+}
+
+
+/* --- 5. NEOMORPHISM SHADOW VARIABLES & COLORS --- */
+// ESTE TEMA ES DINÁMICO: Al asignar esta clase a un contenedor padre o elemento directo,
+// reescribe temporalmente las variables CSS permitiendo que las elevaciones neomórficas 
+// adopten instantáneamente el color del tema seleccionado.
+$neo-themes: (
+    "primary",
+    "success",
+    "danger",
+    "warning",
+    "info",
+    "dark",
+    "light"
+);
+
+@each $theme in $neo-themes {
+    .cz-shadow-neo-#{$theme} {
+        --cz-neo-shadow-light: var(--cz-neo-shadow-light-#{$theme});
+        --cz-neo-shadow-dark: var(--cz-neo-shadow-dark-#{$theme});
+    }
+}
+
+// Aplicación directa independiente de elevación
+.cz-shadow-neo-box {
+    box-shadow: var(--cz-neo-box-shadow) !important;
+}
+
+.cz-shadow-neo-inset-box {
+    box-shadow: var(--cz-neo-inset-shadow) !important;
+}
+
+.cz-shadow-neo-raised-box {
+    box-shadow: var(--cz-neo-shadow-raised) !important;
+}
+
+.cz-shadow-neo-pressed-box {
+    box-shadow: var(--cz-neo-shadow-pressed) !important;
+}
+
+/* Modificadores Dinámicos de Neomorfismo */
+.cz-shadow-neo-sm {
+    --cz-neo-shadow-distance: 4px;
+    --cz-neo-blur: 8px;
+}
+
+.cz-shadow-neo-md {
+    --cz-neo-shadow-distance: 8px;
+    --cz-neo-blur: 16px;
+}
+
+.cz-shadow-neo-lg {
+    --cz-neo-shadow-distance: 12px;
+    --cz-neo-blur: 24px;
+}

@@ -1,0 +1,387 @@
+/* ==========================================================================
+   BORDER UTILITIES (_borders.scss)
+   Clases utilitarias con prefijo cz- para manipulación avanzada de bordes, radios y estilos.
+   NOTA: Los colores de los bordes (.cz-border-primary, etc.) se generan en _colors.scss
+   ========================================================================== */
+
+/* --- 1. RADIOS DE BORDE (Border Radius) --- */
+/* Basados en las variables de _variables.scss */
+.cz-rounded-none {
+    border-radius: 0 !important;
+}
+
+.cz-rounded-sm {
+    border-radius: var(--cz-radius-sm) !important;
+}
+
+// 8px
+.cz-rounded-md {
+    border-radius: var(--cz-radius-md) !important;
+}
+
+// 16px
+.cz-rounded-lg {
+    border-radius: var(--cz-radius-lg) !important;
+}
+
+// 32px
+.cz-rounded-xl {
+    border-radius: var(--cz-radius-xl) !important;
+}
+
+// 48px
+.cz-rounded-full {
+    border-radius: 9999px !important;
+}
+
+// Circular
+
+/* Radios direccionales comunes (Top / Bottom / Left / Right) */
+.cz-rounded-t-sm {
+    border-top-left-radius: var(--cz-radius-sm) !important;
+    border-top-right-radius: var(--cz-radius-sm) !important;
+}
+
+.cz-rounded-t-md {
+    border-top-left-radius: var(--cz-radius-md) !important;
+    border-top-right-radius: var(--cz-radius-md) !important;
+}
+
+.cz-rounded-t-lg {
+    border-top-left-radius: var(--cz-radius-lg) !important;
+    border-top-right-radius: var(--cz-radius-lg) !important;
+}
+
+.cz-rounded-t-full {
+    border-top-left-radius: 9999px !important;
+    border-top-right-radius: 9999px !important;
+}
+
+.cz-rounded-b-sm {
+    border-bottom-left-radius: var(--cz-radius-sm) !important;
+    border-bottom-right-radius: var(--cz-radius-sm) !important;
+}
+
+.cz-rounded-b-md {
+    border-bottom-left-radius: var(--cz-radius-md) !important;
+    border-bottom-right-radius: var(--cz-radius-md) !important;
+}
+
+.cz-rounded-b-lg {
+    border-bottom-left-radius: var(--cz-radius-lg) !important;
+    border-bottom-right-radius: var(--cz-radius-lg) !important;
+}
+
+.cz-rounded-b-full {
+    border-bottom-left-radius: 9999px !important;
+    border-bottom-right-radius: 9999px !important;
+}
+
+.cz-rounded-l-sm {
+    border-top-left-radius: var(--cz-radius-sm) !important;
+    border-bottom-left-radius: var(--cz-radius-sm) !important;
+}
+
+.cz-rounded-l-md {
+    border-top-left-radius: var(--cz-radius-md) !important;
+    border-bottom-left-radius: var(--cz-radius-md) !important;
+}
+
+.cz-rounded-l-lg {
+    border-top-left-radius: var(--cz-radius-lg) !important;
+    border-bottom-left-radius: var(--cz-radius-lg) !important;
+}
+
+.cz-rounded-l-full {
+    border-top-left-radius: 9999px !important;
+    border-bottom-left-radius: 9999px !important;
+}
+
+.cz-rounded-r-sm {
+    border-top-right-radius: var(--cz-radius-sm) !important;
+    border-bottom-right-radius: var(--cz-radius-sm) !important;
+}
+
+.cz-rounded-r-md {
+    border-top-right-radius: var(--cz-radius-md) !important;
+    border-bottom-right-radius: var(--cz-radius-md) !important;
+}
+
+.cz-rounded-r-lg {
+    border-top-right-radius: var(--cz-radius-lg) !important;
+    border-bottom-right-radius: var(--cz-radius-lg) !important;
+}
+
+.cz-rounded-r-full {
+    border-top-right-radius: 9999px !important;
+    border-bottom-right-radius: 9999px !important;
+}
+
+/* Neomorfismo Utils de Radio (Opcional, en caso de querer usar explícitamente las variables neo) */
+.cz-rounded-neo-xs {
+    border-radius: var(--cz-neo-radius-xs) !important;
+}
+
+// 4px
+.cz-rounded-neo-sm {
+    border-radius: var(--cz-neo-radius-sm) !important;
+}
+
+// 8px
+.cz-rounded-neo-md {
+    border-radius: var(--cz-neo-radius-md) !important;
+}
+
+// 12px
+.cz-rounded-neo-lg {
+    border-radius: var(--cz-neo-radius-lg) !important;
+}
+
+// 20px
+.cz-rounded-neo-xl {
+    border-radius: var(--cz-neo-radius-xl) !important;
+}
+
+// 32px
+
+/* Grassmorphism Utils de Radio */
+.cz-rounded-glass {
+    border-radius: var(--cz-glass-radius) !important;
+}
+
+
+/* --- 2. ANCHOS DE BORDE (Border Widths) --- */
+/* Todos los bordes (.cz-border-x) */
+.cz-border {
+    border-width: 1px !important;
+}
+
+.cz-border-0 {
+    border-width: 0 !important;
+}
+
+.cz-border-2 {
+    border-width: 2px !important;
+}
+
+.cz-border-4 {
+    border-width: 4px !important;
+}
+
+.cz-border-8 {
+    border-width: 8px !important;
+}
+
+/* Bordes Superiores (Top) */
+.cz-border-t {
+    border-top-width: 1px !important;
+}
+
+.cz-border-t-0 {
+    border-top-width: 0 !important;
+}
+
+.cz-border-t-2 {
+    border-top-width: 2px !important;
+}
+
+.cz-border-t-4 {
+    border-top-width: 4px !important;
+}
+
+.cz-border-t-8 {
+    border-top-width: 8px !important;
+}
+
+/* Bordes Inferiores (Bottom) */
+.cz-border-b {
+    border-bottom-width: 1px !important;
+}
+
+.cz-border-b-0 {
+    border-bottom-width: 0 !important;
+}
+
+.cz-border-b-2 {
+    border-bottom-width: 2px !important;
+}
+
+.cz-border-b-4 {
+    border-bottom-width: 4px !important;
+}
+
+.cz-border-b-8 {
+    border-bottom-width: 8px !important;
+}
+
+/* Bordes Izquierdos (Left) */
+.cz-border-l {
+    border-left-width: 1px !important;
+}
+
+.cz-border-l-0 {
+    border-left-width: 0 !important;
+}
+
+.cz-border-l-2 {
+    border-left-width: 2px !important;
+}
+
+.cz-border-l-4 {
+    border-left-width: 4px !important;
+}
+
+.cz-border-l-8 {
+    border-left-width: 8px !important;
+}
+
+/* Bordes Derechos (Right) */
+.cz-border-r {
+    border-right-width: 1px !important;
+}
+
+.cz-border-r-0 {
+    border-right-width: 0 !important;
+}
+
+.cz-border-r-2 {
+    border-right-width: 2px !important;
+}
+
+.cz-border-r-4 {
+    border-right-width: 4px !important;
+}
+
+.cz-border-r-8 {
+    border-right-width: 8px !important;
+}
+
+/* Ejes X y Y */
+.cz-border-x {
+    border-left-width: 1px !important;
+    border-right-width: 1px !important;
+}
+
+.cz-border-y {
+    border-top-width: 1px !important;
+    border-bottom-width: 1px !important;
+}
+
+
+/* --- 3. ESTILOS DE BORDE (Border Style) --- */
+.cz-border-solid {
+    border-style: solid !important;
+}
+
+.cz-border-dashed {
+    border-style: dashed !important;
+}
+
+.cz-border-dotted {
+    border-style: dotted !important;
+}
+
+.cz-border-double {
+    border-style: double !important;
+}
+
+.cz-border-hidden {
+    border-style: hidden !important;
+}
+
+.cz-border-none {
+    border-style: none !important;
+}
+
+
+/* --- 4. DIVISORES (Divide Utilities) --- */
+/* Añaden automáticamente un borde entre elementos hijos (útiles en flexbox o listas) */
+.cz-divide-x>*+* {
+    border-left-width: 1px !important;
+    border-right-width: 0 !important;
+}
+
+.cz-divide-x-2>*+* {
+    border-left-width: 2px !important;
+    border-right-width: 0 !important;
+}
+
+.cz-divide-y>*+* {
+    border-top-width: 1px !important;
+    border-bottom-width: 0 !important;
+}
+
+.cz-divide-y-2>*+* {
+    border-top-width: 2px !important;
+    border-bottom-width: 0 !important;
+}
+
+.cz-divide-dashed>*+* {
+    border-style: dashed !important;
+}
+
+.cz-divide-dotted>*+* {
+    border-style: dotted !important;
+}
+
+
+/* --- 5. OUTLINES Y ANILLOS DE ACCESIBILIDAD (Focus Outlines) --- */
+/* Más rápidos y duros que box-shadow, no añaden profundidad ni rompen box-sizing */
+.cz-outline-none {
+    outline: 2px solid transparent !important;
+    outline-offset: 2px !important;
+}
+
+.cz-outline {
+    outline-style: solid !important;
+    outline-width: 1px !important;
+}
+
+.cz-outline-2 {
+    outline-width: 2px !important;
+}
+
+.cz-outline-4 {
+    outline-width: 4px !important;
+}
+
+.cz-outline-offset-1 {
+    outline-offset: 1px !important;
+}
+
+.cz-outline-offset-2 {
+    outline-offset: 2px !important;
+}
+
+/* Outlines interactivos que consumen colores base */
+.cz-outline-primary:focus-visible {
+    outline: 2px solid var(--cz-color-primary) !important;
+    outline-offset: 2px !important;
+}
+
+.cz-outline-secondary:focus-visible {
+    outline: 2px solid var(--cz-color-secondary) !important;
+    outline-offset: 2px !important;
+}
+
+.cz-outline-success:focus-visible {
+    outline: 2px solid var(--cz-color-success) !important;
+    outline-offset: 2px !important;
+}
+
+.cz-outline-danger:focus-visible {
+    outline: 2px solid var(--cz-color-danger) !important;
+    outline-offset: 2px !important;
+}
+
+
+/* --- 6. ATRIBUTOS ESPECIFICOS TEMATICOS --- */
+/* Glassmorphism Border por defecto */
+.cz-border-glass {
+    border: var(--cz-glass-border-width) solid var(--cz-color-glass-border) !important;
+}
+
+/* Neomorfismo Border por defecto */
+.cz-border-neo {
+    border: 1px solid var(--cz-neo-border) !important;
+}

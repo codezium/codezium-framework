@@ -1,0 +1,556 @@
+/* ==========================================================================
+   TRANSITIONS & ANIMATIONS (_transitions.scss)
+   Clases utilitarias con prefijo cz- para manejo de transiciones, micro-interacciones y animaciones base.
+   ========================================================================== */
+
+/* --- 1. TRANSICIONES GENERALES --- */
+.cz-transition {
+  transition: var(--cz-transition-normal) !important;
+}
+
+.cz-transition-fast {
+  transition: var(--cz-transition-fast) !important;
+}
+
+.cz-transition-slow {
+  transition: var(--cz-transition-slow) !important;
+}
+
+.cz-transition-soft {
+  transition: var(--cz-transition-soft) !important;
+}
+
+/* Transiciones de Propiedades Específicas */
+.cz-transition-colors {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, fill 0.3s ease, stroke 0.3s ease !important;
+}
+
+.cz-transition-opacity {
+  transition: opacity 0.3s ease !important;
+}
+
+.cz-transition-shadow {
+  transition: box-shadow 0.3s ease !important;
+}
+
+.cz-transition-transform {
+  transition: transform 0.3s ease !important;
+}
+
+.cz-transition-all {
+  transition: all 0.3s ease !important;
+}
+
+/* Timing Functions Adicionales */
+.cz-ease-linear {
+  transition-timing-function: linear !important;
+}
+
+.cz-ease-in {
+  transition-timing-function: cubic-bezier(0.4, 0, 1, 1) !important;
+}
+
+.cz-ease-out {
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1) !important;
+}
+
+.cz-ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.cz-ease-bounce {
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+}
+
+/* Delay de Transiciones */
+.cz-delay-75 {
+  transition-delay: 75ms !important;
+  animation-delay: 75ms !important;
+}
+
+.cz-delay-100 {
+  transition-delay: 100ms !important;
+  animation-delay: 100ms !important;
+}
+
+.cz-delay-150 {
+  transition-delay: 150ms !important;
+  animation-delay: 150ms !important;
+}
+
+.cz-delay-200 {
+  transition-delay: 200ms !important;
+  animation-delay: 200ms !important;
+}
+
+.cz-delay-300 {
+  transition-delay: 300ms !important;
+  animation-delay: 300ms !important;
+}
+
+.cz-delay-500 {
+  transition-delay: 500ms !important;
+  animation-delay: 500ms !important;
+}
+
+.cz-delay-700 {
+  transition-delay: 700ms !important;
+  animation-delay: 700ms !important;
+}
+
+.cz-delay-1000 {
+  transition-delay: 1000ms !important;
+  animation-delay: 1000ms !important;
+}
+
+/* Duraciones Generales de Animaciones */
+.cz-duration-75 {
+  animation-duration: 75ms !important;
+  transition-duration: 75ms !important;
+}
+
+.cz-duration-100 {
+  animation-duration: 100ms !important;
+  transition-duration: 100ms !important;
+}
+
+.cz-duration-150 {
+  animation-duration: 150ms !important;
+  transition-duration: 150ms !important;
+}
+
+.cz-duration-200 {
+  animation-duration: 200ms !important;
+  transition-duration: 200ms !important;
+}
+
+.cz-duration-300 {
+  animation-duration: 300ms !important;
+  transition-duration: 300ms !important;
+}
+
+.cz-duration-500 {
+  animation-duration: 500ms !important;
+  transition-duration: 500ms !important;
+}
+
+.cz-duration-700 {
+  animation-duration: 700ms !important;
+  transition-duration: 700ms !important;
+}
+
+.cz-duration-1000 {
+  animation-duration: 1000ms !important;
+  transition-duration: 1000ms !important;
+}
+
+/* Tema Específico: Glass & Neo */
+.cz-transition-glass {
+  transition: var(--cz-transition-glass) !important;
+}
+
+.cz-transition-neo {
+  transition: var(--cz-neo-transition) !important;
+}
+
+
+/* --- 2. MICRO-INTERACCIONES (HOVER / ACTIVE) --- */
+/* Transform (Escala y Rotaciones) */
+.cz-hover-scale-up {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.cz-hover-scale-up:hover {
+  transform: scale(1.05) !important;
+}
+
+.cz-hover-scale-down {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.cz-hover-scale-down:hover {
+  transform: scale(0.95) !important;
+}
+
+.cz-active-scale-down:active {
+  transform: scale(0.92) !important;
+}
+
+.cz-active-scale-up:active {
+  transform: scale(1.02) !important;
+}
+
+/* Desplazamientos Hover */
+.cz-hover-translate-y {
+  transition: transform 0.3s ease !important;
+}
+
+.cz-hover-translate-y:hover {
+  transform: translateY(-4px) !important;
+}
+
+.cz-hover-translate-x {
+  transition: transform 0.3s ease !important;
+}
+
+.cz-hover-translate-x:hover {
+  transform: translateX(4px) !important;
+}
+
+/* Opacidad (Fade Hovers) */
+.cz-hover-opacity-50 {
+  transition: opacity 0.3s ease !important;
+}
+
+.cz-hover-opacity-50:hover {
+  opacity: 0.5 !important;
+}
+
+.cz-hover-opacity-75 {
+  transition: opacity 0.3s ease !important;
+}
+
+.cz-hover-opacity-75:hover {
+  opacity: 0.75 !important;
+}
+
+.cz-hover-opacity-100 {
+  transition: opacity 0.3s ease !important;
+  opacity: 0.7 !important;
+}
+
+.cz-hover-opacity-100:hover {
+  opacity: 1 !important;
+}
+
+
+/* --- 3. ANIMACIONES KEYFRAMES (ENTRADAS Y SALIDAS) --- */
+/* 
+   Uso: Aplica la clase .cz-animate-* al elemento que quieres animar.
+   Ej: <div class="cz-animate-fade-in cz-duration-500 cz-delay-150">...</div>
+*/
+
+/* 3.1 Fade (Desvanecimientos) */
+@keyframes czFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.cz-animate-fade-in {
+  animation: czFadeIn 0.5s ease-out both !important;
+}
+
+@keyframes czFadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.cz-animate-fade-out {
+  animation: czFadeOut 0.5s ease-out both !important;
+}
+
+@keyframes czFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cz-animate-fade-in-up {
+  animation: czFadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+@keyframes czFadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cz-animate-fade-in-down {
+  animation: czFadeInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+@keyframes czFadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.cz-animate-fade-in-left {
+  animation: czFadeInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+@keyframes czFadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.cz-animate-fade-in-right {
+  animation: czFadeInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+/* 3.2 Zoom (Escalados) */
+@keyframes czZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.cz-animate-zoom-in {
+  animation: czZoomIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+@keyframes czZoomOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.cz-animate-zoom-out {
+  animation: czZoomOut 0.5s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+/* 3.3 Slide (Deslizamientos) */
+@keyframes czSlideInUp {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.cz-animate-slide-in-up {
+  animation: czSlideInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+@keyframes czSlideInRight {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.cz-animate-slide-in-right {
+  animation: czSlideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+/* 3.4 Bounce (Rebotes) */
+@keyframes czBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  70% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cz-animate-bounce-in {
+  animation: czBounceIn 0.8s cubic-bezier(0.215, 0.61, 0.355, 1) both !important;
+}
+
+@keyframes czBounce {
+
+  0%,
+  100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+
+  50% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.cz-animate-bounce {
+  animation: czBounce 1s infinite !important;
+}
+
+/* 3.5 Flip (Volteos 3D) */
+@keyframes czFlipInX {
+  from {
+    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
+    opacity: 0;
+  }
+
+  40% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+  }
+
+  60% {
+    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+    opacity: 1;
+  }
+
+  80% {
+    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+  }
+
+  to {
+    transform: perspective(400px);
+    opacity: 1;
+  }
+}
+
+.cz-animate-flip-in-x {
+  animation: czFlipInX 0.8s ease-out both !important;
+}
+
+@keyframes czFlipInY {
+  from {
+    transform: perspective(400px) rotate3d(0, 1, 0, 90deg);
+    opacity: 0;
+  }
+
+  40% {
+    transform: perspective(400px) rotate3d(0, 1, 0, -20deg);
+  }
+
+  60% {
+    transform: perspective(400px) rotate3d(0, 1, 0, 10deg);
+    opacity: 1;
+  }
+
+  80% {
+    transform: perspective(400px) rotate3d(0, 1, 0, -5deg);
+  }
+
+  to {
+    transform: perspective(400px);
+    opacity: 1;
+  }
+}
+
+.cz-animate-flip-in-y {
+  animation: czFlipInY 0.8s ease-out both !important;
+}
+
+
+/* --- 4. ATENCIÓN / SPINNERS --- */
+@keyframes czSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cz-animate-spin {
+  animation: czSpin 1s linear infinite !important;
+}
+
+@keyframes czPulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.cz-animate-pulse {
+  animation: czPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+}
+
+/* Animación Glass (Brillo tenue dinámico) */
+@keyframes czGlassShine {
+  0% {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  50% {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  100% {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.cz-animate-glass-shine {
+  animation: czGlassShine 3s infinite ease-in-out !important;
+}
+
+@keyframes czShimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.cz-animate-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.cz-animate-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0.5) 60%,
+      rgba(255, 255, 255, 0));
+  animation: czShimmer 2s infinite !important;
+}

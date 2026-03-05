@@ -1,0 +1,122 @@
+/* ==========================================================================
+   ELEVATION UTILITIES (_elevations.scss)
+   Sombras y elevaciones para temas Base, Glassmorphism y Neomorphism.
+   ========================================================================== */
+
+/* --- 1. BASE ELEVATIONS (cz-elevation-*) --- */
+// Elevación basada en escala 0-12
+.cz-elevation-0 {
+  box-shadow: var(--cz-shadow-none) !important;
+}
+
+.cz-elevation-1 {
+  box-shadow: var(--cz-shadow-xs) !important;
+}
+
+.cz-elevation-2 {
+  box-shadow: var(--cz-shadow-sm) !important;
+}
+
+.cz-elevation-3 {
+  box-shadow: var(--cz-shadow-md) !important;
+}
+
+.cz-elevation-4 {
+  box-shadow: var(--cz-shadow-lg) !important;
+}
+
+.cz-elevation-5 {
+  box-shadow: var(--cz-shadow-xl) !important;
+}
+
+.cz-elevation-6 {
+  box-shadow: var(--cz-shadow-2xl) !important;
+}
+
+.cz-elevation-7 {
+  box-shadow: var(--cz-shadow-3xl) !important;
+}
+
+.cz-elevation-8 {
+  box-shadow: var(--cz-shadow-4xl) !important;
+}
+
+.cz-elevation-9 {
+  box-shadow: var(--cz-shadow-5xl) !important;
+}
+
+.cz-elevation-10 {
+  box-shadow: var(--cz-shadow-6xl) !important;
+}
+
+/* Sombras base fijas */
+.cz-elevation-11 {
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.26) !important;
+}
+
+.cz-elevation-12 {
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.28) !important;
+}
+
+
+/* --- 2. GLASSMORPHISM ELEVATIONS (cz-elevation-glass-*) --- */
+// Elevación para componentes translúcidos con desenfoque
+.cz-elevation-glass {
+  box-shadow: var(--cz-color-glass-shadow) !important;
+  backdrop-filter: blur(var(--cz-glass-blur));
+  -webkit-backdrop-filter: blur(var(--cz-glass-blur));
+}
+
+.cz-elevation-glass-inset {
+  box-shadow: var(--cz-shadow-glass-inset) !important;
+  backdrop-filter: blur(var(--cz-glass-blur));
+  -webkit-backdrop-filter: blur(var(--cz-glass-blur));
+}
+
+.cz-elevation-glass-glow {
+  box-shadow: var(--cz-shadow-glow) !important;
+  backdrop-filter: blur(var(--cz-glass-blur));
+  -webkit-backdrop-filter: blur(var(--cz-glass-blur));
+}
+
+
+/* --- 3. NEOMORPHISM ELEVATIONS (cz-elevation-neo-*) --- */
+// Elevación para el tema neomórfico (sombras 3D extruidas y hundidas)
+.cz-elevation-neo-flat {
+  box-shadow: var(--cz-neo-box-shadow) !important;
+}
+
+.cz-elevation-neo-raised {
+  box-shadow: var(--cz-neo-shadow-raised) !important;
+}
+
+.cz-elevation-neo-pressed {
+  box-shadow: var(--cz-neo-shadow-pressed) !important;
+}
+
+.cz-elevation-neo-inset {
+  box-shadow: var(--cz-neo-inset-shadow) !important;
+}
+
+.cz-elevation-neo-hover {
+  box-shadow: var(--cz-neo-shadow-hover) !important;
+}
+
+/* Modificadores de profundidad Neomorfos */
+.cz-elevation-neo-sm {
+  --cz-neo-shadow-distance: 4px;
+  --cz-neo-blur: 8px;
+  box-shadow: var(--cz-neo-box-shadow) !important;
+}
+
+.cz-elevation-neo-md {
+  --cz-neo-shadow-distance: 8px;
+  --cz-neo-blur: 16px;
+  box-shadow: var(--cz-neo-box-shadow) !important;
+}
+
+.cz-elevation-neo-lg {
+  --cz-neo-shadow-distance: 12px;
+  --cz-neo-blur: 24px;
+  box-shadow: var(--cz-neo-box-shadow) !important;
+}

@@ -1,0 +1,80 @@
+@use "sass:meta";
+
+/* ==========================================================================
+   SPACING UTILITIES (_spacing.scss)
+   Clases utilitarias de margen y padding (cz-p-, cz-m-) y separaciones.
+   ========================================================================== */
+
+/* --- 1. Espaciado entre elementos (Stacking) --- */
+.cz-space-x-sm>*+* {
+  margin-left: var(--cz-spacing-sm) !important;
+}
+
+.cz-space-y-sm>*+* {
+  margin-top: var(--cz-spacing-sm) !important;
+}
+
+// Mapa de variables de espaciado basadas en _variables.scss
+$spacing: (
+  "none": "0",
+  "xxs": var(--cz-spacing-xxs),
+  /* 0.125rem (2px)  */
+  "xs": var(--cz-spacing-xs),
+  /* 0.25rem  (4px)  */
+  "sm": var(--cz-spacing-sm),
+  /* 0.5rem   (8px)  */
+  "md": var(--cz-spacing-md),
+  /* 1rem     (16px) */
+  "lg": var(--cz-spacing-lg),
+  /* 1.5rem   (24px) */
+  "xl": var(--cz-spacing-xl),
+  /* 2rem     (32px) */
+  "2xl": var(--cz-spacing-2xl),
+  /* 3rem     (48px) */
+  "3xl": var(--cz-spacing-3xl),
+  /* 4rem     (64px) */
+  "4xl": var(--cz-spacing-4xl),
+  /* 6rem     (96px) */
+  "5xl": var(--cz-spacing-5xl)
+  /* 8rem     (128px) */
+);
+
+$spacing-types: (
+  m: margin,
+  p: padding
+);
+
+$spacing-directions: (
+  "": "",
+  // All sides (e.g. .cz-m-sm)
+  t: -top,
+  // Top (e.g. .cz-mt-sm)
+  b: -bottom,
+  // Bottom (e.g. .cz-mb-sm)
+  l: -left,
+  // Left (e.g. .cz-ml-sm)
+  r: -right,
+  // Right (e.g. .cz-mr-sm)
+  x: -left -right,
+  // Horizontal (e.g. .cz-mx-sm)
+  y: -top -bottom // Vertical (e.g. .cz-my-sm)
+);
+
+/* --- 2. Utils de Margen y Padding (cz-m-*, cz-p-*) --- */
+@each $type, $css-prop in $spacing-types {
+  @each $dir, $suffixes in $spacing-directions {
+    @each $size, $value in $spacing {
+      .cz-#{$type}#{$dir}-#{$size} {
+        @if meta.type-of($suffixes)==string {
+          #{$css-prop}#{$suffixes}: #{$value} !important;
+        }
+
+        @else {
+          @each $suffix in $suffixes {
+            #{$css-prop}#{$suffix}: #{$value} !important;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,173 @@
+/* ==========================================================================
+   RESPONSIVE UTILITIES (_responsive.scss)
+   Mixins y utilidades responsivas para Paddings, Margins y Typography.
+   Nota: Layout, Flex y Grid responsivo ya están cubiertos nativamente
+   en _flex.scss y _grid.scss respectivamente usando los mismos breakpoints.
+   ========================================================================== */
+
+/* 
+  Breakpoints Globales estandarizados 
+  sm: 640px  (Móvil Grande / Phablet)
+  md: 768px  (Tablets)
+  lg: 1024px (Laptops)
+  xl: 1280px (Desktops)
+  2xl: 1536px (Monitores grandes)
+*/
+$breakpoints: (
+  "sm": 640px,
+  "md": 768px,
+  "lg": 1024px,
+  "xl": 1280px,
+  "2xl": 1536px
+);
+
+/* Array de espaciados ligados a las variables globales core */
+$spacings: (
+  "none": "0",
+  "xxs": var(--cz-spacing-xxs),
+  "xs": var(--cz-spacing-xs),
+  "sm": var(--cz-spacing-sm),
+  "md": var(--cz-spacing-md),
+  "lg": var(--cz-spacing-lg),
+  "xl": var(--cz-spacing-xl),
+  "2xl": var(--cz-spacing-2xl),
+  "3xl": var(--cz-spacing-3xl),
+  "4xl": var(--cz-spacing-4xl),
+  "auto": "auto"
+);
+
+/* Array de tamaños de tipografía ligados a las variables globales core */
+$text-sizes: (
+  "xs": var(--cz-text-xs),
+  "sm": var(--cz-text-sm),
+  "base": var(--cz-text-base),
+  "lg": var(--cz-text-lg),
+  "xl": var(--cz-text-xl),
+  "2xl": var(--cz-text-2xl),
+  "3xl": var(--cz-text-3xl),
+  "4xl": var(--cz-text-4xl),
+  "5xl": var(--cz-text-5xl)
+);
+
+
+/* GENERADOR PRINCIPAL RESPONSIVE (Mixins) */
+@mixin generate-responsive-utilities($bp-name, $bp-value) {
+  @media (min-width: #{$bp-value}) {
+
+    /* --- 1. SPACING (Padding & Margin) --- */
+    @each $size-name, $size-value in $spacings {
+
+      /* Padding general e individual */
+      .cz-#{$bp-name}\:p-#{$size-name} {
+        padding: #{$size-value} !important;
+      }
+
+      .cz-#{$bp-name}\:px-#{$size-name} {
+        padding-left: #{$size-value} !important;
+        padding-right: #{$size-value} !important;
+      }
+
+      .cz-#{$bp-name}\:py-#{$size-name} {
+        padding-top: #{$size-value} !important;
+        padding-bottom: #{$size-value} !important;
+      }
+
+      .cz-#{$bp-name}\:pt-#{$size-name} {
+        padding-top: #{$size-value} !important;
+      }
+
+      .cz-#{$bp-name}\:pr-#{$size-name} {
+        padding-right: #{$size-value} !important;
+      }
+
+      .cz-#{$bp-name}\:pb-#{$size-name} {
+        padding-bottom: #{$size-value} !important;
+      }
+
+      .cz-#{$bp-name}\:pl-#{$size-name} {
+        padding-left: #{$size-value} !important;
+      }
+
+      /* Margin general e individual */
+      .cz-#{$bp-name}\:m-#{$size-name} {
+        margin: #{$size-value} !important;
+      }
+
+      .cz-#{$bp-name}\:mx-#{$size-name} {
+        margin-left: #{$size-value} !important;
+        margin-right: #{$size-value} !important;
+      }
+
+      .cz-#{$bp-name}\:my-#{$size-name} {
+        margin-top: #{$size-value} !important;
+        margin-bottom: #{$size-value} !important;
+      }
+
+      .cz-#{$bp-name}\:mt-#{$size-name} {
+        margin-top: #{$size-value} !important;
+      }
+
+      .cz-#{$bp-name}\:mr-#{$size-name} {
+        margin-right: #{$size-value} !important;
+      }
+
+      .cz-#{$bp-name}\:mb-#{$size-name} {
+        margin-bottom: #{$size-value} !important;
+      }
+
+      .cz-#{$bp-name}\:ml-#{$size-name} {
+        margin-left: #{$size-value} !important;
+      }
+    }
+
+    /* --- 2. TYPOGRAPHY (Tamaños y alineación) --- */
+    @each $text-name, $text-value in $text-sizes {
+      .cz-#{$bp-name}\:text-#{$text-name} {
+        font-size: #{$text-value} !important;
+      }
+    }
+
+    /* Alineación de texto responsiva */
+    .cz-#{$bp-name}\:text-left {
+      text-align: left !important;
+    }
+
+    .cz-#{$bp-name}\:text-center {
+      text-align: center !important;
+    }
+
+    .cz-#{$bp-name}\:text-right {
+      text-align: right !important;
+    }
+
+    .cz-#{$bp-name}\:text-justify {
+      text-align: justify !important;
+    }
+
+    /* --- 3. DISPLAY / VISIBILITY EXTRAS --- */
+    .cz-#{$bp-name}\:hidden {
+      display: none !important;
+    }
+
+    .cz-#{$bp-name}\:block {
+      display: block !important;
+    }
+
+    .cz-#{$bp-name}\:inline-block {
+      display: inline-block !important;
+    }
+
+    .cz-#{$bp-name}\:flex {
+      display: flex !important;
+    }
+
+    .cz-#{$bp-name}\:grid {
+      display: grid !important;
+    }
+  }
+}
+
+/* LOOP PRINCIPAL QUE INYECTA LOS BREAKPOINTS */
+@each $bp-name, $bp-value in $breakpoints {
+  @include generate-responsive-utilities($bp-name, $bp-value);
+}

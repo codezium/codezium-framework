@@ -1,0 +1,33 @@
+/* ==========================================================================
+   CODEZIUM UI DESIGN SYSTEM - MAIN ENTRY (`main.scss`)
+   Éste archivo importa y agrupa toda la arquitectura de utilidades, core y temas
+   usando la directiva @use para asegurar modularidad y evitar dependencias cíclicas.
+   ========================================================================== */
+
+/* --- 1. CORE TOKENS (Variables Base) --- */
+@use 'core/variables';
+
+/* --- 2. THEMES (Variaciones de Variables Base por Tema) --- */
+/* (Aquí irán los uses de base, glass, y neo) */
+
+/* --- 3. CORE DESIGN UTILITIES (Estilos Nucleares del Sistema) --- */
+@use 'core/colors';
+@use 'core/typography';
+@use 'core/text';
+@use 'core/spacing';
+@use 'core/shadow';
+@use 'core/elevations';
+@use 'core/borders';
+@use 'core/transitions';
+@use 'core/z-index';
+
+/* --- 4. LAYOUT & FLEX UTILITIES --- */
+@use 'utilities/grid';
+@use 'utilities/flex';
+@use 'utilities/reset';
+@use 'utilities/utilities';
+@use 'utilities/responsive';
+
+/* ==========================================================================
+   ¡TODO LISTO PARA CONSUMIRSE POR ANGULAR! 
+   ========================================================================== */

@@ -1,0 +1,547 @@
+:root {
+  /* ==========================================================================
+     1. PRIMITIVE TOKENS
+     Fundamentos del diseño: Colores absolutos, paletas base, espaciado, tipografía.
+     ========================================================================== */
+
+  /* --- 1.1 Neutral & Solid Colors --- */
+  --cz-color-white: #ffffff;
+  --cz-color-black: #000000;
+  --cz-color-light: #dee1e4;
+  --cz-color-dark: #32383d;
+  --cz-color-accent: #15745e;
+
+  --cz-dark-navy: #0f172a;
+  --cz-navy: #1e293b;
+  --cz-light-navy: #334155;
+  --cz-lightest-navy: #475569;
+
+  /* --- 1.2 Grayscale Palette --- */
+  --cz-gray: #6b7280;
+  --cz-color-gray-50: #f9fafb;
+  --cz-color-gray-100: #f3f4f6;
+  --cz-color-gray-200: #e5e7eb;
+  --cz-color-gray-300: #d1d5db;
+  --cz-color-gray-400: #9ca3af;
+  --cz-color-gray-500: #6b7280;
+  --cz-color-gray-600: #4b5563;
+  --cz-color-gray-700: #374151;
+  --cz-color-gray-800: #1f2937;
+  --cz-color-gray-900: #111827;
+
+  /* --- 1.3 Slate Palette --- */
+  --cz-slate: #64748b;
+  --cz-light-slate: #94a3b8;
+  --cz-lightest-slate: #cbd5e1;
+  --cz-slate-50: #f8fafc;
+  --cz-slate-100: #f1f5f9;
+  --cz-slate-200: #e2e8f0;
+  --cz-slate-300: #cbd5e1;
+  --cz-slate-400: #94a3b8;
+  --cz-slate-500: #64748b;
+  --cz-slate-600: #475569;
+  --cz-slate-700: #334155;
+  --cz-slate-800: #1e293b;
+  --cz-slate-900: #0f172a;
+
+  /* --- 1.4 Blue Palettes --- */
+  --cz-blue: #3b82f6;
+  --cz-blue-two: #2563eb;
+  --cz-blue-50: #e0ecfc;
+  --cz-blue-100: #bad5fa;
+  --cz-blue-200: #8cb9f7;
+  --cz-blue-300: #5f9df6;
+  --cz-blue-400: #3b82f6;
+  --cz-blue-500: #2563eb;
+  --cz-blue-600: #1d4ed8;
+  --cz-blue-700: #1e293b;
+  --cz-blue-800: #172554;
+  --cz-blue-900: #0f172a;
+
+  --cz-color-primary-50: #f2f3fd;
+  --cz-color-primary-100: #dfe1fb;
+  --cz-color-primary-200: #b6bbf7;
+  --cz-color-primary-300: #8c95f2;
+  --cz-color-primary-400: #5e6fed;
+  --cz-color-primary-500: #2235e4;
+  --cz-color-primary-600: #1c2cc4;
+  --cz-color-primary-700: #1622a3;
+  --cz-color-primary-800: #101982;
+  --cz-color-primary-900: #0a115c;
+
+  /* --- 1.5 Green Palettes --- */
+  --cz-green: #22c55e;
+  --cz-green-hover: #16a34a;
+  --cz-green-50: #d9f7d9;
+  --cz-green-100: #a2eaa3;
+  --cz-green-200: #6ddb6d;
+  --cz-green-300: #44c244;
+  --cz-green-400: #22c55e;
+  --cz-green-500: #16a34a;
+  --cz-green-600: #12803c;
+  --cz-green-700: #0e6b34;
+  --cz-green-800: #0a4c25;
+  --cz-green-900: #063416;
+
+  --cz-eucalyptus: #4caf50;
+  --cz-eucalyptus-50: #dcf1dc;
+  --cz-eucalyptus-100: #b7e4b7;
+  --cz-eucalyptus-200: #8ed68b;
+  --cz-eucalyptus-300: #63c55c;
+  --cz-eucalyptus-400: #4caf50;
+  --cz-eucalyptus-500: #3e8d40;
+  --cz-eucalyptus-600: #317031;
+  --cz-eucalyptus-700: #255622;
+  --cz-eucalyptus-800: #1c3c18;
+  --cz-eucalyptus-900: #12240d;
+
+  --cz-color-success-50: #edf9f1;
+  --cz-color-success-100: #d3f1dd;
+  --cz-color-success-200: #a8e4be;
+  --cz-color-success-300: #7dd79f;
+  --cz-color-success-400: #52ca80;
+  --cz-color-success-500: #28a745;
+  --cz-color-success-600: #218838;
+  --cz-color-success-700: #1a6f2d;
+  --cz-color-success-800: #145623;
+  --cz-color-success-900: #0d3d18;
+
+  /* --- 1.6 Red / Danger Palettes --- */
+  --cz-color-danger-50: #fef2f2;
+  --cz-color-danger-100: #fde2e2;
+  --cz-color-danger-200: #fbb5b9;
+  --cz-color-danger-300: #f6878b;
+  --cz-color-danger-400: #f1545f;
+  --cz-color-danger-500: #dc3545;
+  --cz-color-danger-600: #c82333;
+  --cz-color-danger-700: #a71d2a;
+  --cz-color-danger-800: #821621;
+  --cz-color-danger-900: #5c0f17;
+
+  /* --- 1.7 Yellow & Amber (Warning) Palettes --- */
+  --cz-color-warning-50: #fffaeb;
+  --cz-color-warning-100: #fef3c7;
+  --cz-color-warning-200: #fde68a;
+  --cz-color-warning-300: #fcd34d;
+  --cz-color-warning-400: #fbbf24;
+  --cz-color-warning-500: #ffc107;
+  --cz-color-warning-600: #e0a800;
+  --cz-color-warning-700: #c69500;
+  --cz-color-warning-800: #997500;
+  --cz-color-warning-900: #664d00;
+
+  --cz-quaternary-50: #fff7db;
+  --cz-quaternary-100: #ffe6a8;
+  --cz-quaternary-200: #ffd774;
+  --cz-quaternary-300: #ffc946;
+  --cz-quaternary-400: #f59e0b;
+  --cz-quaternary-500: #d97706;
+  --cz-quaternary-600: #b45309;
+  --cz-quaternary-700: #92400e;
+  --cz-quaternary-800: #78350f;
+  --cz-quaternary-900: #4d2705;
+
+  /* --- 1.8 Cyan & Teal (Info) Palettes --- */
+  --cz-color-info-50: #effcfd;
+  --cz-color-info-100: #cdf5f9;
+  --cz-color-info-200: #9aeaf3;
+  --cz-color-info-300: #67dfec;
+  --cz-color-info-400: #3dd3e3;
+  --cz-color-info-500: #22c4dd;
+  --cz-color-info-600: #1baac0;
+  --cz-color-info-700: #15879b;
+  --cz-color-info-800: #106678;
+  --cz-color-info-900: #0a454f;
+
+  --cz-tertiary-50: #d6faf9;
+  --cz-tertiary-100: #a8f0ed;
+  --cz-tertiary-200: #70ddd8;
+  --cz-tertiary-300: #38bfbf;
+  --cz-tertiary-400: #14b8a6;
+  --cz-tertiary-500: #0e827a;
+  --cz-tertiary-600: #0a615d;
+  --cz-tertiary-700: #074641;
+  --cz-tertiary-800: #05332e;
+  --cz-tertiary-900: #02201a;
+
+  /* --- 1.9 Purple & Pink Palettes --- */
+  --cz-secondary-50: #ecd9fc;
+  --cz-secondary-100: #d1bdf9;
+  --cz-secondary-200: #b39cf5;
+  --cz-secondary-300: #946bee;
+  --cz-secondary-400: #9333ea;
+  --cz-secondary-500: #7e22ce;
+  --cz-secondary-600: #6b21a8;
+  --cz-secondary-700: #580f81;
+  --cz-secondary-800: #45075e;
+  --cz-secondary-900: #2c0144;
+
+  --cz-quinary-50: #fdeff9;
+  --cz-quinary-100: #f9cce5;
+  --cz-quinary-200: #f79ad7;
+  --cz-quinary-300: #ec4899;
+  --cz-quinary-400: #db2777;
+  --cz-quinary-500: #be185d;
+  --cz-quinary-600: #9d174d;
+  --cz-quinary-700: #831843;
+  --cz-quinary-800: #500724;
+  --cz-quinary-900: #2d0519;
+
+  /* --- 1.10 Neutral / Greyish Secondaries --- */
+  --cz-color-secondary-50: #f6f7f8;
+  --cz-color-secondary-100: #eaecef;
+  --cz-color-secondary-200: #d5d8dd;
+  --cz-color-secondary-300: #c0c5cb;
+  --cz-color-secondary-400: #aab2ba;
+  --cz-color-secondary-500: #97a3ad;
+  --cz-color-secondary-600: #7c8790;
+  --cz-color-secondary-700: #626b73;
+  --cz-color-secondary-800: #484f55;
+  --cz-color-secondary-900: #2e3338;
+
+  /* --- 1.11 Background Cool Transparency --- */
+  --cz-background-cool-50: rgba(14, 165, 233, 0.05);
+  --cz-background-cool-100: rgba(14, 165, 233, 0.10);
+  --cz-background-cool-200: rgba(14, 165, 233, 0.20);
+  --cz-background-cool-300: rgba(14, 165, 233, 0.30);
+  --cz-background-cool-400: rgba(14, 165, 233, 0.40);
+  --cz-background-cool-500: rgba(14, 165, 233, 0.50);
+  --cz-background-cool-transparent: rgba(14, 165, 233, 0.2);
+
+
+  /* --- 1.12 Typography --- */
+  --cz-font-base: "Inter", sans-serif;
+  --cz-font-heading: "Inter", sans-serif;
+  --cz-font-code: "Fira Code", monospace;
+
+  --cz-font-size-xs: 0.75rem;
+  --cz-font-size-sm: 0.875rem;
+  --cz-font-size: 1rem;
+  --cz-font-size-md: 1rem;
+  --cz-font-size-lg: 1.125rem;
+  --cz-font-size-xl: 1.25rem;
+  --cz-font-size-2xl: 1.5rem;
+  --cz-font-size-3xl: 1.875rem;
+  --cz-font-size-4xl: 2.25rem;
+
+  --cz-font-weight-light: 300;
+  --cz-font-weight-normal: 400;
+  --cz-font-weight-medium: 500;
+  --cz-font-weight-semibold: 600;
+  --cz-font-weight-bold: 700;
+
+  --cz-line-height-tight: 1.2;
+  --cz-line-height-sm: 1.4;
+  --cz-line-height-base: 1.6;
+
+  /* --- 1.13 Spacing --- */
+  --cz-spacing-xxs: 0.125rem;
+  /* 2px */
+  --cz-spacing-xs: 0.25rem;
+  /* 4px */
+  --cz-spacing-sm: 0.5rem;
+  /* 8px */
+  --cz-spacing-md: 1rem;
+  /* 16px */
+  --cz-spacing-lg: 1.5rem;
+  /* 24px */
+  --cz-spacing-xl: 2rem;
+  /* 32px */
+  --cz-spacing-2xl: 3rem;
+  /* 48px */
+  --cz-spacing-3xl: 4rem;
+  /* 64px */
+  --cz-spacing-4xl: 6rem;
+  /* 96px */
+  --cz-spacing-5xl: 8rem;
+  /* 128px */
+
+  /* --- 1.14 Box Shadows --- */
+  --cz-shadow-none: none;
+  --cz-shadow-xs: 0 1px 1px rgba(0, 0, 0, 0.03);
+  --cz-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --cz-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
+  --cz-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --cz-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.12);
+  --cz-shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+  --cz-shadow-3xl: 0 35px 60px rgba(0, 0, 0, 0.18);
+  --cz-shadow-4xl: 0 45px 80px rgba(0, 0, 0, 0.2);
+  --cz-shadow-5xl: 0 60px 100px rgba(0, 0, 0, 0.22);
+  --cz-shadow-6xl: 0 80px 120px rgba(0, 0, 0, 0.25);
+
+  --cz-shadow-glow: 0 0 12px rgba(255, 255, 255, 0.2);
+  --cz-shadow-inner: inset 0 1px 2px rgba(255, 255, 255, 0.05);
+
+  /* --- 1.15 Borders --- */
+  --cz-radius-sm: 0.5rem;
+  /* 8px */
+  --cz-radius-md: 1rem;
+  /* 16px */
+  --cz-radius-lg: 2rem;
+  /* 32px */
+  --cz-radius-xl: 3rem;
+  /* 48px */
+
+  /* --- 1.16 Container & Layout --- */
+  --cz-container-width: min(96vw, 1200px);
+  --cz-container-fluid-width: 90vw;
+
+  /* --- 1.17 Z-Index --- */
+  --cz-z-glass-default: 10;
+  --cz-z-glass-overlay: 1000;
+
+  /* --- 1.18 Transitions --- */
+  --cz-transition-fast: all 0.15s ease-in;
+  --cz-transition-normal: all 0.3s ease-in-out;
+  --cz-transition-slow: all 0.5s ease-out;
+
+  --cz-transition-bg: background-color 0.3s ease-in-out;
+  --cz-transition-border: border-color 0.3s ease-in-out;
+  --cz-transition-color: color 0.3s ease-in-out;
+  --cz-transition-shadow: box-shadow 0.3s ease;
+  --cz-transition-transform: transform 0.3s ease;
+  --cz-transition-opacity: opacity 0.25s ease-in-out;
+
+  --cz-transition-hover: all 0.2s ease-in;
+  --cz-transition-focus: all 0.3s ease-in-out;
+  --cz-transition-active: all 0.1s ease-in;
+  --cz-transition-soft: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+
+  /* ==========================================================================
+     2. SEMANTIC TOKENS
+     Tokens para uso intencional como Brand, Status, Fondos interactivos, etc.
+     ========================================================================== */
+
+  /* --- 2.1 Theme Intents (Base Variables) --- */
+  --cz-color-primary: #2235e4;
+  --cz-color-secondary: #97a3ad;
+  --cz-color-success: #28a745;
+  --cz-color-danger: #dc3545;
+  --cz-color-warning: #ffc107;
+  --cz-color-info: #22c4dd;
+
+  --cz-primary: #2563eb;
+  /* Primary Alt */
+  --cz-secondary: #9333ea;
+  /* Secondary Alt */
+  --cz-tertiary: #14b8a6;
+  /* Tertiary */
+  --cz-quaternary: #f59e0b;
+  /* Warning/Amber */
+  --cz-quinary: #ec4899;
+  /* Pink */
+
+  /* --- 2.2 Aliased Intents from Primitives --- */
+  --cz-primary-50: var(--cz-blue-50);
+  --cz-primary-100: var(--cz-blue-100);
+  --cz-primary-200: var(--cz-blue-200);
+  --cz-primary-300: var(--cz-blue-300);
+  --cz-primary-400: var(--cz-blue-400);
+  --cz-primary-500: var(--cz-blue-500);
+  --cz-primary-600: var(--cz-blue-600);
+  --cz-primary-700: var(--cz-blue-700);
+  --cz-primary-800: var(--cz-blue-800);
+  --cz-primary-900: var(--cz-blue-900);
+
+  /* --- 2.3 Background & Surface Defaults --- */
+  --cz-bg-surface: #e0e7f5;
+  --cz-bg-surface-green: #e0e7f5;
+  --cz-bg-surface-contrast: #e0e7f514;
+  --cz-card-background: #f9fafb;
+  --cz-background-cool: #0ea5e9;
+
+  --cz-bg-code: #324e76;
+  --cz-bg-code-light: #2b3a50;
+  --cz-color-code: #7dd3fc;
+  --cz-color-code-dark: #224250;
+
+  /* --- 2.4 Focus Shadows --- */
+  --cz-focus-shadow-primary: 0 0 0 3px rgba(0, 200, 255, 0.4);
+  --cz-focus-shadow-secondary: 0 0 0 3px rgba(108, 117, 125, 0.4);
+  --cz-focus-shadow-success: 0 0 0 3px rgba(40, 167, 69, 0.4);
+  --cz-focus-shadow-danger: 0 0 0 3px rgba(220, 53, 69, 0.4);
+  --cz-focus-shadow-warning: 0 0 0 3px rgba(255, 193, 7, 0.4);
+  --cz-focus-shadow-info: 0 0 0 3px rgba(23, 162, 184, 0.4);
+  --cz-focus-shadow-light: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  --cz-focus-shadow-dark: 0 0 0 3px rgba(255, 255, 255, 0.2);
+  --cz-focus-shadow-default: 0 0 0 3px rgba(83, 79, 205, 0.3);
+
+  /* --- 2.5 Base Tints --- */
+  --cz-base-tint-primary: rgba(0, 200, 255, 0.1);
+  --cz-base-tint-secondary: rgba(108, 117, 125, 0.1);
+  --cz-base-tint-success: rgba(40, 167, 69, 0.1);
+  --cz-base-tint-danger: rgba(220, 53, 69, 0.1);
+  --cz-base-tint-warning: rgba(255, 193, 7, 0.1);
+  --cz-base-tint-info: rgba(23, 162, 184, 0.1);
+  --cz-base-tint-light: rgba(248, 249, 250, 0.147);
+  --cz-base-tint-dark: rgba(52, 58, 64, 0.1);
+  --cz-base-tint-white: rgba(255, 255, 255, 0.705);
+  --cz-base-tint-black: rgba(0, 0, 0, 0.1);
+
+
+  /* ==========================================================================
+     3. COMPONENT TOKENS
+     Tokens fuertemente aplicados a componentes y abstracciones (Glass, Neo).
+     ========================================================================== */
+
+  /* --- 3.1 Glassmorphism Base --- */
+  --cz-glass-blur: 25px;
+  --cz-glass-radius: 16px;
+  --cz-glass-padding: 1.5rem;
+  --cz-glass-gap: 1rem;
+  --cz-glass-border-width: 1px;
+  --cz-color-glass-border: rgba(255, 255, 255, 0.2);
+  --cz-color-glass-bg: rgba(255, 255, 255, 0.1);
+  --cz-color-glass-bg-alt: rgba(255, 255, 255, 0.16);
+  --cz-color-glass-alert: rgba(231, 231, 232, 0.1);
+
+  /* Glass Colors */
+  --cz-color-glass-primary: #2235e4ab;
+  --cz-color-glass-secondary: #97a3adaa;
+  --cz-color-glass-success: #28a746ac;
+  --cz-color-glass-danger: #dc3546a3;
+  --cz-color-glass-warning: #ffc107a4;
+  --cz-color-glass-info: #22c4dda1;
+  --cz-color-glass-light: #dee1e49c;
+  --cz-color-glass-dark: #32383d96;
+  --cz-color-glass-white: #ffffffa0;
+  --cz-color-glass-black: #000000a0;
+  --cz-color-glass-accent: #15745ea6;
+
+  /* Glass Tints */
+  --cz-glass-tint-primary: rgba(0, 200, 255, 0.15);
+  --cz-glass-tint-secondary: rgba(108, 117, 125, 0.15);
+  --cz-glass-tint-success: rgba(40, 167, 69, 0.15);
+  --cz-glass-tint-danger: rgba(220, 53, 69, 0.15);
+  --cz-glass-tint-warning: rgba(255, 193, 7, 0.15);
+  --cz-glass-tint-info: rgba(23, 162, 184, 0.15);
+  --cz-glass-tint-light: rgba(248, 249, 250, 0.605);
+  --cz-glass-tint-dark: rgba(9, 9, 11, 0.862);
+  --cz-glass-tint-white: rgba(255, 255, 255, 0.731);
+  --cz-glass-tint-black: rgba(0, 0, 0, 0.15);
+
+  /* Glass Helpers */
+  --cz-color-glass-text-white: #ffffff;
+  --cz-color-glass-text-black: #000000;
+  --cz-color-glass-muted: rgba(255, 255, 255, 0.7);
+
+  --cz-transition-glass: all 0.3s ease-in-out;
+  --cz-color-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --cz-color-glass-inset-shadow: inset 0 0 0.5rem rgba(255, 255, 255, 0.1);
+  --cz-shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.25);
+  --cz-shadow-glass-inset: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+  /* --- 3.2 Glassmorphism Forms --- */
+  --cz-glass-input-padding: 0.6rem;
+  --cz-glass-input-radius: var(--cz-radius-sm);
+  --cz-glass-input-border: 1px solid var(--cz-color-glass-border);
+  --cz-glass-input-background: var(--cz-color-glass-bg);
+  --cz-glass-input-backdrop-filter: var(--cz-glass-blur);
+  --cz-glass-input-webkit-backdrop-filter: var(--cz-glass-blur);
+  --cz-glass-input-placeholder-color: rgba(31, 31, 31, 0.5);
+
+  /* --- 3.3 Neomorphism Base --- */
+  --cz-neo-bg: #f4f3f3;
+  --cz-neo-color: #333333;
+  --cz-neo-text: #333333;
+  --cz-neo-text-secondary: #666666;
+  --cz-neo-border: #d1d1d1;
+  --cz-neo-disabled: #999999;
+  --cz-neo-disabled-opacity: 0.6;
+  --cz-neo-transition: all 0.25s ease-in-out;
+
+  --cz-neo-font-family: var(--cz-font-base);
+  --cz-neo-font-size-sm: 0.875rem;
+  --cz-neo-font-size-base: 1rem;
+  --cz-neo-font-size-lg: 1.25rem;
+
+  /* Neomorphism Shadows */
+  --cz-neo-shadow-distance: 8px;
+  --cz-neo-blur: 16px;
+  --cz-neo-shadow-light: #ffffff;
+  --cz-neo-shadow-dark: #a3b1c6;
+
+  --cz-neo-shadow-inset: inset 2px 2px 4px var(--cz-neo-shadow-dark), inset -2px -2px 4px var(--cz-neo-shadow-light);
+  --cz-neo-inset-shadow: inset 2px 2px 4px rgba(163, 177, 198, 0.5), inset -2px -2px 4px rgba(255, 255, 255, 0.7);
+  --cz-neo-shadow-raised: 4px 4px 8px var(--cz-neo-shadow-dark), -4px -4px 8px var(--cz-neo-shadow-light);
+  --cz-neo-shadow-pressed: inset 2px 2px 4px var(--cz-neo-shadow-dark), inset -2px -2px 2px var(--cz-neo-shadow-light);
+  --cz-neo-shadow-hover: 2px 2px 4px var(--cz-neo-shadow-dark), -2px -2px 4px var(--cz-neo-shadow-light);
+  --cz-neo-box-shadow: var(--cz-neo-shadow-distance) var(--cz-neo-shadow-distance) var(--cz-neo-blur) var(--cz-neo-shadow-dark), calc(var(--cz-neo-shadow-distance) * -1) calc(var(--cz-neo-shadow-distance) * -1) var(--cz-neo-blur) var(--cz-neo-shadow-light);
+
+  /* Neomorphism Layout */
+  --cz-neo-radius-xs: 4px;
+  --cz-neo-radius-sm: 8px;
+  --cz-neo-radius-md: 12px;
+  --cz-neo-radius-lg: 20px;
+  --cz-neo-radius-xl: 32px;
+
+  --cz-neo-padding-xs: 0.5rem 0.75rem;
+  --cz-neo-padding-sm: 0.75rem 1rem;
+  --cz-neo-padding-md: 1rem 1.25rem;
+  --cz-neo-padding-lg: 1.25rem 1.75rem;
+  --cz-neo-padding-xl: 1.5rem 2rem;
+
+  /* --- 3.4 Neomorphism Variants --- */
+  --cz-neo-accent: #4a90e2;
+  --cz-neo-accent-hover: #357abd;
+
+  --cz-neo-bg-primary: #d0f0ff;
+  --cz-neo-shadow-light-primary: #ffffff;
+  --cz-neo-shadow-dark-primary: #a0cce6;
+  --cz-neo-color-primary: #0078a8;
+
+  --cz-neo-bg-success: #d4f7dc;
+  --cz-neo-shadow-light-success: #ffffff;
+  --cz-neo-shadow-dark-success: #a3cdb3;
+  --cz-neo-color-success: #2e8b57;
+
+  --cz-neo-bg-danger: #ffd6d6;
+  --cz-neo-shadow-light-danger: #ffffff;
+  --cz-neo-shadow-dark-danger: #d3a3a3;
+  --cz-neo-color-danger: #cc0000;
+
+  --cz-neo-bg-warning: #fff5d2;
+  --cz-neo-shadow-light-warning: #ffffff;
+  --cz-neo-shadow-dark-warning: #d7c89c;
+  --cz-neo-color-warning: #c99000;
+
+  --cz-neo-bg-info: #d7f3f7;
+  --cz-neo-shadow-light-info: #ffffff;
+  --cz-neo-shadow-dark-info: #a5cfd8;
+  --cz-neo-color-info: #0d7e9c;
+
+  --cz-neo-bg-dark: #2a2a2a;
+  --cz-neo-shadow-light-dark: #3a3a3a;
+  --cz-neo-shadow-dark-dark: #1a1a1a;
+  --cz-neo-color-dark: #f0f0f0;
+
+  --cz-neo-bg-light: #f0f0f0;
+  --cz-neo-shadow-light-light: #ffffff;
+  --cz-neo-shadow-dark-light: #cbd1db;
+  --cz-neo-color-light: #333333;
+
+  /* --- 3.5 Regular Form Components --- */
+  --cz-input-bg: #fff;
+  --cz-input-border: 1px solid #ccc;
+  --cz-input-color: #333;
+  --cz-input-placeholder: #999;
+  --cz-input-radius: 8px;
+  --cz-input-padding: 0.5rem 1rem;
+  --cz-input-font-size: 1rem;
+  --cz-input-transition: all 0.2s ease-in-out;
+  --cz-input-focus-shadow: 0 0 0 2px rgba(150, 150, 150, 0.2);
+  --cz-input-disabled-opacity: 0.5;
+
+  --cz-input-padding-sm: 0.25rem 0.75rem;
+  --cz-input-font-size-sm: 0.875rem;
+  --cz-input-padding-lg: 1rem 1.25rem;
+  --cz-input-font-size-lg: 1.125rem;
+
+  --cz-textarea-bg: var(--cz-color-white);
+  --cz-textarea-color: var(--cz-color-dark);
+  --cz-textarea-border: 1px solid var(--cz-color-gray-300);
+  --cz-textarea-radius: var(--cz-radius-md);
+  --cz-textarea-padding: var(--cz-spacing-sm);
+  --cz-textarea-shadow: none;
+}

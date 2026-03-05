@@ -1,0 +1,83 @@
+/* === RESET GENERAL === */
+
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+body {
+    font-family: var(--font-base);
+    font-size: var(--font-size-md);
+    color: var(--color-gray-900);
+    background-color: var(--color-gray-100);
+    line-height: var(--line-height-base);
+    margin: 0;
+}
+
+code {
+    background: rgb(33, 32, 32);
+}
+
+input,
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  background: none;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-text);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-base);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: var(--input-focus-border);
+    box-shadow: var(--focus-primary);
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(0.3); // Ajustar según tema
+    cursor: pointer;
+  }
+}
+
+strong {
+  font-weight: var(--font-weight-bold);
+}

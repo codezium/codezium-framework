@@ -1,0 +1,210 @@
+/* ==========================================================================
+   FLEX EXTENSIONS & FLEX-GRID SYSTEM (_flex.scss)
+   Utilidades Flex y una adaptación de Flex-Grid estilo Bootstrap de 12 columnas.
+   NOTA: Utildades display (flex, row/col), justificaciones y gaps YA existen en _grid.scss.
+   ========================================================================== */
+
+@use "sass:math";
+
+/* --- 1. UTILIDADES FLEX FALTANTES --- */
+
+/* Align Content (cuando hay múltiples líneas) */
+.cz-content-start {
+  align-content: flex-start !important;
+}
+
+.cz-content-center {
+  align-content: center !important;
+}
+
+.cz-content-end {
+  align-content: flex-end !important;
+}
+
+.cz-content-between {
+  align-content: space-between !important;
+}
+
+.cz-content-around {
+  align-content: space-around !important;
+}
+
+.cz-content-stretch {
+  align-content: stretch !important;
+}
+
+/* Wrap reverso */
+.cz-flex-wrap-reverse {
+  flex-wrap: wrap-reverse !important;
+}
+
+/* Align Self */
+.cz-self-auto {
+  align-self: auto !important;
+}
+
+.cz-self-start {
+  align-self: flex-start !important;
+}
+
+.cz-self-center {
+  align-self: center !important;
+}
+
+.cz-self-end {
+  align-self: flex-end !important;
+}
+
+.cz-self-stretch {
+  align-self: stretch !important;
+}
+
+/* Flex Basis Inicial */
+.cz-flex-initial {
+  flex: 0 1 auto !important;
+}
+
+
+/* --- 2. FLEX GRID SYSTEM (Estilo Bootstrap 12-col) --- */
+/*
+  Re-escrito usando SASS para evitar 1200 líneas de código manual.
+  Usa esto si prefieres filas (.cz-row) y columnas continuas (.cz-col-6) en vez de CSS Grid.
+*/
+
+$flex-grid-columns: 12;
+$gutter-width: var(--cz-spacing-md);
+
+.cz-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: calc(#{$gutter-width} / -2);
+  margin-left: calc(#{$gutter-width} / -2);
+}
+
+.cz-no-gutters {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+
+  >.cz-col,
+  >[class*="cz-col-"] {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+}
+
+/* Estructura Base para Todas las Columnas */
+%col-base {
+  position: relative;
+  width: 100%;
+  padding-right: calc(#{$gutter-width} / 2);
+  padding-left: calc(#{$gutter-width} / 2);
+}
+
+.cz-col {
+  @extend %col-base;
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+}
+
+.cz-col-auto {
+  @extend %col-base;
+  flex: 0 0 auto;
+  width: auto;
+  max-width: 100%;
+}
+
+@for $i from 1 through $flex-grid-columns {
+  .cz-col-#{$i} {
+    @extend %col-base;
+    flex: 0 0 percentage(math.div($i, $flex-grid-columns));
+    max-width: percentage(math.div($i, $flex-grid-columns));
+  }
+
+  .cz-offset-#{$i} {
+    margin-left: percentage(math.div($i, $flex-grid-columns));
+  }
+}
+
+/* Row Cols (Igualar anchos de hijos automáticamente) */
+@for $i from 1 through 6 {
+  .cz-row-cols-#{$i}>* {
+    flex: 0 0 percentage(math.div(1, $i));
+    max-width: percentage(math.div(1, $i));
+  }
+}
+
+
+/* --- 3. ORDENAMIENTO (Order) --- */
+.cz-order-first {
+  order: -1 !important;
+}
+
+.cz-order-last {
+  order: 13 !important;
+}
+
+@for $i from 0 through 12 {
+  .cz-order-#{$i} {
+    order: #{$i} !important;
+  }
+}
+
+
+/* --- 4. RESPONSIVE FLEX GRID --- */
+$breakpoints: (
+  "sm": 640px,
+  "md": 768px,
+  "lg": 1024px,
+  "xl": 1280px,
+  "2xl": 1536px
+);
+
+@each $bp-name, $bp-value in $breakpoints {
+  @media (min-width: #{$bp-value}) {
+
+    .cz-col-#{$bp-name} {
+      flex-basis: 0;
+      flex-grow: 1;
+      max-width: 100%;
+    }
+
+    .cz-col-#{$bp-name}-auto {
+      flex: 0 0 auto;
+      width: auto;
+      max-width: 100%;
+    }
+
+    @for $i from 1 through $flex-grid-columns {
+      .cz-col-#{$bp-name}-#{$i} {
+        flex: 0 0 percentage(math.div($i, $flex-grid-columns));
+        max-width: percentage(math.div($i, $flex-grid-columns));
+      }
+
+      .cz-offset-#{$bp-name}-#{$i} {
+        margin-left: percentage(math.div($i, $flex-grid-columns));
+      }
+    }
+
+    @for $i from 1 through 6 {
+      .cz-row-cols-#{$bp-name}-#{$i}>* {
+        flex: 0 0 percentage(math.div(1, $i));
+        max-width: percentage(math.div(1, $i));
+      }
+    }
+
+    .cz-order-#{$bp-name}-first {
+      order: -1 !important;
+    }
+
+    .cz-order-#{$bp-name}-last {
+      order: 13 !important;
+    }
+
+    @for $i from 0 through 12 {
+      .cz-order-#{$bp-name}-#{$i} {
+        order: #{$i} !important;
+      }
+    }
+  }
+}
