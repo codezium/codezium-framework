@@ -1,0 +1,54 @@
+import { type LucideIconData } from 'lucide-angular';
+import {
+    Rocket,
+    Palette,
+    Box,
+    Zap,
+} from 'lucide-angular';
+
+export interface NavItem {
+    label: string;
+    icon?: LucideIconData;   // now a real Lucide icon object, not a string
+    path?: string;
+    badge?: string;
+    children?: NavItem[];
+}
+
+export const DOCS_NAV: NavItem[] = [
+    {
+        label: 'Getting Started',
+        icon: Rocket,
+        children: [
+            { label: 'Introduction', path: '/docs/introduction' },
+            { label: 'Installation', path: '/docs/installation' },
+            //{ label: 'Theming', path: '/docs/theming' },
+        ],
+    },
+    {
+        label: 'Theming',
+        icon: Palette,
+        children: [
+            { label: 'Overview', path: '/docs/theming/overview' },
+            { label: 'Base Theme', path: '/docs/theming/base' },
+            { label: 'Glass Theme', path: '/docs/theming/glass' },
+            { label: 'Neo Theme', path: '/docs/theming/neo' },
+            { label: 'Dark Mode', path: '/docs/theming/dark-mode' },
+        ],
+    },
+    {
+        label: 'Components',
+        icon: Box,
+        children: [
+            { label: 'InputText', path: '/docs/components/input-text' },
+            { label: 'Button', path: '/docs/components/button', badge: 'SOON' },
+            { label: 'Select', path: '/docs/components/select', badge: 'SOON' },
+        ],
+    },
+    {
+        label: 'Directives',
+        icon: Zap,
+        children: [
+            { label: 'KeyFilter', path: '/docs/directives/key-filter' },
+        ],
+    },
+];

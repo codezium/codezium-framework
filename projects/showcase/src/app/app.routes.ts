@@ -10,5 +10,10 @@ export const routes: Routes = [
         path: 'test',
         loadComponent: () => import('./pages/test-area/test-area').then(m => m.TestArea),
         title: 'Test Area | Codezium UI'
-    }
+    },
+    {
+        path: 'docs',
+        loadChildren: () => import('./pages/docs/docs.routes').then(m => m.docsRoutes),
+        title: 'Docs | Codezium UI'
+    },
 ];

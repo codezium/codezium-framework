@@ -1,0 +1,122 @@
+export const INPUT_TEXT_DOC_I18N = {
+    en: {
+        title: 'Input Text',
+        lead: 'A foundational text input component that supports floating labels, sizes, and states.',
+        importTitle: 'Import',
+        importCode: 'import { CzInputTextComponent } from \'codezium-ui\';',
+        sizesTitle: 'Sizes',
+        sizesDesc: 'The input comes in three distinct sizes: small, medium (default), and large.',
+        statesTitle: 'States',
+        statesDesc: 'Supports disabled, readonly, and error states natively.',
+        apiTitle: 'API Reference',
+        apiDesc: 'The component uses the new Signals API for inputs.',
+        table: {
+            prop: 'Property',
+            type: 'Type',
+            default: 'Default',
+            desc: 'Description',
+            labelProp: 'The floating label text',
+            sizeProp: 'The size of the input',
+            idProp: 'The native HTML id attribute',
+            placeholderProp: 'The native placeholder',
+            disabledProp: 'Whether the input is disabled',
+            readonlyProp: 'Whether the input is readonly'
+        }
+    },
+    es: {
+        title: 'Entrada de Texto',
+        lead: 'Un componente base de entrada de texto que soporta etiquetas flotantes, tamaños y estados.',
+        importTitle: 'Importar',
+        importCode: 'import { CzInputTextComponent } from \'codezium-ui\';',
+        sizesTitle: 'Tamaños',
+        sizesDesc: 'El input viene en tres tamaños distintos: pequeño, mediano (por defecto) y grande.',
+        statesTitle: 'Estados',
+        statesDesc: 'Soporta estados deshabilitado, solo lectura y error nativamente.',
+        apiTitle: 'Referencia API',
+        apiDesc: 'El componente utiliza la nueva API de Signals para sus inputs.',
+        table: {
+            prop: 'Propiedad',
+            type: 'Tipo',
+            default: 'Por defecto',
+            desc: 'Descripción',
+            labelProp: 'El texto de la etiqueta flotante',
+            sizeProp: 'El tamaño del input',
+            idProp: 'El atributo id nativo de HTML',
+            placeholderProp: 'El placeholder nativo',
+            disabledProp: 'Si el input está deshabilitado',
+            readonlyProp: 'Si el input es solo lectura'
+        }
+    },
+    pt: {
+        title: 'Entrada de Texto',
+        lead: 'Um componente de entrada de texto base que suporta rótulos flutuantes, tamanhos e estados.',
+        importTitle: 'Importar',
+        importCode: 'import { CzInputTextComponent } from \'codezium-ui\';',
+        sizesTitle: 'Tamanhos',
+        sizesDesc: 'O input possui três tamanhos distintos: pequeno, médio (padrão) e grande.',
+        statesTitle: 'Estados',
+        statesDesc: 'Suporta nativamente os estados desabilitado, somente leitura e erro.',
+        apiTitle: 'Referência da API',
+        apiDesc: 'O componente usa a nova API de Signals para as propriedades de entrada.',
+        table: {
+            prop: 'Propriedade',
+            type: 'Tipo',
+            default: 'Padrão',
+            desc: 'Descrição',
+            labelProp: 'O texto do rótulo flutuante',
+            sizeProp: 'O tamanho do input',
+            idProp: 'O atributo id HTML nativo',
+            placeholderProp: 'O placeholder nativo',
+            disabledProp: 'Se o input está desabilitado',
+            readonlyProp: 'Se o input é somente leitura'
+        }
+    },
+    fr: {
+        title: 'Saisie de Texte',
+        lead: 'Un composant de champ de texte de base qui gère les étiquettes flottantes, les tailles et les états.',
+        importTitle: 'Importer',
+        importCode: 'import { CzInputTextComponent } from \'codezium-ui\';',
+        sizesTitle: 'Tailles',
+        sizesDesc: 'Le champ est disponible en trois tailles : petit, moyen (défaut) et grand.',
+        statesTitle: 'États',
+        statesDesc: 'Supporte nativement les états désactivé, lecture seule et erreur.',
+        apiTitle: 'Référence API',
+        apiDesc: 'Le composant utilise la nouvelle API Signals pour les entrées.',
+        table: {
+            prop: 'Propriété',
+            type: 'Type',
+            default: 'Défaut',
+            desc: 'Description',
+            labelProp: 'Le texte de l\'étiquette flottante',
+            sizeProp: 'La taille du champ',
+            idProp: 'L\'attribut HTML id natif',
+            placeholderProp: 'L\'espace réservé (placeholder) natif',
+            disabledProp: 'Si le champ est désactivé',
+            readonlyProp: 'Si le champ est en lecture seule'
+        }
+    },
+    de: {
+        title: 'Texteingabe',
+        lead: 'Eine grundlegende Texteingabe-Komponente, die schwebende Beschriftungen, Größen und Status unterstützt.',
+        importTitle: 'Importieren',
+        importCode: 'import { CzInputTextComponent } from \'codezium-ui\';',
+        sizesTitle: 'Größen',
+        sizesDesc: 'Die Eingabe ist in drei Größen erhältlich: klein, mittel (Standard) und groß.',
+        statesTitle: 'Zustände',
+        statesDesc: 'Unterstützt von Haus aus die Status deaktiviert, schreibgeschützt und Fehler.',
+        apiTitle: 'API-Referenz',
+        apiDesc: 'Die Komponente verwendet die neue Signals-API für Eingabewerte.',
+        table: {
+            prop: 'Eigenschaft',
+            type: 'Typ',
+            default: 'Standard',
+            desc: 'Beschreibung',
+            labelProp: 'Der Text der schwebenden Beschriftung',
+            sizeProp: 'Die Größe der Eingabe',
+            idProp: 'Das native HTML id-Attribut',
+            placeholderProp: 'Der native Platzhalter',
+            disabledProp: 'Ob die Eingabe deaktiviert ist',
+            readonlyProp: 'Ob die Eingabe schreibgeschützt ist'
+        }
+    }
+};

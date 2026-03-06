@@ -1,0 +1,19 @@
+<nav class="docs-toc" aria-label="On this page" role="navigation">
+    <p class="docs-toc__title">On this page</p>
+
+    @if (sections().length > 0) {
+    <ul class="docs-toc__list" role="list">
+        @for (section of sections(); track section.id) {
+        <li class="docs-toc__item" [class.docs-toc__item--h2]="section.level === 2"
+            [class.docs-toc__item--h3]="section.level === 3">
+            <button class="docs-toc__link" [class.docs-toc__link--active]="activeId() === section.id"
+                (click)="scrollTo(section.id)">
+                {{ section.label }}
+            </button>
+        </li>
+        }
+    </ul>
+    } @else {
+    <p class="docs-toc__empty">No sections</p>
+    }
+</nav>

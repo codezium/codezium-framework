@@ -1,0 +1,313 @@
+/* position: sticky on :host so Angular's custom element is the direct
+   participant in the scroll context — applying it to an inner child
+   is the classic reason why sticky breaks inside Angular components. */
+:host {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    height: 60px;
+}
+
+/* ─ SCROLLED STATE — class lands on :host via Angular host binding ─ */
+:host(.cz-docs-header--scrolled) .cz-docs-header {
+    background: rgba(var(--cz-theme-surface-rgb, 255 255 255) / 0.65);
+    border-bottom-color: var(--cz-theme-border-color, rgba(0 0 0 / 0.08));
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    box-shadow: 0 1px 0 rgba(0 0 0 / 0.06), 0 4px 16px rgba(0 0 0 / 0.04);
+}
+
+/* ──────────────────────────────────────────────────────
+   BASE HEADER
+────────────────────────────────────────────────────── */
+.cz-docs-header {
+    height: 100%;
+
+    /* Transparent → frosted glass as the user scrolls */
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        backdrop-filter 0.25s ease,
+        box-shadow 0.25s ease;
+
+    /* ─ INNER ─────────────────────────────────────────── */
+    &__inner {
+        height: 100%;
+        max-width: 1675px;
+        margin: 0 auto;
+        padding: 0 24px;
+    }
+
+    /* ─ BRAND ─────────────────────────────────────────── */
+    &__brand {
+        text-decoration: none;
+        color: var(--cz-theme-text-primary, #111827);
+        margin-right: 8px;
+
+        img {
+            display: block;
+        }
+    }
+
+    &__brand-name {
+        font-family: var(--cz-font-heading, inherit);
+        font-size: var(--cz-font-size-base, 0.9375rem);
+        font-weight: var(--cz-font-weight-medium, 500);
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+
+        strong {
+            font-weight: var(--cz-font-weight-bold, 700);
+            color: var(--cz-color-primary, #6366f1);
+        }
+    }
+
+    /* ─ CENTER NAV ────────────────────────────────────── */
+    &__nav-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 6px 14px;
+        border-radius: var(--cz-radius-md, 8px);
+        font-family: var(--cz-font-base, inherit);
+        font-size: var(--cz-font-size-sm, 0.875rem);
+        font-weight: var(--cz-font-weight-medium, 500);
+        color: var(--cz-theme-text-secondary, #6b7280);
+        text-decoration: none;
+        transition: color 0.15s ease, background 0.15s ease;
+
+        svg {
+            opacity: 0.55;
+            flex-shrink: 0;
+        }
+
+        &:hover {
+            color: var(--cz-theme-text-primary, #111827);
+            background: var(--cz-theme-surface-hover, rgba(0 0 0 / 0.05));
+        }
+
+        &--active {
+            color: var(--cz-color-primary, #6366f1) !important;
+            background: var(--cz-color-primary-50, #eef2ff) !important;
+        }
+    }
+
+    /* ─ ACTIONS ───────────────────────────────────────── */
+    &__actions {
+        margin-left: 12px;
+    }
+
+    /* Icon button (search, dark toggle) */
+    &__icon-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        background: none;
+        border: none;
+        border-radius: var(--cz-radius-md, 8px);
+        color: var(--cz-theme-text-secondary, #6b7280);
+        cursor: pointer;
+        transition: color 0.15s ease, background 0.15s ease;
+
+        &:hover {
+            color: var(--cz-theme-text-primary, #111827);
+            background: var(--cz-theme-surface-hover, rgba(0 0 0 / 0.06));
+        }
+    }
+
+    /* ─ LANGUAGE SWITCHER ─────────────────────────────── */
+    &__lang {
+        position: relative;
+    }
+
+    &__lang-btn {
+        padding: 6px 10px;
+        height: 36px;
+        background: none;
+        border: none;
+        border-radius: var(--cz-radius-md, 8px);
+        font-size: var(--cz-font-size-sm, 0.875rem);
+        color: var(--cz-theme-text-secondary, #6b7280);
+        cursor: pointer;
+        transition: color 0.15s ease, background 0.15s ease;
+
+        &:hover {
+            color: var(--cz-theme-text-primary, #111827);
+            background: var(--cz-theme-surface-hover, rgba(0 0 0 / 0.06));
+        }
+    }
+
+    &__lang-chevron {
+        opacity: 0.6;
+        transition: transform 0.2s ease;
+
+        &--open {
+            transform: rotate(180deg);
+        }
+    }
+
+    &__lang-menu {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: 0;
+        width: 160px;
+        list-style: none;
+        margin: 0;
+        padding: 4px;
+        background: var(--cz-theme-surface, #fff);
+        border: 1px solid var(--cz-theme-border-color, rgba(0 0 0 / 0.1));
+        border-radius: var(--cz-radius-lg, 10px);
+        box-shadow: 0 8px 24px rgba(0 0 0 / 0.12), 0 2px 6px rgba(0 0 0 / 0.08);
+        z-index: 300;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    &__lang-item {
+        padding: 8px 10px;
+        border-radius: var(--cz-radius-sm, 6px);
+        font-size: var(--cz-font-size-sm, 0.875rem);
+        color: var(--cz-theme-text-secondary, #374151);
+        cursor: pointer;
+        transition: background 0.12s ease, color 0.12s ease;
+
+        &:hover {
+            background: var(--cz-theme-surface-hover, #f3f4f6);
+            color: var(--cz-theme-text-primary, #111827);
+        }
+
+        &--active {
+            color: var(--cz-color-primary, #6366f1) !important;
+            font-weight: var(--cz-font-weight-medium, 500);
+        }
+    }
+
+    /* ─ VERSION BADGE ─────────────────────────────────── */
+    &__version {
+        align-items: center;
+        font-size: var(--cz-font-size-xs, 0.75rem);
+        font-weight: var(--cz-font-weight-semibold, 600);
+        padding: 2px 10px;
+        border-radius: 20px;
+        background: var(--cz-color-primary-50, #eef2ff);
+        color: var(--cz-color-primary, #6366f1);
+        border: 1px solid var(--cz-color-primary-200, #c7d2fe);
+        white-space: nowrap;
+        margin-left: 4px;
+    }
+
+    /* ─ MOBILE BURGER ─────────────────────────────────── */
+    &__burger {
+        gap: 5px;
+        width: 36px;
+        height: 36px;
+        padding: 7px;
+        background: none;
+        border: none;
+        border-radius: var(--cz-radius-md, 8px);
+        cursor: pointer;
+        color: var(--cz-theme-text-primary, #111827);
+
+        span {
+            display: block;
+            height: 2px;
+            background: currentColor;
+            border-radius: 2px;
+        }
+
+        &:hover {
+            background: var(--cz-theme-surface-hover, rgba(0 0 0 / 0.06));
+        }
+    }
+}
+
+/* ──────────────────────────────────────────────────────
+   DARK MODE
+────────────────────────────────────────────────────── */
+:host-context(.dark) .cz-docs-header {
+    /* Dark base background (non-scrolled) */
+    background: rgba(2 6 23 / 0.85);
+    border-bottom-color: rgba(255 255 255 / 0.06);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+
+    /* Text & icon color overrides */
+    .cz-docs-header__brand {
+        color: #f1f5f9;
+    }
+
+    .cz-docs-header__nav-link {
+        color: #94a3b8;
+
+        &:hover {
+            color: #f1f5f9;
+            background: rgba(255 255 255 / 0.06);
+        }
+
+        &--active {
+            color: #a5b4fc !important;
+            background: rgba(99 102 241 / 0.15) !important;
+        }
+    }
+
+    .cz-docs-header__icon-btn {
+        color: #94a3b8;
+
+        &:hover {
+            color: #f1f5f9;
+            background: rgba(255 255 255 / 0.08);
+        }
+    }
+
+    .cz-docs-header__lang-btn {
+        color: #94a3b8;
+
+        &:hover {
+            color: #f1f5f9;
+            background: rgba(255 255 255 / 0.08);
+        }
+    }
+
+    .cz-docs-header__lang-menu {
+        background: #1e293b;
+        border-color: rgba(255 255 255 / 0.1);
+    }
+
+    .cz-docs-header__lang-item {
+        color: #94a3b8;
+
+        &:hover {
+            background: rgba(255 255 255 / 0.06);
+            color: #f1f5f9;
+        }
+    }
+
+    .cz-docs-header__version {
+        background: rgba(99 102 241 / 0.2);
+        color: #a5b4fc;
+        border-color: rgba(99 102 241 / 0.3);
+    }
+
+    .cz-docs-header__burger {
+        color: #f1f5f9;
+
+        &:hover {
+            background: rgba(255 255 255 / 0.08);
+        }
+    }
+}
+
+/* Scrolled dark: slightly less opaque so blur effect is visible */
+:host-context(.dark):host(.cz-docs-header--scrolled) .cz-docs-header {
+    background: rgba(2 6 23 / 0.75);
+    border-bottom-color: rgba(255 255 255 / 0.08);
+    box-shadow: 0 1px 0 rgba(0 0 0 / 0.3), 0 4px 16px rgba(0 0 0 / 0.2);
+}

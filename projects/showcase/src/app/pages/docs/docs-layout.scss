@@ -1,0 +1,337 @@
+:host {
+    display: contents;
+}
+
+/* ──────────────────────────────────────────────
+   GLOBAL DOC STYLES — apply to all doc pages
+────────────────────────────────────────────── */
+
+/* Inline code fragments — e.g. `ChangeDetectionStrategy.OnPush` */
+/* Inline code fragments — e.g. `ChangeDetectionStrategy.OnPush` */
+.docs-content ::ng-deep code {
+    font-family: var(--cz-font-mono, 'JetBrains Mono', 'Fira Code', monospace);
+    font-size: 0.85em;
+    font-weight: 500;
+    color: #93c5fd;
+    background: #334155;
+    border: none;
+    border-radius: 8px;
+    padding: 3px 8px;
+    white-space: nowrap;
+}
+
+/* Dark mode override */
+:host-context(.dark) .docs-content ::ng-deep code {
+    background: rgba(255 255 255 / 0.15);
+    color: #a5b4fc;
+}
+
+/* ──────────────────────────────────────────────
+   SHELL: full viewport, no scroll on window
+   → only the content area inside scrolls
+────────────────────────────────────────────── */
+.docs-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    /* exact viewport — no window scroll */
+    overflow: hidden;
+    background: var(--cz-theme-html-bg, #f9fafb);
+    color: var(--cz-theme-text-primary, #111827);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ──────────────────────────────────────────────
+   BODY: 3-column layout (left | main | right)
+   flex:1 + min-height:0 → fills space between
+   sticky header and footer exactly
+────────────────────────────────────────────── */
+.docs-body {
+    display: grid;
+    grid-template-columns: 250px 1fr 224px;
+    grid-template-areas: "left main right";
+    flex: 1;
+    min-height: 0;
+    /* required: shrink within the flex shell */
+    max-width: 1640px;
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    /* clip; each child manages its own scroll */
+}
+
+/* ──────────────────────────────────────────────
+   SIDEBARS — independent scroll, no page jump
+────────────────────────────────────────────── */
+.docs-sidebar {
+    height: 100%;
+    /* fill the body row height exactly */
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    /* ── Custom thin scrollbar ─────────────────
+       firefox */
+    scrollbar-width: thin;
+    scrollbar-color: var(--cz-theme-border-color, #d1d5db) transparent;
+
+    /* webkit */
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--cz-theme-border-color, #d1d5db);
+        border-radius: 99px;
+
+        &:hover {
+            background: var(--cz-theme-text-muted, #9ca3af);
+        }
+    }
+
+    &--left {
+        grid-area: left;
+        border-right: 1px solid var(--cz-theme-border-color, #e5e7eb);
+        background: var(--cz-theme-surface, #fff);
+    }
+
+    &--right {
+        grid-area: right;
+        border-left: 1px solid var(--cz-theme-border-color, #e5e7eb);
+        background: var(--cz-theme-surface, #fff);
+    }
+}
+
+/* ──────────────────────────────────────────────
+   MAIN CONTENT AREA — scrolls independently
+────────────────────────────────────────────── */
+.docs-content {
+    grid-area: main;
+    padding: 40px 48px;
+    min-width: 0;
+    /* prevent grid blowout */
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    /* thin scrollbar for main content too */
+    scrollbar-width: thin;
+    scrollbar-color: var(--cz-theme-border-color, #d1d5db) transparent;
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--cz-theme-border-color, #d1d5db);
+        border-radius: 99px;
+
+        &:hover {
+            background: var(--cz-theme-text-muted, #9ca3af);
+        }
+    }
+}
+
+/* ──────────────────────────────────────────────
+   MOBILE OVERLAY (left sidebar)
+────────────────────────────────────────────── */
+.docs-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0 0 0 / 0.5);
+    z-index: 99;
+    backdrop-filter: blur(2px);
+}
+
+/* ──────────────────────────────────────────────
+   RESPONSIVE
+────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+    .docs-body {
+        grid-template-columns: 280px 1fr;
+        grid-template-areas: "left main";
+    }
+
+    .docs-sidebar--right {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .docs-shell {
+        height: auto;
+        /* mobile: natural page flow */
+        overflow: visible;
+    }
+
+    .docs-body {
+        grid-template-columns: 1fr;
+        grid-template-areas: "main";
+        overflow: visible;
+    }
+
+    .docs-sidebar--left {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 280px;
+        height: 100dvh;
+        z-index: 200;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        border-right: 1px solid var(--cz-theme-border-color, #e5e7eb);
+
+        &.docs-sidebar--open {
+            transform: translateX(0);
+        }
+    }
+
+    .docs-overlay {
+        display: block;
+    }
+
+    .docs-content {
+        padding: 24px 16px;
+        overflow: visible;
+        /* let the mobile page scroll normally */
+    }
+}
+
+/* ──────────────────────────────────────────────
+   TYPOGRAPHY & CONTENT (API References)
+────────────────────────────────────────────── */
+.docs-content {
+
+    /* Main container constraint */
+    ::ng-deep .doc-page {
+        max-width: 1000px;
+        margin: 0 auto 4rem;
+    }
+
+    /* Headings */
+    ::ng-deep h1 {
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem;
+        color: var(--cz-theme-text-primary, #111827);
+    }
+
+    ::ng-deep h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 2.5rem 0 1rem;
+        color: var(--cz-theme-text-primary, #111827);
+        border-bottom: 1px solid var(--cz-theme-border-color, #e5e7eb);
+        padding-bottom: 0.5rem;
+    }
+
+    ::ng-deep h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 2rem 0 0.75rem;
+        color: var(--cz-theme-text-primary, #111827);
+    }
+
+    /* Paragraphs and Leads */
+    ::ng-deep p {
+        margin: 0 0 1.25rem;
+        line-height: 1.6;
+        color: var(--cz-theme-text-secondary, #4b5563);
+    }
+
+    ::ng-deep .doc-lead {
+        font-size: 1.125rem;
+        line-height: 1.75;
+        color: var(--cz-theme-text-secondary, #4b5563);
+        margin-bottom: 2.5rem;
+    }
+
+    /* Blocks and Pre */
+    ::ng-deep pre {
+        background: var(--cz-slate-800, #1e293b);
+        border-radius: var(--cz-theme-radius-md, 8px);
+        padding: 1rem;
+        overflow-x: auto;
+        font-size: 0.875rem;
+        margin: 1rem 0 2rem;
+        color: var(--cz-slate-50, #f8fafc);
+        border: 1px solid var(--cz-slate-700, #334155);
+
+        .dark & {
+            background: var(--cz-dark-navy, #0f172a);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        &>code {
+            /* Reset inline code styles inside pre */
+            background: transparent !important;
+            color: inherit !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+        }
+    }
+
+    /* ── TABLES ── */
+    ::ng-deep .doc-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        border: 1px solid var(--cz-theme-border-color, #e5e7eb);
+        border-radius: var(--cz-theme-radius-md, 8px);
+        margin-top: 1.5rem;
+        margin-bottom: 2rem;
+        background: var(--cz-theme-surface, #fff);
+
+        /* Remove internal borders ifwrapper has it */
+        .doc-table {
+            border: none;
+        }
+    }
+
+    ::ng-deep .doc-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+        font-size: 0.875rem;
+        color: var(--cz-theme-text-primary, #374151);
+
+        thead th {
+            background-color: var(--cz-theme-surface-hover, #f8fafc);
+            color: var(--cz-theme-text-primary, #111827);
+            font-weight: 600;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--cz-theme-border-color, #e5e7eb);
+            white-space: nowrap;
+        }
+
+        tbody td {
+            padding: 16px;
+            border-bottom: 1px solid var(--cz-theme-border-color, #e5e7eb);
+            vertical-align: top;
+            line-height: 1.5;
+
+            /* Custom pill styles for classes inside table */
+            code {
+                background-color: var(--cz-slate-700, #334155);
+                color: var(--cz-color-white, #fff);
+                padding: 2px 8px;
+                border-radius: 99px;
+                font-size: 0.75rem;
+                font-weight: 500;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+                border: none;
+            }
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+    }
+}

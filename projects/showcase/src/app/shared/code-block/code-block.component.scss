@@ -1,0 +1,137 @@
+// 🎨 Variables
+$font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Liberation Mono, monospace;
+$color-text-main: #e6eef3;
+$color-text-light: #cbd5e1;
+$color-text-muted: #9ca3af;
+$color-accent: #7dd3fc;
+$color-accent-light: #bbf7d0;
+$color-accent-blue: #93c5fd;
+$color-accent-pale: #eff6ff;
+$color-yellow: #fde68a;
+$color-white: #ffffff;
+
+$border-radius-sm: 6px;
+$border-radius-md: 8px;
+$border-radius-lg: 10px;
+
+$border-light: 1px solid rgba(255, 255, 255, 0.04);
+
+$bg-dark: #0f1724;
+$bg-hover: rgba(255, 255, 255, 0.044);
+$bg-preview: #ffffff;
+$bg-doc-code: #223146;
+
+$padding-sm: 0.25rem;
+$padding-md: 0.5rem;
+$padding-lg: 0.75rem;
+
+$font-code-size: 14px;
+$font-small: 0.5rem;
+$font-btn: 0.85rem;
+
+
+// 🖌 Estilos
+:host {
+  display: block;
+  font-family: monospace;
+  color: $color-text-main;
+}
+
+.doc-section-code {
+  margin: 1rem 0;
+  background: $bg-doc-code;
+  border-radius: $border-radius-md;
+  box-shadow: 0px 0px 2px 2px rgba(40, 40, 40, 0.184);
+}
+
+.doc-section-code-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $padding-md $padding-lg;
+}
+
+.selector-area {
+  color: $color-text-muted;
+}
+
+.actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+button.mini-btn {
+  background: transparent;
+  border: $border-light;
+  padding: $padding-sm $padding-md;
+  border-radius: $border-radius-sm;
+  color: $color-text-light;
+  cursor: pointer;
+  font-size: $font-btn;
+
+  &.active {
+    background: $bg-hover;
+    color: $color-accent;
+  }
+}
+
+button.icon-btn {
+  background: transparent;
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: $border-radius-sm;
+  color: $color-text-light;
+  cursor: pointer;
+}
+
+span {
+  font-size: $font-small;
+  color: $color-text-light;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  padding: $padding-md $padding-lg;
+}
+
+.tab {
+  background: transparent;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: $border-radius-sm;
+  color: $color-text-light;
+  cursor: pointer;
+  font-weight: 600;
+
+  &.active {
+    background: $bg-hover;
+    color: $color-accent;
+  }
+}
+
+.preview {
+  padding: $padding-lg;
+  background: $bg-preview;
+  border: $border-light;
+  border-radius: $border-radius-sm;
+  color: $color-text-muted;
+}
+
+.code-area {
+  border: $border-light;
+  background: $bg-dark;
+  overflow: visible;
+  border-radius: $border-radius-sm;
+  padding: 2px;
+  padding-bottom: 40px;
+
+}
+
+pre {
+  margin: 0;
+  padding: 1rem;
+  font-size: 13px;
+  color: $color-text-main;
+}

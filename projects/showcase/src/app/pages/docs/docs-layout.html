@@ -1,0 +1,33 @@
+<div class="docs-shell">
+    <!-- ── HEADER (sticky top) ── -->
+    <cz-docs-header (mobileNavToggled)="toggleSidebar()" />
+
+    <!-- ── BODY: left sidebar + content + right sidebar ── -->
+    <div class="docs-body">
+
+        <!-- LEFT SIDEBAR: navigation -->
+        <aside class="docs-sidebar docs-sidebar--left" [class.docs-sidebar--open]="sidebarOpen()"
+            aria-label="Documentation sidebar">
+            <cz-docs-nav />
+        </aside>
+
+        <!-- OVERLAY for mobile -->
+        @if (sidebarOpen()) {
+        <div class="docs-overlay" (click)="toggleSidebar()" aria-hidden="true"></div>
+        }
+
+        <!-- MAIN CONTENT: router outlet for doc pages  -->
+        <main class="docs-content" id="main-content" role="main">
+            <router-outlet />
+        </main>
+
+        <!-- RIGHT SIDEBAR: table of contents -->
+        <aside class="docs-sidebar docs-sidebar--right" aria-label="On this page">
+            <cz-docs-toc [sections]="tocSections()" />
+        </aside>
+
+    </div>
+
+    <!-- ── FOOTER ── -->
+    <cz-docs-footer />
+</div>

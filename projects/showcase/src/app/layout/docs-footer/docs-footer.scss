@@ -1,0 +1,32 @@
+:host {
+    display: block;
+}
+
+.docs-footer {
+    border-top: 1px solid var(--cz-theme-border-color, #e5e7eb);
+    background: var(--cz-theme-surface, #fff);
+    padding: 16px 24px;
+
+    &__inner {
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+
+    &__copy {
+        font-size: var(--cz-font-size-sm, 0.8125rem);
+        color: var(--cz-theme-text-muted, #9ca3af);
+    }
+
+    &__links {
+        a {
+            font-size: var(--cz-font-size-sm, 0.8125rem);
+            color: var(--cz-theme-text-muted, #9ca3af);
+            text-decoration: none;
+            transition: color 0.15s ease;
+
+            &:hover {
+                color: var(--cz-theme-text-primary, #111827);
+            }
+        }
+    }
+}

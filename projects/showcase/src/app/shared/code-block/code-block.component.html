@@ -1,0 +1,71 @@
+@if (code) {
+<div class="doc-section-code">
+  <!-- Top bar -->
+  <div class="doc-section-code-top">
+    @if (selector) {
+    <div class="selector-area">{{ selector }}</div>
+    }
+    <div class="actions">
+      @if (fullCodeVisible) {
+      @if (code.html) {
+      <button class="mini-btn" [class.active]="lang === 'html'" (click)="changeLang('html')">HTML</button>
+      }
+      @if (code.typescript) {
+      <button class="mini-btn" [class.active]="lang === 'typescript'" (click)="changeLang('typescript')">TS</button>
+      }
+      @if (code.scss) {
+      <button class="mini-btn" [class.active]="lang === 'scss'" (click)="changeLang('scss')">SCSS</button>
+      }
+      @if (code.data) {
+      <button class="mini-btn" [class.active]="lang === 'data'" (click)="changeLang('data')">DB</button>
+      }
+      @if (code.command) {
+      <button class="mini-btn" [class.active]="lang === 'command'" (click)="changeLang('command')">SH</button>
+      }
+      }
+      <!-- Toggle Full Code -->
+      <button class="mini-btn" (click)="toggleCode()" title="Toggle Full Code">
+        <cz-icon [icon]="codeIcon"></cz-icon>
+      </button>
+      <!-- Copy -->
+      <button class="mini-btn" title="Copy Content" (click)="copyCode()">{{ copyTitle }}</button>
+    </div>
+  </div>
+  <!-- Tabs (solo si preview es true) -->
+  @if (preview) {
+  <div class="tabs">
+    <button class="tab" [class.active]="tab === 'preview'" (click)="tab = 'preview'">Preview</button>
+    <button class="tab" [class.active]="tab === 'code'" (click)="tab = 'code'">Code</button>
+  </div>
+  }
+  <!-- Preview (solo si preview es true y tab = preview) -->
+  @if (preview && tab === 'preview') {
+  <div class="preview">
+    <ng-content></ng-content>
+  </div>
+  }
+  <!-- Code (siempre se puede mostrar) -->
+  @if (!preview || tab === 'code') {
+  <div class="code-area">
+    @if (lang === 'basic') {
+    <pre class="language-markup"><code #codeElement>{{ code.basic }}</code></pre>
+    }
+    @if (lang === 'html') {
+    <pre class="language-markup"><code #codeElement>{{ code.html }}</code></pre>
+    }
+    @if (lang === 'typescript') {
+    <pre class="language-typescript"><code #codeElement>{{ code.typescript }}</code></pre>
+    }
+    @if (lang === 'data') {
+    <pre class="language-json"><code #codeElement>{{ code.data }}</code></pre>
+    }
+    @if (lang === 'scss') {
+    <pre class="language-scss"><code #codeElement>{{ code.scss }}</code></pre>
+    }
+    @if (lang === 'command') {
+    <pre class="language-shell"><code #codeElement>{{ code.command }}</code></pre>
+    }
+  </div>
+  }
+</div>
+}

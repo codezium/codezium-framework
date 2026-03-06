@@ -1,0 +1,111 @@
+<header class="cz-docs-header" role="banner">
+    <div class="cz-docs-header__inner cz-flex cz-items-center cz-gap-sm">
+
+        <!-- ── BRAND ───────────────────────────────── -->
+        <a routerLink="/" class="cz-docs-header__brand cz-flex cz-items-center cz-gap-sm cz-shrink-0"
+            aria-label="Codezium UI Home">
+            <img src="icons/codezium-icon.png" alt="Codezium Logo" width="28" height="28" />
+            <span class="cz-docs-header__brand-name">
+                Codezium <strong>UI</strong>
+            </span>
+        </a>
+
+        <!-- ── CENTER NAV ──────────────────────────── -->
+        <nav class="cz-docs-header__nav cz-hidden cz-md:flex cz-items-center cz-gap-xs" aria-label="Docs navigation">
+            <a class="cz-docs-header__nav-link" routerLink="/docs/introduction"
+                routerLinkActive="cz-docs-header__nav-link--active">Docs</a>
+            <a class="cz-docs-header__nav-link" routerLink="/docs/components/input-text"
+                routerLinkActive="cz-docs-header__nav-link--active">Components</a>
+            <a class="cz-docs-header__nav-link" href="https://github.com/codezium/codezium-framework" target="_blank"
+                rel="noopener noreferrer">
+                GitHub
+                <!-- External link icon -->
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-hidden="true">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+            </a>
+        </nav>
+
+        <!-- Spacer: pushes actions to the right -->
+        <span class="cz-grow" aria-hidden="true"></span>
+
+        <!-- ── ACTIONS ─────────────────────────────── -->
+        <div class="cz-docs-header__actions cz-flex cz-items-center cz-gap-xs">
+
+            <!-- Search button -->
+            <button class="cz-docs-header__icon-btn" aria-label="Search" (click)="openSearch()">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="8" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+            </button>
+
+            <!-- Dark/Light toggle -->
+            <button class="cz-docs-header__icon-btn"
+                [attr.aria-label]="isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+                (click)="toggleDarkMode()">
+                @if (isDark()) {
+                <!-- Sun icon -->
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </svg>
+                } @else {
+                <!-- Moon icon -->
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+                }
+            </button>
+
+            <!-- Language Switcher -->
+            <div class="cz-docs-header__lang">
+                <button class="cz-docs-header__lang-btn cz-flex cz-items-center cz-gap-xs"
+                    [attr.aria-expanded]="langOpen()" aria-haspopup="listbox" (click)="toggleLang()" id="docs-lang-btn">
+                    <span>{{ currentFlag() }}</span>
+                    <svg class="cz-docs-header__lang-chevron" [class.cz-docs-header__lang-chevron--open]="langOpen()"
+                        width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </button>
+
+                @if (langOpen()) {
+                <ul class="cz-docs-header__lang-menu" role="listbox" aria-labelledby="docs-lang-btn">
+                    @for (locale of locales; track locale.code) {
+                    <li class="cz-docs-header__lang-item cz-flex cz-items-center cz-gap-sm" role="option"
+                        [attr.aria-selected]="activeLocale() === locale.code"
+                        [class.cz-docs-header__lang-item--active]="activeLocale() === locale.code"
+                        (click)="setLocale(locale.code)">
+                        <span>{{ locale.flag }}</span> {{ locale.label }}
+                    </li>
+                    }
+                </ul>
+                }
+            </div>
+
+            <!-- Version badge -->
+            <span class="cz-docs-header__version cz-hidden cz-md:flex">v1.0</span>
+
+            <!-- Mobile burger -->
+            <button class="cz-docs-header__burger cz-flex cz-flex-col cz-justify-center cz-md:hidden"
+                [attr.aria-expanded]="mobileMenuOpen()" aria-label="Toggle navigation" (click)="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+
+    </div>
+</header>

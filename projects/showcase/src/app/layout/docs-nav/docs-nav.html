@@ -1,0 +1,63 @@
+<nav class="docs-nav" aria-label="Documentation navigation" role="navigation">
+    <ul class="docs-nav__list" role="list">
+        @for (item of items(); track item.label) {
+
+        @if (item.children && item.children.length > 0) {
+        <!-- GROUP WITH CHILDREN -->
+        <li class="docs-nav__group">
+            <button class="docs-nav__group-btn" [attr.aria-expanded]="isExpanded(item.label)"
+                (click)="toggleGroup(item.label)">
+                @if (item.icon) {
+                <cz-icon class="docs-nav__icon" [icon]="item.icon" [size]="16" aria-hidden="true" />
+                }
+                <span class="docs-nav__group-label">{{ item.label }}</span>
+                @if (item.badge) {
+                <span class="docs-nav__badge">{{ item.badge }}</span>
+                }
+                <svg class="docs-nav__chevron" [class.docs-nav__chevron--open]="isExpanded(item.label)" width="14"
+                    height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            </button>
+
+            @if (isExpanded(item.label)) {
+            <ul class="docs-nav__children" role="list">
+                @for (child of item.children; track child.label) {
+                <li class="docs-nav__child-item">
+                    @if (child.path && (!child.badge || child.badge !== 'SOON')) {
+                    <a class="docs-nav__link" [routerLink]="child.path" routerLinkActive="docs-nav__link--active">
+                        {{ child.label }}
+                    </a>
+                    } @else {
+                    <span class="docs-nav__link docs-nav__link--disabled">
+                        {{ child.label }}
+                        @if (child.badge) {
+                        <span class="docs-nav__badge">{{ child.badge }}</span>
+                        }
+                    </span>
+                    }
+                </li>
+                }
+            </ul>
+            }
+        </li>
+        } @else {
+        <!-- SINGLE LINK -->
+        <li class="docs-nav__item">
+            @if (item.path) {
+            <a class="docs-nav__link" [routerLink]="item.path" routerLinkActive="docs-nav__link--active">
+                @if (item.icon) {
+                <cz-icon class="docs-nav__icon" [icon]="item.icon" [size]="16" aria-hidden="true" />
+                }
+                {{ item.label }}
+                @if (item.badge) {
+                <span class="docs-nav__badge">{{ item.badge }}</span>
+                }
+            </a>
+            }
+        </li>
+        }
+        }
+    </ul>
+</nav>
