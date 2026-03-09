@@ -1,17 +1,21 @@
 import { ChangeDetectionStrategy, Component, inject, Renderer2 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, JsonPipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
-import { CzInputTextComponent, CzValidationLocale } from 'codezium-ui';
+import { CzInputTextComponent, CzCheckboxComponent, CzValidationLocale } from 'codezium-ui';
 
 interface TestForm {
   email: FormControl<string | null>;
   username: FormControl<string | null>;
   disabledField: FormControl<string | null>;
+  // Checkbox test fields
+  termsAccepted: FormControl<boolean | null>;
+  fruits: FormControl<string[] | null>;
+  privacyAccepted: FormControl<boolean | null>;
 }
 
 @Component({
   selector: 'app-test-area',
-  imports: [ReactiveFormsModule, FormsModule, CzInputTextComponent],
+  imports: [ReactiveFormsModule, FormsModule, CzInputTextComponent, CzCheckboxComponent, JsonPipe],
   templateUrl: './test-area.html',
   styleUrl: './test-area.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -24,6 +28,11 @@ export class TestArea {
     email: new FormControl('', [Validators.required, Validators.email]),
     username: new FormControl('', [Validators.required, Validators.minLength(4)]),
     disabledField: new FormControl({ value: 'Cannot edit me', disabled: true }),
+
+    // Checkboxes
+    termsAccepted: new FormControl(false),
+    fruits: new FormControl(['Apple']),
+    privacyAccepted: new FormControl({ value: true, disabled: true }),
   });
 
   // State Signals (can be bound to the header toggles)

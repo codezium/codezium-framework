@@ -1,34 +1,14 @@
 // 🎨 Variables
 $font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Liberation Mono, monospace;
-$color-text-main: #e6eef3;
-$color-text-light: #cbd5e1;
-$color-text-muted: #9ca3af;
-$color-accent: #7dd3fc;
-$color-accent-light: #bbf7d0;
-$color-accent-blue: #93c5fd;
-$color-accent-pale: #eff6ff;
-$color-yellow: #fde68a;
-$color-white: #ffffff;
+$color-text-main: #e2e8f0; // Slate 200
+$color-text-light: #94a3b8; // Slate 400
+$color-accent: #38bdf8; // Sky 400
 
 $border-radius-sm: 6px;
-$border-radius-md: 8px;
-$border-radius-lg: 10px;
+$border-radius-md: 10px;
 
-$border-light: 1px solid rgba(255, 255, 255, 0.04);
-
-$bg-dark: #0f1724;
-$bg-hover: rgba(255, 255, 255, 0.044);
-$bg-preview: #ffffff;
-$bg-doc-code: #223146;
-
-$padding-sm: 0.25rem;
-$padding-md: 0.5rem;
-$padding-lg: 0.75rem;
-
-$font-code-size: 14px;
-$font-small: 0.5rem;
-$font-btn: 0.85rem;
-
+$bg-dark: #0f172a; // Slate 900 (code body)
+$bg-doc-code: #1e293b; // Slate 800 (header)
 
 // 🖌 Estilos
 :host {
@@ -38,100 +18,131 @@ $font-btn: 0.85rem;
 }
 
 .doc-section-code {
-  margin: 1rem 0;
-  background: $bg-doc-code;
+  margin: 1.5rem 0;
+  background: $bg-dark;
   border-radius: $border-radius-md;
-  box-shadow: 0px 0px 2px 2px rgba(40, 40, 40, 0.184);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  /* Subtle border for container */
+  overflow: hidden;
+  /* Important for rounding inner children */
+  display: flex;
+  flex-direction: column;
 }
 
+/* ───────────────────────────────────
+   Top Header Bar
+─────────────────────────────────── */
 .doc-section-code-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: $padding-md $padding-lg;
+  padding: 0.6rem 1rem;
+  background: $bg-doc-code;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .selector-area {
-  color: $color-text-muted;
+  color: $color-text-light;
+  font-family: $font-mono;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
+/* ───────────────────────────────────
+   Actions & Buttons
+─────────────────────────────────── */
 .actions {
   display: flex;
-  gap: 0.35rem;
+  gap: 0.4rem;
+  align-items: center;
 }
 
 button.mini-btn {
-  background: transparent;
-  border: $border-light;
-  padding: $padding-sm $padding-md;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 0.25rem 0.5rem;
   border-radius: $border-radius-sm;
   color: $color-text-light;
   cursor: pointer;
-  font-size: $font-btn;
+  font-size: 0.75rem;
+  font-family: $font-mono;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+  }
 
   &.active {
-    background: $bg-hover;
+    background: rgba(255, 255, 255, 0.1);
     color: $color-accent;
+    border-color: rgba(255, 255, 255, 0.1);
   }
 }
 
 button.icon-btn {
   background: transparent;
-  border: none;
-  width: 2rem;
-  height: 2rem;
+  border: 1px solid transparent;
+  width: 1.8rem;
+  height: 1.8rem;
   border-radius: $border-radius-sm;
   color: $color-text-light;
   cursor: pointer;
-}
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 
-span {
-  font-size: $font-small;
-  color: $color-text-light;
-}
-
-.tabs {
-  display: flex;
-  gap: 0.25rem;
-  padding: $padding-md $padding-lg;
-}
-
-.tab {
-  background: transparent;
-  border: none;
-  padding: 0.4rem 0.6rem;
-  border-radius: $border-radius-sm;
-  color: $color-text-light;
-  cursor: pointer;
-  font-weight: 600;
-
-  &.active {
-    background: $bg-hover;
-    color: $color-accent;
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
   }
 }
 
-.preview {
-  padding: $padding-lg;
-  background: $bg-preview;
-  border: $border-light;
-  border-radius: $border-radius-sm;
-  color: $color-text-muted;
+button.text-btn {
+  background: transparent;
+  border: none;
+  color: $color-text-light;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-family: $font-mono;
+  padding: 0.25rem 0.5rem;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #fff;
+  }
 }
 
+/* ───────────────────────────────────
+   Code Body
+─────────────────────────────────── */
 .code-area {
-  border: $border-light;
   background: $bg-dark;
-  overflow: visible;
-  border-radius: $border-radius-sm;
-  padding: 2px;
-  padding-bottom: 40px;
-
+  overflow-x: auto;
 }
 
 pre {
-  margin: 0;
-  padding: 1rem;
-  font-size: 13px;
-  color: $color-text-main;
+  margin: 0 !important;
+  padding: 1.5rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1.6 !important;
+  color: $color-text-main !important;
+  background: transparent !important; // Let Prism handle syntax, but keep container bg 
+  border: none !important;
+  overflow-x: auto !important;
+}
+
+pre,
+code {
+  white-space: pre !important;
+  word-spacing: normal !important;
+  word-break: normal !important;
+  word-wrap: normal !important;
+  tab-size: 4 !important;
 }

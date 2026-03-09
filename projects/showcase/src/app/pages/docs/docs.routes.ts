@@ -65,6 +65,12 @@ export const docsRoutes: Routes = [
                     import('./pages/input-text/input-text-doc').then(m => m.InputTextDocPage),
                 title: 'InputText | Codezium UI Docs',
             },
+            {
+                path: 'directives/key-filter',
+                loadComponent: () =>
+                    import('./pages/key-filter/key-filter-doc').then(m => m.default),
+                title: 'KeyFilter | Codezium UI Docs',
+            },
         ],
     },
 ];

@@ -1,0 +1,23 @@
+<div class="cz-checkbox" (click)="onClick($event)">
+    <div class="cz-checkbox-hidden-accessible">
+        <input #cb type="checkbox" [value]="value()" [checked]="checked()" [disabled]="disabled()"
+            [readonly]="readonly()" (focus)="onFocus()" (blur)="onBlur()" (keydown.space)="onSpaceKey($any($event))"
+            [attr.aria-label]="label()">
+    </div>
+
+    <div [ngClass]="boxClasses()" role="checkbox" [attr.aria-checked]="checked()">
+        @if (checked()) {
+        <!-- Beautiful animated Check Icon matching Codezium styling -->
+        <svg class="cz-checkbox-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+        </svg>
+        }
+    </div>
+</div>
+
+@if (label()) {
+<label class="cz-checkbox-label" (click)="onClick($event, true)">
+    {{ label() }}
+</label>
+}

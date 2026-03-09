@@ -71,24 +71,52 @@
                 }
             </button>
 
+            <!-- Theme Switcher -->
+            <div class="cz-docs-header__picker">
+                <button class="cz-docs-header__picker-btn cz-flex cz-items-center cz-gap-xs"
+                    [attr.aria-expanded]="themeOpen()" aria-haspopup="listbox" (click)="toggleTheme()"
+                    id="docs-theme-btn" title="Select Theme">
+                    <span>{{ currentThemeIcon() }}</span>
+                    <svg class="cz-docs-header__picker-chevron"
+                        [class.cz-docs-header__picker-chevron--open]="themeOpen()" width="12" height="12"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </button>
+
+                @if (themeOpen()) {
+                <ul class="cz-docs-header__picker-menu" role="listbox" aria-labelledby="docs-theme-btn">
+                    @for (theme of themes; track theme.code) {
+                    <li class="cz-docs-header__picker-item cz-flex cz-items-center cz-gap-sm" role="option"
+                        [attr.aria-selected]="activeTheme() === theme.code"
+                        [class.cz-docs-header__picker-item--active]="activeTheme() === theme.code"
+                        (click)="setTheme(theme.code)">
+                        <span>{{ theme.icon }}</span> {{ theme.label }}
+                    </li>
+                    }
+                </ul>
+                }
+            </div>
+
             <!-- Language Switcher -->
-            <div class="cz-docs-header__lang">
-                <button class="cz-docs-header__lang-btn cz-flex cz-items-center cz-gap-xs"
-                    [attr.aria-expanded]="langOpen()" aria-haspopup="listbox" (click)="toggleLang()" id="docs-lang-btn">
+            <div class="cz-docs-header__picker">
+                <button class="cz-docs-header__picker-btn cz-flex cz-items-center cz-gap-xs"
+                    [attr.aria-expanded]="langOpen()" aria-haspopup="listbox" (click)="toggleLang()" id="docs-lang-btn"
+                    title="Select Language">
                     <span>{{ currentFlag() }}</span>
-                    <svg class="cz-docs-header__lang-chevron" [class.cz-docs-header__lang-chevron--open]="langOpen()"
-                        width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                        aria-hidden="true">
+                    <svg class="cz-docs-header__picker-chevron"
+                        [class.cz-docs-header__picker-chevron--open]="langOpen()" width="12" height="12"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                         <polyline points="6 9 12 15 18 9" />
                     </svg>
                 </button>
 
                 @if (langOpen()) {
-                <ul class="cz-docs-header__lang-menu" role="listbox" aria-labelledby="docs-lang-btn">
+                <ul class="cz-docs-header__picker-menu" role="listbox" aria-labelledby="docs-lang-btn">
                     @for (locale of locales; track locale.code) {
-                    <li class="cz-docs-header__lang-item cz-flex cz-items-center cz-gap-sm" role="option"
+                    <li class="cz-docs-header__picker-item cz-flex cz-items-center cz-gap-sm" role="option"
                         [attr.aria-selected]="activeLocale() === locale.code"
-                        [class.cz-docs-header__lang-item--active]="activeLocale() === locale.code"
+                        [class.cz-docs-header__picker-item--active]="activeLocale() === locale.code"
                         (click)="setLocale(locale.code)">
                         <span>{{ locale.flag }}</span> {{ locale.label }}
                     </li>

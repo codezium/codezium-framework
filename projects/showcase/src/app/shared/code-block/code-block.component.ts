@@ -10,8 +10,10 @@ import {
   NgModule,
   OnInit,
   PLATFORM_ID,
-  ViewChild,
-  DOCUMENT
+  QueryList,
+  ViewChildren,
+  DOCUMENT,
+  ChangeDetectorRef
 } from '@angular/core';
 import { CzIconComponent } from 'codezium-ui';
 import { Code as CodeIcon } from 'lucide-angular';
@@ -26,8 +28,6 @@ export interface Code {
   command?: string;
   [k: string]: string | undefined;
 }
-export interface ExtFile { path: string; content: string; }
-export interface RouteFile { path: string; content: string; }
 
 @Component({
   selector: 'app-code',
@@ -38,39 +38,79 @@ export interface RouteFile { path: string; content: string; }
 })
 export class AppCodeComponent implements AfterViewChecked, OnInit {
   @Input() code!: Code;
-  @Input() selector!: string;
-  @Input() preview!: boolean;
+  @Input() selector: string = '';
 
-  @ViewChild('codeElement', { static: false }) codeElement!: ElementRef<HTMLElement>;
+  @ViewChildren('codeElement') codeElements!: QueryList<ElementRef<HTMLElement>>;
 
   readonly codeIcon = CodeIcon;
-  fullCodeVisible = false;
   lang!: string;
-  tab: 'preview' | 'code' = 'preview';
-  copyTitle = 'Copy code';
+  copyTitle = 'Copy';
+  showCode = true;
 
   constructor(
     @Inject(PLATFORM_ID) public platformId: any,
-    @Inject(DOCUMENT) public document: Document
+    @Inject(DOCUMENT) public document: Document,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
     this.lang = this.getInitialLang();
+    this.formatAllCode();
   }
 
   ngAfterViewChecked() {
     if (isPlatformBrowser(this.platformId)) {
       const win: any = window as any;
-      if (win['Prism'] && this.codeElement) {
+      if (win['Prism'] && this.codeElements) {
         try {
-          win['Prism'].highlightElement(this.codeElement.nativeElement);
+          this.codeElements.forEach(el => {
+            if (!el.nativeElement.hasAttribute('data-highlighted')) {
+              win['Prism'].highlightElement(el.nativeElement);
+              el.nativeElement.setAttribute('data-highlighted', 'true');
+            }
+          });
         } catch { }
       }
     }
   }
 
+  private formatAllCode() {
+    if (!this.code) return;
+    if (this.code.html) this.code.html = this.formatHtml(this.code.html);
+    if (this.code.basic) this.code.basic = this.formatHtml(this.code.basic);
+  }
+
+  private formatHtml(html: string): string {
+    let formatted = '';
+    let pad = 0;
+
+    // Ensure tags are on new lines
+    const splitHtml = html.replace(/(>)\s*(<)(\/*)/g, '$1\n$2$3').split('\n');
+
+    for (let i = 0; i < splitHtml.length; i++) {
+      let node = splitHtml[i].trim();
+      if (!node) continue;
+
+      let indent = 0;
+      if (node.match(/.+<\/\w[^>]*>$/)) {
+        indent = 0;
+      } else if (node.match(/^<\/\w/)) {
+        if (pad !== 0) pad -= 1;
+      } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
+        indent = 1;
+      }
+
+      formatted += '  '.repeat(pad) + node + '\n';
+      pad += indent;
+    }
+
+    return formatted.trim();
+  }
+
   getInitialLang(): string {
     if (this.code) {
+      if (this.code.html) return 'html';
+      if (this.code.typescript) return 'typescript';
       const keys = Object.keys(this.code);
       return keys.length ? keys[0] : 'basic';
     }
@@ -79,13 +119,10 @@ export class AppCodeComponent implements AfterViewChecked, OnInit {
 
   changeLang(lang: string) {
     this.lang = lang;
-    this.tab = 'code';
   }
 
   toggleCode() {
-    this.fullCodeVisible = !this.fullCodeVisible;
-    this.lang = this.code.html ? 'html' : (this.code.typescript ? 'typescript' : 'basic');
-    this.tab = this.fullCodeVisible ? 'code' : 'preview';
+    this.showCode = !this.showCode;
   }
 
   async copyCode() {
@@ -93,10 +130,18 @@ export class AppCodeComponent implements AfterViewChecked, OnInit {
     try {
       await navigator.clipboard.writeText(text);
       this.copyTitle = 'Copied';
-      setTimeout(() => (this.copyTitle = 'Copy code'), 1200);
+      this.cdr.markForCheck();
+      setTimeout(() => {
+        this.copyTitle = 'Copy';
+        this.cdr.markForCheck();
+      }, 3000);
     } catch {
-      this.copyTitle = 'Copy failed';
-      setTimeout(() => (this.copyTitle = 'Copy code'), 1200);
+      this.copyTitle = 'Failed';
+      this.cdr.markForCheck();
+      setTimeout(() => {
+        this.copyTitle = 'Copy';
+        this.cdr.markForCheck();
+      }, 3000);
     }
   }
 }

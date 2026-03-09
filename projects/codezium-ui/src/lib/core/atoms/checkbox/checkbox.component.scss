@@ -1,0 +1,253 @@
+:host {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: bottom;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+
+    &.cz-checkbox--disabled {
+        cursor: default;
+        opacity: 0.6;
+    }
+}
+
+.cz-checkbox {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    /* Sizes Configuration */
+    .cz-checkbox-box {
+        &--sm {
+            width: 18px;
+            height: 18px;
+            border-radius: var(--cz-radius-sm, 4px);
+        }
+
+        &--md {
+            width: 22px;
+            height: 22px;
+            border-radius: var(--cz-radius-base, 6px);
+        }
+
+        &--lg {
+            width: 26px;
+            height: 26px;
+            border-radius: var(--cz-radius-md, 8px);
+        }
+    }
+}
+
+/* ───────────────────────────────────────────────────────────
+   Native Checkbox Hiding (Accessibly)
+─────────────────────────────────────────────────────────── */
+.cz-checkbox-hidden-accessible {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+
+    input {
+        appearance: none;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        outline: none;
+    }
+}
+
+/* ───────────────────────────────────────────────────────────
+   Visual Box Display
+─────────────────────────────────────────────────────────── */
+.cz-checkbox-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--cz-theme-border-color, #c0c0c0);
+    background: var(--cz-theme-surface, #ffffff);
+    color: var(--cz-theme-text-inverse, #ffffff);
+    transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+    /* Focus (tied to the hidden native input focus state) */
+    &--focused {
+        outline: 0 none;
+        box-shadow: 0 0 0 3px rgba(var(--cz-color-primary-rgb, 99, 102, 241), 0.2);
+    }
+}
+
+/* ── Check SVG Icon Animation ── */
+.cz-checkbox-icon {
+    width: 70%;
+    height: 70%;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    stroke-dasharray: 24;
+    stroke-dashoffset: 0;
+    animation: cz-check-draw 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes cz-check-draw {
+    0% {
+        stroke-dashoffset: 24;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* ───────────────────────────────────────────────────────────
+   Colors Configurations
+─────────────────────────────────────────────────────────── */
+@mixin cz-checkbox-color-variant($color-name, $varable) {
+    .cz-checkbox-box--#{$color-name} {
+        &:hover {
+            border-color: var(#{$varable});
+        }
+
+        &.cz-checkbox-box--checked {
+            border-color: var(#{$varable});
+            background: var(#{$varable});
+        }
+
+        &.cz-checkbox-box--focused {
+            box-shadow: 0 0 0 3px rgba(var(#{$varable}-rgb), 0.2);
+        }
+    }
+}
+
+@include cz-checkbox-color-variant('primary', '--cz-color-primary');
+@include cz-checkbox-color-variant('success', '--cz-color-success');
+@include cz-checkbox-color-variant('danger', '--cz-color-danger');
+@include cz-checkbox-color-variant('warning', '--cz-color-warning');
+@include cz-checkbox-color-variant('info', '--cz-color-info');
+@include cz-checkbox-color-variant('dark', '--cz-color-dark');
+
+
+/* ───────────────────────────────────────────────────────────
+   Text Label Layout
+─────────────────────────────────────────────────────────── */
+.cz-checkbox-label {
+    margin-left: 0.5rem;
+    font-family: var(--cz-font-base, inherit);
+    font-size: var(--cz-font-size-base, 1rem);
+    color: var(--cz-theme-text-primary, #1f2937);
+}
+
+:host(.cz-checkbox--disabled) {
+    .cz-checkbox-box {
+        background: var(--cz-theme-surface-hover, #f3f4f6);
+        border-color: var(--cz-theme-border-color, #d1d5db);
+
+        &--checked {
+            background: var(--cz-theme-border-color, #d1d5db);
+            color: var(--cz-theme-text-muted, #9ca3af);
+        }
+    }
+
+    .cz-checkbox-label {
+        color: var(--cz-theme-text-muted, #9ca3af);
+    }
+}
+
+/* ==========================================================================
+   NEO THEME — Overrides for [data-theme="neo"]
+   ========================================================================== */
+[data-theme="neo"],
+[data-theme="neo"].dark,
+.dark [data-theme="neo"] {
+    .cz-checkbox-box {
+        background: var(--cz-theme-surface) !important;
+        border: none !important;
+        box-shadow: var(--cz-theme-shadow-base) !important;
+        color: var(--cz-color-primary) !important; // checkmark color
+
+        &--checked {
+            box-shadow: var(--cz-theme-shadow-hover) !important;
+            background: var(--cz-theme-surface) !important;
+        }
+
+        &--focused {
+            outline: 2px solid var(--cz-color-primary-300);
+            outline-offset: 2px;
+            box-shadow: var(--cz-theme-shadow-base) !important;
+        }
+
+        &.cz-checkbox-box--checked.cz-checkbox-box--focused {
+            box-shadow: var(--cz-theme-shadow-hover) !important;
+        }
+    }
+
+    // Neo Color Variants match text-color for checkmarks
+    @each $name, $varable in ("primary": --cz-color-primary,
+        "success": --cz-color-success,
+        "danger": --cz-color-danger,
+        "warning": --cz-color-warning,
+        "info": --cz-color-info,
+        "dark": --cz-theme-text-primary) {
+        .cz-checkbox-box--#{$name} {
+            color: var(#{$varable}) !important;
+        }
+    }
+}
+
+/* ==========================================================================
+   GLASS THEME — Overrides for [data-theme="glass"]
+   ========================================================================== */
+[data-theme="glass"],
+[data-theme="glass"].dark,
+.dark [data-theme="glass"] {
+    .cz-checkbox-box {
+        background: var(--cz-theme-input-bg, rgba(255, 255, 255, 0.35)) !important;
+        border: 1px solid var(--cz-theme-input-border, rgba(255, 255, 255, 0.6)) !important;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.5),
+            0 4px 16px rgba(31, 38, 135, 0.08) !important;
+
+        &--checked {
+            background: var(--cz-color-primary) !important;
+            border-color: var(--cz-color-primary) !important;
+            color: var(--cz-color-white) !important;
+        }
+
+        &--focused {
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                0 0 0 3px var(--cz-color-primary-200),
+                0 8px 24px rgba(31, 38, 135, 0.15) !important;
+        }
+    }
+
+    // Glass Colors override the background directly
+    @each $name, $varable in ("primary": --cz-color-primary,
+        "success": --cz-color-success,
+        "danger": --cz-color-danger,
+        "warning": --cz-color-warning,
+        "info": --cz-color-info,
+        "dark": --cz-color-dark) {
+        .cz-checkbox-box--#{$name}.cz-checkbox-box--checked {
+            background: var(#{$varable}) !important;
+            border-color: var(#{$varable}) !important;
+        }
+    }
+}
+
+/* Glass Dark Overrides for unchecked */
+.dark [data-theme="glass"],
+[data-theme="glass"].dark {
+    .cz-checkbox-box:not(.cz-checkbox-box--checked) {
+        background: var(--cz-theme-input-bg, rgba(255, 255, 255, 0.07)) !important;
+        border-color: var(--cz-theme-input-border, rgba(255, 255, 255, 0.18)) !important;
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.08),
+            0 4px 24px rgba(0, 0, 0, 0.35) !important;
+    }
+}

@@ -123,12 +123,12 @@
         }
     }
 
-    /* ─ LANGUAGE SWITCHER ─────────────────────────────── */
-    &__lang {
+    /* ─ ENHANCED PICKER (Theme & Language) ─────────────────────────────── */
+    &__picker {
         position: relative;
     }
 
-    &__lang-btn {
+    &__picker-btn {
         padding: 6px 10px;
         height: 36px;
         background: none;
@@ -145,7 +145,7 @@
         }
     }
 
-    &__lang-chevron {
+    &__picker-chevron {
         opacity: 0.6;
         transition: transform 0.2s ease;
 
@@ -154,7 +154,7 @@
         }
     }
 
-    &__lang-menu {
+    &__picker-menu {
         position: absolute;
         top: calc(100% + 6px);
         right: 0;
@@ -171,7 +171,7 @@
         -webkit-backdrop-filter: blur(12px);
     }
 
-    &__lang-item {
+    &__picker-item {
         padding: 8px 10px;
         border-radius: var(--cz-radius-sm, 6px);
         font-size: var(--cz-font-size-sm, 0.875rem);
@@ -267,7 +267,7 @@
         }
     }
 
-    .cz-docs-header__lang-btn {
+    .cz-docs-header__picker-btn {
         color: #94a3b8;
 
         &:hover {
@@ -276,12 +276,12 @@
         }
     }
 
-    .cz-docs-header__lang-menu {
+    .cz-docs-header__picker-menu {
         background: #1e293b;
         border-color: rgba(255 255 255 / 0.1);
     }
 
-    .cz-docs-header__lang-item {
+    .cz-docs-header__picker-item {
         color: #94a3b8;
 
         &:hover {

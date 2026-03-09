@@ -126,6 +126,86 @@
 
 
 
+        <!-- SECTION: Checkbox Variants -->
+        <section>
+            <h2
+                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
+                CzCheckbox Variants</h2>
+
+            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-xl); max-width: 600px;">
+
+                <!-- Form Controls Showcase -->
+                <div style="display: flex; gap: var(--cz-spacing-2xl); flex-wrap: wrap;">
+
+                    <!-- Binary Boolean -->
+                    <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
+                        <h3
+                            style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
+                            Binary (Boolean)</h3>
+                        <cz-checkbox formControlName="termsAccepted" [binary]="true"
+                            label="I accept the Terms and Conditions"></cz-checkbox>
+                        <span
+                            style="font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-muted); font-family: monospace;">
+                            Value: {{ testForm.get('termsAccepted')?.value | json }}
+                        </span>
+                    </div>
+
+                    <!-- Array Multiple Choices -->
+                    <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
+                        <h3
+                            style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
+                            Multiple Values (Array)</h3>
+                        <div style="display: flex; gap: var(--cz-spacing-md);">
+                            <cz-checkbox formControlName="fruits" value="Apple" label="Apple"></cz-checkbox>
+                            <cz-checkbox formControlName="fruits" value="Banana" label="Banana"></cz-checkbox>
+                            <cz-checkbox formControlName="fruits" value="Orange" label="Orange"></cz-checkbox>
+                        </div>
+                        <span
+                            style="font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-muted); font-family: monospace;">
+                            Value: {{ testForm.get('fruits')?.value | json }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Sizes -->
+                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
+                    <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
+                        Sizes</h3>
+                    <div style="display: flex; gap: var(--cz-spacing-xl); align-items: center;">
+                        <cz-checkbox [binary]="true" size="sm" label="Small"></cz-checkbox>
+                        <cz-checkbox [binary]="true" size="md" label="Medium (Default)"></cz-checkbox>
+                        <cz-checkbox [binary]="true" size="lg" label="Large"></cz-checkbox>
+                    </div>
+                </div>
+
+                <!-- Colors -->
+                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
+                    <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
+                        Theme Colors</h3>
+                    <div style="display: flex; gap: var(--cz-spacing-xl); flex-wrap: wrap;">
+                        <cz-checkbox [binary]="true" color="primary" label="Primary"></cz-checkbox>
+                        <cz-checkbox [binary]="true" color="success" label="Success"></cz-checkbox>
+                        <cz-checkbox [binary]="true" color="warning" label="Warning"></cz-checkbox>
+                        <cz-checkbox [binary]="true" color="danger" label="Danger"></cz-checkbox>
+                        <cz-checkbox [binary]="true" color="info" label="Info"></cz-checkbox>
+                        <cz-checkbox [binary]="true" color="dark" label="Dark"></cz-checkbox>
+                    </div>
+                </div>
+
+                <!-- Disabled / Readonly -->
+                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
+                    <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
+                        States</h3>
+                    <div style="display: flex; gap: var(--cz-spacing-xl);">
+                        <cz-checkbox formControlName="privacyAccepted" label="Disabled (Checked)"></cz-checkbox>
+                        <cz-checkbox [binary]="true" [disabled]="true" label="Disabled (Unchecked)"></cz-checkbox>
+                        <cz-checkbox formControlName="privacyAccepted" [readonly]="true" label="Readonly"></cz-checkbox>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
         <!-- SECTION: Input Sizes -->
         <section>
             <h2

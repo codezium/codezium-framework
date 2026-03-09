@@ -2,11 +2,14 @@
 <div class="doc-section-code">
   <!-- Top bar -->
   <div class="doc-section-code-top">
-    @if (selector) {
-    <div class="selector-area">{{ selector }}</div>
-    }
+    <!-- Left: Selector or default text -->
+    <div class="selector-area">
+      {{ selector }}
+    </div>
+
+    <!-- Right: Actions -->
     <div class="actions">
-      @if (fullCodeVisible) {
+      @if (showCode) {
       @if (code.html) {
       <button class="mini-btn" [class.active]="lang === 'html'" (click)="changeLang('html')">HTML</button>
       }
@@ -23,47 +26,37 @@
       <button class="mini-btn" [class.active]="lang === 'command'" (click)="changeLang('command')">SH</button>
       }
       }
-      <!-- Toggle Full Code -->
-      <button class="mini-btn" (click)="toggleCode()" title="Toggle Full Code">
+
+      <!-- Icon button resembling the < > icon in the user's image -->
+      <button class="icon-btn" [class.active]="showCode" (click)="toggleCode()" title="View Source">
         <cz-icon [icon]="codeIcon"></cz-icon>
       </button>
+
       <!-- Copy -->
-      <button class="mini-btn" title="Copy Content" (click)="copyCode()">{{ copyTitle }}</button>
+      <button class="text-btn" title="Copy" (click)="copyCode()">{{ copyTitle }}</button>
     </div>
   </div>
-  <!-- Tabs (solo si preview es true) -->
-  @if (preview) {
-  <div class="tabs">
-    <button class="tab" [class.active]="tab === 'preview'" (click)="tab = 'preview'">Preview</button>
-    <button class="tab" [class.active]="tab === 'code'" (click)="tab = 'code'">Code</button>
-  </div>
-  }
-  <!-- Preview (solo si preview es true y tab = preview) -->
-  @if (preview && tab === 'preview') {
-  <div class="preview">
-    <ng-content></ng-content>
-  </div>
-  }
-  <!-- Code (siempre se puede mostrar) -->
-  @if (!preview || tab === 'code') {
+
+  <!-- Code Area -->
+  @if (showCode) {
   <div class="code-area">
     @if (lang === 'basic') {
-    <pre class="language-markup"><code #codeElement>{{ code.basic }}</code></pre>
+    <pre class="language-markup"><code #codeElement class="language-markup">{{ code.basic }}</code></pre>
     }
     @if (lang === 'html') {
-    <pre class="language-markup"><code #codeElement>{{ code.html }}</code></pre>
+    <pre class="language-markup"><code #codeElement class="language-markup">{{ code.html }}</code></pre>
     }
     @if (lang === 'typescript') {
-    <pre class="language-typescript"><code #codeElement>{{ code.typescript }}</code></pre>
+    <pre class="language-typescript"><code #codeElement class="language-typescript">{{ code.typescript }}</code></pre>
     }
     @if (lang === 'data') {
-    <pre class="language-json"><code #codeElement>{{ code.data }}</code></pre>
+    <pre class="language-json"><code #codeElement class="language-json">{{ code.data }}</code></pre>
     }
     @if (lang === 'scss') {
-    <pre class="language-scss"><code #codeElement>{{ code.scss }}</code></pre>
+    <pre class="language-scss"><code #codeElement class="language-scss">{{ code.scss }}</code></pre>
     }
     @if (lang === 'command') {
-    <pre class="language-shell"><code #codeElement>{{ code.command }}</code></pre>
+    <pre class="language-shell"><code #codeElement class="language-shell">{{ code.command }}</code></pre>
     }
   </div>
   }
