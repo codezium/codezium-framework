@@ -4,7 +4,9 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "codezium-ui": ["./dist/codezium-ui"]
+      "codezium-ui": [
+        "./projects/codezium-ui/src/public-api.ts"
+      ]
     },
     "strict": true,
     "noImplicitOverride": true,

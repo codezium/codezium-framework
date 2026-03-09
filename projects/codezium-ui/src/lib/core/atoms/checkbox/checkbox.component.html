@@ -1,6 +1,6 @@
 <div class="cz-checkbox" (click)="onClick($event)">
     <div class="cz-checkbox-hidden-accessible">
-        <input #cb type="checkbox" [value]="value()" [checked]="checked()" [disabled]="disabled()"
+        <input #cb type="checkbox" [value]="value()" [checked]="checked()" [disabled]="isDisabled()"
             [readonly]="readonly()" (focus)="onFocus()" (blur)="onBlur()" (keydown.space)="onSpaceKey($any($event))"
             [attr.aria-label]="label()">
     </div>

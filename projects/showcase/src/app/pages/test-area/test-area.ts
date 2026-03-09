@@ -11,6 +11,7 @@ interface TestForm {
   termsAccepted: FormControl<boolean | null>;
   fruits: FormControl<string[] | null>;
   privacyAccepted: FormControl<boolean | null>;
+  disabledChecked: FormControl<boolean | null>;
 }
 
 @Component({
@@ -24,6 +25,8 @@ export class TestArea {
   private document = inject(DOCUMENT);
   private renderer = inject(Renderer2);
 
+  templateDrivenValue = false;
+
   testForm = new FormGroup<TestForm>({
     email: new FormControl('', [Validators.required, Validators.email]),
     username: new FormControl('', [Validators.required, Validators.minLength(4)]),
@@ -32,7 +35,8 @@ export class TestArea {
     // Checkboxes
     termsAccepted: new FormControl(false),
     fruits: new FormControl(['Apple']),
-    privacyAccepted: new FormControl({ value: true, disabled: true }),
+    privacyAccepted: new FormControl(true),
+    disabledChecked: new FormControl({ value: true, disabled: true }),
   });
 
   // State Signals (can be bound to the header toggles)

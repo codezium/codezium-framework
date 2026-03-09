@@ -10,10 +10,15 @@ import {
     input,
     output,
     signal,
-    ViewChild
+    ViewChild,
+    Injector,
+    OnInit,
+    DestroyRef,
+    ViewEncapsulation
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export interface CzCheckboxChangeEvent {
     /** The state of the checkbox after the interaction */
@@ -24,7 +29,7 @@ export interface CzCheckboxChangeEvent {
     originalEvent: Event;
 }
 
-export type CzCheckboxColor = 'primary' | 'success' | 'warning' | 'danger' | 'info' | 'dark';
+export type CzCheckboxColor = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'dark';
 export type CzCheckboxSize = 'sm' | 'md' | 'lg';
 
 @Component({
@@ -43,12 +48,20 @@ export type CzCheckboxSize = 'sm' | 'md' | 'lg';
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.cz-checkbox-wrapper]': 'true',
-        '[class.cz-checkbox--disabled]': 'disabled()',
+        '[class.cz-checkbox--disabled]': 'isDisabled()',
         '[class.cz-checkbox--readonly]': 'readonly()',
-    }
+    },
+    encapsulation: ViewEncapsulation.None
 })
-export class CzCheckboxComponent implements ControlValueAccessor {
+export class CzCheckboxComponent implements ControlValueAccessor, OnInit {
     private cdr = inject(ChangeDetectorRef);
+    private injector = inject(Injector);
+    private destroyRef = inject(DestroyRef);
+
+    /** Lazy getter to bypass cyclical injection dependencies of NG_VALUE_ACCESSOR */
+    private get ngControl(): NgControl | null {
+        return this.injector.get(NgControl, null, { optional: true, self: true });
+    }
 
     /** The value of the checkbox when interacting in a group (Array mode) */
     value = input<any>();
@@ -57,6 +70,12 @@ export class CzCheckboxComponent implements ControlValueAccessor {
     binary = input<boolean>(false);
     disabled = input<boolean>(false);
     readonly = input<boolean>(false);
+
+    /* Form Control internal disabled state */
+    _formDisabled = signal<boolean>(false);
+
+    /** Derived disabled state: true if either the input [disabled] is true or the FormControl is disabled */
+    isDisabled = computed(() => this.disabled() || this._formDisabled());
 
     /** Value to return if binary=true and the checkbox is checked */
     trueValue = input<any>(true);
@@ -80,6 +99,19 @@ export class CzCheckboxComponent implements ControlValueAccessor {
     onModelTouched: Function = () => { };
 
     /* ── Computed State ── */
+
+    ngOnInit() {
+        if (this.ngControl && this.ngControl.control) {
+            // Subscribe to live form changes to bypass Angular's identical CVA overwrite bug
+            // ensuring all matching checkboxes always reflect identical global state.
+            this.ngControl.control.valueChanges.pipe(
+                takeUntilDestroyed(this.destroyRef)
+            ).subscribe((val: any) => {
+                this.model.set(val);
+                this.cdr.markForCheck();
+            });
+        }
+    }
 
     /** Returns true if this specific box is structurally verified as checked against the model */
     readonly checked = computed(() => {
@@ -107,7 +139,7 @@ export class CzCheckboxComponent implements ControlValueAccessor {
     onClick(event: Event, focus: boolean = true) {
         event.preventDefault(); // Prevent standard click behavior, we handle the model
 
-        if (this.disabled() || this.readonly()) {
+        if (this.isDisabled() || this.readonly()) {
             return;
         }
 
@@ -119,7 +151,7 @@ export class CzCheckboxComponent implements ControlValueAccessor {
     }
 
     onSpaceKey(event: KeyboardEvent) {
-        if (this.disabled() || this.readonly()) {
+        if (this.isDisabled() || this.readonly()) {
             return;
         }
         this.updateModel(event);
@@ -133,17 +165,16 @@ export class CzCheckboxComponent implements ControlValueAccessor {
             // Binary Boolean-style flip
             newModelValue = this.checked() ? this.falseValue() : this.trueValue();
         } else {
-            // Array-style logic
+            // Array-style logic (Always read from the live Forms Control if active to bypass identical-name access bugs)
+            let rawFormArray = this.ngControl?.control?.value ?? this.model();
+            let currentModel = Array.isArray(rawFormArray) ? rawFormArray : [];
+
             if (this.checked()) {
                 // Remove value
-                if (Array.isArray(this.model())) {
-                    newModelValue = this.model().filter((val: any) => val !== this.value());
-                } else {
-                    newModelValue = [];
-                }
+                newModelValue = currentModel.filter((val: any) => val !== this.value());
             } else {
                 // Add value
-                newModelValue = this.model() ? [...this.model(), this.value()] : [this.value()];
+                newModelValue = [...currentModel, this.value()];
             }
         }
 
@@ -188,9 +219,7 @@ export class CzCheckboxComponent implements ControlValueAccessor {
     }
 
     setDisabledState(val: boolean): void {
-        // Ignored here because we rely on the strictly decoupled 'disabled = input()' 
-        // Signal for physical boundaries. However, form-level disable events 
-        // can be passed up optionally.
+        this._formDisabled.set(val);
         this.cdr.markForCheck();
     }
 }

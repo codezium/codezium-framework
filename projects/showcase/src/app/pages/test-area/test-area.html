@@ -167,6 +167,21 @@
                     </div>
                 </div>
 
+                <!-- Form Controls: formControlName -->
+                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
+                    <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
+                        Reactive Form (formControlName)</h3>
+                    <div style="display: flex; gap: var(--cz-spacing-lg); align-items: center;">
+                        <cz-checkbox formControlName="privacyAccepted" [binary]="true"
+                            label="I accept the Privacy Policy"></cz-checkbox>
+                        <div>
+                            <strong>Form Raw Value: </strong>
+                            <code
+                                style="background: var(--cz-theme-surface-hover); padding: 2px 6px; border-radius: 4px;">{{ testForm.controls.privacyAccepted.value }}</code>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Sizes -->
                 <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
                     <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
@@ -178,12 +193,27 @@
                     </div>
                 </div>
 
+                <!-- Template Driven [(ngModel)] Test -->
+                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
+                    <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
+                        Template Driven (NgModel)</h3>
+                    <div style="display: flex; gap: var(--cz-spacing-lg); align-items: center;">
+                        <cz-checkbox [(ngModel)]="templateDrivenValue" [ngModelOptions]="{standalone: true}"
+                            [binary]="true" label="NgModel Two-Way Binding"></cz-checkbox>
+                        <div>
+                            <strong>Property Value: </strong>
+                            <code
+                                style="background: var(--cz-theme-surface-hover); padding: 2px 6px; border-radius: 4px;">{{ templateDrivenValue }}</code>
+                        </div>
+                    </div>
+                </div>
                 <!-- Colors -->
                 <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
                     <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
                         Theme Colors</h3>
                     <div style="display: flex; gap: var(--cz-spacing-xl); flex-wrap: wrap;">
                         <cz-checkbox [binary]="true" color="primary" label="Primary"></cz-checkbox>
+                        <cz-checkbox [binary]="true" color="secondary" label="Secondary"></cz-checkbox>
                         <cz-checkbox [binary]="true" color="success" label="Success"></cz-checkbox>
                         <cz-checkbox [binary]="true" color="warning" label="Warning"></cz-checkbox>
                         <cz-checkbox [binary]="true" color="danger" label="Danger"></cz-checkbox>
@@ -197,9 +227,11 @@
                     <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
                         States</h3>
                     <div style="display: flex; gap: var(--cz-spacing-xl);">
-                        <cz-checkbox formControlName="privacyAccepted" label="Disabled (Checked)"></cz-checkbox>
+                        <cz-checkbox formControlName="disabledChecked" [binary]="true"
+                            label="Disabled (Checked)"></cz-checkbox>
                         <cz-checkbox [binary]="true" [disabled]="true" label="Disabled (Unchecked)"></cz-checkbox>
-                        <cz-checkbox formControlName="privacyAccepted" [readonly]="true" label="Readonly"></cz-checkbox>
+                        <cz-checkbox formControlName="privacyAccepted" [binary]="true" [readonly]="true"
+                            label="Readonly"></cz-checkbox>
                     </div>
                 </div>
 
