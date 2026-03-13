@@ -66,6 +66,12 @@ export const docsRoutes: Routes = [
                 title: 'InputText | Codezium UI Docs',
             },
             {
+                path: 'components/autocomplete',
+                loadComponent: () =>
+                    import('./pages/autocomplete/autocomplete-doc').then(m => m.AutocompleteDocPage),
+                title: 'Autocomplete | Codezium UI Docs',
+            },
+            {
                 path: 'components/checkbox',
                 loadComponent: () =>
                     import('./pages/checkbox/checkbox-doc').then(m => m.CheckboxDocPage),

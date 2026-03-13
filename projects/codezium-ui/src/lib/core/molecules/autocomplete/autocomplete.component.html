@@ -1,0 +1,139 @@
+<div 
+  class="cz-autocomplete-wrapper"
+  [class.cz-autocomplete-fluid]="fluid()"
+  [class.cz-autocomplete-filled]="filled()"
+  [class.cz-autocomplete-disabled]="actualDisabled()"
+  [class.cz-autocomplete-has-error]="isInvalid"
+  [class.cz-autocomplete-focused]="isFocused()"
+  [attr.data-size]="size()"
+  [attr.data-label-position]="labelPosition()"
+  [attr.data-color]="color() || null"
+  (click)="onWrapperClick()"
+>
+  @if (label() && labelPosition() === 'none') {
+    <label class="cz-autocomplete-label-static">{{ label() }}</label>
+  }
+
+  <div class="cz-autocomplete-container" [class.cz-float-active]="isFocused() || hasValue()">
+    
+    <!-- SINGLE MODE: Native Input -->
+    @if (!multiple()) {
+      <input
+        #inputEl
+        [type]="type()"
+        [placeholder]="actualPlaceholder()"
+        [disabled]="actualDisabled()"
+        [readonly]="readonly()"
+        [value]="inputValue()"
+        (input)="onInput($event)"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        (keydown)="onKeyDown($event)"
+        class="cz-autocomplete-native"
+        autocomplete="off"
+        role="combobox"
+        [attr.aria-expanded]="overlayVisible()"
+      />
+    }
+
+    <!-- MULTIPLE MODE: Chips + Input -->
+    @if (multiple()) {
+      <ul class="cz-autocomplete-multiple-container" (click)="focusInput()">
+        @for (item of value(); track $index) {
+          <li class="cz-autocomplete-token">
+            <!-- Custom Selected Item Template vs Default -->
+            @if (selectedItemTemplate()) {
+              <ng-container *ngTemplateOutlet="selectedItemTemplate()!; context: { $implicit: item }"></ng-container>
+            } @else {
+              <span class="cz-autocomplete-token-label">{{ resolveFieldData(item) }}</span>
+            }
+            @if (!actualDisabled() && !readonly()) {
+              <span class="cz-autocomplete-token-icon" (click)="removeItem($event, $index)" aria-hidden="true">&times;</span>
+            }
+          </li>
+        }
+        <li class="cz-autocomplete-input-token">
+          <input
+            #inputEl
+            [type]="type()"
+            [placeholder]="actualPlaceholder()"
+            [disabled]="actualDisabled()"
+            [readonly]="readonly()"
+            (input)="onInput($event)"
+            (focus)="onFocus()"
+            (blur)="onBlur()"
+            (keydown)="onKeyDown($event)"
+            autocomplete="off"
+          />
+        </li>
+      </ul>
+    }
+
+    <!-- DROPDOWN BUTTON -->
+    @if (dropdown()) {
+      <button 
+        type="button" 
+        class="cz-autocomplete-dropdown" 
+        [disabled]="actualDisabled()" 
+        (click)="handleDropdownClick($event)"
+        tabindex="-1">
+        <!-- Chevron down icon (can be replaced by Lucide via ng-content later, using basic text for now or simple SVG) -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+    }
+
+    @if (label()) {
+        @if (labelPosition() === 'over') {
+          <label class="cz-autocomplete-label-over">{{ label() }}</label>
+        } @else if (labelPosition() === 'in' || labelPosition() === 'float') {
+          <label class="cz-autocomplete-label-inner">{{ label() }}</label>
+        }
+    }
+  </div>
+
+  <!-- OVERLAY PANEL -->
+  <div 
+    class="cz-autocomplete-panel" 
+    [class.cz-autocomplete-panel-visible]="overlayVisible()"
+    (mousedown)="onOverlayMouseDown($event)"
+  >
+    <ul class="cz-autocomplete-items" role="listbox">
+      @for (suggestion of suggestions(); track $index) {
+        <li 
+          class="cz-autocomplete-item" 
+          [class.cz-autocomplete-item-highlighted]="highlightOption === suggestion"
+          (click)="selectItem(suggestion, true)"
+          (mouseenter)="highlightOption = suggestion"
+          role="option"
+        >
+          @if (itemTemplate()) {
+            <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: suggestion }"></ng-container>
+          } @else {
+            {{ resolveFieldData(suggestion) }}
+          }
+        </li>
+      }
+
+      @if (!suggestions() || suggestions()!.length === 0) {
+        <li class="cz-autocomplete-empty-message">
+          {{ emptyMessage() }}
+        </li>
+      }
+    </ul>
+  </div>
+
+  <!-- AUTOMATIC / DYNAMIC VALIDATION MESSAGES -->
+  <div class="cz-autocomplete-messages">
+    @if (showErrors() && isInvalid && errorMessage) {
+      <small class="cz-autocomplete-error-text">{{ errorMessage }}</small>
+    }
+    
+    <ng-content select="[czError]"></ng-content>
+
+    @if (helpText()) {
+      <small class="cz-autocomplete-help-text">{{ helpText() }}</small>
+    }
+
+    <ng-content select="[czHelp]"></ng-content>
+  </div>
+</div>

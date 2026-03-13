@@ -311,6 +311,110 @@
             </div>
         </section>
 
+        <!-- SECTION: Autocomplete Components -->
+        <section>
+            <h2
+                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
+                CzAutocomplete Elements</h2>
+
+            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px;">
+
+                <!-- Basic String -->
+                <cz-autocomplete 
+                    formControlName="autoBasic" 
+                    color="primary"
+                    label="Basic Strings (Primary)" 
+                    [suggestions]="filteredBasic"
+                    (completeMethod)="filterBasic($event)"
+                    helpText="Autocomplete pure strings."
+                    [locale]="activeLocale">
+                </cz-autocomplete>
+
+                <!-- Objects with Field -->
+                <cz-autocomplete 
+                    formControlName="autoObj" 
+                    color="success"
+                    label="Objects (Success)" 
+                    field="name"
+                    [suggestions]="filteredCountries"
+                    (completeMethod)="filterCountries($event)"
+                    helpText="Handles and displays nested object values."
+                    [locale]="activeLocale">
+                </cz-autocomplete>
+
+                <!-- Dropdown Button -->
+                <cz-autocomplete 
+                    formControlName="autoDropdown" 
+                    color="info"
+                    label="Dropdown (Info)" 
+                    field="name"
+                    [dropdown]="true"
+                    [suggestions]="filteredCountries"
+                    (completeMethod)="filterCountries($event)"
+                    [locale]="activeLocale">
+                </cz-autocomplete>
+
+                <!-- Multiple Selection (Chips) -->
+                <cz-autocomplete 
+                    formControlName="autoMultiple" 
+                    color="warning"
+                    label="Multiple Chips (Warning)" 
+                    field="name"
+                    [multiple]="true"
+                    [suggestions]="filteredCountries"
+                    (completeMethod)="filterCountries($event)"
+                    helpText="Select multiple elements to aggregate as chips."
+                    [locale]="activeLocale">
+                </cz-autocomplete>
+
+                <!-- Float Label Parity -->
+                <cz-autocomplete 
+                    formControlName="autoFloat" 
+                    color="danger"
+                    label="Float Label (Danger)" 
+                    labelPosition="float"
+                    [suggestions]="filteredBasic"
+                    (completeMethod)="filterBasic($event)"
+                    [locale]="activeLocale">
+                </cz-autocomplete>
+
+                <!-- Over Label Parity -->
+                <cz-autocomplete 
+                    formControlName="autoOver" 
+                    color="secondary"
+                    label="Over Label (Secondary)" 
+                    labelPosition="over"
+                    [suggestions]="filteredBasic"
+                    (completeMethod)="filterBasic($event)"
+                    [locale]="activeLocale">
+                </cz-autocomplete>
+
+                <!-- In Label Parity -->
+                <cz-autocomplete 
+                    formControlName="autoIn" 
+                    color="dark"
+                    label="In Label (Dark)" 
+                    labelPosition="in"
+                    [suggestions]="filteredBasic"
+                    (completeMethod)="filterBasic($event)"
+                    [locale]="activeLocale">
+                </cz-autocomplete>
+
+                <div
+                    style="background: var(--cz-theme-surface-hover); padding: var(--cz-spacing-md); border-radius: var(--cz-radius-md); font-family: monospace; font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-secondary);">
+                    <strong>Raw Form Values:</strong><br/>
+                    Basic: {{ testForm.get('autoBasic')?.value | json }}<br/>
+                    Obj: {{ testForm.get('autoObj')?.value | json }}<br/>
+                    Dropdown: {{ testForm.get('autoDropdown')?.value | json }}<br/>
+                    Multiple: {{ testForm.get('autoMultiple')?.value | json }}<br/>
+                    Float: {{ testForm.get('autoFloat')?.value | json }}<br/>
+                    Over: {{ testForm.get('autoOver')?.value | json }}<br/>
+                    In: {{ testForm.get('autoIn')?.value | json }}
+                </div>
+
+            </div>
+        </section>
+
         <!-- SECTION: Input Sizes -->
         <section>
             <h2

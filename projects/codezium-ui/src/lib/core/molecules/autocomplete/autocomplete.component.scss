@@ -1,0 +1,826 @@
+@use 'sass:list';
+
+/* ==========================================================================
+   CzAutocomplete Molecule (Inherits CzInputText styling)
+   ========================================================================== */
+
+.cz-autocomplete-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cz-spacing-xs);
+  width: auto;
+  align-items: flex-start;
+  position: relative; // Needed for autocomplete
+
+  &.cz-autocomplete-fluid {
+    width: 100%;
+
+    .cz-autocomplete-container {
+      width: 100%;
+    }
+  }
+
+  /* Provide space for the animated over label to go outside the box */
+  &[data-label-position="over"] {
+    margin-top: calc(var(--cz-text-sm) + var(--cz-spacing-xs));
+  }
+
+  /* Label NONE: etiqueta estática simple, sin animaciones */
+  .cz-autocomplete-label-static {
+    display: block;
+    font-size: var(--cz-font-size-sm, 0.875rem);
+    font-weight: 500;
+    color: var(--cz-theme-input-label-active, var(--cz-color-gray-700));
+    margin-bottom: var(--cz-spacing-xxs);
+    line-height: 1.4;
+  }
+
+  /* Contenedor relativo para Float/In/Over labels */
+  .cz-autocomplete-container {
+    position: relative;
+    display: inline-flex;
+    width: 100%;
+
+    background: var(--cz-theme-input-bg, var(--cz-theme-surface));
+    border: 1px solid var(--cz-theme-input-border, var(--cz-color-gray-400));
+    border-radius: var(--cz-theme-radius-base);
+    transition: var(--cz-theme-transition-base);
+    box-sizing: border-box;
+
+    .cz-autocomplete-native {
+      font-family: inherit;
+      width: 100%;
+      background: transparent;
+      color: var(--cz-theme-text-primary);
+      border: none;
+      outline: none;
+      box-sizing: border-box;
+
+      &::placeholder {
+        color: var(--cz-theme-input-placeholder, var(--cz-color-gray-400));
+        /* Hide placeholder text when label is going to cover it initially */
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+    }
+
+    &.cz-float-active .cz-autocomplete-native::placeholder {
+      opacity: 1;
+      /* Retornar el placeholder nativo una vez el label sube */
+    }
+
+    .cz-autocomplete-label-inner,
+    .cz-autocomplete-label-over {
+      position: absolute;
+      pointer-events: none;
+      transition: all 0.2s ease-out;
+      z-index: 1;
+    }
+
+    .cz-autocomplete-label-inner {
+      left: var(--cz-spacing-md);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+      font-size: var(--cz-text-base);
+      margin: 0;
+    }
+
+    /* Diseño inicial del Over Label (dentro del input como placeholder) */
+    .cz-autocomplete-label-over {
+      left: var(--cz-spacing-md);
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: var(--cz-text-base);
+      font-weight: 400;
+      color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+    }
+  }
+
+  /* Tamaños (Sizes) */
+  &[data-size="sm"] {
+    .cz-autocomplete-native {
+      font-size: var(--cz-text-sm);
+      padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
+    }
+
+    ul.cz-autocomplete-multiple-container {
+      padding: calc(var(--cz-spacing-xs) / 2) var(--cz-spacing-sm);
+      min-height: 2.25rem;
+    }
+  }
+
+  &[data-size="md"] {
+    .cz-autocomplete-native {
+      font-size: var(--cz-text-base);
+      padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    }
+
+    ul.cz-autocomplete-multiple-container {
+      padding: calc(var(--cz-spacing-sm) / 2) var(--cz-spacing-md);
+      min-height: 2.75rem;
+    }
+  }
+
+  &[data-size="lg"] {
+    .cz-autocomplete-native {
+      font-size: var(--cz-text-lg);
+      padding: var(--cz-spacing-md) var(--cz-spacing-lg);
+    }
+
+    ul.cz-autocomplete-multiple-container {
+      padding: calc(var(--cz-spacing-md) / 2) var(--cz-spacing-lg);
+      min-height: 3.25rem;
+    }
+  }
+
+  /* Estado: Filled */
+  &.cz-autocomplete-filled .cz-autocomplete-container {
+    background: var(--cz-theme-surface-active);
+    border-color: transparent;
+  }
+
+  /* Estado: Focus */
+  &.cz-autocomplete-focused {
+    .cz-autocomplete-container {
+      border-color: var(--cz-color-primary);
+      box-shadow: 0 0 0 3px var(--cz-color-primary-200);
+    }
+  }
+
+  /* Dark mode: ring más visible */
+  .dark &.cz-autocomplete-focused .cz-autocomplete-container,
+  [data-theme="dark"] &.cz-autocomplete-focused .cz-autocomplete-container {
+    border-color: var(--cz-color-primary) !important;
+    box-shadow: 0 0 0 3px var(--cz-color-primary-300) !important;
+  }
+
+  /* Estado Activo del Contenedor (Focus O tiene valor) */
+  .cz-autocomplete-container.cz-float-active {
+    .cz-autocomplete-label-over {
+      top: -0.5rem;
+      left: 0;
+      font-size: var(--cz-text-sm);
+      font-weight: 500;
+      color: var(--cz-theme-input-label-active, var(--cz-color-gray-900));
+      transform: translateY(-100%);
+    }
+  }
+
+  /* Estado: Hover */
+  &:not(.cz-autocomplete-focused):not(.cz-autocomplete-disabled):hover .cz-autocomplete-container {
+    border-color: var(--cz-theme-input-border-hover, var(--cz-color-gray-500));
+  }
+
+  /* Estado: Disabled */
+  &.cz-autocomplete-disabled {
+    opacity: 0.6;
+    pointer-events: none;
+
+    .cz-autocomplete-container {
+      background: var(--cz-color-gray-100); // Fondo inactivo neutral
+      color: var(--cz-color-gray-500);
+
+      .cz-autocomplete-native {
+        color: var(--cz-color-gray-500);
+      }
+    }
+  }
+
+  /* Estado: Validaciones y Error */
+  &.cz-autocomplete-has-error {
+    .cz-autocomplete-container {
+      border-color: var(--cz-color-danger) !important;
+    }
+
+    &.cz-autocomplete-focused .cz-autocomplete-container {
+      box-shadow: 0 0 0 2px var(--cz-color-danger-100) !important;
+    }
+
+    .cz-autocomplete-label-inner,
+    .cz-autocomplete-label-over {
+      color: var(--cz-color-danger) !important;
+    }
+  }
+
+  .cz-autocomplete-error-text {
+    color: var(--cz-color-danger);
+    font-size: var(--cz-font-size-xs);
+    line-height: 1;
+    margin-top: var(--cz-spacing-xs);
+    display: block;
+  }
+
+  .cz-autocomplete-help-text {
+    color: var(--cz-theme-text-muted);
+    font-size: var(--cz-font-size-xs);
+    line-height: 1;
+    margin-top: var(--cz-spacing-xs);
+    display: block;
+  }
+
+  /* Label Variant: "IN" */
+  &[data-label-position="in"] {
+
+    .cz-autocomplete-native,
+    ul.cz-autocomplete-multiple-container {
+      /* Ampliamos el espacio superior para contener ambos textos */
+      padding-top: var(--cz-spacing-xl);
+      padding-bottom: var(--cz-spacing-xs);
+    }
+
+    /* Estado inicial: tamaño normal, color tenue */
+    .cz-autocomplete-label-inner {
+      top: var(--cz-spacing-sm);
+      transform: none;
+      font-size: var(--cz-text-base);
+      color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+      transition: font-size 0.2s ease, color 0.2s ease;
+    }
+
+    /* Activo: focus O tiene valor → se queda pequeño */
+    .cz-autocomplete-container.cz-float-active .cz-autocomplete-label-inner {
+      font-size: var(--cz-font-size-xs, 0.75rem);
+      color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+    }
+
+    /* Cuando además está en focus → color primario */
+    &.cz-autocomplete-focused .cz-autocomplete-container.cz-float-active .cz-autocomplete-label-inner {
+      color: var(--cz-color-primary);
+    }
+  }
+
+  /* Label Variant: "FLOAT" (Estilo Material / Prime) */
+  &[data-label-position="float"] {
+
+    /* Estado inicial: label GRANDE centrado como placeholder */
+    .cz-autocomplete-label-inner {
+      top: 50%;
+      font-size: var(--cz-text-base);
+      color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+      transition: all 0.2s ease;
+    }
+
+    /* Activo: Focus O tiene valor → sube el label y se vuelve pequeño */
+    .cz-autocomplete-container.cz-float-active {
+      .cz-autocomplete-label-inner {
+        top: 0;
+        font-size: var(--cz-font-size-xs, 0.75rem);
+        transform: translateY(-50%);
+        /* Fondo con mini blur para tapar el borde sin transparencia visible */
+        background: var(--cz-theme-input-bg, var(--cz-theme-surface));
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        padding: 0 var(--cz-spacing-xs);
+        border-radius: var(--cz-radius-sm);
+        color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+      }
+    }
+
+    /* Cuando además está en focus → color primario */
+    &.cz-autocomplete-focused .cz-autocomplete-container.cz-float-active .cz-autocomplete-label-inner {
+      color: var(--cz-color-primary);
+    }
+
+    &.cz-autocomplete-has-error .cz-autocomplete-container.cz-float-active .cz-autocomplete-label-inner {
+      color: var(--cz-color-danger);
+    }
+  }
+
+
+  /* ==========================================================================
+       AUTOCOMPLETE SPECIFICS (Chips, Dropdown Button)
+       ========================================================================== */
+
+  ul.cz-autocomplete-multiple-container {
+    margin: 0;
+    list-style-type: none;
+    cursor: text;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+
+    li.cz-autocomplete-token {
+      display: inline-flex;
+      align-items: center;
+      background: var(--cz-color-gray-100);
+      color: var(--cz-color-gray-900);
+      border-radius: var(--cz-radius-sm);
+      padding: 0.125rem 0.5rem;
+      font-size: var(--cz-font-size-sm);
+
+      .cz-autocomplete-token-icon {
+        cursor: pointer;
+        margin-left: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--cz-color-gray-500);
+        transition: color 0.2s;
+
+        &:hover {
+          color: var(--cz-color-danger);
+        }
+      }
+    }
+
+    // Dark modes token
+    .dark &,
+    [data-theme="dark"] & {
+      li.cz-autocomplete-token {
+        background: var(--cz-color-gray-700);
+        color: var(--cz-color-white);
+      }
+    }
+
+    li.cz-autocomplete-input-token {
+      flex: 1 1 auto;
+      display: inline-flex;
+
+      input {
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--cz-theme-text-primary);
+        font-family: inherit;
+        font-size: inherit;
+        padding: 0;
+        margin: 0;
+        min-width: 50px;
+        width: 100%;
+      }
+    }
+  }
+
+  .cz-autocomplete-dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: auto;
+    align-self: stretch;
+    background: transparent;
+    border: 0;
+    border-left: 1px solid var(--cz-theme-input-border, var(--cz-color-gray-400));
+    color: var(--cz-theme-text-secondary);
+    cursor: pointer;
+    border-top-right-radius: var(--cz-theme-radius-base);
+    border-bottom-right-radius: var(--cz-theme-radius-base);
+    transition: background-color 0.2s, color 0.2s;
+
+    &:hover:not(:disabled) {
+      background-color: var(--cz-theme-surface-hover);
+      color: var(--cz-theme-text-primary);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+}
+
+
+/* ==========================================================================
+   NEO THEME — Overrides for [data-theme="neo"]
+   ========================================================================== */
+
+[data-theme="neo"] {
+  .cz-autocomplete-wrapper {
+    .cz-autocomplete-container {
+      background: var(--cz-neo-bg, #e0e5ec) !important;
+      border: none !important;
+      outline: none !important;
+      /* Estado raised: doble sombra exterior suave */
+      box-shadow: var(--cz-neo-shadow-raised) !important;
+      transition: box-shadow 0.2s ease !important;
+
+      .cz-autocomplete-native {
+        color: var(--cz-neo-text, #4a4a6a) !important;
+
+        &::placeholder {
+          color: var(--cz-theme-text-muted, #9ca3af);
+          opacity: 1;
+        }
+      }
+
+      .cz-autocomplete-dropdown {
+        border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
+      }
+    }
+
+    /* Focus: efecto "press" / hundido con inset shadow intenso */
+    &.cz-autocomplete-focused .cz-autocomplete-container {
+      box-shadow:
+        inset 4px 4px 8px var(--cz-neo-shadow-dark, #a3b1c6),
+        inset -4px -4px 8px var(--cz-neo-shadow-light, #ffffff) !important;
+      background: var(--cz-neo-bg, #e0e5ec) !important;
+      border: none !important;
+    }
+
+    /* Color variants en neo: fondo del color -50, sombra propia del color */
+    &[data-color="primary"] {
+      .cz-autocomplete-container {
+        background: var(--cz-color-primary-50) !important;
+        box-shadow:
+          4px 4px 8px var(--cz-neo-shadow-dark-primary, #a0cce6),
+          -4px -4px 8px var(--cz-neo-shadow-light-primary, #ffffff) !important;
+      }
+
+      &.cz-autocomplete-focused .cz-autocomplete-container {
+        box-shadow:
+          inset 4px 4px 8px var(--cz-neo-shadow-dark-primary, #a0cce6),
+          inset -4px -4px 8px var(--cz-neo-shadow-light-primary, #ffffff) !important;
+        background: var(--cz-color-primary-50) !important;
+      }
+    }
+
+    &[data-color="success"] {
+      .cz-autocomplete-container {
+        background: var(--cz-color-success-50) !important;
+        box-shadow:
+          4px 4px 8px var(--cz-neo-shadow-dark-success, #a3cdb3),
+          -4px -4px 8px var(--cz-neo-shadow-light-success, #ffffff) !important;
+      }
+
+      &.cz-autocomplete-focused .cz-autocomplete-container {
+        box-shadow:
+          inset 4px 4px 8px var(--cz-neo-shadow-dark-success, #a3cdb3),
+          inset -4px -4px 8px var(--cz-neo-shadow-light-success, #ffffff) !important;
+        background: var(--cz-color-success-50) !important;
+      }
+    }
+
+    &[data-color="danger"] {
+      .cz-autocomplete-container {
+        background: var(--cz-color-danger-50) !important;
+        box-shadow:
+          4px 4px 8px var(--cz-neo-shadow-dark-danger, #d3a3a3),
+          -4px -4px 8px var(--cz-neo-shadow-light-danger, #ffffff) !important;
+      }
+
+      &.cz-autocomplete-focused .cz-autocomplete-container {
+        box-shadow:
+          inset 4px 4px 8px var(--cz-neo-shadow-dark-danger, #d3a3a3),
+          inset -4px -4px 8px var(--cz-neo-shadow-light-danger, #ffffff) !important;
+        background: var(--cz-color-danger-50) !important;
+      }
+    }
+
+    &[data-color="warning"] {
+      .cz-autocomplete-container {
+        background: var(--cz-color-warning-50) !important;
+        box-shadow:
+          4px 4px 8px var(--cz-neo-shadow-dark-warning, #d7c89c),
+          -4px -4px 8px var(--cz-neo-shadow-light-warning, #ffffff) !important;
+      }
+
+      &.cz-autocomplete-focused .cz-autocomplete-container {
+        box-shadow:
+          inset 4px 4px 8px var(--cz-neo-shadow-dark-warning, #d7c89c),
+          inset -4px -4px 8px var(--cz-neo-shadow-light-warning, #ffffff) !important;
+        background: var(--cz-color-warning-50) !important;
+      }
+    }
+
+    &[data-color="info"] {
+      .cz-autocomplete-container {
+        background: var(--cz-color-info-50) !important;
+        box-shadow:
+          4px 4px 8px var(--cz-neo-shadow-dark-info, #a5cfd8),
+          -4px -4px 8px var(--cz-neo-shadow-light-info, #ffffff) !important;
+      }
+
+      &.cz-autocomplete-focused .cz-autocomplete-container {
+        box-shadow:
+          inset 4px 4px 8px var(--cz-neo-shadow-dark-info, #a5cfd8),
+          inset -4px -4px 8px var(--cz-neo-shadow-light-info, #ffffff) !important;
+        background: var(--cz-color-info-50) !important;
+      }
+    }
+
+    &[data-color="secondary"] {
+      .cz-autocomplete-container {
+        background: var(--cz-color-secondary-50) !important;
+        box-shadow:
+          4px 4px 8px var(--cz-neo-shadow-dark, #a3b1c6),
+          -4px -4px 8px var(--cz-neo-shadow-light, #ffffff) !important;
+      }
+
+      &.cz-autocomplete-focused .cz-autocomplete-container {
+        box-shadow:
+          inset 4px 4px 8px var(--cz-neo-shadow-dark, #a3b1c6),
+          inset -4px -4px 8px var(--cz-neo-shadow-light, #ffffff) !important;
+        background: var(--cz-color-secondary-50) !important;
+      }
+    }
+  }
+
+  /* Dark neo: superficie oscura (solo inputs sin color variant) */
+  &.dark .cz-autocomplete-wrapper:not([data-color]),
+  .dark & .cz-autocomplete-wrapper:not([data-color]) {
+    .cz-autocomplete-container {
+      background: var(--cz-theme-surface, #1e293b) !important;
+      border: none !important;
+      box-shadow: var(--cz-theme-shadow-base) !important;
+
+      .cz-autocomplete-native {
+        color: var(--cz-color-white) !important;
+
+        &::placeholder {
+          color: rgba(255, 255, 255, 0.35);
+          opacity: 1;
+        }
+      }
+    }
+
+    &.cz-autocomplete-focused .cz-autocomplete-container {
+      box-shadow: var(--cz-theme-shadow-hover) !important;
+    }
+  }
+
+  /* Dark neo + color variants: sin halo blanco, inset más profundo */
+  &.dark .cz-autocomplete-wrapper[data-color],
+  .dark & .cz-autocomplete-wrapper[data-color] {
+    // Sombras dark-neo para colores: luz muy atenuada, oscuro más profundo
+    $neo-dark-shadow: rgba(0, 0, 0, 0.55);
+    $neo-light-shadow: rgba(255, 255, 255, 0.07);
+
+    .cz-autocomplete-container {
+      border: none !important;
+      box-shadow:
+        4px 4px 10px $neo-dark-shadow,
+        -3px -3px 8px $neo-light-shadow !important;
+    }
+
+    &.cz-autocomplete-focused .cz-autocomplete-container {
+      box-shadow:
+        inset 5px 5px 12px $neo-dark-shadow,
+        inset -3px -3px 8px $neo-light-shadow !important;
+    }
+  }
+}
+
+/* ==========================================================================
+   GLASS THEME — Overrides for [data-theme="glass"]
+   ========================================================================== */
+
+[data-theme="glass"] {
+  .cz-autocomplete-wrapper {
+    .cz-autocomplete-container {
+      background: var(--cz-theme-input-bg, rgba(255, 255, 255, 0.35)) !important;
+      border: 1px solid var(--cz-theme-input-border, rgba(255, 255, 255, 0.6)) !important;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      /* Glass shine: highlight arriba-izquierda + sombra profunda abajo */
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        0 4px 16px rgba(31, 38, 135, 0.08),
+        0 1px 4px rgba(31, 38, 135, 0.06);
+
+      transition: box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+
+      .cz-autocomplete-native {
+        color: var(--cz-theme-text-primary) !important;
+
+        &::placeholder {
+          color: var(--cz-theme-input-placeholder, rgba(0, 0, 0, 0.35));
+          opacity: 1;
+        }
+      }
+    }
+
+    /* Focus: borde primary + ring glass */
+    &.cz-autocomplete-focused .cz-autocomplete-container {
+      background: rgba(255, 255, 255, 0.55) !important;
+      border-color: var(--cz-color-primary) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        0 0 0 3px var(--cz-color-primary-200),
+        0 8px 24px rgba(31, 38, 135, 0.15) !important;
+    }
+  }
+
+  /* Dark glass: fondo oscuro translúcido + texto blanco */
+  &.dark .cz-autocomplete-wrapper:not([data-color]),
+  .dark & .cz-autocomplete-wrapper:not([data-color]) {
+    .cz-autocomplete-container {
+      background: var(--cz-theme-input-bg, rgba(255, 255, 255, 0.07)) !important;
+      border-color: var(--cz-theme-input-border, rgba(255, 255, 255, 0.18)) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 4px 24px rgba(0, 0, 0, 0.35),
+        0 1px 6px rgba(0, 0, 0, 0.25) !important;
+
+      .cz-autocomplete-native {
+        color: var(--cz-color-white, #ffffff) !important;
+
+        &::placeholder {
+          color: var(--cz-theme-input-placeholder, rgba(255, 255, 255, 0.4));
+          opacity: 1;
+        }
+      }
+    }
+
+    /* Focus dark glass */
+    &.cz-autocomplete-focused .cz-autocomplete-container {
+      background: rgba(255, 255, 255, 0.14) !important;
+      border-color: var(--cz-color-primary) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 0 0 3px var(--cz-color-primary-300),
+        0 8px 28px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    /* Labels oscuros → color claro */
+    .cz-autocomplete-label-static,
+    .cz-autocomplete-label-over,
+    .cz-autocomplete-label-inner {
+      color: var(--cz-theme-input-label, rgba(255, 255, 255, 0.6));
+    }
+
+    /* Float label activo en dark glass: fondo oscuro con blur */
+    .cz-autocomplete-container.cz-float-active .cz-autocomplete-label-inner {
+      background: rgba(15, 23, 42, 0.75);
+      color: var(--cz-theme-input-label-active, rgba(255, 255, 255, 0.9));
+    }
+
+    &.cz-autocomplete-focused .cz-autocomplete-container.cz-float-active .cz-autocomplete-label-inner {
+      color: var(--cz-color-primary-300);
+    }
+  }
+
+  /* Glass Panel Overlay */
+  .cz-autocomplete-panel {
+    background-color: var(--cz-theme-input-bg, rgba(255, 255, 255, 0.131));
+    border: 1px solid var(--cz-theme-input-border, rgba(255, 255, 255, 0.6));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+  }
+
+  &.dark .cz-autocomplete-panel,
+  .dark & .cz-autocomplete-panel {
+    background-color: var(--cz-theme-input-bg, rgba(15, 23, 42, 0.75));
+    border-color: var(--cz-theme-input-border, rgba(255, 255, 255, 0.18));
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* ==========================================================================
+   COLOR VARIANTS — [color="primary|success|danger|warning|info|secondary|dark"]
+   Background: lightest tint (-50), Border: visible shade (-400/-500)
+   ========================================================================== */
+
+$cz-input-colors: (
+  "primary": (--cz-color-primary-50, --cz-color-primary-400, --cz-color-primary-200, --cz-color-primary-900),
+  "success": (--cz-color-success-50, --cz-color-success-400, --cz-color-success-200, --cz-color-success-900),
+  "danger": (--cz-color-danger-50, --cz-color-danger-400, --cz-color-danger-200, --cz-color-danger-900),
+  "warning": (--cz-color-warning-50, --cz-color-warning-400, --cz-color-warning-200, --cz-color-warning-900),
+  "info": (--cz-color-info-50, --cz-color-info-400, --cz-color-info-200, --cz-color-info-900),
+  "secondary": (--cz-color-secondary-50, --cz-color-secondary-400, --cz-color-secondary-200, --cz-color-secondary-900),
+);
+
+@each $name, $values in $cz-input-colors {
+  $bg: list.nth($values, 1);
+  $border: list.nth($values, 2);
+  $ring: list.nth($values, 3);
+  $text: list.nth($values, 4);
+
+  .cz-autocomplete-wrapper[data-color="#{$name}"] {
+    .cz-autocomplete-container {
+      background: var(#{$bg}) !important;
+      border-color: var(#{$border}) !important;
+
+      .cz-autocomplete-native {
+        color: var(#{$text}) !important;
+
+        &::placeholder {
+          color: var(#{$border});
+          opacity: 0.7;
+        }
+      }
+    }
+
+    &.cz-autocomplete-focused .cz-autocomplete-container {
+      background: var(#{$bg}) !important;
+      border-color: var(#{$border}) !important;
+      box-shadow: 0 0 0 3px var(#{$ring}) !important;
+    }
+
+    &:not(.cz-autocomplete-focused):not(.cz-autocomplete-disabled):hover .cz-autocomplete-container {
+      border-color: var(#{$border}) !important;
+      filter: brightness(0.97);
+    }
+  }
+}
+
+/* Dark variant — fondo oscuro, texto claro */
+.cz-autocomplete-wrapper[data-color="dark"] {
+  .cz-autocomplete-container {
+    background: var(--cz-color-gray-800, #1f2937) !important;
+    border-color: var(--cz-color-gray-700, #374151) !important;
+
+    .cz-autocomplete-native {
+      color: var(--cz-color-white, #ffffff) !important;
+
+      &::placeholder {
+        color: var(--cz-color-gray-400, #9ca3af);
+        opacity: 1;
+      }
+    }
+  }
+
+  &:not(.cz-autocomplete-focused):not(.cz-autocomplete-disabled):hover .cz-autocomplete-container {
+    background: var(--cz-color-gray-700, #374151) !important;
+    border-color: var(--cz-color-gray-500, #6b7280) !important;
+    filter: none;
+  }
+
+  &.cz-autocomplete-focused .cz-autocomplete-container {
+    background: var(--cz-color-gray-800, #1f2937) !important;
+    border-color: rgba(255, 255, 255, 0.9) !important;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
+
+    .cz-autocomplete-native {
+      color: var(--cz-color-white, #ffffff) !important;
+    }
+  }
+
+  .cz-autocomplete-label-static,
+  .cz-autocomplete-label-over,
+  .cz-autocomplete-label-inner {
+    color: var(--cz-color-gray-300, #d1d5db);
+  }
+}
+
+
+/* ==========================================================================
+   OVERLAY PANEL
+   ========================================================================== */
+.cz-autocomplete-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  background-color: var(--cz-theme-surface, #ffffff);
+  border: 1px solid var(--cz-theme-border-color, #e5e7eb);
+  border-radius: var(--cz-theme-radius-base);
+  box-shadow: var(--cz-shadow-lg);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px);
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+
+  &.cz-autocomplete-panel-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .dark &,
+  [data-theme="dark"] & {
+    background-color: var(--cz-color-gray-800);
+    border-color: var(--cz-color-gray-700);
+  }
+
+  .cz-autocomplete-items {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem;
+
+    li.cz-autocomplete-item {
+      padding: 0.5rem 0.75rem;
+      cursor: pointer;
+      color: var(--cz-theme-text-primary);
+      border-radius: var(--cz-radius-sm);
+      font-size: 0.875rem;
+      transition: background-color var(--cz-transition-duration);
+      word-break: break-word;
+
+      &:hover {
+        background-color: var(--cz-theme-surface-hover);
+      }
+
+      &.cz-autocomplete-item-highlighted {
+        background-color: var(--cz-theme-surface-hover);
+        color: var(--cz-color-primary);
+        font-weight: 600;
+      }
+    }
+  }
+
+  .cz-autocomplete-empty-message {
+    padding: 0.75rem;
+    color: var(--cz-theme-text-muted);
+    font-size: 0.875rem;
+    text-align: center;
+  }
+}

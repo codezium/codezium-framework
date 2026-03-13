@@ -40,6 +40,7 @@ export const DOCS_NAV: NavItem[] = [
         icon: Box,
         children: [
             { label: 'InputText', path: '/docs/components/input-text' },
+            { label: 'Autocomplete', path: '/docs/components/autocomplete' },
             { label: 'Checkbox', path: '/docs/components/checkbox' },
             { label: 'Button', path: '/docs/components/button', badge: 'SOON' },
             { label: 'Select', path: '/docs/components/select', badge: 'SOON' },

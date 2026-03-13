@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, Renderer2 } from '@angular/core';
 import { DOCUMENT, JsonPipe, SlicePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
-import { CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzValidationLocale } from 'codezium-ui';
+import { CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, CzValidationLocale } from 'codezium-ui';
 
 interface TestForm {
   email: FormControl<string | null>;
@@ -21,11 +21,20 @@ interface TestForm {
   // Native Input test fields
   nativePrice: FormControl<number | null>;
   nativePercentage: FormControl<number | null>;
+
+  // Autocomplete test fields
+  autoBasic: FormControl<string | null>;
+  autoObj: FormControl<any | null>;
+  autoDropdown: FormControl<any | null>;
+  autoMultiple: FormControl<any[] | null>;
+  autoFloat: FormControl<string | null>;
+  autoOver: FormControl<string | null>;
+  autoIn: FormControl<string | null>;
 }
 
 @Component({
   selector: 'app-test-area',
-  imports: [ReactiveFormsModule, FormsModule, CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, JsonPipe, SlicePipe],
+  imports: [ReactiveFormsModule, FormsModule, CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, JsonPipe, SlicePipe],
   templateUrl: './test-area.html',
   styleUrl: './test-area.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -53,7 +62,43 @@ export class TestArea {
 
     nativePrice: new FormControl(500.25),
     nativePercentage: new FormControl(25),
+
+    autoBasic: new FormControl('', Validators.required),
+    autoObj: new FormControl(null),
+    autoDropdown: new FormControl(null),
+    autoMultiple: new FormControl([], Validators.required),
+    autoFloat: new FormControl(''),
+    autoOver: new FormControl(''),
+    autoIn: new FormControl('')
   });
+
+  // Autocomplete Data & Logic
+  countries = [
+    { name: 'Argentina', code: 'AR' },
+    { name: 'Brazil', code: 'BR' },
+    { name: 'Canada', code: 'CA' },
+    { name: 'Colombia', code: 'CO' },
+    { name: 'France', code: 'FR' },
+    { name: 'Germany', code: 'DE' },
+    { name: 'Italy', code: 'IT' },
+    { name: 'Japan', code: 'JP' },
+    { name: 'Mexico', code: 'MX' },
+    { name: 'Spain', code: 'ES' },
+    { name: 'United States', code: 'US' },
+    { name: 'United Kingdom', code: 'UK' }
+  ];
+  filteredCountries: any[] = [];
+  filteredBasic: string[] = [];
+
+  filterCountries(event: any) {
+    const query = event.query.toLowerCase();
+    this.filteredCountries = this.countries.filter(c => c.name.toLowerCase().includes(query));
+  }
+
+  filterBasic(event: any) {
+    const query = event.query.toLowerCase();
+    this.filteredBasic = this.countries.map(c => c.name).filter(name => name.toLowerCase().includes(query));
+  }
 
   // Dynamic Array Categories
   categories: any[] = [

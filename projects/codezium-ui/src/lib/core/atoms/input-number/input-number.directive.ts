@@ -9,24 +9,26 @@ import {
   computed,
   inject
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { CzInputTextComponent } from '../input-text/input-text.component';
 
 export type CzInputNumberMode = 'decimal' | 'currency';
 
 @Directive({
   selector: '[czInputNumber]',
-  standalone: true,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CzInputNumberDirective),
-      multi: true
-    }
-  ]
+  standalone: true
 })
 export class CzInputNumberDirective implements ControlValueAccessor, OnInit {
   private el = inject(ElementRef);
   private renderer = inject(Renderer2);
+  private ngControl = inject(NgControl, { optional: true, self: true });
+  private czInputText = inject(CzInputTextComponent, { optional: true });
+
+  constructor() {
+    if (this.ngControl) {
+      this.ngControl.valueAccessor = this;
+    }
+  }
 
   // Configuration Inputs (Matching PrimeNG)
   mode = input<CzInputNumberMode>('decimal');
@@ -104,7 +106,11 @@ export class CzInputNumberDirective implements ControlValueAccessor, OnInit {
   }
 
   setDisabledState(isDisabled: boolean): void {
-    this.renderer.setProperty(this.el.nativeElement, 'disabled', isDisabled);
+    if (this.czInputText) {
+        this.czInputText.setDisabledState(isDisabled);
+    } else {
+        this.renderer.setProperty(this.el.nativeElement, 'disabled', isDisabled);
+    }
   }
 
   // ==== Host Listeners ====
@@ -189,7 +195,11 @@ export class CzInputNumberDirective implements ControlValueAccessor, OnInit {
 
   private updateView(isFocused: boolean = false): void {
     if (this.innerValue === null || isNaN(this.innerValue)) {
-      this.renderer.setProperty(this.el.nativeElement, 'value', '');
+      if (this.czInputText) {
+        this.czInputText.value.set('');
+      } else {
+        this.renderer.setProperty(this.el.nativeElement, 'value', '');
+      }
       return;
     }
 
@@ -204,7 +214,11 @@ export class CzInputNumberDirective implements ControlValueAccessor, OnInit {
       finalString = `${this.prefix()}${finalString}${this.suffix()}`;
     }
 
-    this.renderer.setProperty(this.el.nativeElement, 'value', finalString);
+    if (this.czInputText) {
+      this.czInputText.value.set(finalString);
+    } else {
+      this.renderer.setProperty(this.el.nativeElement, 'value', finalString);
+    }
   }
 
   private parseValue(val: any): number | null {
