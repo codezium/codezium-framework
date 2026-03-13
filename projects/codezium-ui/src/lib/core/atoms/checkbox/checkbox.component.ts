@@ -50,6 +50,7 @@ export type CzCheckboxSize = 'sm' | 'md' | 'lg';
         '[class.cz-checkbox-wrapper]': 'true',
         '[class.cz-checkbox--disabled]': 'isDisabled()',
         '[class.cz-checkbox--readonly]': 'readonly()',
+        '[class.cz-checkbox--label-left]': 'isLabelLeft()',
     },
     encapsulation: ViewEncapsulation.None
 })
@@ -66,6 +67,8 @@ export class CzCheckboxComponent implements ControlValueAccessor, OnInit {
     /** The value of the checkbox when interacting in a group (Array mode) */
     value = input<any>();
     label = input<string>('');
+    labelPosition = input<'left' | 'right'>('right');
+    isLabelLeft = computed(() => this.labelPosition() === 'left');
     /** If true, the bound value is a boolean or matching trueValue/falseValue. If false, binds to an array. */
     binary = input<boolean>(false);
     disabled = input<boolean>(false);
@@ -84,6 +87,7 @@ export class CzCheckboxComponent implements ControlValueAccessor, OnInit {
 
     color = input<CzCheckboxColor>('primary');
     size = input<CzCheckboxSize>('md');
+    circle = input<boolean>(false);
 
     /** Emit on interaction */
     onChangeEvent = output<CzCheckboxChangeEvent>({ alias: 'onChange' });
@@ -132,7 +136,8 @@ export class CzCheckboxComponent implements ControlValueAccessor, OnInit {
             'cz-checkbox-box--checked': this.checked(),
             'cz-checkbox-box--focused': this.focused,
             [`cz-checkbox-box--${this.color()}`]: true,
-            [`cz-checkbox-box--${this.size()}`]: true
+            [`cz-checkbox-box--${this.size()}`]: true,
+            'cz-checkbox-box--circle': this.circle()
         };
     });
 

@@ -40,6 +40,7 @@ export const DOCS_NAV: NavItem[] = [
         icon: Box,
         children: [
             { label: 'InputText', path: '/docs/components/input-text' },
+            { label: 'Checkbox', path: '/docs/components/checkbox' },
             { label: 'Button', path: '/docs/components/button', badge: 'SOON' },
             { label: 'Select', path: '/docs/components/select', badge: 'SOON' },
         ],
@@ -48,6 +49,7 @@ export const DOCS_NAV: NavItem[] = [
         label: 'Directives',
         icon: Zap,
         children: [
+            { label: 'InputNumber', path: '/docs/directives/input-number' },
             { label: 'KeyFilter', path: '/docs/directives/key-filter' },
         ],
     },

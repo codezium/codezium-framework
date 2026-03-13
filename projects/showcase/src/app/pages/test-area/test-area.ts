@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, Renderer2 } from '@angular/core';
-import { DOCUMENT, JsonPipe } from '@angular/common';
+import { DOCUMENT, JsonPipe, SlicePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
-import { CzInputTextComponent, CzCheckboxComponent, CzValidationLocale } from 'codezium-ui';
+import { CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzValidationLocale } from 'codezium-ui';
 
 interface TestForm {
   email: FormControl<string | null>;
@@ -12,11 +12,20 @@ interface TestForm {
   fruits: FormControl<string[] | null>;
   privacyAccepted: FormControl<boolean | null>;
   disabledChecked: FormControl<boolean | null>;
+
+  // Input Number test fields
+  price: FormControl<number | null>;
+  weight: FormControl<number | null>;
+  percentage: FormControl<number | null>;
+
+  // Native Input test fields
+  nativePrice: FormControl<number | null>;
+  nativePercentage: FormControl<number | null>;
 }
 
 @Component({
   selector: 'app-test-area',
-  imports: [ReactiveFormsModule, FormsModule, CzInputTextComponent, CzCheckboxComponent, JsonPipe],
+  imports: [ReactiveFormsModule, FormsModule, CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, JsonPipe, SlicePipe],
   templateUrl: './test-area.html',
   styleUrl: './test-area.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -37,7 +46,23 @@ export class TestArea {
     fruits: new FormControl(['Apple']),
     privacyAccepted: new FormControl(true),
     disabledChecked: new FormControl({ value: true, disabled: true }),
+
+    price: new FormControl(1250.50),
+    weight: new FormControl(null),
+    percentage: new FormControl(50),
+
+    nativePrice: new FormControl(500.25),
+    nativePercentage: new FormControl(25),
   });
+
+  // Dynamic Array Categories
+  categories: any[] = [
+      { name: 'Accounting', key: 'A' },
+      { name: 'Marketing', key: 'M' },
+      { name: 'Production', key: 'P' },
+      { name: 'Research', key: 'R' }
+  ];
+  selectedCategories: any[] = [this.categories[1]];
 
   // State Signals (can be bound to the header toggles)
   isDarkMode = false;

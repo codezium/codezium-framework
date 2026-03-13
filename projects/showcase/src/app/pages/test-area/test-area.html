@@ -143,7 +143,7 @@
                             style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
                             Binary (Boolean)</h3>
                         <cz-checkbox formControlName="termsAccepted" [binary]="true"
-                            label="I accept the Terms and Conditions"></cz-checkbox>
+                            label="I accept the Terms and Conditions" labelPosition="left"></cz-checkbox>
                         <span
                             style="font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-muted); font-family: monospace;">
                             Value: {{ testForm.get('termsAccepted')?.value | json }}
@@ -165,6 +165,28 @@
                             Value: {{ testForm.get('fruits')?.value | json }}
                         </span>
                     </div>
+
+                    <!-- Dynamic Multiple Choices (NgModel + Data Array) -->
+                    <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
+                        <h3
+                            style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
+                            Dynamic Values (Array objects)</h3>
+                        <div style="display: flex; gap: var(--cz-spacing-md); flex-direction: column;">
+                            @for (category of categories; track category.key) {
+                                <cz-checkbox 
+                                    [value]="category" 
+                                    [(ngModel)]="selectedCategories" 
+                                    [ngModelOptions]="{standalone: true}">
+                                    <span style="font-weight: 500; margin-left: var(--cz-spacing-xs);">{{ category.name }}</span>
+                                </cz-checkbox>
+                            }
+                        </div>
+                        <span
+                            style="font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-muted); font-family: monospace;">
+                            Value length: {{ selectedCategories.length }} |
+                            {{ selectedCategories | json | slice:0:30 }}...
+                        </span>
+                    </div>
                 </div>
 
                 <!-- Form Controls: formControlName -->
@@ -173,7 +195,7 @@
                         Reactive Form (formControlName)</h3>
                     <div style="display: flex; gap: var(--cz-spacing-lg); align-items: center;">
                         <cz-checkbox formControlName="privacyAccepted" [binary]="true"
-                            label="I accept the Privacy Policy"></cz-checkbox>
+                            label="I accept the Privacy Policy" labelPosition="left"></cz-checkbox>
                         <div>
                             <strong>Form Raw Value: </strong>
                             <code
@@ -187,9 +209,9 @@
                     <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
                         Sizes</h3>
                     <div style="display: flex; gap: var(--cz-spacing-xl); align-items: center;">
-                        <cz-checkbox [binary]="true" size="sm" label="Small"></cz-checkbox>
-                        <cz-checkbox [binary]="true" size="md" label="Medium (Default)"></cz-checkbox>
-                        <cz-checkbox [binary]="true" size="lg" label="Large"></cz-checkbox>
+                        <cz-checkbox [binary]="true" [circle]="true" size="sm" label="Small"></cz-checkbox>
+                        <cz-checkbox [binary]="true" [circle]="false" size="md" label="Medium (Default)"></cz-checkbox>
+                        <cz-checkbox [binary]="true" [circle]="false" size="lg" label="Large"></cz-checkbox>
                     </div>
                 </div>
 
@@ -233,6 +255,57 @@
                         <cz-checkbox formControlName="privacyAccepted" [binary]="true" [readonly]="true"
                             label="Readonly"></cz-checkbox>
                     </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION: Input Number Directives -->
+        <section>
+            <h2
+                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
+                InputNumber Elements</h2>
+
+            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px;">
+
+                <!-- Currency -->
+                <cz-input-text formControlName="price" label="Purchase Price" [locale]="activeLocale"
+                    helpText="Validates min 100, formats to EUR currency rules." czInputNumber mode="currency"
+                    currency="EUR" [min]="100" [minFractionDigits]="2">
+                </cz-input-text>
+
+                <!-- Decimal with Min/Max -->
+                <cz-input-text formControlName="percentage" label="Discount Percentage" [locale]="activeLocale"
+                    helpText="Validates between 0 and 100 with a custom suffix" czInputNumber mode="decimal"
+                    [min]="0" [max]="100" suffix=" %">
+                </cz-input-text>
+
+                <!-- Standard Decimal weight -->
+                <cz-input-text formControlName="weight" label="Item Weight" [locale]="activeLocale"
+                    helpText="Handles fractions (3 decimals) and suffixes" czInputNumber mode="decimal"
+                    [minFractionDigits]="0" [maxFractionDigits]="3" suffix=" kg">
+                </cz-input-text>
+
+                <!-- Native Input Currency -->
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <label style="font-size: var(--cz-font-size-sm); font-weight: 500; font-family: var(--cz-font-family); color: var(--cz-theme-text-primary);">Native Input: Purchase Price (EUR)</label>
+                    <input type="text" formControlName="nativePrice" czInputNumber mode="currency" currency="EUR" [min]="0" style="padding: 10px; border: 1px solid var(--cz-theme-border-color); border-radius: var(--cz-radius-md); background: transparent; color: var(--cz-theme-text-primary); font-family: var(--cz-font-family); outline: none;">
+                </div>
+
+                <!-- Native Input Decimal -->
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <label style="font-size: var(--cz-font-size-sm); font-weight: 500; font-family: var(--cz-font-family); color: var(--cz-theme-text-primary);">Native Input: Discount (%)</label>
+                    <input type="text" formControlName="nativePercentage" czInputNumber mode="decimal" [min]="0" [max]="100" suffix=" %" style="padding: 10px; border: 1px solid var(--cz-theme-border-color); border-radius: var(--cz-radius-md); background: transparent; color: var(--cz-theme-text-primary); font-family: var(--cz-font-family); outline: none;">
+                </div>
+
+                <div
+                    style="background: var(--cz-theme-surface-hover); padding: var(--cz-spacing-md); border-radius: var(--cz-radius-md); font-family: monospace; font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-secondary);">
+                    <strong>Raw Form Values:</strong><br/>
+                    Price (number): {{ testForm.get('price')?.value }}<br/>
+                    Percentage (number): {{ testForm.get('percentage')?.value }}<br/>
+                    Weight (number): {{ testForm.get('weight')?.value }}<br/><br/>
+                    Native Price (number): {{ testForm.get('nativePrice')?.value }}<br/>
+                    Native Percentage (number): {{ testForm.get('nativePercentage')?.value }}
                 </div>
 
             </div>

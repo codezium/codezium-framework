@@ -1,7 +1,7 @@
-:host {
+cz-checkbox {
     display: inline-flex;
     align-items: center;
-    vertical-align: bottom;
+    vertical-align: middle;
     cursor: pointer;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
@@ -9,6 +9,16 @@
     &.cz-checkbox--disabled {
         cursor: default;
         opacity: 0.6;
+    }
+
+    &.cz-checkbox--label-left {
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        
+        .cz-checkbox-label {
+            margin-right: 0.5rem;
+            margin-left: 0;
+        }
     }
 }
 
@@ -37,6 +47,10 @@
             width: 30px;
             height: 30px;
             border-radius: var(--cz-radius-lg, 10px);
+        }
+
+        &--circle {
+            border-radius: 50%;
         }
     }
 }
@@ -67,6 +81,8 @@
    Visual Box Display
 ─────────────────────────────────────────────────────────── */
 .cz-checkbox-box {
+    position: relative;
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -84,6 +100,10 @@
 
 /* ── Check SVG Icon Animation ── */
 .cz-checkbox-icon {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    display: block;
     width: 70%;
     height: 70%;
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -139,9 +159,10 @@
     font-family: var(--cz-font-base, inherit);
     font-size: var(--cz-font-size-base, 1rem);
     color: var(--cz-theme-text-primary, #1f2937);
+    line-height: normal; /* Removes lower bound offset */
 }
 
-:host(.cz-checkbox--disabled) {
+cz-checkbox.cz-checkbox--disabled {
     .cz-checkbox-box {
         background: var(--cz-theme-surface-hover, #f3f4f6);
         border-color: var(--cz-theme-border-color, #d1d5db);

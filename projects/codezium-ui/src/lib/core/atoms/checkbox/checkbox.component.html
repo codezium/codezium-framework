@@ -16,8 +16,9 @@
     </div>
 </div>
 
-@if (label()) {
 <label class="cz-checkbox-label" (click)="onClick($event, true)">
-    {{ label() }}
+    @if (label()) {
+        <span>{{ label() }}</span>
+    }
+    <ng-content></ng-content>
 </label>
-}

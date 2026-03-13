@@ -66,10 +66,22 @@ export const docsRoutes: Routes = [
                 title: 'InputText | Codezium UI Docs',
             },
             {
+                path: 'components/checkbox',
+                loadComponent: () =>
+                    import('./pages/checkbox/checkbox-doc').then(m => m.CheckboxDocPage),
+                title: 'Checkbox | Codezium UI Docs',
+            },
+            {
                 path: 'directives/key-filter',
                 loadComponent: () =>
                     import('./pages/key-filter/key-filter-doc').then(m => m.default),
                 title: 'KeyFilter | Codezium UI Docs',
+            },
+            {
+                path: 'directives/input-number',
+                loadComponent: () =>
+                    import('./pages/input-number/input-number-doc').then(m => m.InputNumberDocPage),
+                title: 'InputNumber | Codezium UI Docs',
             },
         ],
     },

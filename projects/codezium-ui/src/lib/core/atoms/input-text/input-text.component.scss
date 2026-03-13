@@ -1,3 +1,5 @@
+@use 'sass:list';
+
 /* ==========================================================================
    CzInputText Atom
    ========================================================================== */
@@ -539,10 +541,10 @@ $cz-input-colors: (
 );
 
 @each $name, $values in $cz-input-colors {
-    $bg: nth($values, 1);
-    $border: nth($values, 2);
-    $ring: nth($values, 3);
-    $text: nth($values, 4);
+    $bg: list.nth($values, 1);
+    $border: list.nth($values, 2);
+    $ring: list.nth($values, 3);
+    $text: list.nth($values, 4);
 
     .cz-input-wrapper[data-color="#{$name}"] {
         .cz-input-native {
