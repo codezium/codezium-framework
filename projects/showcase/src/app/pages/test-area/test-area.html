@@ -495,6 +495,68 @@
             </div>
         </section>
 
+        <!-- SECTION: Select Components -->
+        <section>
+            <h2
+                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
+                CzSelect Elements</h2>
+
+            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px;">
+
+                <cz-select 
+                    formControlName="selectBasic" 
+                    [options]="countries" 
+                    optionLabel="name" 
+                    label="Basic" 
+                    placeholder="Select a country"
+                    [locale]="activeLocale">
+                </cz-select>
+
+                <cz-select 
+                    formControlName="selectFilter" 
+                    [options]="countries" 
+                    optionLabel="name" 
+                    [filterable]="true"
+                    label="Filter enabled" 
+                    placeholder="Search country"
+                    [locale]="activeLocale">
+                </cz-select>
+
+                <cz-select 
+                    formControlName="selectClear" 
+                    [options]="countries" 
+                    optionLabel="name" 
+                    [clearable]="true"
+                    label="Clearable" 
+                    placeholder="Clearable selection"
+                    [locale]="activeLocale">
+                </cz-select>
+
+                <cz-select 
+                    formControlName="selectValidation" 
+                    [options]="countries" 
+                    optionLabel="name" 
+                    label="Validation (Required)" 
+                    placeholder="Must select one"
+                    [locale]="activeLocale">
+                </cz-select>
+
+                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-md);">
+                    <cz-select color="primary" label="Primary" [options]="countries" optionLabel="name" [locale]="activeLocale"></cz-select>
+                    <cz-select color="success" label="Success" [options]="countries" optionLabel="name" [locale]="activeLocale"></cz-select>
+                    <cz-select color="danger" label="Danger" [options]="countries" optionLabel="name" [locale]="activeLocale"></cz-select>
+                </div>
+
+                <div
+                    style="background: var(--cz-theme-surface-hover); padding: var(--cz-spacing-md); border-radius: var(--cz-radius-md); font-family: monospace; font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-secondary);">
+                    <strong>Raw Form Values:</strong><br/>
+                    Basic: {{ testForm.get('selectBasic')?.value | json }}<br/>
+                    Filter: {{ testForm.get('selectFilter')?.value | json }}<br/>
+                    Validation: {{ testForm.get('selectValidation')?.value | json }}
+                </div>
+            </div>
+        </section>
+
         <!-- SECTION: Input Sizes -->
         <section>
             <h2

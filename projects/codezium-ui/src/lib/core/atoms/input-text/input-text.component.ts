@@ -108,9 +108,9 @@ export class CzInputTextComponent implements ControlValueAccessor {
   });
 
   actualPlaceholder = computed(() => {
-    // Si es flotante y no está enfocado, el placeholder se oculta para no aplastar al label interior.
-    if ((this.labelPosition() === 'float' || this.labelPosition() === 'in') && this.label()) {
-      return this.isFocused() ? this.placeholder() : '';
+    const positionsToHide: CzLabelPosition[] = ['float', 'in', 'over'];
+    if (positionsToHide.includes(this.labelPosition()) && this.label()) {
+      return (this.isFocused() || this.hasValue()) ? this.placeholder() : '';
     }
     return this.placeholder();
   });

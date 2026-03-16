@@ -61,8 +61,9 @@ export class CzPasswordComponent implements ControlValueAccessor {
   });
 
   actualPlaceholder = computed(() => {
-    if ((this.labelPosition() === 'float' || this.labelPosition() === 'in') && this.label()) {
-      return this.isFocused() ? this.placeholder() : '';
+    const positionsToHide: CzLabelPosition[] = ['float', 'in', 'over'];
+    if (positionsToHide.includes(this.labelPosition()) && this.label()) {
+      return (this.isFocused() || this.hasValue()) ? this.placeholder() : '';
     }
     return this.placeholder();
   });

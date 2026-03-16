@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, Renderer2 } from '@angular/core';
 import { DOCUMENT, JsonPipe, SlicePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
-import { CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, CzPasswordComponent, CzValidationLocale } from 'codezium-ui';
+import { CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, CzPasswordComponent, CzSelectComponent, CzValidationLocale } from 'codezium-ui';
 
 interface TestForm {
   email: FormControl<string | null>;
@@ -38,11 +38,16 @@ interface TestForm {
   passFloat: FormControl<string | null>;
   passOver: FormControl<string | null>;
   passIn: FormControl<string | null>;
+  // Select test fields
+  selectBasic: FormControl<any | null>;
+  selectFilter: FormControl<any | null>;
+  selectClear: FormControl<any | null>;
+  selectValidation: FormControl<any | null>;
 }
 
 @Component({
   selector: 'app-test-area',
-  imports: [ReactiveFormsModule, FormsModule, CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, CzPasswordComponent, JsonPipe, SlicePipe],
+  imports: [ReactiveFormsModule, FormsModule, CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, CzPasswordComponent, CzSelectComponent, JsonPipe, SlicePipe],
   templateUrl: './test-area.html',
   styleUrl: './test-area.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -84,7 +89,11 @@ export class TestArea {
     passValidation: new FormControl('', [Validators.required, Validators.minLength(8)]),
     passFloat: new FormControl(''),
     passOver: new FormControl(''),
-    passIn: new FormControl('')
+    passIn: new FormControl(''),
+    selectBasic: new FormControl(null),
+    selectFilter: new FormControl(null),
+    selectClear: new FormControl(null),
+    selectValidation: new FormControl(null, Validators.required)
   });
 
   // Autocomplete Data & Logic

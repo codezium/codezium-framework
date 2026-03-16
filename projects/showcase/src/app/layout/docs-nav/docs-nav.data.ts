@@ -44,7 +44,7 @@ export const DOCS_NAV: NavItem[] = [
             { label: 'Autocomplete', path: '/docs/components/autocomplete' },
             { label: 'Checkbox', path: '/docs/components/checkbox' },
             { label: 'Button', path: '/docs/components/button', badge: 'SOON' },
-            { label: 'Select', path: '/docs/components/select', badge: 'SOON' },
+            { label: 'Select', path: '/docs/components/select' },
         ],
     },
     {

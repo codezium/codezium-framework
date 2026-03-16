@@ -1,0 +1,122 @@
+export const SELECT_DOC_I18N = {
+    es: {
+        title: 'Select',
+        lead: 'Select es un componente de entrada para seleccionar un elemento de una lista de opciones.',
+        importTitle: 'Importar',
+        basicTitle: 'Uso Básico',
+        basicDesc: 'Select se utiliza con las propiedades options para las opciones y optionLabel para la etiqueta de cada opción.',
+        filterTitle: 'Filtrado',
+        filterDesc: 'Cuando se especifica la propiedad filter, se muestra una entrada de filtrado en el panel.',
+        clearTitle: 'Limpiable',
+        clearDesc: 'Cuando se activa showClear, se muestra un icono para limpiar el valor seleccionado.',
+        labelsTitle: 'Posiciones de Etiqueta',
+        labelsDesc: 'Select soporta las mismas posiciones de etiqueta que el resto de componentes de entrada: <code>none</code>, <code>over</code>, <code>in</code> y <code>float</code>.',
+        themesTitle: 'Temas',
+        themesDesc: 'Compatible con los temas del framework: Base, Glass y Neo.',
+        colorsTitle: 'Colores',
+        colorsDesc: 'Utiliza la propiedad <code>color</code> para cambiar la variante cromática del componente.',
+        apiTitle: 'Propiedades',
+        table: {
+            prop: 'Propiedad',
+            type: 'Tipo',
+            default: 'Defecto',
+            desc: 'Descripción'
+        }
+    },
+    en: {
+        title: 'Select',
+        lead: 'Select is an input component to choose an item from a list of options.',
+        importTitle: 'Import',
+        basicTitle: 'Basic Usage',
+        basicDesc: 'Select is used with options for items and optionLabel to specify the label property.',
+        filterTitle: 'Filtering',
+        filterDesc: 'When filter property is specified, a filter input is displayed in the panel.',
+        clearTitle: 'Clearable',
+        clearDesc: 'When showClear is enabled, a clear icon is displayed to clear the value.',
+        labelsTitle: 'Label Positions',
+        labelsDesc: 'Select supports the same label positions as other input components: <code>none</code>, <code>over</code>, <code>in</code> and <code>float</code>.',
+        themesTitle: 'Themes',
+        themesDesc: 'Compatible with framework themes: Base, Glass and Neo.',
+        colorsTitle: 'Colors',
+        colorsDesc: 'Use the <code>color</code> property to change the chromatic variant of the component.',
+        apiTitle: 'Properties',
+        table: {
+            prop: 'Property',
+            type: 'Type',
+            default: 'Default',
+            desc: 'Description'
+        }
+    },
+    pt: {
+        title: 'Select',
+        lead: 'Select é um componente de entrada para escolher um item de uma lista de opções.',
+        importTitle: 'Importar',
+        basicTitle: 'Uso Básico',
+        basicDesc: 'Select é usado com options para os itens e optionLabel para especificar a propriedade do rótulo.',
+        filterTitle: 'Filtragem',
+        filterDesc: 'Quando a propriedade filter é especificada, uma entrada de filtro é exibida no painel.',
+        clearTitle: 'Limpável',
+        clearDesc: 'Quando showClear é ativado, um ícone de limpeza é exibido para limpar o valor.',
+        labelsTitle: 'Posições de Rótulo',
+        labelsDesc: 'Select suporta as mesmas posições de rótulo que outros componentes de entrada: <code>none</code>, <code>over</code>, <code>in</code> e <code>float</code>.',
+        themesTitle: 'Temas',
+        themesDesc: 'Compatível com os temas do framework: Base, Glass e Neo.',
+        colorsTitle: 'Cores',
+        colorsDesc: 'Use a propriedade <code>color</code> para alterar a variante cromática do componente.',
+        apiTitle: 'Propriedades',
+        table: {
+            prop: 'Propriedade',
+            type: 'Tipo',
+            default: 'Padrão',
+            desc: 'Descrição'
+        }
+    },
+    fr: {
+        title: 'Select',
+        lead: 'Select est un composant de saisie pour choisir un élément dans une liste d\'options.',
+        importTitle: 'Importer',
+        basicTitle: 'Utilisation de Base',
+        basicDesc: 'Select est utilisé avec options pour les éléments et optionLabel pour spécifier la propriété de l\'étiquette.',
+        filterTitle: 'Filtrage',
+        filterDesc: 'Lorsque la propriété filter est spécifiée, un champ de filtrage est affiché dans le panneau.',
+        clearTitle: 'Effaçable',
+        clearDesc: 'Quand showClear est activé, une icône d\'effacement est affichée pour effacer la valeur.',
+        labelsTitle: 'Positions des Étiquettes',
+        labelsDesc: 'Select prend en charge les mêmes positions d\'étiquettes que les autres composants de saisie : <code>none</code>, <code>over</code>, <code>in</code> et <code>float</code>.',
+        themesTitle: 'Thèmes',
+        themesDesc: 'Compatible avec les thèmes du framework : Base, Glass et Neo.',
+        colorsTitle: 'Couleurs',
+        colorsDesc: 'Utilisez la propriété <code>color</code> pour changer la variante chromatique du composant.',
+        apiTitle: 'Propriétés',
+        table: {
+            prop: 'Propriété',
+            type: 'Type',
+            default: 'Défaut',
+            desc: 'Description'
+        }
+    },
+    de: {
+        title: 'Select',
+        lead: 'Select ist eine Eingabekomponente zur Auswahl eines Elements aus einer Liste von Optionen.',
+        importTitle: 'Importieren',
+        basicTitle: 'Grundlegende Verwendung',
+        basicDesc: 'Select wird mit options für Elemente und optionLabel zur Angabe der Beschriftungseigenschaft verwendet.',
+        filterTitle: 'Filtern',
+        filterDesc: 'Wenn die Eigenschaft filter angegeben ist, wird ein Filterfeld im Panel angezeigt.',
+        clearTitle: 'Löschbar',
+        clearDesc: 'Wenn showClear aktiviert ist, wird ein Löschsymbol angezeigt, um den Wert zu löschen.',
+        labelsTitle: 'Bezeichnungspositionen',
+        labelsDesc: 'Select unterstützt dieselben Bezeichnungspositionen wie andere Eingabekomponenten: <code>none</code>, <code>over</code>, <code>in</code> und <code>float</code>.',
+        themesTitle: 'Themes',
+        themesDesc: 'Kompatibel mit Framework-Themes: Base, Glass und Neo.',
+        colorsTitle: 'Farben',
+        colorsDesc: 'Verwenden Sie die Eigenschaft <code>color</code>, um die chromatische Variante der Komponente zu ändern.',
+        apiTitle: 'Eigenschaften',
+        table: {
+            prop: 'Eigenschaft',
+            type: 'Typ',
+            default: 'Standard',
+            desc: 'Beschreibung'
+        }
+    }
+};

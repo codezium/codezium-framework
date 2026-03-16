@@ -1,0 +1,251 @@
+@use 'sass:list';
+@use '../../styles/input-base';
+
+/* ==========================================================================
+   CzSelect Atom
+   ========================================================================== */
+
+.cz-select-wrapper {
+    .cz-select-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.2s ease;
+        // Padding and font-size will be inherited or set by data-size
+    }
+
+    &[data-size="sm"] .cz-select-trigger {
+        font-size: var(--cz-text-sm);
+        padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
+    }
+
+    &[data-size="md"] .cz-select-trigger {
+        font-size: var(--cz-text-base);
+        padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    }
+
+    &[data-size="lg"] .cz-select-trigger {
+        font-size: var(--cz-text-lg);
+        padding: var(--cz-spacing-md) var(--cz-spacing-lg);
+    }
+
+    /* Padding adjustments for Label Variants */
+    &[data-label-position="in"] {
+        .cz-select-trigger {
+            padding-top: var(--cz-spacing-xl);
+            padding-bottom: var(--cz-spacing-xs);
+        }
+    }
+
+    &[data-label-position="float"] {
+        .cz-select-trigger.cz-has-value,
+        &.cz-input-focused .cz-select-trigger {
+            padding-top: var(--cz-spacing-lg);
+            padding-bottom: var(--cz-spacing-xxs);
+        }
+    }
+
+    &.cz-input-disabled .cz-select-trigger {
+        cursor: not-allowed;
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    .cz-select-label {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        
+        &.cz-select-placeholder {
+            color: var(--cz-theme-input-placeholder, var(--cz-color-gray-400));
+        }
+    }
+
+    .cz-select-actions {
+        display: flex;
+        align-items: center;
+        gap: var(--cz-spacing-xs);
+        color: var(--cz-theme-text-muted);
+    }
+
+    .cz-select-chevron {
+        transition: transform 0.2s ease;
+        &.cz-select-chevron-open {
+            transform: rotate(180deg);
+        }
+    }
+
+    .cz-select-clear {
+        cursor: pointer;
+        opacity: 0.6;
+        &:hover { opacity: 1; }
+    }
+
+    /* Panel Dropdown */
+    .cz-select-panel {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--cz-theme-surface, #ffffff);
+        border: 1px solid var(--cz-theme-input-border, var(--cz-color-gray-200));
+        border-radius: var(--cz-theme-radius-base);
+        margin-top: var(--cz-spacing-xs);
+        box-shadow: var(--cz-theme-shadow-lg);
+        z-index: 100;
+        overflow: hidden;
+        animation: cz-fade-in-down 0.2s ease-out;
+    }
+
+    .cz-select-filter-container {
+        padding: var(--cz-spacing-sm);
+        border-bottom: 1px solid var(--cz-theme-border-color);
+        background: var(--cz-theme-surface-hover);
+    }
+
+    .cz-select-filter-input {
+        width: 100%;
+        padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
+        border: 1px solid var(--cz-theme-input-border);
+        border-radius: var(--cz-radius-sm);
+        background: var(--cz-theme-surface);
+        color: var(--cz-theme-text-primary);
+        outline: none;
+        font-size: var(--cz-text-sm);
+        
+        &:focus {
+            border-color: var(--cz-color-primary);
+        }
+    }
+
+    .cz-select-items {
+        list-style: none;
+        margin: 0;
+        padding: var(--cz-spacing-xs) 0;
+        max-height: 250px;
+        overflow-y: auto;
+    }
+
+    .cz-select-item {
+        padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        transition: background 0.15s ease;
+        color: var(--cz-theme-text-primary);
+        font-size: var(--cz-text-base);
+
+        &:hover, &.cz-select-item-hovered {
+            background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
+        }
+
+        &.cz-select-item-selected {
+            background: var(--cz-color-primary-50);
+            color: var(--cz-color-primary-700);
+            font-weight: 500;
+        }
+
+        .cz-select-check {
+            color: var(--cz-color-primary);
+        }
+    }
+
+    .cz-select-empty {
+        padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+        color: var(--cz-theme-text-muted);
+        text-align: center;
+        font-style: italic;
+    }
+}
+
+/* ==========================================================================
+   NEO THEME — Select
+   ========================================================================== */
+
+[data-theme="neo"] {
+    .cz-select-wrapper:not([data-color]) {
+        .cz-select-trigger {
+            background: var(--cz-neo-bg, #e0e5ec) !important;
+            box-shadow: var(--cz-neo-shadow-raised) !important;
+            border: none !important;
+        }
+
+        &.cz-input-focused .cz-select-trigger {
+            box-shadow: inset 4px 4px 8px var(--cz-neo-shadow-dark),
+                        inset -4px -4px 8px var(--cz-neo-shadow-light) !important;
+        }
+
+        .cz-select-panel {
+            background: var(--cz-neo-bg) !important;
+            box-shadow: var(--cz-neo-shadow-raised) !important;
+            border: none !important;
+        }
+
+        .cz-select-item:hover, .cz-select-item-hovered {
+            background: rgba(0,0,0,0.03) !important;
+        }
+    }
+}
+
+/* ==========================================================================
+   GLASS THEME — Select
+   ========================================================================== */
+
+[data-theme="glass"] {
+    .cz-select-wrapper {
+        .cz-select-panel {
+            background: rgba(255, 255, 255, 0.13) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.45) !important;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15) !important;
+        }
+
+        .cz-select-item:hover, .cz-select-item-hovered {
+            background: rgba(255, 255, 255, 0.2) !important;
+        }
+    }
+
+    .cz-select-wrapper:not([data-color]) {
+        .cz-select-trigger {
+            background: var(--cz-theme-input-bg, rgba(255, 255, 255, 0.35)) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.45) !important;
+        }
+    }
+
+    &.dark .cz-select-wrapper,
+    .dark & .cz-select-wrapper {
+        .cz-select-panel {
+            background: rgba(15, 23, 42, 0.75) !important;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35) !important;
+        }
+    }
+
+    &.dark .cz-select-wrapper:not([data-color]),
+    .dark & .cz-select-wrapper:not([data-color]) {
+        .cz-select-trigger {
+            background: rgba(255, 255, 255, 0.07) !important;
+            border-color: rgba(255, 255, 255, 0.18) !important;
+        }
+    }
+}
+
+@keyframes cz-fade-in-down {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,102 @@
+<div 
+    class="cz-input-wrapper cz-select-wrapper"
+    [class.cz-input-fluid]="fluid()"
+    [class.cz-input-filled]="filled()"
+    [class.cz-input-disabled]="actualDisabled()"
+    [class.cz-input-has-error]="isInvalid"
+    [class.cz-input-focused]="isFocused() || isOpen()"
+    [attr.data-size]="size()"
+    [attr.data-label-position]="labelPosition()"
+    [attr.data-color]="color() || null"
+>
+    @if (label() && labelPosition() === 'none') {
+        <label class="cz-input-label-static">{{ label() }}</label>
+    }
+
+    <div class="cz-input-container" [class.cz-float-active]="(isFocused() || isOpen()) || hasValue()">
+        <div 
+            class="cz-input-native cz-select-trigger"
+            [class.cz-has-value]="hasValue()"
+            (click)="toggleDropdown()"
+            (keydown)="onKeyDown($event)"
+            tabindex="0"
+        >
+            <span class="cz-select-label" [class.cz-select-placeholder]="!hasValue()">
+                {{ hasValue() ? selectedLabel() : actualPlaceholder() }}
+            </span>
+            
+            <div class="cz-select-actions">
+                @if (clearable() && hasValue() && !actualDisabled()) {
+                    <lucide-angular 
+                        [img]="XIcon" 
+                        [size]="14" 
+                        class="cz-select-clear" 
+                        (click)="clear($event)"
+                    ></lucide-angular>
+                }
+                <lucide-angular 
+                    [img]="ChevronDownIcon" 
+                    [size]="18" 
+                    class="cz-select-chevron"
+                    [class.cz-select-chevron-open]="isOpen()"
+                ></lucide-angular>
+            </div>
+        </div>
+
+        @if (label()) {
+            @if (labelPosition() === 'over') {
+                <label class="cz-input-label-over">{{ label() }}</label>
+            } @else if (labelPosition() === 'in' || labelPosition() === 'float') {
+                <label class="cz-input-label-inner">{{ label() }}</label>
+            }
+        }
+
+        <!-- Dropdown Panel -->
+        @if (isOpen()) {
+            <div class="cz-select-panel">
+                @if (filterable()) {
+                    <div class="cz-select-filter-container">
+                        <input 
+                            #filterInput
+                            type="text" 
+                            class="cz-select-filter-input"
+                            [placeholder]="filterPlaceholder()"
+                            [value]="filterValue()"
+                            (input)="filterValue.set($any($event.target).value)"
+                            (click)="$event.stopPropagation()"
+                        />
+                    </div>
+                }
+
+                <ul class="cz-select-items">
+                    @for (option of filteredOptions(); track getValue(option); let i = $index) {
+                        <li 
+                            class="cz-select-item"
+                            [class.cz-select-item-selected]="getValue(option) === value()"
+                            [class.cz-select-item-hovered]="i === hoveredIndex()"
+                            (click)="onOptionSelect(option)"
+                        >
+                            <span class="cz-select-item-label">{{ getLabel(option) }}</span>
+                            @if (getValue(option) === value()) {
+                                <lucide-angular [img]="CheckIcon" [size]="14" class="cz-select-check"></lucide-angular>
+                            }
+                        </li>
+                    } @empty {
+                        <li class="cz-select-empty">{{ emptyMessage() }}</li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+
+    <div class="cz-input-messages">
+        @if (showErrors() && isInvalid && errorMessage) {
+            <small class="cz-input-error-text">{{ errorMessage }}</small>
+        }
+        <ng-content select="[czError]"></ng-content>
+        @if (helpText()) {
+            <small class="cz-input-help-text">{{ helpText() }}</small>
+        }
+        <ng-content select="[czHelp]"></ng-content>
+    </div>
+</div>
