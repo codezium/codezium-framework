@@ -1,0 +1,173 @@
+.cz-rating {
+    display: inline-flex;
+    align-items: center;
+
+    &.cz-rating--disabled {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    &.cz-rating--readonly {
+        pointer-events: none;
+    }
+
+    // Alignment variants
+    &.cz-rating--label-left {
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+    }
+}
+
+.cz-rating-container {
+    display: flex;
+    align-items: center; // Vertical alignment
+    gap: var(--cz-rating-gap, 0.5rem);
+}
+
+.cz-rating-label {
+    font-size: var(--cz-rating-label-fs, 0.875rem);
+    color: var(--cz-text-main);
+    user-select: none;
+    line-height: normal;
+    display: flex;
+    align-items: center; // Vertical alignment for label text
+
+    &--left {
+        margin-right: 0.5rem;
+    }
+
+    &--right {
+        margin-left: 0.5rem;
+    }
+}
+
+/* SIZES */
+[data-size="sm"] {
+    --cz-rating-gap: 0.25rem;
+    --cz-rating-label-fs: 0.75rem;
+}
+
+[data-size="lg"] {
+    --cz-rating-gap: 0.75rem;
+    --cz-rating-label-fs: 1.125rem;
+}
+
+.cz-rating-cancel {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    color: var(--cz-theme-text-muted, #9ca3af);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease, transform 0.2s ease;
+
+    &:hover:not(:disabled) {
+        color: var(--cz-color-danger);
+        transform: scale(1.1);
+    }
+
+    &:active:not(:disabled) {
+        transform: scale(0.9);
+    }
+}
+
+.cz-rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.cz-rating-star {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--cz-theme-text-muted, #d1d5db);
+    transition: color 0.2s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    outline: none;
+
+    &:hover {
+        transform: scale(1.2);
+    }
+
+    &--focused {
+        color: var(--cz-theme-text-primary, #4b5563);
+    }
+}
+
+/* Color Variants */
+@mixin cz-rating-variant($name, $variable) {
+    .cz-rating-star--color-#{$name}.cz-rating-star--active {
+        color: var(#{$variable});
+    }
+}
+
+@include cz-rating-variant('primary', '--cz-color-primary');
+@include cz-rating-variant('secondary', '--cz-color-secondary');
+@include cz-rating-variant('success', '--cz-color-success');
+@include cz-rating-variant('warning', '--cz-color-warning');
+@include cz-rating-variant('danger', '--cz-color-danger');
+@include cz-rating-variant('info', '--cz-color-info');
+@include cz-rating-variant('dark', '--cz-color-dark');
+
+.cz-rating-messages {
+    margin-top: 0.25rem;
+}
+
+.cz-rating-error {
+    color: var(--cz-color-danger);
+    font-size: 0.75rem;
+}
+
+/* ==========================================================================
+   NEO THEME — Overrides for [data-theme="neo"]
+   ========================================================================== */
+[data-theme="neo"] {
+    .cz-rating-star {
+        color: var(--cz-neo-shadow-dark, #a3b1c6);
+        filter: drop-shadow(1px 1px 1px var(--cz-neo-shadow-light, #ffffff));
+        
+        &--active {
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+            
+            &.cz-rating-star--color-primary { color: var(--cz-color-primary); }
+            &.cz-rating-star--color-secondary { color: var(--cz-color-secondary); }
+            &.cz-rating-star--color-success { color: var(--cz-color-success); }
+            &.cz-rating-star--color-warning { color: var(--cz-color-warning); }
+            &.cz-rating-star--color-danger { color: var(--cz-color-danger); }
+            &.cz-rating-star--color-info { color: var(--cz-color-info); }
+            &.cz-rating-star--color-dark { color: var(--cz-color-dark); }
+        }
+    }
+
+    .cz-rating-cancel {
+        color: var(--cz-neo-shadow-dark, #a3b1c6);
+        &:hover { color: var(--cz-color-danger); }
+    }
+}
+
+/* ==========================================================================
+   GLASS THEME — Overrides for [data-theme="glass"]
+   ========================================================================== */
+[data-theme="glass"] {
+    .cz-rating-star {
+        color: rgba(255, 255, 255, 0.7); // Increased opacity for better visibility
+        filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.1)); // Added subtle shadow for definition
+        
+        &--active {
+            color: var(--cz-color-primary);
+            filter: drop-shadow(0 0 8px var(--cz-color-primary-300));
+            
+            &.cz-rating-star--color-primary { color: var(--cz-color-primary); }
+            &.cz-rating-star--color-secondary { color: var(--cz-color-secondary); }
+            &.cz-rating-star--color-success { color: var(--cz-color-success); }
+            &.cz-rating-star--color-warning { color: var(--cz-color-warning); }
+            &.cz-rating-star--color-danger { color: var(--cz-color-danger); }
+            &.cz-rating-star--color-info { color: var(--cz-color-info); }
+            &.cz-rating-star--color-dark { color: var(--cz-color-dark); }
+        }
+    }
+}

@@ -1,0 +1,59 @@
+<div class="cz-rating-container" 
+     (mouseleave)="onMouseLeave()"
+     [class.cz-rating--invalid]="isInvalid">
+    
+    @if (label() && labelPosition() === 'left') {
+        <label class="cz-rating-label cz-rating-label--left">{{ label() }}</label>
+    }
+
+    @if (cancel()) {
+        <button type="button" 
+                class="cz-rating-cancel"
+                [disabled]="isDisabled()"
+                (click)="onCancelClick($event)"
+                aria-label="Cancel Selection">
+            <lucide-angular [img]="iconCancel()" [size]="iconSize()"></lucide-angular>
+        </button>
+    }
+
+    <div class="cz-rating-stars">
+        @for (star of starsArray(); track star) {
+            <span class="cz-rating-star"
+                  [class.cz-rating-star--active]="star <= (hoveredValue() ?? value() ?? 0)"
+                  [class.cz-rating-star--focused]="focusedStar() === star"
+                  [class.cz-rating-star--color-primary]="color() === 'primary'"
+                  [class.cz-rating-star--color-secondary]="color() === 'secondary'"
+                  [class.cz-rating-star--color-success]="color() === 'success'"
+                  [class.cz-rating-star--color-warning]="color() === 'warning'"
+                  [class.cz-rating-star--color-danger]="color() === 'danger'"
+                  [class.cz-rating-star--color-info]="color() === 'info'"
+                  [class.cz-rating-star--color-dark]="color() === 'dark'"
+                  (click)="onStarClick($event, star)"
+                  (mouseenter)="onStarMouseEnter(star)"
+                  (keydown)="onKeyDown($event, star)"
+                  tabindex="0"
+                  (focus)="onStarFocus(star)"
+                  (blur)="onStarBlur()"
+                  role="button"
+                  [attr.aria-label]="star + ' stars'"
+                  [attr.aria-pressed]="star <= (value() ?? 0)">
+                <lucide-angular 
+                    [img]="star <= (hoveredValue() ?? value() ?? 0) ? iconOn() : iconOff()" 
+                    [size]="iconSize()"
+                ></lucide-angular>
+            </span>
+        }
+    </div>
+
+    @if (label() && labelPosition() === 'right') {
+        <label class="cz-rating-label cz-rating-label--right">{{ label() }}</label>
+    }
+</div>
+
+@if (isInvalid) {
+    <div class="cz-rating-messages">
+        @if (ngControl?.errors?.['required']) {
+            <small class="cz-rating-error">Este campo es requerido.</small>
+        }
+    </div>
+}

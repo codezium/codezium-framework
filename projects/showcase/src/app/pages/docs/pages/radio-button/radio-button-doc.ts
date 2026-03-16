@@ -144,28 +144,31 @@ export class RadioButtonDocPage {
 
     themesCode: Code = {
         html: `<!-- Base Theme -->
-<cz-radio-button label="Base" value="1" />
+<cz-radio-button label="Base" value="1" [(ngModel)]="val" />
 
 <!-- Glass Theme -->
 <div data-theme="glass">
-    <cz-radio-button label="Glass" value="2" />
+    <cz-radio-button label="Glass" value="2" [(ngModel)]="val" />
 </div>
 
 <!-- Neo Theme -->
 <div data-theme="neo">
-    <cz-radio-button label="Neo" value="3" />
-</div>`
+    <cz-radio-button label="Neo" value="3" [(ngModel)]="val" />
+</div>`,
+        typescript: `val = '1';`
     };
 
     labelsCode: Code = {
-        html: `<cz-radio-button label="Right" labelPosition="right" value="1" />
-<cz-radio-button label="Left" labelPosition="left" value="2" />`
+        html: `<cz-radio-button label="Right" labelPosition="right" value="1" [(ngModel)]="val" />
+<cz-radio-button label="Left" labelPosition="left" value="2" [(ngModel)]="val" />`,
+        typescript: `val = '1';`
     };
 
     colorsCode: Code = {
-        html: `<cz-radio-button color="success" size="sm" value="1" />
-<cz-radio-button color="warning" size="md" value="2" />
-<cz-radio-button color="danger" size="lg" value="3" />`
+        html: `<cz-radio-button color="success" size="sm" value="1" [(ngModel)]="val" />
+<cz-radio-button color="warning" size="md" value="2" [(ngModel)]="val" />
+<cz-radio-button color="danger" size="lg" value="3" [(ngModel)]="val" />`,
+        typescript: `val = '1';`
     };
 
     validationCode: Code = {

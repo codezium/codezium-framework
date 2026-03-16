@@ -102,6 +102,12 @@ export const docsRoutes: Routes = [
                 title: 'RadioButton | Codezium UI Docs',
             },
             {
+                path: 'components/rating',
+                loadComponent: () =>
+                    import('./pages/rating/rating-doc').then(m => m.RatingDocPage),
+                title: 'Rating | Codezium UI Docs',
+            },
+            {
                 path: 'directives/key-filter',
                 loadComponent: () =>
                     import('./pages/key-filter/key-filter-doc').then(m => m.default),
