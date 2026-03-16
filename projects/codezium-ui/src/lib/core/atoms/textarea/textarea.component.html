@@ -1,0 +1,54 @@
+<div 
+    class="cz-input-wrapper cz-textarea-wrapper"
+    [class.cz-input-fluid]="fluid()"
+    [class.cz-input-filled]="filled()"
+    [class.cz-input-disabled]="actualDisabled()"
+    [class.cz-input-has-error]="isInvalid"
+    [class.cz-input-focused]="isFocused()"
+    [attr.data-size]="size()"
+    [attr.data-label-position]="labelPosition()"
+    [attr.data-color]="color() || null"
+>
+    @if (label() && labelPosition() === 'none') {
+        <label class="cz-input-label-static">{{ label() }}</label>
+    }
+
+    <div class="cz-input-container" [class.cz-float-active]="isFocused() || hasValue()">
+        <textarea
+            #textareaElement
+            [rows]="rows()"
+            [cols]="cols()"
+            [placeholder]="actualPlaceholder()"
+            [disabled]="actualDisabled()"
+            [value]="value()"
+            (input)="onInputChange($event)"
+            (blur)="onBlur()"
+            (focus)="onFocus()"
+            class="cz-input-native cz-textarea-native"
+            [class.cz-has-value]="hasValue()"
+            [class.cz-textarea-no-resize]="autoResize()"
+        ></textarea>
+
+        @if (label()) {
+            @if (labelPosition() === 'over') {
+                <label class="cz-input-label-over">{{ label() }}</label>
+            } @else if (labelPosition() === 'in' || labelPosition() === 'float') {
+                <label class="cz-input-label-inner">{{ label() }}</label>
+            }
+        }
+    </div>
+
+    <div class="cz-input-messages">
+        @if (showErrors() && isInvalid && errorMessage) {
+            <small class="cz-input-error-text">{{ errorMessage }}</small>
+        }
+        
+        <ng-content select="[czError]"></ng-content>
+
+        @if (helpText()) {
+            <small class="cz-input-help-text">{{ helpText() }}</small>
+        }
+
+        <ng-content select="[czHelp]"></ng-content>
+    </div>
+</div>

@@ -45,6 +45,7 @@ export const DOCS_NAV: NavItem[] = [
             { label: 'Checkbox', path: '/docs/components/checkbox' },
             { label: 'Button', path: '/docs/components/button', badge: 'SOON' },
             { label: 'Select', path: '/docs/components/select' },
+            { label: 'TextArea', path: '/docs/components/textarea' },
         ],
     },
     {

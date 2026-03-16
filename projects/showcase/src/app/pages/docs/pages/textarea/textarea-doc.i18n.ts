@@ -1,0 +1,122 @@
+export const TEXTAREA_DOC_I18N = {
+    es: {
+        title: 'TextArea',
+        lead: 'Componente de área de texto con soporte para auto-redimensionado y temas.',
+        importTitle: 'Importar',
+        basicTitle: 'Uso Básico',
+        basicDesc: 'TextArea se utiliza con un label y un placeholder opcional.',
+        resizeTitle: 'Auto Redimensionado',
+        resizeDesc: 'Con la propiedad <code>autoResize</code>, el área crece automáticamente con el contenido.',
+        themesTitle: 'Temas',
+        themesDesc: 'Soporta los tres temas del sistema: <code>base</code>, <code>neo</code> y <code>glass</code>.',
+        labelsTitle: 'Posiciones de Etiqueta',
+        labelsDesc: 'Soporta las mismas posiciones que otros inputs: <code>none</code>, <code>over</code>, <code>in</code> y <code>float</code>.',
+        colorsTitle: 'Colores y Estados',
+        colorsDesc: 'Disponible en varias variantes de color y estados como deshabilitado o fluido.',
+        validationTitle: 'Validación',
+        validationDesc: 'Integración fluida con Angular Reactive Forms y validaciones nativas.',
+        apiTitle: 'API',
+        table: {
+            prop: 'Propiedad',
+            type: 'Tipo',
+            default: 'Por defecto',
+            desc: 'Descripción'
+        }
+    },
+    en: {
+        title: 'TextArea',
+        lead: 'Text area component with auto-resize and theming support.',
+        importTitle: 'Import',
+        basicTitle: 'Basic Usage',
+        basicDesc: 'TextArea is used with a label and an optional placeholder.',
+        resizeTitle: 'Auto Resize',
+        resizeDesc: 'With the <code>autoResize</code> property, the area grows automatically with the content.',
+        themesTitle: 'Themes',
+        themesDesc: 'Supports the three system themes: <code>base</code>, <code>neo</code> and <code>glass</code>.',
+        labelsTitle: 'Label Positions',
+        labelsDesc: 'Supports the same positions as other inputs: <code>none</code>, <code>over</code>, <code>in</code> and <code>float</code>.',
+        colorsTitle: 'Colors & States',
+        colorsDesc: 'Available in various color variants and states like disabled or fluid.',
+        validationTitle: 'Validation',
+        validationDesc: 'Seamless integration with Angular Reactive Forms and native validations.',
+        apiTitle: 'API',
+        table: {
+            prop: 'Property',
+            type: 'Type',
+            default: 'Default',
+            desc: 'Description'
+        }
+    },
+    pt: {
+        title: 'TextArea',
+        lead: 'Componente de área de texto com suporte para auto-redimensionamento e temas.',
+        importTitle: 'Importar',
+        basicTitle: 'Uso Básico',
+        basicDesc: 'TextArea é usado com um rótulo e um marcador opcional.',
+        resizeTitle: 'Auto Redimensionamento',
+        resizeDesc: 'Com a propriedade <code>autoResize</code>, a área cresce automaticamente com o conteúdo.',
+        themesTitle: 'Temas',
+        themesDesc: 'Suporta os três temas do sistema: <code>base</code>, <code>neo</code> e <code>glass</code>.',
+        labelsTitle: 'Posições de Rótulo',
+        labelsDesc: 'Suporta as mesmas posições que outros inputs: <code>none</code>, <code>over</code>, <code>in</code> e <code>float</code>.',
+        colorsTitle: 'Cores e Estados',
+        colorsDesc: 'Disponível em várias variantes de cores e estados como desativado ou fluido.',
+        validationTitle: 'Validação',
+        validationDesc: 'Integração fluida com Angular Reactive Forms e validações nativas.',
+        apiTitle: 'API',
+        table: {
+            prop: 'Propriedade',
+            type: 'Tipo',
+            default: 'Padrão',
+            desc: 'Descrição'
+        }
+    },
+    fr: {
+        title: 'TextArea',
+        lead: 'Composant de zone de texte avec prise en charge du redimensionnement automatique et des thèmes.',
+        importTitle: 'Importer',
+        basicTitle: 'Utilisation de Base',
+        basicDesc: 'TextArea est utilisé avec une étiquette et un espace réservé facultatif.',
+        resizeTitle: 'Redimensionnement Automatique',
+        resizeDesc: 'Avec la propriété <code>autoResize</code>, la zone s\'agrandit automatiquement avec le contenu.',
+        themesTitle: 'Thèmes',
+        themesDesc: 'Prend en charge les trois thèmes du système : <code>base</code>, <code>neo</code> et <code>glass</code>.',
+        labelsTitle: 'Positions des Étiquettes',
+        labelsDesc: 'Prend en charge les mêmes positions que les autres entrées : <code>none</code>, <code>over</code>, <code>in</code> et <code>float</code>.',
+        colorsTitle: 'Couleurs et États',
+        colorsDesc: 'Disponible en plusieurs variantes de couleurs et états comme désactivé ou fluide.',
+        validationTitle: 'Validation',
+        validationDesc: 'Intégration fluide avec Angular Reactive Forms et les validations natives.',
+        apiTitle: 'API',
+        table: {
+            prop: 'Propriété',
+            type: 'Type',
+            default: 'Par défaut',
+            desc: 'Description'
+        }
+    },
+    de: {
+        title: 'TextArea',
+        lead: 'Textbereichskomponente mit Unterstützung für automatische Größenanpassung und Themen.',
+        importTitle: 'Importieren',
+        basicTitle: 'Grundlegende Verwendung',
+        basicDesc: 'TextArea wird mit einer Beschriftung und einem optionalen Platzhalter verwendet.',
+        resizeTitle: 'Automatische Größenanpassung',
+        resizeDesc: 'Mit der Eigenschaft <code>autoResize</code> wächst der Bereich automatisch mit dem Inhalt.',
+        themesTitle: 'Themen',
+        themesDesc: 'Unterstützt die drei Systemthemen: <code>base</code>, <code>neo</code> und <code>glass</code>.',
+        labelsTitle: 'Etikettenpositionen',
+        labelsDesc: 'Unterstützt die gleichen Positionen wie andere Eingaben: <code>none</code>, <code>over</code>, <code>in</code> und <code>float</code>.',
+        colorsTitle: 'Farben & Zustände',
+        colorsDesc: 'Verfügbar in verschiedenen Farbvarianten und Zuständen wie deaktiviert oder fluid.',
+        validationTitle: 'Validierung',
+        validationDesc: 'Nahtlose Integration mit Angular Reactive Forms und nativen Validierungen.',
+        apiTitle: 'API',
+        table: {
+            prop: 'Eigenschaft',
+            type: 'Typ',
+            default: 'Standard',
+            desc: 'Beschreibung'
+        }
+    }
+};

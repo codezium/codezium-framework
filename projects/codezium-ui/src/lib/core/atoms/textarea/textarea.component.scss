@@ -1,0 +1,196 @@
+@use 'sass:list';
+@use '../../styles/input-base';
+
+/* ==========================================================================
+   CzTextArea Atom
+   ========================================================================== */
+
+.cz-textarea-wrapper {
+    .cz-textarea-native {
+        min-height: 2.5rem;
+        resize: vertical;
+        line-height: var(--cz-line-height-base, 1.5);
+        
+        &.cz-textarea-no-resize {
+            resize: none;
+            overflow: hidden;
+        }
+    }
+
+    /* Adjust padding for different label positions in textarea */
+    &[data-label-position="in"] {
+        .cz-textarea-native {
+            padding-top: var(--cz-spacing-xl);
+            padding-bottom: var(--cz-spacing-xs);
+        }
+    }
+
+    &[data-label-position="float"] {
+        .cz-textarea-native.cz-has-value,
+        &.cz-input-focused .cz-textarea-native {
+            padding-top: var(--cz-spacing-lg);
+            padding-bottom: var(--cz-spacing-xxs);
+        }
+    }
+}
+
+/* ==========================================================================
+   NEO THEME — TextArea
+   ========================================================================== */
+[data-theme="neo"] {
+    .cz-textarea-wrapper:not([data-color]) {
+        .cz-input-container {
+            background: var(--cz-neo-bg, #e0e5ec) !important;
+            box-shadow: var(--cz-neo-shadow-raised) !important;
+            border: none !important;
+            border-radius: var(--cz-theme-radius-base);
+            transition: all 0.2s ease;
+        }
+
+        .cz-textarea-native {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: var(--cz-theme-radius-base);
+            outline: none !important;
+            transition: box-shadow 0.2s ease;
+            
+            &:focus {
+                box-shadow: none !important;
+            }
+        }
+
+        &.cz-input-focused {
+            .cz-input-container {
+                box-shadow: none !important;
+            }
+            .cz-textarea-native {
+                box-shadow: inset 4px 4px 8px var(--cz-neo-shadow-dark, #a3b1c6),
+                            inset -4px -4px 8px var(--cz-neo-shadow-light, #ffffff) !important;
+            }
+        }
+    }
+
+    /* Color variants in neo */
+    $neo-colors: (
+        "primary": (--cz-color-primary-50, --cz-neo-shadow-dark-primary),
+        "success": (--cz-color-success-50, --cz-neo-shadow-dark-success),
+        "danger": (--cz-color-danger-50, --cz-neo-shadow-dark-danger),
+        "warning": (--cz-color-warning-50, --cz-neo-shadow-dark-warning),
+        "info": (--cz-color-info-50, --cz-neo-shadow-dark-info),
+        "secondary": (--cz-color-secondary-50, --cz-neo-shadow-dark),
+    );
+
+    @each $name, $vals in $neo-colors {
+        $bg: list.nth($vals, 1);
+        $shadow: list.nth($vals, 2);
+
+        .cz-textarea-wrapper[data-color="#{$name}"] {
+            .cz-input-container {
+                background: var(#{$bg}) !important;
+                box-shadow:
+                    4px 4px 8px var(#{$shadow}),
+                    -4px -4px 8px var(--cz-neo-shadow-light) !important;
+                border: none !important;
+                border-radius: var(--cz-theme-radius-base);
+                transition: all 0.2s ease;
+            }
+
+            .cz-textarea-native {
+                background: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                border-radius: var(--cz-theme-radius-base);
+                outline: none !important;
+                transition: box-shadow 0.2s ease;
+                
+                &:focus {
+                    box-shadow: none !important;
+                }
+            }
+
+            &.cz-input-focused {
+                .cz-input-container {
+                    box-shadow: none !important;
+                }
+                .cz-textarea-native {
+                    box-shadow: inset 4px 4px 8px var(#{$shadow}),
+                                inset -4px -4px 8px var(--cz-neo-shadow-light, #ffffff) !important;
+                }
+            }
+        }
+    }
+
+    /* Dark neo color variants */
+    &.dark .cz-textarea-wrapper[data-color],
+    .dark & .cz-textarea-wrapper[data-color] {
+        $neo-dark-shadow: rgba(0, 0, 0, 0.55);
+        $neo-light-shadow: rgba(255, 255, 255, 0.07);
+
+        .cz-input-container {
+            box-shadow:
+                4px 4px 10px $neo-dark-shadow,
+                -3px -3px 8px $neo-light-shadow !important;
+        }
+
+        &.cz-input-focused {
+            .cz-input-container {
+                box-shadow: none !important;
+            }
+            .cz-textarea-native {
+                box-shadow:
+                    inset 5px 5px 12px $neo-dark-shadow,
+                    inset -3px -3px 8px $neo-light-shadow !important;
+            }
+        }
+    }
+}
+
+/* ==========================================================================
+   GLASS THEME — TextArea
+   ========================================================================== */
+[data-theme="glass"] {
+    .cz-textarea-wrapper:not([data-color]) {
+        .cz-input-container {
+            background: var(--cz-theme-input-bg, rgba(255, 255, 255, 0.35)) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.45) !important;
+            border-radius: var(--cz-theme-radius-base);
+            transition: all 0.2s ease;
+        }
+
+        .cz-textarea-native {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: var(--cz-theme-radius-base);
+            outline: none !important;
+
+            &:focus {
+                box-shadow: none !important;
+            }
+        }
+
+        &.cz-input-focused .cz-input-container {
+            background: rgba(255, 255, 255, 0.55) !important;
+            border-color: var(--cz-color-primary) !important;
+            box-shadow: 0 0 0 3px var(--cz-color-primary-200) !important;
+        }
+    }
+
+    &.dark .cz-textarea-wrapper:not([data-color]),
+    .dark & .cz-textarea-wrapper:not([data-color]) {
+        .cz-input-container {
+            background: rgba(255, 255, 255, 0.07) !important;
+            border-color: rgba(255, 255, 255, 0.18) !important;
+            border-radius: var(--cz-theme-radius-base);
+        }
+
+        &.cz-input-focused .cz-input-container {
+            background: rgba(255, 255, 255, 0.14) !important;
+            border-color: var(--cz-color-primary) !important;
+            box-shadow: 0 0 0 3px var(--cz-color-primary-300) !important;
+        }
+    }
+}

@@ -554,6 +554,42 @@
                     Filter: {{ testForm.get('selectFilter')?.value | json }}<br/>
                     Validation: {{ testForm.get('selectValidation')?.value | json }}
                 </div>
+
+                <!-- TextArea Examples -->
+                <div class="test-card mt-6">
+                    <h2 class="test-title">TextArea Examples</h2>
+                    <div class="test-grid">
+                        <cz-textarea 
+                            formControlName="textBasic"
+                            label="Basic TextArea"
+                            placeholder="Default behavior"
+                            [locale]="activeLocale">
+                        </cz-textarea>
+
+                        <cz-textarea 
+                            formControlName="textAuto"
+                            label="Auto Resize"
+                            [autoResize]="true"
+                            placeholder="Grows with content"
+                            [locale]="activeLocale">
+                        </cz-textarea>
+
+                        <cz-textarea 
+                            formControlName="textValidation"
+                            label="Required TextArea"
+                            placeholder="Validation test"
+                            [locale]="activeLocale">
+                        </cz-textarea>
+
+                        <cz-textarea 
+                            formControlName="textFluid"
+                            label="Fluid TextArea"
+                            [fluid]="true"
+                            placeholder="Full width"
+                            [locale]="activeLocale">
+                        </cz-textarea>
+                    </div>
+                </div>
             </div>
         </section>
 

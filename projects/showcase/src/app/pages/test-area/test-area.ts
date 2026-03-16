@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, Renderer2 } from '@angular/core';
 import { DOCUMENT, JsonPipe, SlicePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
-import { CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, CzPasswordComponent, CzSelectComponent, CzValidationLocale } from 'codezium-ui';
+import { CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, CzPasswordComponent, CzSelectComponent, CzTextAreaComponent, CzValidationLocale } from 'codezium-ui';
 
 interface TestForm {
   email: FormControl<string | null>;
@@ -42,12 +42,17 @@ interface TestForm {
   selectBasic: FormControl<any | null>;
   selectFilter: FormControl<any | null>;
   selectClear: FormControl<any | null>;
-  selectValidation: FormControl<any | null>;
+    selectValidation: FormControl<any | null>;
+  // TextArea test fields
+  textBasic: FormControl<string | null>;
+  textAuto: FormControl<string | null>;
+  textFluid: FormControl<string | null>;
+  textValidation: FormControl<string | null>;
 }
 
 @Component({
   selector: 'app-test-area',
-  imports: [ReactiveFormsModule, FormsModule, CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, CzPasswordComponent, CzSelectComponent, JsonPipe, SlicePipe],
+  imports: [ReactiveFormsModule, FormsModule, CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, CzPasswordComponent, CzSelectComponent, CzTextAreaComponent, JsonPipe, SlicePipe],
   templateUrl: './test-area.html',
   styleUrl: './test-area.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -93,7 +98,11 @@ export class TestArea {
     selectBasic: new FormControl(null),
     selectFilter: new FormControl(null),
     selectClear: new FormControl(null),
-    selectValidation: new FormControl(null, Validators.required)
+    selectValidation: new FormControl(null, Validators.required),
+    textBasic: new FormControl(''),
+    textAuto: new FormControl(''),
+    textFluid: new FormControl(''),
+    textValidation: new FormControl('', Validators.required)
   });
 
   // Autocomplete Data & Logic

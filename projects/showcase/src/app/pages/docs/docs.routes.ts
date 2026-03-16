@@ -90,6 +90,12 @@ export const docsRoutes: Routes = [
                 title: 'Select | Codezium UI Docs',
             },
             {
+                path: 'components/textarea',
+                loadComponent: () =>
+                    import('./pages/textarea/textarea-doc').then(m => m.TextareaDocPage),
+                title: 'TextArea | Codezium UI Docs',
+            },
+            {
                 path: 'directives/key-filter',
                 loadComponent: () =>
                     import('./pages/key-filter/key-filter-doc').then(m => m.default),
