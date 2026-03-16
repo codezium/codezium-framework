@@ -1,0 +1,54 @@
+<div class="cz-radio-container" 
+     [class.cz-radio-checked]="checked()"
+     [class.cz-radio-invalid]="isInvalid"
+     (click)="onClick($event)">
+    
+    <div class="cz-radio-element">
+        <input #rb
+               type="radio"
+               role="radio"
+               [attr.name]="name()"
+               [attr.id]="name() + '_' + value()"
+               [checked]="checked()"
+               [disabled]="isDisabled()"
+               (change)="onInputChange($event)"
+               (focus)="onFocus()"
+               (blur)="onBlur()"
+               class="cz-radio-native">
+        
+        <div class="cz-radio-inner"
+             [class.cz-radio-inner--checked]="checked()"
+             [class.cz-radio-inner--primary]="color() === 'primary'"
+             [class.cz-radio-inner--secondary]="color() === 'secondary'"
+             [class.cz-radio-inner--success]="color() === 'success'"
+             [class.cz-radio-inner--warning]="color() === 'warning'"
+             [class.cz-radio-inner--danger]="color() === 'danger'"
+             [class.cz-radio-inner--info]="color() === 'info'"
+             [class.cz-radio-inner--dark]="color() === 'dark'"
+             [class.cz-radio-inner--sm]="size() === 'sm'"
+             [class.cz-radio-inner--md]="size() === 'md'"
+             [class.cz-radio-inner--lg]="size() === 'lg'">
+            <div class="cz-radio-icon"></div>
+        </div>
+    </div>
+
+    @if (label()) {
+        <label [attr.for]="name() + '_' + value()"
+               class="cz-radio-label">
+            {{ label() }}
+        </label>
+    }
+</div>
+
+<div class="cz-radio-messages">
+    @if (helperText() && !isInvalid) {
+        <small class="cz-radio-helper">{{ helperText() }}</small>
+    }
+    @if (isInvalid) {
+        <small class="cz-radio-error">
+            @if (ngControl?.errors?.['required']) {
+                Este campo es requerido.
+            }
+        </small>
+    }
+</div>

@@ -5,3 +5,4 @@ export * from './input-number';
 export * from './password';
 export * from './select';
 export * from './textarea';
+export * from './radio-button';

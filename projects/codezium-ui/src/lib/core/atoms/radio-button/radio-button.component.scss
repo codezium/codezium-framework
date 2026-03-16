@@ -1,0 +1,194 @@
+@use 'sass:list';
+
+/* ==========================================================================
+   CzRadioButton Atom
+   ========================================================================== */
+
+.cz-radio-wrapper {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+    margin-bottom: var(--cz-spacing-xs, 0.5rem);
+
+    &.cz-radio--label-left .cz-radio-container {
+        flex-direction: row-reverse;
+    }
+
+    &.cz-radio--disabled {
+        opacity: 0.6;
+        pointer-events: none;
+        cursor: not-allowed;
+    }
+}
+
+.cz-radio-container {
+    display: flex;
+    align-items: center;
+    gap: var(--cz-spacing-sm, 0.75rem);
+    cursor: pointer;
+    user-select: none;
+}
+
+.cz-radio-element {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cz-radio-native {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    outline: none;
+}
+
+.cz-radio-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--cz-theme-input-border, #d1d5db);
+    background: var(--cz-theme-input-bg, #ffffff);
+    transition: all 0.2s ease;
+    
+    .cz-radio-icon {
+        width: 0.6rem;
+        height: 0.6rem;
+        border-radius: 50%;
+        background: transparent;
+        transform: scale(0);
+        transition: all 0.2s cubic-bezier(0.8, -0.4, 0.2, 1.4);
+    }
+
+    &--checked {
+        border-color: var(--cz-color-primary, #3b82f6);
+        
+        .cz-radio-icon {
+            background: var(--cz-color-primary, #3b82f6);
+            transform: scale(1);
+        }
+    }
+
+    /* Sizes */
+    &--sm {
+        width: 1rem;
+        height: 1rem;
+        .cz-radio-icon { width: 0.45rem; height: 0.45rem; }
+    }
+
+    &--lg {
+        width: 1.5rem;
+        height: 1.5rem;
+        .cz-radio-icon { width: 0.75rem; height: 0.75rem; }
+    }
+}
+
+.cz-radio-label {
+    font-size: var(--cz-text-base, 1rem);
+    color: var(--cz-theme-text-primary, #111827);
+    cursor: pointer;
+}
+
+.cz-radio-messages {
+    margin-top: var(--cz-spacing-xxs, 0.25rem);
+    padding-left: var(--cz-spacing-sm);
+    
+    .cz-radio-helper {
+        color: var(--cz-theme-text-muted, #6b7280);
+        font-size: var(--cz-text-xs, 0.75rem);
+    }
+    
+    .cz-radio-error {
+        color: var(--cz-color-danger, #ef4444);
+        font-size: var(--cz-text-xs, 0.75rem);
+    }
+}
+
+/* ── Colors ── */
+$radio-colors: (
+    "primary": var(--cz-color-primary),
+    "secondary": var(--cz-color-secondary),
+    "success": var(--cz-color-success),
+    "warning": var(--cz-color-warning),
+    "danger": var(--cz-color-danger),
+    "info": var(--cz-color-info),
+    "dark": var(--cz-color-dark),
+);
+
+@each $name, $val in $radio-colors {
+    .cz-radio-inner--#{$name}.cz-radio-inner--checked {
+        border-color: #{$val} !important;
+        .cz-radio-icon { 
+            background: #{$val} !important; 
+            transform: scale(1) !important;
+        }
+    }
+}
+
+/* ==========================================================================
+   NEO THEME — Radio
+   ========================================================================== */
+
+[data-theme="neo"] {
+    .cz-radio-inner {
+        background: var(--cz-neo-bg, #e0e5ec) !important;
+        border: none !important;
+        box-shadow: var(--cz-neo-shadow-raised) !important;
+        
+        &--checked {
+            box-shadow: inset 2px 2px 5px var(--cz-neo-shadow-dark),
+                        inset -2px -2px 5px var(--cz-neo-shadow-light) !important;
+            
+            .cz-radio-icon {
+                transform: scale(1) !important;
+                background: var(--cz-color-primary) ; // Default if no color class matches
+            }
+        }
+    }
+
+}
+
+/* ==========================================================================
+   GLASS THEME — Radio
+   ========================================================================== */
+
+[data-theme="glass"] {
+    .cz-radio-inner {
+        background: rgba(255, 255, 255, 0.25) !important;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 2px solid rgba(255, 255, 255, 0.8) !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+        
+        &:hover:not(.cz-radio--disabled) {
+            background: rgba(255, 255, 255, 0.35) !important;
+            border-color: rgba(255, 255, 255, 1) !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        &--checked {
+            background: rgba(255, 255, 255, 0.3) !important;
+            border-color: var(--cz-color-primary) !important;
+            box-shadow: 0 0 15px var(--cz-color-primary-200) !important;
+
+            .cz-radio-icon {
+                transform: scale(1) !important;
+                background: var(--cz-color-primary) !important; 
+            }
+        }
+    }
+
+    &.dark .cz-radio-inner {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+
+        &:hover:not(.cz-radio--disabled) {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
+        }
+    }
+}

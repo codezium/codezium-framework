@@ -1,0 +1,122 @@
+export const RADIO_BUTTON_DOC_I18N = {
+    es: {
+        title: 'RadioButton',
+        lead: 'Componente de selección única (radio button) con soporte para temas y validaciones.',
+        importTitle: 'Importar',
+        basicTitle: 'Uso Básico',
+        basicDesc: 'Los radio buttons se utilizan para seleccionar una única opción de un conjunto.',
+        groupTitle: 'Grupo de Radios',
+        groupDesc: 'Usa el mismo nombre (name) o un control de formulario para agrupar múltiples opciones.',
+        themesTitle: 'Temas',
+        themesDesc: 'Soporta los temas <code>base</code>, <code>neo</code> y <code>glass</code>.',
+        labelsTitle: 'Posiciones de Etiqueta',
+        labelsDesc: 'La etiqueta puede posicionarse a la <code>left</code> o <code>right</code> (por defecto).',
+        colorsTitle: 'Colores y Tamaños',
+        colorsDesc: 'Disponible en múltiples variantes de color y tres tamaños (sm, md, lg).',
+        validationTitle: 'Validación',
+        validationDesc: 'Soporte completo para validaciones y mensajes de error.',
+        apiTitle: 'API',
+        table: {
+            prop: 'Propiedad',
+            type: 'Tipo',
+            default: 'Por defecto',
+            desc: 'Descripción'
+        }
+    },
+    en: {
+        title: 'RadioButton',
+        lead: 'Single selection component (radio button) with support for themes and validations.',
+        importTitle: 'Import',
+        basicTitle: 'Basic Usage',
+        basicDesc: 'Radio buttons are used to select a single option from a set.',
+        groupTitle: 'Radio Group',
+        groupDesc: 'Use the same name or a form control to group multiple options.',
+        themesTitle: 'Themes',
+        themesDesc: 'Supports <code>base</code>, <code>neo</code> and <code>glass</code> themes.',
+        labelsTitle: 'Label Positions',
+        labelsDesc: 'The label can be positioned on the <code>left</code> or <code>right</code> (default).',
+        colorsTitle: 'Colors & Sizes',
+        colorsDesc: 'Available in multiple color variants and three sizes (sm, md, lg).',
+        validationTitle: 'Validation',
+        validationDesc: 'Full support for validations and error messages.',
+        apiTitle: 'API',
+        table: {
+            prop: 'Property',
+            type: 'Type',
+            default: 'Default',
+            desc: 'Description'
+        }
+    },
+    pt: {
+        title: 'RadioButton',
+        lead: 'Componente de seleção única (botão de rádio) com suporte para temas e validações.',
+        importTitle: 'Importar',
+        basicTitle: 'Uso Básico',
+        basicDesc: 'Botões de rádio são usados para selecionar uma única opção de um conjunto.',
+        groupTitle: 'Grupo de Rádio',
+        groupDesc: 'Use o mesmo nome ou um controle de formulário para agrupar várias opções.',
+        themesTitle: 'Temas',
+        themesDesc: 'Suporta os temas <code>base</code>, <code>neo</code> e <code>glass</code>.',
+        labelsTitle: 'Posições de Rótulo',
+        labelsDesc: 'O rótulo pode ser posicionado à <code>left</code> (esquerda) ou <code>right</code> (direita, padrão).',
+        colorsTitle: 'Cores e Tamanhos',
+        colorsDesc: 'Disponível em várias variantes de cores e três tamanhos (sm, md, lg).',
+        validationTitle: 'Validação',
+        validationDesc: 'Suporte completo para validações e mensagens de erro.',
+        apiTitle: 'API',
+        table: {
+            prop: 'Propriedade',
+            type: 'Tipo',
+            default: 'Padrão',
+            desc: 'Descrição'
+        }
+    },
+    fr: {
+        title: 'RadioButton',
+        lead: 'Composant de sélection unique (bouton radio) avec prise en charge des thèmes et des validations.',
+        importTitle: 'Importer',
+        basicTitle: 'Utilisation de Base',
+        basicDesc: 'Les boutons radio sont utilisés pour sélectionner une seule option dans un ensemble.',
+        groupTitle: 'Groupe Radio',
+        groupDesc: 'Utilisez le même nom ou un contrôle de formulaire pour grouper plusieurs options.',
+        themesTitle: 'Thèmes',
+        themesDesc: 'Prend en charge les thèmes <code>base</code>, <code>neo</code> et <code>glass</code>.',
+        labelsTitle: 'Positions des Étiquettes',
+        labelsDesc: 'L\'étiquette peut être positionnée à <code>left</code> (gauche) ou <code>right</code> (droite, par défaut).',
+        colorsTitle: 'Couleurs et Tailles',
+        colorsDesc: 'Disponible en plusieurs variantes de couleurs et trois tailles (sm, md, lg).',
+        validationTitle: 'Validation',
+        validationDesc: 'Prise en charge complète des validations et des messages d\'erreur.',
+        apiTitle: 'API',
+        table: {
+            prop: 'Propriété',
+            type: 'Type',
+            default: 'Par défaut',
+            desc: 'Description'
+        }
+    },
+    de: {
+        title: 'RadioButton',
+        lead: 'Einzelauswahlkomponente (Radiobutton) mit Unterstützung für Themen und Validierungen.',
+        importTitle: 'Importieren',
+        basicTitle: 'Grundlegende Verwendung',
+        basicDesc: 'Radiobuttons werden verwendet, um eine einzelne Option aus einer Auswahl auszuwählen.',
+        groupTitle: 'Radio-Gruppe',
+        groupDesc: 'Verwenden Sie denselben Namen oder ein Formularsteuerelement, um mehrere Optionen zu gruppieren.',
+        themesTitle: 'Themen',
+        themesDesc: 'Unterstützt die Themen <code>base</code>, <code>neo</code> und <code>glass</code>.',
+        labelsTitle: 'Etikettenpositionen',
+        labelsDesc: 'Das Etikett kann <code>left</code> (links) oder <code>right</code> (rechts, Standard) positioniert werden.',
+        colorsTitle: 'Farben & Größen',
+        colorsDesc: 'Verfügbar in verschiedenen Farbvarianten und drei Größen (sm, md, lg).',
+        validationTitle: 'Validierung',
+        validationDesc: 'Vollständige Unterstützung für Validierungen und Fehlermeldungen.',
+        apiTitle: 'API',
+        table: {
+            prop: 'Eigenschaft',
+            type: 'Typ',
+            default: 'Standard',
+            desc: 'Beschreibung'
+        }
+    }
+};
