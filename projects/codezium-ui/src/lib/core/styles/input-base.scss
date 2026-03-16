@@ -1,0 +1,518 @@
+@use 'sass:list';
+
+/* ==========================================================================
+   Shared Input Styles (Used by InputText, Password)
+   ========================================================================== */
+
+.cz-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cz-spacing-xs);
+    width: auto;
+    align-items: flex-start;
+
+    &.cz-input-fluid {
+        width: 100%;
+
+        .cz-input-container {
+            width: 100%;
+        }
+    }
+
+    /* Provide space for the animated over label to go outside the box */
+    &[data-label-position="over"] {
+        margin-top: calc(var(--cz-text-sm) + var(--cz-spacing-xs));
+    }
+
+    /* Label NONE: etiqueta estática simple, sin animaciones */
+    .cz-input-label-static {
+        display: block;
+        font-size: var(--cz-font-size-sm, 0.875rem);
+        font-weight: 500;
+        color: var(--cz-theme-input-label-active, var(--cz-color-gray-700));
+        margin-bottom: var(--cz-spacing-xxs);
+        line-height: 1.4;
+    }
+
+    /* Contenedor relativo para Float/In/Over labels */
+    .cz-input-container {
+        position: relative;
+        display: inline-flex;
+        width: 100%;
+
+        .cz-input-native {
+            font-family: inherit;
+            width: 100%;
+            background: var(--cz-theme-input-bg, var(--cz-theme-surface));
+            color: var(--cz-theme-text-primary);
+            border: 1px solid var(--cz-theme-input-border, var(--cz-color-gray-400));
+            border-radius: var(--cz-theme-radius-base);
+            transition: var(--cz-theme-transition-base);
+            outline: none;
+            box-sizing: border-box;
+
+            &::placeholder {
+                color: var(--cz-theme-input-placeholder, var(--cz-color-gray-400));
+                /* Hide placeholder text when label is going to cover it initially */
+                opacity: 0;
+                transition: opacity 0.2s ease;
+            }
+        }
+
+        &.cz-float-active .cz-input-native::placeholder {
+            opacity: 1;
+            /* Retornar el placeholder nativo una vez el label sube */
+        }
+
+        .cz-input-label-inner,
+        .cz-input-label-over {
+            position: absolute;
+            pointer-events: none;
+            transition: all 0.2s ease-out;
+            z-index: 1;
+        }
+
+        .cz-input-label-inner {
+            left: var(--cz-spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+            font-size: var(--cz-text-base);
+        }
+
+        /* Diseño inicial del Over Label (dentro del input como placeholder) */
+        .cz-input-label-over {
+            left: var(--cz-spacing-md);
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: var(--cz-text-base);
+            font-weight: 400;
+            color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+        }
+    }
+
+    /* Tamaños (Sizes) */
+    &[data-size="sm"] .cz-input-native {
+        font-size: var(--cz-text-sm);
+        padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
+    }
+
+    &[data-size="md"] .cz-input-native {
+        font-size: var(--cz-text-base);
+        padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    }
+
+    &[data-size="lg"] .cz-input-native {
+        font-size: var(--cz-text-lg);
+        padding: var(--cz-spacing-md) var(--cz-spacing-lg);
+    }
+
+    /* Estado: Filled */
+    &.cz-input-filled .cz-input-native {
+        background: var(--cz-theme-surface-active);
+        border-color: transparent;
+    }
+
+    /* Estado: Focus */
+    &.cz-input-focused {
+        .cz-input-native {
+            border-color: var(--cz-color-primary);
+            box-shadow: 0 0 0 3px var(--cz-color-primary-200);
+        }
+    }
+
+    /* Dark mode: ring más visible */
+    .dark &.cz-input-focused .cz-input-native,
+    [data-theme="dark"] &.cz-input-focused .cz-input-native {
+        border-color: var(--cz-color-primary) !important;
+        box-shadow: 0 0 0 3px var(--cz-color-primary-300) !important;
+    }
+
+    /* Estado Activo del Contenedor (Focus O tiene valor) */
+    .cz-input-container.cz-float-active {
+        .cz-input-label-over {
+            top: -0.5rem;
+            left: 0;
+            font-size: var(--cz-text-sm);
+            font-weight: 500;
+            color: var(--cz-theme-input-label-active, var(--cz-color-gray-900));
+            transform: translateY(-100%);
+        }
+    }
+
+    /* Estado: Hover */
+    &:not(.cz-input-focused):not(.cz-input-disabled):hover .cz-input-native {
+        border-color: var(--cz-theme-input-border-hover, var(--cz-color-gray-500));
+    }
+
+    /* Estado: Disabled */
+    &.cz-input-disabled {
+        opacity: 0.6;
+        pointer-events: none;
+
+        .cz-input-native {
+            background: var(--cz-color-gray-100); // Fondo inactivo neutral
+            color: var(--cz-color-gray-500);
+        }
+    }
+
+    /* Estado: Validaciones y Error */
+    &.cz-input-has-error {
+        .cz-input-native {
+            border-color: var(--cz-color-danger) !important;
+        }
+
+        &.cz-input-focused .cz-input-native {
+            box-shadow: 0 0 0 2px var(--cz-color-danger-100) !important;
+        }
+
+        .cz-input-label-inner,
+        .cz-input-label-over {
+            color: var(--cz-color-danger) !important;
+        }
+    }
+
+    .cz-input-error-text {
+        color: var(--cz-color-danger);
+        font-size: var(--cz-font-size-xs);
+        line-height: 1;
+        margin-top: var(--cz-spacing-xs);
+        display: block;
+    }
+
+    .cz-input-help-text {
+        color: var(--cz-theme-text-muted);
+        font-size: var(--cz-font-size-xs);
+        line-height: 1;
+        margin-top: var(--cz-spacing-xs);
+        display: block;
+    }
+
+    /* Label Variant: "IN" */
+    &[data-label-position="in"] {
+        .cz-input-native {
+            /* Ampliamos el espacio superior para contener ambos textos */
+            padding-top: var(--cz-spacing-xl);
+            padding-bottom: var(--cz-spacing-xs);
+        }
+
+        /* Estado inicial: tamaño normal, color tenue */
+        .cz-input-label-inner {
+            top: var(--cz-spacing-sm);
+            transform: none;
+            font-size: var(--cz-text-base);
+            color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+            transition: font-size 0.2s ease, color 0.2s ease;
+        }
+
+        /* Activo: focus O tiene valor → se queda pequeño */
+        .cz-input-container.cz-float-active .cz-input-label-inner {
+            font-size: var(--cz-font-size-xs, 0.75rem);
+            color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+        }
+
+        /* Cuando además está en focus → color primario */
+        &.cz-input-focused .cz-input-container.cz-float-active .cz-input-label-inner {
+            color: var(--cz-color-primary);
+        }
+    }
+
+    /* Label Variant: "FLOAT" (Estilo Material / Prime) */
+    &[data-label-position="float"] {
+
+        /* Estado inicial: label GRANDE centrado como placeholder */
+        .cz-input-label-inner {
+            top: 50%;
+            font-size: var(--cz-text-base);
+            color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+            transition: all 0.2s ease;
+        }
+
+        /* Activo: Focus O tiene valor → sube el label y se vuelve pequeño */
+        .cz-input-container.cz-float-active {
+            .cz-input-label-inner {
+                top: 0;
+                font-size: var(--cz-font-size-xs, 0.75rem);
+                transform: translateY(-50%);
+                /* Fondo con mini blur para tapar el borde sin transparencia visible */
+                background: var(--cz-theme-input-bg, var(--cz-theme-surface));
+                backdrop-filter: blur(4px);
+                -webkit-backdrop-filter: blur(4px);
+                padding: 0 var(--cz-spacing-xs);
+                border-radius: var(--cz-radius-sm);
+                color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+            }
+        }
+
+        /* Cuando además está en focus → color primario */
+        &.cz-input-focused .cz-input-container.cz-float-active .cz-input-label-inner {
+            color: var(--cz-color-primary);
+        }
+
+        &.cz-input-has-error .cz-input-container.cz-float-active .cz-input-label-inner {
+            color: var(--cz-color-danger);
+        }
+    }
+}
+
+/* ==========================================================================
+   NEO THEME — COMMON
+   ========================================================================== */
+
+[data-theme="neo"] {
+    .cz-input-wrapper {
+        .cz-input-native {
+            background: var(--cz-neo-bg, #e0e5ec) !important;
+            border: none !important;
+            outline: none !important;
+            color: var(--cz-neo-text, #4a4a6a) !important;
+            /* Estado raised: doble sombra exterior suave */
+            box-shadow: var(--cz-neo-shadow-raised) !important;
+            transition: box-shadow 0.2s ease !important;
+
+            &::placeholder {
+                color: var(--cz-theme-text-muted, #9ca3af);
+                opacity: 1;
+            }
+        }
+
+        /* Focus: efecto "press" / hundido con inset shadow intenso */
+        &.cz-input-focused .cz-input-native {
+            box-shadow:
+                inset 4px 4px 8px var(--cz-neo-shadow-dark, #a3b1c6),
+                inset -4px -4px 8px var(--cz-neo-shadow-light, #ffffff) !important;
+            background: var(--cz-neo-bg, #e0e5ec) !important;
+            border: none !important;
+            outline: none !important;
+        }
+
+        /* Color variants en neo */
+        $neo-colors: (
+            "primary": (--cz-color-primary-50, --cz-neo-shadow-dark-primary),
+            "success": (--cz-color-success-50, --cz-neo-shadow-dark-success),
+            "danger": (--cz-color-danger-50, --cz-neo-shadow-dark-danger),
+            "warning": (--cz-color-warning-50, --cz-neo-shadow-dark-warning),
+            "info": (--cz-color-info-50, --cz-neo-shadow-dark-info),
+            "secondary": (--cz-color-secondary-50, --cz-neo-shadow-dark),
+        );
+
+        @each $name, $vals in $neo-colors {
+            $bg: list.nth($vals, 1);
+            $shadow: list.nth($vals, 2);
+
+            &[data-color="#{$name}"] {
+                .cz-input-native {
+                    background: var(#{$bg}) !important;
+                    box-shadow:
+                        4px 4px 8px var(#{$shadow}),
+                        -4px -4px 8px var(--cz-neo-shadow-light) !important;
+                }
+
+                &.cz-input-focused .cz-input-native {
+                    box-shadow:
+                        inset 4px 4px 8px var(#{$shadow}),
+                        inset -4px -4px 8px var(--cz-neo-shadow-light) !important;
+                    background: var(#{$bg}) !important;
+                }
+            }
+        }
+    }
+
+    /* Dark neo common */
+    &.dark .cz-input-wrapper:not([data-color]),
+    .dark & .cz-input-wrapper:not([data-color]) {
+        .cz-input-native {
+            background: var(--cz-theme-surface, #1e293b) !important;
+            border: none !important;
+            outline: none !important;
+            color: var(--cz-color-white) !important;
+            box-shadow: var(--cz-theme-shadow-base) !important;
+
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.35);
+                opacity: 1;
+            }
+        }
+
+        &.cz-input-focused .cz-input-native {
+            box-shadow: var(--cz-theme-shadow-hover) !important;
+            background: var(--cz-theme-surface, #1e293b) !important;
+        }
+    }
+
+    /* Dark neo color variants */
+    &.dark .cz-input-wrapper[data-color],
+    .dark & .cz-input-wrapper[data-color] {
+        $neo-dark-shadow: rgba(0, 0, 0, 0.55);
+        $neo-light-shadow: rgba(255, 255, 255, 0.07);
+
+        .cz-input-native {
+            border: none !important;
+            outline: none !important;
+            box-shadow:
+                4px 4px 10px $neo-dark-shadow,
+                -3px -3px 8px $neo-light-shadow !important;
+        }
+
+        &.cz-input-focused .cz-input-native {
+            border: none !important;
+            outline: none !important;
+            box-shadow:
+                inset 5px 5px 12px $neo-dark-shadow,
+                inset -3px -3px 8px $neo-light-shadow !important;
+        }
+    }
+}
+
+/* ==========================================================================
+   GLASS THEME — COMMON
+   ========================================================================== */
+
+[data-theme="glass"] {
+    .cz-input-wrapper {
+        .cz-input-native {
+            background: var(--cz-theme-input-bg, rgba(255, 255, 255, 0.35)) !important;
+            border: 1px solid var(--cz-theme-input-border, rgba(255, 255, 255, 0.6)) !important;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                0 4px 16px rgba(31, 38, 135, 0.08),
+                0 1px 4px rgba(31, 38, 135, 0.06);
+
+            color: var(--cz-theme-text-primary) !important;
+            transition: box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+
+            &::placeholder {
+                color: var(--cz-theme-input-placeholder, rgba(0, 0, 0, 0.35));
+                opacity: 1;
+            }
+        }
+
+        &.cz-input-focused .cz-input-native {
+            background: rgba(255, 255, 255, 0.55) !important;
+            border-color: var(--cz-color-primary) !important;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                0 0 0 3px var(--cz-color-primary-200),
+                0 8px 24px rgba(31, 38, 135, 0.15) !important;
+        }
+    }
+
+    /* Dark glass common */
+    &.dark .cz-input-wrapper:not([data-color]),
+    .dark & .cz-input-wrapper:not([data-color]) {
+        .cz-input-native {
+            background: var(--cz-theme-input-bg, rgba(255, 255, 255, 0.07)) !important;
+            border-color: var(--cz-theme-input-border, rgba(255, 255, 255, 0.18)) !important;
+            color: var(--cz-color-white, #ffffff) !important;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 4px 24px rgba(0, 0, 0, 0.35),
+                0 1px 6px rgba(0, 0, 0, 0.25) !important;
+
+            &::placeholder {
+                color: var(--cz-theme-input-placeholder, rgba(255, 255, 255, 0.4));
+                opacity: 1;
+            }
+        }
+
+        &.cz-input-focused .cz-input-native {
+            background: rgba(255, 255, 255, 0.14) !important;
+            border-color: var(--cz-color-primary) !important;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                0 0 0 3px var(--cz-color-primary-300),
+                0 8px 28px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        .cz-input-label-static,
+        .cz-input-label-over,
+        .cz-input-label-inner {
+            color: var(--cz-theme-input-label, rgba(255, 255, 255, 0.6));
+        }
+
+        .cz-input-container.cz-float-active .cz-input-label-inner {
+            background: rgba(15, 23, 42, 0.75);
+            color: var(--cz-theme-input-label-active, rgba(255, 255, 255, 0.9));
+        }
+
+        &.cz-input-focused .cz-input-container.cz-float-active .cz-input-label-inner {
+            color: var(--cz-color-primary-300);
+        }
+    }
+}
+
+/* ==========================================================================
+   COLOR VARIANTS — COMMON
+   ========================================================================== */
+
+$cz-input-colors: (
+    "primary": (--cz-color-primary-50, --cz-color-primary-400, --cz-color-primary-200, --cz-color-primary-900),
+    "success": (--cz-color-success-50, --cz-color-success-400, --cz-color-success-200, --cz-color-success-900),
+    "danger": (--cz-color-danger-50, --cz-color-danger-400, --cz-color-danger-200, --cz-color-danger-900),
+    "warning": (--cz-color-warning-50, --cz-color-warning-400, --cz-color-warning-200, --cz-color-warning-900),
+    "info": (--cz-color-info-50, --cz-color-info-400, --cz-color-info-200, --cz-color-info-900),
+    "secondary": (--cz-color-secondary-50, --cz-color-secondary-400, --cz-color-secondary-200, --cz-color-secondary-900),
+);
+
+@each $name, $values in $cz-input-colors {
+    $bg: list.nth($values, 1);
+    $border: list.nth($values, 2);
+    $ring: list.nth($values, 3);
+    $text: list.nth($values, 4);
+
+    .cz-input-wrapper[data-color="#{$name}"] {
+        .cz-input-native {
+            background: var(#{$bg}) !important;
+            border-color: var(#{$border}) !important;
+            color: var(#{$text}) !important;
+
+            &::placeholder {
+                color: var(#{$border});
+                opacity: 0.7;
+            }
+        }
+
+        &.cz-input-focused .cz-input-native {
+            background: var(#{$bg}) !important;
+            border-color: var(#{$border}) !important;
+            box-shadow: 0 0 0 3px var(#{$ring}) !important;
+        }
+
+        &:not(.cz-input-focused):not(.cz-input-disabled):hover .cz-input-native {
+            border-color: var(#{$border}) !important;
+            filter: brightness(0.97);
+        }
+    }
+}
+
+.cz-input-wrapper[data-color="dark"] {
+    .cz-input-native {
+        background: var(--cz-color-gray-800, #1f2937) !important;
+        border-color: var(--cz-color-gray-700, #374151) !important;
+        color: var(--cz-color-white, #ffffff) !important;
+
+        &::placeholder {
+            color: var(--cz-color-gray-400, #9ca3af);
+            opacity: 1;
+        }
+    }
+
+    &:not(.cz-input-focused):not(.cz-input-disabled):hover .cz-input-native {
+        background: var(--cz-color-gray-700, #374151) !important;
+        border-color: var(--cz-color-gray-500, #6b7280) !important;
+    }
+
+    &.cz-input-focused .cz-input-native {
+        background: var(--cz-color-gray-800, #1f2937) !important;
+        border-color: rgba(255, 255, 255, 0.9) !important;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .cz-input-label-static,
+    .cz-input-label-over,
+    .cz-input-label-inner {
+        color: var(--cz-color-gray-300, #d1d5db);
+    }
+}

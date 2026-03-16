@@ -17,7 +17,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { CZ_VALIDATION_MESSAGES, CzValidationLocale, CzValidationErrorKeys } from '../../i18n';
-import { CzInputSize, CzLabelPosition, CzInputColor } from '../../atoms/input-text/input-text.component';
+import { CzInputSize, CzLabelPosition, CzInputColor } from '../../types';
 
 @Component({
   selector: 'cz-autocomplete',

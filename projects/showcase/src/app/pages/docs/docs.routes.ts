@@ -72,6 +72,12 @@ export const docsRoutes: Routes = [
                 title: 'Autocomplete | Codezium UI Docs',
             },
             {
+                path: 'components/password',
+                loadComponent: () =>
+                    import('./pages/password/password-doc').then(m => m.PasswordDocPage),
+                title: 'Password | Codezium UI Docs',
+            },
+            {
                 path: 'components/checkbox',
                 loadComponent: () =>
                     import('./pages/checkbox/checkbox-doc').then(m => m.CheckboxDocPage),

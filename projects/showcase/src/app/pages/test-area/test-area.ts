@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, Renderer2 } from '@angular/core';
 import { DOCUMENT, JsonPipe, SlicePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
-import { CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, CzValidationLocale } from 'codezium-ui';
+import { CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, CzPasswordComponent, CzValidationLocale } from 'codezium-ui';
 
 interface TestForm {
   email: FormControl<string | null>;
@@ -30,11 +30,19 @@ interface TestForm {
   autoFloat: FormControl<string | null>;
   autoOver: FormControl<string | null>;
   autoIn: FormControl<string | null>;
+  // Password test fields
+  passBasic: FormControl<string | null>;
+  passToggle: FormControl<string | null>;
+  passFeedback: FormControl<string | null>;
+  passValidation: FormControl<string | null>;
+  passFloat: FormControl<string | null>;
+  passOver: FormControl<string | null>;
+  passIn: FormControl<string | null>;
 }
 
 @Component({
   selector: 'app-test-area',
-  imports: [ReactiveFormsModule, FormsModule, CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, JsonPipe, SlicePipe],
+  imports: [ReactiveFormsModule, FormsModule, CzInputTextComponent, CzCheckboxComponent, CzInputNumberDirective, CzAutocompleteComponent, CzPasswordComponent, JsonPipe, SlicePipe],
   templateUrl: './test-area.html',
   styleUrl: './test-area.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -69,7 +77,14 @@ export class TestArea {
     autoMultiple: new FormControl([], Validators.required),
     autoFloat: new FormControl(''),
     autoOver: new FormControl(''),
-    autoIn: new FormControl('')
+    autoIn: new FormControl(''),
+    passBasic: new FormControl(''),
+    passToggle: new FormControl(''),
+    passFeedback: new FormControl(''),
+    passValidation: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    passFloat: new FormControl(''),
+    passOver: new FormControl(''),
+    passIn: new FormControl('')
   });
 
   // Autocomplete Data & Logic

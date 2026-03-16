@@ -415,6 +415,86 @@
             </div>
         </section>
 
+        <!-- SECTION: Password Components -->
+        <section>
+            <h2
+                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
+                CzPassword Elements</h2>
+
+            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px;">
+
+                <cz-password 
+                    formControlName="passBasic" 
+                    label="Basic" 
+                    placeholder="Standard password"
+                    [locale]="activeLocale">
+                </cz-password>
+
+                <cz-password 
+                    formControlName="passToggle" 
+                    label="Toggle Mask" 
+                    [toggleMask]="true"
+                    placeholder="Click the eye"
+                    [locale]="activeLocale">
+                </cz-password>
+
+                <cz-password 
+                    formControlName="passFeedback" 
+                    label="With Feedback" 
+                    [feedback]="true"
+                    [toggleMask]="true"
+                    placeholder="Type to see strength"
+                    [locale]="activeLocale">
+                </cz-password>
+
+                <cz-password 
+                    formControlName="passValidation" 
+                    label="Validation (Min 8)" 
+                    [feedback]="true"
+                    [toggleMask]="true"
+                    [locale]="activeLocale">
+                </cz-password>
+
+                <cz-password 
+                    formControlName="passFloat" 
+                    label="Floating" 
+                    labelPosition="float"
+                    [locale]="activeLocale">
+                </cz-password>
+
+                <cz-password 
+                    formControlName="passOver" 
+                    label="Over Label" 
+                    labelPosition="over"
+                    [locale]="activeLocale">
+                </cz-password>
+
+                <cz-password 
+                    formControlName="passIn" 
+                    label="In Label" 
+                    labelPosition="in"
+                    [locale]="activeLocale">
+                </cz-password>
+
+                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-md);">
+                    <cz-password color="primary" label="Primary" placeholder="Primary color" [locale]="activeLocale"></cz-password>
+                    <cz-password color="secondary" label="Secondary" placeholder="Secondary color" [locale]="activeLocale"></cz-password>
+                    <cz-password color="dark" label="Dark" placeholder="Dark color" [locale]="activeLocale"></cz-password>
+                    <cz-password color="success" label="Success" placeholder="Success color" [locale]="activeLocale"></cz-password>
+                    <cz-password color="danger" label="Danger" placeholder="Danger color" [locale]="activeLocale"></cz-password>
+                </div>
+
+                <div
+                    style="background: var(--cz-theme-surface-hover); padding: var(--cz-spacing-md); border-radius: var(--cz-radius-md); font-family: monospace; font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-secondary);">
+                    <strong>Raw Form Values:</strong><br/>
+                    Basic: {{ testForm.get('passBasic')?.value }}<br/>
+                    Toggle: {{ testForm.get('passToggle')?.value }}<br/>
+                    Feedback: {{ testForm.get('passFeedback')?.value }}<br/>
+                    Validation: {{ testForm.get('passValidation')?.value }}
+                </div>
+            </div>
+        </section>
+
         <!-- SECTION: Input Sizes -->
         <section>
             <h2

@@ -10,10 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { NgControl, ControlValueAccessor } from '@angular/forms';
 import { CZ_VALIDATION_MESSAGES, CzValidationLocale, CzValidationErrorKeys } from '../../i18n';
-
-export type CzInputSize = 'sm' | 'md' | 'lg';
-export type CzLabelPosition = 'none' | 'over' | 'in' | 'float';
-export type CzInputColor = '' | 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark';
+import { CzInputSize, CzLabelPosition, CzInputColor } from '../../types';
 
 @Component({
   selector: 'cz-input-text',
