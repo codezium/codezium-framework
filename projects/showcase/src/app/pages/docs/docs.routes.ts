@@ -114,6 +114,12 @@ export const docsRoutes: Routes = [
                 title: 'SelectButton | Codezium UI Docs',
             },
             {
+                path: 'components/slider',
+                loadComponent: () =>
+                    import('./pages/slider/slider-doc').then(m => m.SliderDocPage),
+                title: 'Slider | Codezium UI Docs',
+            },
+            {
                 path: 'directives/key-filter',
                 loadComponent: () =>
                     import('./pages/key-filter/key-filter-doc').then(m => m.default),

@@ -8,3 +8,4 @@ export * from './textarea';
 export * from './radio-button';
 export * from './rating';
 export * from './select-button';
+export * from './slider';

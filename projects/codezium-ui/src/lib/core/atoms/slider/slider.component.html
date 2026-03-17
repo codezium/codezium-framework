@@ -1,0 +1,62 @@
+<div class="cz-slider-wrapper">
+    @if (label()) {
+        <label class="cz-slider-label">{{ label() }}</label>
+    }
+
+    <div 
+        #container
+        class="cz-slider-container"
+        (mousedown)="onContainerClick($event)"
+        [class.cz-slider-container--disabled]="actualDisabled()">
+        
+        <div class="cz-slider-track"></div>
+        
+        <div 
+            class="cz-slider-range"
+            [style.left.%]="orientation() === 'horizontal' ? rangeStart() : 0"
+            [style.width.%]="orientation() === 'horizontal' ? (rangeEnd() - rangeStart()) : 100"
+            [style.bottom.%]="orientation() === 'vertical' ? rangeStart() : 0"
+            [style.height.%]="orientation() === 'vertical' ? (rangeEnd() - rangeStart()) : 100">
+        </div>
+
+        <!-- Handle 1 -->
+        <div 
+            class="cz-slider-handle"
+            [attr.tabindex]="actualDisabled() ? -1 : 0"
+            (mousedown)="onMouseDown($event, 0)"
+            (touchstart)="onHandleTouchStart($event, 0)"
+            [style.left.%]="orientation() === 'horizontal' ? handle1Pos() : null"
+            [style.bottom.%]="orientation() === 'vertical' ? handle1Pos() : null"
+            role="slider"
+            [attr.aria-valuemin]="min()"
+            [attr.aria-valuemax]="max()"
+            [attr.aria-valuenow]="range() ? value()[0] : value()">
+        </div>
+
+        <!-- Handle 2 (Range only) -->
+        @if (range()) {
+            <div 
+                class="cz-slider-handle"
+                [attr.tabindex]="actualDisabled() ? -1 : 0"
+                (mousedown)="onMouseDown($event, 1)"
+                (touchstart)="onHandleTouchStart($event, 1)"
+                [style.left.%]="orientation() === 'horizontal' ? handle2Pos() : null"
+                [style.bottom.%]="orientation() === 'vertical' ? handle2Pos() : null"
+                role="slider"
+                [attr.aria-valuemin]="min()"
+                [attr.aria-valuemax]="max()"
+                [attr.aria-valuenow]="value()[1]">
+            </div>
+        }
+    </div>
+
+    @if (helperText() || (showErrors() && errorMessage)) {
+        <div class="cz-slider-messages">
+            @if (showErrors() && errorMessage) {
+                <span class="cz-slider-error">{{ errorMessage }}</span>
+            } @else if (helperText()) {
+                <span class="cz-slider-helper">{{ helperText() }}</span>
+            }
+        </div>
+    }
+</div>
