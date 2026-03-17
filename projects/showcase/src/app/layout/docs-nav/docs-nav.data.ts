@@ -50,6 +50,7 @@ export const DOCS_NAV: NavItem[] = [
             { label: 'Rating', path: '/docs/components/rating' },
             { label: 'SelectButton', path: '/docs/components/select-button' },
             { label: 'Slider', path: '/docs/components/slider' },
+            { label: 'IconField', path: '/docs/components/icon-field' },
         ],
     },
     {

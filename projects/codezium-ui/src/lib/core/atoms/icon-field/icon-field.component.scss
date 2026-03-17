@@ -1,0 +1,133 @@
+.cz-icon-field {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    width: auto;
+
+    &.cz-icon-field-fluid,
+    &:has(.cz-input-text-fluid),
+    &:has(.cz-password-fluid),
+    &:has(.cz-select-button-fluid),
+    &:has(.cz-select-fluid),
+    &:has(.cz-textarea-fluid) {
+        width: 100%;
+    }
+
+    /* Support for our library wrapper structures */
+    &:has(.cz-input-wrapper),
+    &:has(.cz-password-wrapper),
+    &:has(.cz-select-wrapper),
+    &:has(.cz-textarea-wrapper) {
+        width: 100%;
+    }
+
+    /* Positioning InputIcons */
+    .cz-input-icon {
+        position: absolute;
+        top: 50%;
+        /* Shifted center point for md (target ~25px from edge to balance with inner padding) */
+        left: 1.55rem; 
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        color: var(--cz-theme-text-muted, var(--cz-color-gray-500));
+        transition: color 0.2s ease, top 0.2s ease, left 0.2s ease, right 0.2s ease;
+    }
+
+    /* ── VERTICAL CENTERING WITH STATIC LABELS ── */
+    /* Only apply when label is ABOVE the input */
+    &:has(.cz-input-label-static),
+    &:has(.cz-select-button:not(.cz-select-button--label-left):not(.cz-select-button--label-right) .cz-select-button-label-group) {
+        .cz-input-icon {
+            /* Shift center point down to align with the input area */
+            top: calc(50% + 0.825rem);
+        }
+
+        &[data-size="sm"] .cz-input-icon { top: calc(50% + 0.675rem); }
+        &[data-size="lg"] .cz-input-icon { top: calc(50% + 1.025rem); }
+    }
+
+    /* ── HORIZONTAL POSITIONING & PADDING ── */
+    
+    /* Icon Left Configuration */
+    &--left {
+        .cz-input-icon {
+            left: 1.55rem;
+            right: auto;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Standard Inputs */
+        .cz-input-native,
+        .cz-password-native,
+        .cz-select-trigger,
+        .cz-textarea-native,
+        .cz-select-button-container {
+            padding-left: 3.125rem !important; /* Balanced padding */
+        }
+
+        /* Labels that need to slide to the right */
+        .cz-input-label-inner,
+        .cz-input-label-over,
+        .cz-input-label-float {
+            left: 3.125rem !important;
+        }
+
+        /* Size Variants */
+        &[data-size="sm"] {
+            .cz-input-icon { left: 1.3rem; }
+            .cz-input-native, .cz-password-native, .cz-select-trigger, .cz-textarea-native, .cz-select-button-container {
+                padding-left: 2.6rem !important;
+            }
+            .cz-input-label-inner, .cz-input-label-over, .cz-input-label-float { left: 2.6rem !important; }
+        }
+
+        &[data-size="lg"] {
+            .cz-input-icon { left: 1.8rem; }
+            .cz-input-native, .cz-password-native, .cz-select-trigger, .cz-textarea-native, .cz-select-button-container {
+                padding-left: 3.6rem !important;
+            }
+            .cz-input-label-inner, .cz-input-label-over, .cz-input-label-float { left: 3.6rem !important; }
+        }
+    }
+
+    /* Icon Right Configuration */
+    &--right {
+        .cz-input-icon {
+            right: 1.55rem;
+            left: auto;
+            transform: translate(50%, -50%);
+        }
+
+        .cz-input-native,
+        .cz-password-native,
+        .cz-select-trigger,
+        .cz-textarea-native,
+        .cz-select-button-container {
+            padding-right: 3.125rem !important;
+        }
+
+        /* Size Variants */
+        &[data-size="sm"] {
+            .cz-input-icon { right: 1.3rem; }
+            .cz-input-native, .cz-password-native, .cz-select-trigger, .cz-textarea-native, .cz-select-button-container {
+                padding-right: 2.6rem !important;
+            }
+        }
+
+        &[data-size="lg"] {
+            .cz-input-icon { right: 1.8rem; }
+            .cz-input-native, .cz-password-native, .cz-select-trigger, .cz-textarea-native, .cz-select-button-container {
+                padding-right: 3.6rem !important;
+            }
+        }
+    }
+
+    /* Focus state highlighting */
+    &:focus-within .cz-input-icon {
+        color: var(--cz-color-primary);
+    }
+}

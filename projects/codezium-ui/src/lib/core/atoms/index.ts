@@ -9,3 +9,4 @@ export * from './radio-button';
 export * from './rating';
 export * from './select-button';
 export * from './slider';
+export * from './icon-field';

@@ -1,0 +1,39 @@
+.cz-input-icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+
+    &.cz-icon-animating {
+        animation: cz-icon-bounce 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}
+
+.cz-input-icon-element {
+    display: block;
+}
+
+:host {
+    &[data-color="primary"] { color: var(--cz-color-primary, #3b82f6); }
+    &[data-color="secondary"] { color: var(--cz-color-secondary, #6b7280); }
+    &[data-color="success"] { color: var(--cz-color-success, #10b981); }
+    &[data-color="warning"] { color: var(--cz-color-warning, #f59e0b); }
+    &[data-color="danger"] { color: var(--cz-color-danger, #ef4444); }
+    &[data-color="info"] { color: var(--cz-color-info, #3b82f6); }
+    &[data-color="dark"] { color: var(--cz-color-gray-900, #111827); }
+}
+
+@keyframes cz-icon-bounce {
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
