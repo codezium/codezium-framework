@@ -48,6 +48,7 @@ export const DOCS_NAV: NavItem[] = [
             { label: 'TextArea', path: '/docs/components/textarea' },
             { label: 'RadioButton', path: '/docs/components/radio-button' },
             { label: 'Rating', path: '/docs/components/rating' },
+            { label: 'SelectButton', path: '/docs/components/select-button' },
         ],
     },
     {

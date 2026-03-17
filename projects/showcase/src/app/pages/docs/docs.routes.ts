@@ -108,6 +108,12 @@ export const docsRoutes: Routes = [
                 title: 'Rating | Codezium UI Docs',
             },
             {
+                path: 'components/select-button',
+                loadComponent: () =>
+                    import('./pages/select-button/select-button-doc').then(m => m.SelectButtonDocPage),
+                title: 'SelectButton | Codezium UI Docs',
+            },
+            {
                 path: 'directives/key-filter',
                 loadComponent: () =>
                     import('./pages/key-filter/key-filter-doc').then(m => m.default),

@@ -38,7 +38,7 @@ import { RATING_DOC_I18N } from './rating-doc.i18n';
             <section>
                 <h2 id="labels">{{ t().labels }}</h2>
                 <p>{{ t().labelsDescription }}</p>
-                <div class="cz-flex cz-flex-column cz-gap-md cz-mb-md">
+                <div class="cz-flex cz-flex-col cz-gap-md cz-mb-md">
                     <cz-rating [(ngModel)]="valLabel1" label="Rate your experience" labelPosition="right" />
                     <cz-rating [(ngModel)]="valLabel2" label="Calificación" labelPosition="left" />
                 </div>
@@ -49,7 +49,7 @@ import { RATING_DOC_I18N } from './rating-doc.i18n';
             <section>
                 <h2 id="sizes">{{ t().sizes }}</h2>
                 <p>{{ t().sizesDescription }}</p>
-                <div class="cz-flex cz-flex-column cz-gap-md cz-mb-md">
+                <div class="cz-flex cz-flex-col cz-gap-md cz-mb-md">
                     <cz-rating [(ngModel)]="valSize" size="sm" label="Small" />
                     <cz-rating [(ngModel)]="valSize" size="md" label="Medium" />
                     <cz-rating [(ngModel)]="valSize" size="lg" label="Large" />
