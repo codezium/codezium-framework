@@ -1,0 +1,282 @@
+.cz-knob {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* Ensure items start from top */
+    position: relative;
+    user-select: none;
+    cursor: pointer;
+    margin: 0;
+    width: fit-content;
+    min-width: 100%;
+    /* Ensure it takes available space to center visuals */
+
+    color: var(--cz-theme-text-primary, #111827);
+
+    &--disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    &--readonly {
+        cursor: default;
+    }
+
+    .cz-knob-visual-container {
+        position: relative;
+        /* Remove flex to avoid horizontal shift of absolute children */
+        display: block;
+        margin: 0 auto;
+
+        .cz-knob-text-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 5;
+        }
+    }
+
+    .cz-knob-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease;
+        margin: 0 auto;
+        /* Extra centered */
+
+        &:active:not(.cz-knob--readonly):not(.cz-knob--disabled) {
+            transform: scale(0.98);
+        }
+    }
+
+    .cz-knob-svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+    }
+
+    .cz-knob-track {
+        stroke: var(--cz-theme-border, #e5e7eb);
+        transition: stroke 0.3s ease;
+    }
+
+    .cz-knob-value {
+        stroke: var(--cz-color-primary, #3b82f6);
+        transition: stroke-dashoffset 0.1s linear, stroke 0.3s ease;
+    }
+
+
+    .cz-knob-text {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: currentColor;
+        transition: color 0.3s ease;
+    }
+
+    /* ── DARK MODE SUPPORT ── */
+    .dark &,
+    [data-theme="dark"] &,
+    :host-context(.dark),
+    :host-context([data-theme="dark"]) {
+        color: var(--cz-color-gray-100, #f3f4f6) !important;
+
+        .cz-knob-track {
+            stroke: var(--cz-color-gray-700, #374151) !important;
+        }
+
+        .cz-knob-text {
+            color: currentColor !important;
+        }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        &:not(.light) {
+            color: var(--cz-color-gray-100, #f3f4f6);
+
+            .cz-knob-track {
+                stroke: var(--cz-color-gray-700, #374151);
+            }
+        }
+    }
+
+    /* ── THEMES ── */
+    &[data-theme="glass"] {
+        .cz-knob-container {
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            /* Mask center to show only the ring track */
+            mask-image: radial-gradient(circle, transparent 34%, black 36%);
+            -webkit-mask-image: radial-gradient(circle, transparent 34%, black 36%);
+        }
+
+        .cz-knob-track {
+            stroke: rgba(0, 0, 0, 0.1);
+            /* More visible gray for glass track */
+        }
+
+        .dark &,
+        :host-context(.dark) {
+            .cz-knob-container {
+                background: rgba(255, 255, 255, 0.05);
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .cz-knob-track {
+                stroke: rgba(255, 255, 255, 0.15);
+                /* Visible track in dark mode */
+            }
+        }
+    }
+
+    &[data-theme="neo"] {
+        .cz-knob-container {
+            border-radius: 50%;
+            background: var(--cz-theme-surface, #f4f3f3);
+            /* Inset shadows like the slider to create a groove effect */
+            box-shadow: inset 4px 4px 8px var(--cz-neo-shadow-dark),
+                inset -4px -4px 8px var(--cz-neo-shadow-light);
+            /* Mask to keep the neomorphic effect focused on the track area */
+            mask-image: radial-gradient(circle, transparent 34%, black 36%);
+            -webkit-mask-image: radial-gradient(circle, transparent 34%, black 36%);
+        }
+
+        .dark &,
+        :host-context(.dark) {
+            .cz-knob-container {
+                /* Corrected sinking effect directions: TL=Dark, BR=Light */
+                box-shadow: inset -4px -4px 10px rgba(0, 0, 0, 0.7),
+                    inset 4px 4px 10px rgba(255, 255, 255, 0.08);
+            }
+        }
+
+        .cz-knob-track {
+            stroke: transparent;
+            /* The groove IS the track */
+        }
+
+        .cz-knob-value {
+            filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.1));
+        }
+
+        .cz-knob-handle {
+            &-outer {
+                fill: var(--cz-theme-surface, #f4f3f3);
+                filter: drop-shadow(2px 2px 4px var(--cz-neo-shadow-dark)) drop-shadow(-2px -2px 4px var(--cz-neo-shadow-light));
+            }
+
+            .dark &,
+            :host-context(.dark) {
+                .cz-knob-handle-outer {
+                    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.7)) drop-shadow(-2px -2px 4px rgba(255, 255, 255, 0.03));
+                }
+            }
+
+            &-inner {
+                fill: var(--cz-slider-primary, var(--cz-color-primary, #3b82f6));
+            }
+        }
+    }
+
+    /* ── COLORS ── */
+    &[data-color="secondary"] {
+        .cz-knob-value {
+            stroke: var(--cz-color-secondary, #6b7280);
+        }
+    }
+
+    &[data-color="success"] {
+        .cz-knob-value {
+            stroke: var(--cz-color-success, #10b981);
+        }
+    }
+
+    &[data-color="warning"] {
+        .cz-knob-value {
+            stroke: var(--cz-color-warning, #f59e0b);
+        }
+    }
+
+    &[data-color="danger"] {
+        .cz-knob-value {
+            stroke: var(--cz-color-danger, #ef4444);
+        }
+    }
+
+    &[data-color="info"] {
+        .cz-knob-value {
+            stroke: var(--cz-color-info, #3b82f6);
+        }
+    }
+
+    &[data-color="dark"] {
+        .cz-knob-value {
+            stroke: var(--cz-color-gray-900, #111827);
+        }
+    }
+
+    /* ── MESSAGES ── */
+    .cz-knob-messages {
+        margin-top: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.125rem;
+        text-align: center;
+        width: 100%;
+        min-height: 2.75rem;
+        /* Reserve space for both error and helper */
+    }
+
+    .cz-knob-helper,
+    .cz-knob-error {
+        font-size: 0.8125rem;
+        line-height: 1.25;
+        font-weight: 500;
+        display: block;
+        width: 100%;
+    }
+
+    .cz-knob-helper {
+        color: var(--cz-theme-text-muted, #6b7280);
+    }
+
+    .cz-knob-error {
+        color: var(--cz-color-danger, #ef4444);
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+
+        &--hidden {
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+        }
+    }
+
+    &--has-error {
+        .cz-knob-value {
+            stroke: var(--cz-color-danger, #ef4444);
+        }
+    }
+}
+
+@keyframes cz-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

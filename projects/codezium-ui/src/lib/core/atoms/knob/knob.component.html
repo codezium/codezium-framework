@@ -1,0 +1,80 @@
+<div class="cz-knob-wrapper">
+    <div class="cz-knob-visual-container" [style.width.px]="size()" [style.height.px]="size()">
+        <div 
+            class="cz-knob-container" 
+            [style.width.px]="size()" 
+            [style.height.px]="size()"
+            #svgContainer
+        >
+            <svg 
+                viewBox="0 0 100 100" 
+                class="cz-knob-svg"
+                role="slider"
+                [attr.aria-valuemin]="min()"
+                [attr.aria-valuemax]="max()"
+                [attr.aria-valuenow]="value()"
+                [attr.aria-disabled]="actualDisabled()"
+                [attr.aria-readonly]="readOnly()"
+            >
+                <!-- Background Track (270 degrees) -->
+                <circle 
+                    cx="50" 
+                    cy="50" 
+                    [attr.r]="radius()" 
+                    class="cz-knob-track"
+                    fill="transparent" 
+                    [attr.stroke-width]="strokeWidth()"
+                    [attr.stroke-dasharray]="dashArray()"
+                    stroke-linecap="round"
+                    transform="rotate(135 50 50)"
+                />
+                
+                <!-- Value Arc (Foreground) -->
+                <circle 
+                    cx="50" 
+                    cy="50" 
+                    [attr.r]="radius()" 
+                    class="cz-knob-value"
+                    fill="transparent" 
+                    [attr.stroke-width]="strokeWidth()"
+                    [attr.stroke-dasharray]="dashArray()"
+                    [attr.stroke-dashoffset]="dashOffset()"
+                    stroke-linecap="round"
+                    transform="rotate(135 50 50)"
+                />
+                
+                <!-- Handle (Neo Theme) -->
+                @if (theme() === 'neo') {
+                    <g class="cz-knob-handle" [attr.transform]="'translate(' + handleX() + ',' + handleY() + ')'">
+                        <circle r="9" cx="0" cy="0" class="cz-knob-handle-outer" />
+                        <circle r="4" cx="0" cy="0" class="cz-knob-handle-inner" />
+                    </g>
+                }
+
+            </svg>
+
+        </div>
+
+        <!-- Center Value Text (Moved outside masked container to avoid masking) -->
+        @if (showValue()) {
+            <div class="cz-knob-text-container">
+                <span class="cz-knob-text">{{ formattedValue() }}</span>
+            </div>
+        }
+    </div>
+
+    <!-- Messages & Validation -->
+    @if (helperText() || errorMessage) {
+        <div class="cz-knob-messages">
+            <!-- Error Message (Top) -->
+            <span class="cz-knob-error" [class.cz-knob-error--hidden]="!errorMessage">
+                {{ errorMessage || '&nbsp;' }}
+            </span>
+            
+            <!-- Helper Text (Bottom) -->
+            @if (helperText()) {
+                <span class="cz-knob-helper">{{ helperText() }}</span>
+            }
+        </div>
+    }
+</div>

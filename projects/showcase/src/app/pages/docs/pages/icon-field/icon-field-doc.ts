@@ -190,7 +190,7 @@ import {
                 <h2 id="api" class="cz-h2 cz-mb-md">{{ t().properties }}</h2>
                 
                 <h3 class="cz-h3 cz-mb-sm">CzIconField</h3>
-                <div class="doc-table-wrapper cz-card cz-overflow-hidden cz-mb-xl">
+                <div class="doc-table-wrapper">
                     <table class="doc-table">
                         <thead>
                             <tr>
@@ -224,7 +224,7 @@ import {
                 </div>
 
                 <h3 class="cz-h3 cz-mb-sm">CzInputIcon</h3>
-                <div class="doc-table-wrapper cz-card cz-overflow-hidden">
+                <div class="doc-table-wrapper">
                     <table class="doc-table">
                         <thead>
                             <tr>

@@ -10,3 +10,4 @@ export * from './rating';
 export * from './select-button';
 export * from './slider';
 export * from './icon-field';
+export * from './knob';

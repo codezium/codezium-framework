@@ -176,7 +176,7 @@ import { SELECT_BUTTON_DOC_I18N } from './select-button-doc.i18n';
             <section class="cz-mb-xl">
                 <h2 id="api" class="cz-h2 cz-mb-md">API Reference</h2>
                 <h3 id="props" class="cz-h3 cz-mb-sm">{{ t().props }}</h3>
-                <div class="doc-table-wrapper cz-card cz-overflow-hidden">
+                <div class="doc-table-wrapper">
                     <table class="doc-table">
                         <thead>
                             <tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr>

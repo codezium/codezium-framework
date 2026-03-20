@@ -126,6 +126,12 @@ export const docsRoutes: Routes = [
                 title: 'IconField | Codezium UI Docs',
             },
             {
+                path: 'components/knob',
+                loadComponent: () =>
+                    import('./pages/knob/knob-doc').then(m => m.KnobDocPage),
+                title: 'Knob | Codezium UI Docs',
+            },
+            {
                 path: 'directives/key-filter',
                 loadComponent: () =>
                     import('./pages/key-filter/key-filter-doc').then(m => m.default),
