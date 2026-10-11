@@ -1,7 +1,7 @@
 <div 
   class="cz-autocomplete-wrapper"
   [class.cz-autocomplete-fluid]="fluid()"
-  [class.cz-autocomplete-filled]="filled()"
+  [class.cz-autocomplete-filled]="isFilled()"
   [class.cz-autocomplete-disabled]="actualDisabled()"
   [class.cz-autocomplete-has-error]="isInvalid"
   [class.cz-autocomplete-focused]="isFocused()"
@@ -11,7 +11,7 @@
   (click)="onWrapperClick()"
 >
   @if (label() && labelPosition() === 'none') {
-    <label class="cz-autocomplete-label-static">{{ label() }}</label>
+    <label class="cz-autocomplete-label-static" [attr.for]="effectiveInputId()">{{ label() }}</label>
   }
 
   <div class="cz-autocomplete-container" [class.cz-float-active]="isFocused() || hasValue()">
@@ -20,27 +20,39 @@
     @if (!multiple()) {
       <input
         #inputEl
+        [id]="effectiveInputId()"
+        [name]="name() || null"
         [type]="type()"
         [placeholder]="actualPlaceholder()"
         [disabled]="actualDisabled()"
         [readonly]="readonly()"
         [value]="inputValue()"
+        [attr.tabindex]="tabindex()"
+        [autofocus]="autofocus()"
+        [class]="inputStyleClass()"
         (input)="onInput($event)"
-        (focus)="onFocus()"
-        (blur)="onBlur()"
+        (focus)="onFocus($event)"
+        (blur)="onBlur($event)"
         (keydown)="onKeyDown($event)"
         class="cz-autocomplete-native"
         autocomplete="off"
         role="combobox"
+        aria-autocomplete="list"
+        aria-haspopup="listbox"
         [attr.aria-expanded]="overlayVisible()"
+        [attr.aria-controls]="panelId()"
+        [attr.aria-activedescendant]="overlayVisible() && highlightOption ? optionId(optionIndex(highlightOption)) : null"
+        [attr.aria-label]="ariaLabel()"
+        [attr.aria-labelledby]="ariaLabelledBy()"
+        [attr.aria-invalid]="isInvalid || null"
       />
     }
 
     <!-- MULTIPLE MODE: Chips + Input -->
     @if (multiple()) {
-      <ul class="cz-autocomplete-multiple-container" (click)="focusInput()">
+      <ul class="cz-autocomplete-multiple-container" role="listbox" (click)="focusInput()">
         @for (item of value(); track $index) {
-          <li class="cz-autocomplete-token">
+          <li class="cz-autocomplete-token" role="option" [attr.aria-label]="resolveFieldData(item)">
             <!-- Custom Selected Item Template vs Default -->
             @if (selectedItemTemplate()) {
               <ng-container *ngTemplateOutlet="selectedItemTemplate()!; context: { $implicit: item }"></ng-container>
@@ -55,18 +67,45 @@
         <li class="cz-autocomplete-input-token">
           <input
             #inputEl
+            [id]="effectiveInputId()"
+            [name]="name() || null"
             [type]="type()"
             [placeholder]="actualPlaceholder()"
             [disabled]="actualDisabled()"
             [readonly]="readonly()"
+            [attr.tabindex]="tabindex()"
+            [autofocus]="autofocus()"
+            [class]="inputStyleClass()"
             (input)="onInput($event)"
-            (focus)="onFocus()"
-            (blur)="onBlur()"
+            (focus)="onFocus($event)"
+            (blur)="onBlur($event)"
             (keydown)="onKeyDown($event)"
             autocomplete="off"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-haspopup="listbox"
+            [attr.aria-expanded]="overlayVisible()"
+            [attr.aria-controls]="panelId()"
+            [attr.aria-activedescendant]="overlayVisible() && highlightOption ? optionId(optionIndex(highlightOption)) : null"
+            [attr.aria-label]="ariaLabel()"
+            [attr.aria-labelledby]="ariaLabelledBy()"
+            [attr.aria-invalid]="isInvalid || null"
           />
         </li>
       </ul>
+    }
+
+    <!-- CLEAR ICON -->
+    @if (showClear() && hasValue() && !actualDisabled() && !readonly()) {
+      <button
+        type="button"
+        class="cz-autocomplete-clear"
+        aria-label="Clear"
+        tabindex="-1"
+        (click)="clear($event)"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
     }
 
     <!-- DROPDOWN BUTTON -->
@@ -75,6 +114,7 @@
         type="button" 
         class="cz-autocomplete-dropdown" 
         [disabled]="actualDisabled()" 
+        [attr.aria-label]="dropdownAriaLabel()"
         (click)="handleDropdownClick($event)"
         tabindex="-1">
         <!-- Chevron down icon (can be replaced by Lucide via ng-content later, using basic text for now or simple SVG) -->
@@ -84,9 +124,9 @@
 
     @if (label()) {
         @if (labelPosition() === 'over') {
-          <label class="cz-autocomplete-label-over">{{ label() }}</label>
+          <label class="cz-autocomplete-label-over" [attr.for]="effectiveInputId()">{{ label() }}</label>
         } @else if (labelPosition() === 'in' || labelPosition() === 'float') {
-          <label class="cz-autocomplete-label-inner">{{ label() }}</label>
+          <label class="cz-autocomplete-label-inner" [attr.for]="effectiveInputId()">{{ label() }}</label>
         }
     }
   </div>
@@ -94,33 +134,97 @@
   <!-- OVERLAY PANEL -->
   <div 
     class="cz-autocomplete-panel"
+    [class]="panelStyleClass()"
     [style.z-index]="panelZIndex()" 
     [class.cz-autocomplete-panel-visible]="overlayVisible()"
     (mousedown)="onOverlayMouseDown($event)"
   >
-    <ul class="cz-autocomplete-items" role="listbox">
-      @for (suggestion of suggestions(); track $index) {
-        <li 
-          class="cz-autocomplete-item" 
-          [class.cz-autocomplete-item-highlighted]="highlightOption === suggestion"
-          (click)="selectItem(suggestion, true)"
-          (mouseenter)="highlightOption = suggestion"
-          role="option"
-        >
-          @if (itemTemplate()) {
-            <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: suggestion }"></ng-container>
+    @if (headerTemplate()) {
+      <div class="cz-autocomplete-header">
+        <ng-container *ngTemplateOutlet="headerTemplate()!"></ng-container>
+      </div>
+    }
+
+    <ul
+      class="cz-autocomplete-items"
+      role="listbox"
+      [id]="panelId()"
+      [style.max-height]="scrollHeight() || null"
+      [class.cz-autocomplete-items-virtual]="virtualScroll()"
+      (scroll)="onPanelScroll($event)"
+    >
+      @if (virtualScroll() && virtualOffsetBefore() > 0) {
+        <li class="cz-autocomplete-spacer" aria-hidden="true" [style.height.px]="virtualOffsetBefore()"></li>
+      }
+
+      @if (group()) {
+        @for (groupItem of visibleSuggestions(); track $index) {
+          <li class="cz-autocomplete-group" role="presentation">
+            @if (groupTemplate()) {
+              <ng-container *ngTemplateOutlet="groupTemplate()!; context: { $implicit: groupItem }"></ng-container>
+            } @else {
+              {{ groupItem[optionGroupLabel()] }}
+            }
+          </li>
+
+          @for (suggestion of groupOptions(groupItem); track $index) {
+            <li
+              class="cz-autocomplete-item"
+              [id]="optionId(optionIndex(suggestion))"
+              [class.cz-autocomplete-item-highlighted]="highlightOption === suggestion"
+              [attr.aria-selected]="highlightOption === suggestion"
+              (click)="selectItem(suggestion, true)"
+              (mouseenter)="onOptionHover(suggestion)"
+              role="option"
+            >
+              @if (itemTemplate()) {
+                <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: suggestion }"></ng-container>
+              } @else {
+                {{ resolveFieldData(suggestion) }}
+              }
+            </li>
+          }
+        }
+      } @else {
+        @for (suggestion of visibleSuggestions(); track $index) {
+          <li 
+            class="cz-autocomplete-item" 
+            [id]="optionId(virtualScroll() ? virtualStart() + $index : $index)"
+            [class.cz-autocomplete-item-highlighted]="highlightOption === suggestion"
+            [attr.aria-selected]="highlightOption === suggestion"
+            (click)="selectItem(suggestion, true)"
+            (mouseenter)="onOptionHover(suggestion)"
+            role="option"
+          >
+            @if (itemTemplate()) {
+              <ng-container *ngTemplateOutlet="itemTemplate()!; context: { $implicit: suggestion }"></ng-container>
+            } @else {
+              {{ resolveFieldData(suggestion) }}
+            }
+          </li>
+        }
+      }
+
+      @if (virtualScroll() && virtualOffsetAfter() > 0) {
+        <li class="cz-autocomplete-spacer" aria-hidden="true" [style.height.px]="virtualOffsetAfter()"></li>
+      }
+
+      @if ((!suggestions() || suggestions()!.length === 0) && showEmptyMessage()) {
+        <li class="cz-autocomplete-empty-message">
+          @if (emptyTemplate()) {
+            <ng-container *ngTemplateOutlet="emptyTemplate()!"></ng-container>
           } @else {
-            {{ resolveFieldData(suggestion) }}
+            {{ emptyMessage() }}
           }
         </li>
       }
-
-      @if (!suggestions() || suggestions()!.length === 0) {
-        <li class="cz-autocomplete-empty-message">
-          {{ emptyMessage() }}
-        </li>
-      }
     </ul>
+
+    @if (footerTemplate()) {
+      <div class="cz-autocomplete-footer">
+        <ng-container *ngTemplateOutlet="footerTemplate()!"></ng-container>
+      </div>
+    }
   </div>
 
   <!-- AUTOMATIC / DYNAMIC VALIDATION MESSAGES -->

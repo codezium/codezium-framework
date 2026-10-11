@@ -1,14 +1,17 @@
 import { 
+    AfterViewInit,
     ChangeDetectionStrategy, 
     Component, 
     computed, 
-    inject, 
+    contentChild, 
+    ElementRef, 
     input, 
-    model, 
     Optional, 
     output, 
     Self, 
     signal, 
+    TemplateRef,
+    viewChild,
     ViewEncapsulation 
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -18,6 +21,11 @@ import { CZ_VALIDATION_MESSAGES, CzValidationLocale, CzValidationErrorKeys } fro
 export type CzToggleButtonSize = 'sm' | 'md' | 'lg';
 export type CzToggleButtonColor = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'dark';
 export type CzToggleButtonTheme = 'base' | 'glass' | 'neo';
+
+export interface CzToggleButtonChangeEvent {
+    originalEvent: Event;
+    checked: boolean;
+}
 
 @Component({
     selector: 'cz-toggle-button',
@@ -32,12 +40,13 @@ export type CzToggleButtonTheme = 'base' | 'glass' | 'neo';
         '[class.cz-toggle-button--disabled]': 'actualDisabled()',
         '[class.cz-toggle-button--readonly]': 'readonly()',
         '[class.cz-toggle-button--has-error]': 'isInvalid',
+        '[class.cz-toggle-button--fluid]': 'fluid()',
         '[attr.data-size]': 'size()',
         '[attr.data-color]': 'color()',
         '[attr.data-theme]': 'theme()'
     }
 })
-export class CzToggleButtonComponent implements ControlValueAccessor {
+export class CzToggleButtonComponent implements ControlValueAccessor, AfterViewInit {
     /** Label for the On state */
     onLabel = input<string>('On');
 
@@ -84,8 +93,40 @@ export class CzToggleButtonComponent implements ControlValueAccessor {
     ariaLabel = input<string>('');
     ariaLabelledBy = input<string>('');
 
+    /** When present, it specifies that the component should have invalid state style */
+    invalid = input<boolean>(false);
+
+    /** Whether the component should take up 100% of its container width */
+    fluid = input<boolean>(false);
+
+    /** Position of the icon */
+    iconPos = input<'left' | 'right'>('left');
+
+    /** When present, it specifies that the component should automatically get focus on load */
+    autofocus = input<boolean>(false);
+
+    /** Index of the element in tabbing order */
+    tabindex = input<number>(0);
+
+    /** Identifier of the focus input to match a label defined for the component */
+    inputId = input<string>('');
+
+    /** Whether selection can be cleared when clicking the checked button */
+    allowEmpty = input<boolean>(true);
+
+    /** Custom icon template (context: checked) */
+    iconTemplate = contentChild<TemplateRef<any>>('iconTemplate');
+
+    /** Custom content template (context: checked) */
+    contentTemplate = contentChild<TemplateRef<any>>('contentTemplate');
+
+    private readonly buttonRef = viewChild<ElementRef<HTMLButtonElement>>('toggleButton');
+
     /** Output for selection change */
-    onChange = output<boolean>();
+    onChangeEvent = output<CzToggleButtonChangeEvent>({ alias: 'onChange' });
+
+    /** Output for selection change (raw boolean, backwards compatible) */
+    onCheckedChange = output<boolean>({ alias: 'onCheckedChange' });
 
     /** Internal state of the button */
     checked = signal<boolean>(false);
@@ -106,6 +147,12 @@ export class CzToggleButtonComponent implements ControlValueAccessor {
         }
     }
 
+    ngAfterViewInit(): void {
+        if (this.autofocus() && !this.actualDisabled()) {
+            this.buttonRef()?.nativeElement.focus();
+        }
+    }
+
     /* ── UI Logic ── */
 
     toggle(event: Event): void {
@@ -113,11 +160,17 @@ export class CzToggleButtonComponent implements ControlValueAccessor {
             return;
         }
 
+        // Clearing the selection can be prevented
+        if (this.checked() && !this.allowEmpty()) {
+            return;
+        }
+
         const newValue = !this.checked();
         this.checked.set(newValue);
         this.onModelChange(newValue);
         this.onModelTouched();
-        this.onChange.emit(newValue);
+        this.onChangeEvent.emit({ originalEvent: event, checked: newValue });
+        this.onCheckedChange.emit(newValue);
     }
 
     onKeyDown(event: KeyboardEvent): void {
@@ -130,6 +183,7 @@ export class CzToggleButtonComponent implements ControlValueAccessor {
     /* ── Validation Layer ── */
 
     get isInvalid(): boolean {
+        if (this.invalid()) return true;
         if (!this.ngControl) return false;
         return !!(this.ngControl.invalid && (this.ngControl.touched || this.ngControl.dirty));
     }

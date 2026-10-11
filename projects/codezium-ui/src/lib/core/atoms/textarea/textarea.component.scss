@@ -87,7 +87,7 @@
 
         .cz-textarea-wrapper[data-color="#{$name}"] {
             .cz-input-container {
-                background: var(#{$bg}) !important;
+                background: var(--cz-input-color-bg, var(#{$bg})) !important;
                 box-shadow:
                     4px 4px 8px var(#{$shadow}),
                     -4px -4px 8px var(--cz-neo-shadow-light) !important;
@@ -116,6 +116,7 @@
                 .cz-textarea-native {
                     box-shadow: inset 4px 4px 8px var(#{$shadow}),
                                 inset -4px -4px 8px var(--cz-neo-shadow-light, #ffffff) !important;
+                    color: var(--cz-input-color-text, var(--cz-color-#{$name}-900)) !important;
                 }
             }
         }

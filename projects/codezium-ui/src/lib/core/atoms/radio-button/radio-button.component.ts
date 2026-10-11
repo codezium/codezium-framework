@@ -46,7 +46,8 @@ export type CzRadioButtonSize = 'sm' | 'md' | 'lg';
         '[class.cz-radio--disabled]': 'isDisabled()',
         '[class.cz-radio--readonly]': 'readonly()',
         '[class.cz-radio--label-left]': 'isLabelLeft()',
-        '[class.cz-radio--focused]': 'focused()'
+        '[class.cz-radio--focused]': 'focused()',
+        '[class.cz-radio--filled]': 'isFilled()'
     },
     encapsulation: ViewEncapsulation.None
 })
@@ -61,7 +62,7 @@ export class CzRadioButtonComponent implements ControlValueAccessor, OnInit {
     }
 
     /** The value associated with this radio button */
-    value = input.required<any>();
+    value = input<any>(null);
     /** Unique name for the radio group */
     name = input<string>('');
     /** Label to display next to the radio button */
@@ -79,8 +80,41 @@ export class CzRadioButtonComponent implements ControlValueAccessor, OnInit {
     /** Helper text displayed below the component */
     helperText = input<string>('');
 
+    /** Identifier of the input to match a label */
+    inputId = input<string>('');
+
+    /** Accessible label of the input */
+    ariaLabel = input<string | null>(null);
+
+    /** IDs of elements that label the input */
+    ariaLabelledBy = input<string | null>(null);
+
+    /** Index of the element in tabbing order */
+    tabindex = input<number | null>(null);
+
+    /** Focus the input on load */
+    autofocus = input<boolean>(false);
+
+    /** Allows selecting a boolean value */
+    binary = input<boolean>(false);
+
+    /** Input variant */
+    variant = input<'outlined' | 'filled'>('outlined');
+
+    /** Invalid state */
+    invalid = input<boolean>(false);
+
     /** Emit on interaction */
     onChangeEvent = output<CzRadioButtonChangeEvent>({ alias: 'onChange' });
+
+    /** Emitted on radio click */
+    onClick = output<{ originalEvent: Event; value: any }>();
+
+    /** Emitted when the input receives focus */
+    onFocusEvent = output<Event>({ alias: 'onFocus' });
+
+    /** Emitted when the input loses focus */
+    onBlurEvent = output<Event>({ alias: 'onBlur' });
 
     @ViewChild('rb') inputViewChild!: ElementRef<HTMLInputElement>;
 
@@ -92,6 +126,14 @@ export class CzRadioButtonComponent implements ControlValueAccessor, OnInit {
     
     /** Determines if the label should be on the left */
     isLabelLeft = computed(() => this.labelPosition() === 'left');
+
+    /** Identifier used by the input and its label */
+    effectiveInputId = computed(
+        () => this.inputId() || `${this.name() || 'cz-radio'}_${String(this.value())}`,
+    );
+
+    /** True when the variant is filled */
+    isFilled = computed(() => this.variant() === 'filled');
 
     /* ControlValueAccessor internal model */
     model = signal<any>(null);
@@ -114,18 +156,31 @@ export class CzRadioButtonComponent implements ControlValueAccessor, OnInit {
     }
 
     /** Returns true if this specific radio is checked against the model */
-    readonly checked = computed(() => this.model() === this.value());
+    readonly checked = computed(() =>
+        this.binary() ? this.model() === true : this.model() === this.value(),
+    );
 
-    onClick(event: Event) {
-        if (this.isDisabled() || this.readonly() || this.checked()) {
+    handleClick(event: Event) {
+        if (this.isDisabled() || this.readonly()) {
+            return;
+        }
+
+        this.onClick.emit({ originalEvent: event, value: this.value() });
+
+        if (this.checked()) {
             return;
         }
 
         this.select(event);
-        
+
         if (this.inputViewChild) {
             this.inputViewChild.nativeElement.focus();
         }
+    }
+
+    /** Applies focus to the input */
+    focus(): void {
+        this.inputViewChild?.nativeElement.focus();
     }
 
     onInputChange(event: Event) {
@@ -133,7 +188,7 @@ export class CzRadioButtonComponent implements ControlValueAccessor, OnInit {
     }
 
     private select(event: Event) {
-        const newValue = this.value();
+        const newValue = this.binary() ? true : this.value();
         this.model.set(newValue);
         this.onModelChange(newValue);
         this.onChangeEvent.emit({
@@ -144,13 +199,15 @@ export class CzRadioButtonComponent implements ControlValueAccessor, OnInit {
     }
 
     /* ── Events ── */
-    onFocus() {
+    onFocus(event?: Event) {
         this.focused.set(true);
+        if (event) this.onFocusEvent.emit(event);
     }
 
-    onBlur() {
+    onBlur(event?: Event) {
         this.focused.set(false);
         this.onModelTouched();
+        if (event) this.onBlurEvent.emit(event);
     }
 
     /* ── ControlValueAccessor Implementation ── */
@@ -175,6 +232,7 @@ export class CzRadioButtonComponent implements ControlValueAccessor, OnInit {
 
     /** Helper for validation states in template */
     get isInvalid(): boolean {
+        if (this.invalid()) return true;
         return !!(this.ngControl && this.ngControl.invalid && (this.ngControl.dirty || this.ngControl.touched));
     }
 }

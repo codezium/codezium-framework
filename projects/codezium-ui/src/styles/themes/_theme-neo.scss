@@ -9,6 +9,7 @@
     /* En Neomorfismo, la superficie y el fondo base casi siempre DEBEN ser iguales */
     --cz-theme-html-bg: var(--cz-neo-bg);
     --cz-theme-surface: var(--cz-neo-bg);
+    --cz-float-label-bg: var(--cz-neo-bg);
     --cz-theme-surface-hover: var(--cz-neo-bg);
     --cz-theme-surface-active: var(--cz-neo-bg);
 
@@ -43,6 +44,7 @@
     /* --- DARK MODE --- */
     --cz-theme-html-bg: var(--cz-navy, #111d38);
     --cz-theme-surface: var(--cz-navy, #111d38);
+    --cz-float-label-bg: var(--cz-navy, #111d38);
     --cz-theme-surface-hover: var(--cz-navy, #111d38);
     --cz-theme-surface-active: var(--cz-navy, #111d38);
 
@@ -100,7 +102,6 @@
     .cz-menubar-root,
     .cz-menubar-dropdown,
     .cz-tiered-menu-list,
-    .cz-toast-item,
     .cz-toolbar-container,
     .cz-table-container,
     .cz-tree-table-container,
@@ -406,4 +407,105 @@
     .cz-split-button-toggle {
         color: color-mix(in srgb, var(--cz-split-color, var(--cz-color-primary)) 55%, #ffffff);
     }
+}
+
+/* ==========================================================================
+   SKELETON — inset tinted placeholder
+   ========================================================================== */
+[data-theme="neo"] .cz-skeleton {
+    --cz-skeleton-background: color-mix(in srgb, var(--cz-theme-text-primary) 9%, var(--cz-theme-surface));
+    --cz-skeleton-animation-background: linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--cz-theme-surface) 75%, transparent) 50%, transparent 100%);
+}
+
+[data-theme="neo"].dark .cz-skeleton,
+.dark [data-theme="neo"] .cz-skeleton {
+    --cz-skeleton-background: color-mix(in srgb, var(--cz-theme-text-primary) 14%, var(--cz-theme-surface));
+}
+
+
+/* ==========================================================================
+   CASCADE SELECT — neomorphic drilldown (raised trigger, pressed options)
+   ========================================================================== */
+[data-theme="neo"] .cz-cascade-select-trigger {
+    border: none;
+    background: var(--cz-theme-surface);
+    box-shadow: var(--cz-neo-raised);
+}
+
+[data-theme="neo"] .cz-cascade-select-trigger--open,
+[data-theme="neo"] .cz-cascade-select-trigger:focus-visible {
+    border: none;
+    box-shadow: var(--cz-neo-pressed);
+}
+
+[data-theme="neo"] .cz-cascade-select-panel {
+    border: none;
+    background: var(--cz-theme-surface);
+    box-shadow: var(--cz-neo-raised);
+}
+
+[data-theme="neo"] .cz-cascade-select-option--hovered {
+    background: var(--cz-theme-surface);
+    box-shadow: var(--cz-neo-pressed);
+}
+
+[data-theme="neo"] .cz-cascade-select-option--selected {
+    background: color-mix(in srgb, var(--cz-color-primary) 12%, var(--cz-theme-surface));
+    color: var(--cz-color-primary);
+    box-shadow: var(--cz-neo-flat);
+}
+
+
+/* ==========================================================================
+   EDITOR — neomorphic raised canvas with flat toolbar controls
+   ========================================================================== */
+[data-theme="neo"] .cz-editor {
+    border: none;
+    background: var(--cz-theme-surface);
+    box-shadow: var(--cz-neo-raised);
+
+    &:focus-within {
+        box-shadow: var(--cz-neo-raised), 0 0 0 3px color-mix(in srgb, var(--cz-color-primary) 18%, transparent);
+    }
+}
+
+[data-theme="neo"] .cz-editor-toolbar {
+    background: transparent;
+    border-bottom: none;
+}
+
+[data-theme="neo"] .cz-editor-btn {
+    border: none;
+    background: var(--cz-theme-surface);
+    box-shadow: var(--cz-neo-flat);
+
+    &:hover {
+        box-shadow: var(--cz-neo-pressed);
+        color: var(--cz-color-primary);
+    }
+
+    &--active {
+        box-shadow: var(--cz-neo-pressed);
+        background: color-mix(in srgb, var(--cz-color-primary) 12%, var(--cz-theme-surface));
+        color: var(--cz-color-primary);
+    }
+}
+
+[data-theme="neo"] .cz-editor-select {
+    border: none;
+    background: var(--cz-theme-surface);
+    box-shadow: var(--cz-neo-flat);
+}
+
+[data-theme="neo"] .cz-editor-color {
+    box-shadow: var(--cz-neo-flat);
+
+    &:hover {
+        box-shadow: var(--cz-neo-pressed);
+    }
+}
+
+[data-theme="neo"] .cz-editor-content pre {
+    background: var(--cz-theme-surface);
+    box-shadow: var(--cz-neo-pressed);
 }

@@ -1,42 +1,149 @@
-<div
-    class="cz-file-upload-dropzone"
-    [class.cz-file-upload-dropzone--dragging]="isDragging()"
-    (dragover)="onDragOver($event)"
-    (dragleave)="onDragLeave()"
-    (drop)="onDrop($event)"
->
-    <svg [lucideIcon]="UploadIcon" [size]="28" class="cz-file-upload-icon"></svg>
-    <span class="cz-file-upload-label">{{ dragLabel() }}</span>
+<input #fileInput type="file" class="cz-file-upload-input" [multiple]="multiple()" [accept]="accept()"
+    [disabled]="disabled()" (change)="onFileInput($event)" />
 
-    <label class="cz-file-upload-choose">
-        <span>{{ chooseLabel() }}</span>
-        <input
-            type="file"
-            class="cz-file-upload-input"
-            [multiple]="multiple()"
-            [accept]="accept()"
-            [disabled]="disabled()"
-            (change)="onFileInput($event)"
-        />
-    </label>
-</div>
+@if (mode() === 'basic') {
+    <div class="cz-file-upload-basic" [class]="styleClass()">
+        <button type="button" class="cz-file-upload-basic-button" [disabled]="disabled()" (click)="choose()">
+            @if (chooseIconTemplate(); as iconTpl) {
+                <ng-container *ngTemplateOutlet="iconTpl" />
+            } @else {
+                <svg [lucideIcon]="chooseIcon()" [size]="16"></svg>
+            }
 
-@if (files().length > 0) {
-    <ul class="cz-file-upload-list">
-        @for (file of files(); track file) {
-            <li class="cz-file-upload-item">
-                <svg [lucideIcon]="FileIcon" [size]="16" class="cz-file-upload-item-icon"></svg>
-                <span class="cz-file-upload-item-name">{{ file.name }}</span>
-                <span class="cz-file-upload-item-size">{{ sizeLabel(file) }}</span>
-                <button
-                    type="button"
-                    class="cz-file-upload-remove"
-                    [attr.aria-label]="'Remove ' + file.name"
-                    (click)="remove(file, $event)"
-                >
-                    <svg [lucideIcon]="TrashIcon" [size]="14"></svg>
-                </button>
-            </li>
+            @if (fileLabelTemplate(); as labelTpl) {
+                <ng-container *ngTemplateOutlet="labelTpl" />
+            } @else {
+                <span>{{ chooseLabel() }}</span>
+            }
+        </button>
+    </div>
+} @else {
+    <div class="cz-file-upload-card" [class]="styleClass()">
+        @if (headerTemplate(); as headerTpl) {
+            <div class="cz-file-upload-header">
+                <ng-container
+                    *ngTemplateOutlet="headerTpl; context: { $implicit: files(), files: files(), uploadedFiles: uploadedFiles(), chooseCallback: chooseCallback, uploadCallback: uploadCallback, clearCallback: clearCallback }"
+                />
+            </div>
+        } @else {
+            <div class="cz-file-upload-header">
+                @if (toolbarTemplate(); as toolbarTpl) {
+                    <ng-container *ngTemplateOutlet="toolbarTpl" />
+                } @else {
+                    <button type="button" class="cz-file-upload-action" [disabled]="disabled()" (click)="choose()">
+                        @if (chooseIconTemplate(); as iconTpl) {
+                            <ng-container *ngTemplateOutlet="iconTpl" />
+                        } @else {
+                            <svg [lucideIcon]="chooseIcon()" [size]="16"></svg>
+                        }
+                        <span>{{ chooseLabel() }}</span>
+                    </button>
+
+                    @if (hasFiles() && showUploadButton()) {
+                        <button type="button" class="cz-file-upload-action cz-file-upload-action--upload"
+                            [disabled]="disabled() || uploading()" (click)="upload()">
+                            @if (uploadIconTemplate(); as iconTpl) {
+                                <ng-container *ngTemplateOutlet="iconTpl" />
+                            } @else {
+                                <svg [lucideIcon]="uploadIcon()" [size]="16"></svg>
+                            }
+                            <span>{{ uploadLabel() }}</span>
+                        </button>
+                    }
+
+                    @if (hasFiles() && showCancelButton()) {
+                        <button type="button" class="cz-file-upload-action cz-file-upload-action--cancel"
+                            [disabled]="disabled()" (click)="clear()">
+                            @if (cancelIconTemplate(); as iconTpl) {
+                                <ng-container *ngTemplateOutlet="iconTpl" />
+                            } @else {
+                                <svg [lucideIcon]="cancelIcon()" [size]="16"></svg>
+                            }
+                            <span>{{ cancelLabel() }}</span>
+                        </button>
+                    }
+                }
+            </div>
         }
-    </ul>
+
+        <div class="cz-file-upload-dropzone" [class.cz-file-upload-dropzone--dragging]="isDragging()"
+            (dragover)="onDragOver($event)" (dragleave)="onDragLeave()" (drop)="onDrop($event)">
+            @if (contentTemplate(); as contentTpl) {
+                <ng-container
+                    *ngTemplateOutlet="contentTpl; context: { $implicit: files(), files: files(), uploadedFiles: uploadedFiles(), messages: messages(), removeFileCallback: removeFileCallback, removeUploadedFileCallback: removeUploadedFileCallback, chooseCallback: chooseCallback, uploadCallback: uploadCallback }"
+                />
+            } @else {
+                @if (messages().length > 0) {
+                    <div class="cz-file-upload-messages">
+                        @for (message of messages(); track $index) {
+                            <cz-message [severity]="message.severity" [text]="message.summary + ' — ' + message.detail" />
+                        }
+                    </div>
+                }
+
+                @if (!hasFiles() && !hasUploadedFiles()) {
+                    @if (emptyTemplate(); as emptyTpl) {
+                        <ng-container *ngTemplateOutlet="emptyTpl" />
+                    } @else {
+                        <div class="cz-file-upload-empty" (click)="choose()">
+                            <svg [lucideIcon]="chooseIcon()" [size]="28" class="cz-file-upload-icon"></svg>
+                            <span class="cz-file-upload-label">{{ dragLabel() }}</span>
+                            <span class="cz-file-upload-choose-label">{{ chooseLabel() }}</span>
+                        </div>
+                    }
+                }
+
+                @if (hasFiles()) {
+                    <ul class="cz-file-upload-list">
+                        @for (file of files(); track file; let i = $index) {
+                            @if (fileTemplate(); as fileTpl) {
+                                <ng-container
+                                    *ngTemplateOutlet="fileTpl; context: { $implicit: file, index: i, removeCallback: removeFileCallback }"
+                                />
+                            } @else {
+                                <li class="cz-file-upload-item">
+                                    @if (isImage(file)) {
+                                        <img class="cz-file-upload-thumb" [src]="objectUrl(file)"
+                                            [style.width.px]="previewWidth()" [alt]="file.name"
+                                            (error)="onImageError.emit($event)" />
+                                    } @else {
+                                        <svg [lucideIcon]="FileIcon" [size]="16" class="cz-file-upload-item-icon"></svg>
+                                    }
+                                    <span class="cz-file-upload-item-name">{{ file.name }}</span>
+                                    <span class="cz-file-upload-item-size">{{ sizeLabel(file) }}</span>
+                                    <button type="button" class="cz-file-upload-remove"
+                                        [attr.aria-label]="'Remove ' + file.name" (click)="remove($event, i)">
+                                        <svg [lucideIcon]="TrashIcon" [size]="14"></svg>
+                                    </button>
+                                </li>
+                            }
+                        }
+                    </ul>
+                }
+
+                @if (hasUploadedFiles()) {
+                    <ul class="cz-file-upload-list cz-file-upload-list--uploaded">
+                        @for (file of uploadedFiles(); track file; let i = $index) {
+                            <li class="cz-file-upload-item">
+                                <svg [lucideIcon]="CheckIcon" [size]="16" class="cz-file-upload-item-icon cz-file-upload-item-icon--done"></svg>
+                                <span class="cz-file-upload-item-name">{{ file.name }}</span>
+                                <span class="cz-file-upload-item-size">{{ sizeLabel(file) }}</span>
+                                <button type="button" class="cz-file-upload-remove"
+                                    [attr.aria-label]="'Remove ' + file.name" (click)="removeUploadedFile(i)">
+                                    <svg [lucideIcon]="TrashIcon" [size]="14"></svg>
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                }
+            }
+
+            @if (uploading()) {
+                <div class="cz-file-upload-progress" role="progressbar" [attr.aria-valuenow]="progress()"
+                    aria-valuemin="0" aria-valuemax="100">
+                    <div class="cz-file-upload-progress-bar" [style.width.%]="progress()"></div>
+                </div>
+            }
+        </div>
+    </div>
 }

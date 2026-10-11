@@ -62,6 +62,70 @@
     }
 }
 
+/* ── INVALID STATE ── */
+.cz-toggle-switch--has-error .cz-toggle-switch-track {
+    box-shadow: 0 0 0 2px var(--cz-color-danger-200) !important;
+}
+
+/* ==========================================================================
+   GLASS THEME
+   ========================================================================== */
+.cz-toggle-switch[data-theme="glass"],
+[data-theme="glass"] .cz-toggle-switch {
+    .cz-toggle-switch-track {
+        background: var(--cz-theme-input-bg, rgba(255, 255, 255, 0.35));
+        border: 1px solid var(--cz-theme-input-border, rgba(255, 255, 255, 0.45));
+        backdrop-filter: var(--cz-theme-backdrop-filter, blur(12px));
+        -webkit-backdrop-filter: var(--cz-theme-backdrop-filter, blur(12px));
+
+        &--checked {
+            background: var(--cz-color-primary);
+            border-color: var(--cz-color-primary);
+            box-shadow: 0 4px 14px var(--cz-color-primary-200);
+        }
+
+        &:focus-visible {
+            box-shadow: 0 0 0 3px var(--cz-color-primary-200);
+        }
+    }
+
+    .cz-toggle-switch-handle {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* ==========================================================================
+   NEO THEME
+   ========================================================================== */
+.cz-toggle-switch[data-theme="neo"],
+[data-theme="neo"] .cz-toggle-switch {
+    .cz-toggle-switch-track {
+        background: var(--cz-theme-surface, var(--cz-neo-bg, #e0e5ec));
+        border: none;
+        box-shadow: var(--cz-neo-pressed);
+
+        &--checked {
+            background: var(--cz-theme-surface, var(--cz-neo-bg, #e0e5ec));
+            box-shadow: var(--cz-neo-pressed);
+        }
+
+        &:focus-visible {
+            box-shadow: var(--cz-neo-pressed), 0 0 0 2px var(--cz-color-primary-200);
+        }
+    }
+
+    .cz-toggle-switch-handle {
+        background: var(--cz-theme-surface, var(--cz-neo-bg, #e0e5ec));
+        box-shadow: var(--cz-neo-flat);
+    }
+
+    .cz-toggle-switch--checked .cz-toggle-switch-handle,
+    .cz-toggle-switch-track--checked ~ .cz-toggle-switch-handle {
+        background: var(--cz-color-primary);
+        box-shadow: 0 2px 6px color-mix(in srgb, var(--cz-color-primary) 45%, transparent);
+    }
+}
+
 .cz-toggle-switch-handle {
     position: absolute;
     top: 50%;

@@ -10,6 +10,7 @@
 
     /* Superficie de los componentes (Tarjetas, Modales, Inputs) translúcida clara */
     --cz-theme-surface: rgba(255, 255, 255, 0.55);
+    --cz-float-label-bg: #f6f8fb;
     --cz-theme-surface-hover: rgba(255, 255, 255, 0.72);
     --cz-theme-surface-active: rgba(255, 255, 255, 0.9);
 
@@ -54,6 +55,7 @@
     --cz-theme-html-bg: var(--cz-dark-navy, #080f1f);
 
     --cz-theme-surface: rgba(17, 29, 56, 0.6);
+    --cz-float-label-bg: #1c2739;
     --cz-theme-surface-hover: rgba(51, 65, 85, 0.7);
     --cz-theme-surface-active: rgba(71, 85, 105, 0.8);
 
@@ -156,4 +158,139 @@
         background: color-mix(in srgb, var(--cz-speed-dial-color, var(--cz-color-primary)) 72%, transparent);
         border: 1px solid color-mix(in srgb, var(--cz-speed-dial-color, var(--cz-color-primary)) 40%, transparent);
     }
+}
+
+
+/* ==========================================================================
+   SKELETON — translucent placeholder with light shimmer
+   ========================================================================== */
+[data-theme="glass"] .cz-skeleton {
+    --cz-skeleton-background: rgba(255, 255, 255, 0.5);
+    --cz-skeleton-animation-background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.85) 50%, transparent 100%);
+}
+
+[data-theme="glass"].dark .cz-skeleton,
+.dark [data-theme="glass"] .cz-skeleton {
+    --cz-skeleton-background: rgba(255, 255, 255, 0.12);
+    --cz-skeleton-animation-background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.22) 50%, transparent 100%);
+}
+
+
+/* ==========================================================================
+   TOAST — translucent floating card with severity accent
+   ========================================================================== */
+[data-theme="glass"] .cz-toast-item {
+    background: color-mix(in srgb, var(--cz-theme-surface) 88%, transparent);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-left: 4px solid var(--cz-toast-color);
+    box-shadow: var(--cz-theme-shadow-hover, var(--cz-shadow-lg));
+    backdrop-filter: var(--cz-theme-backdrop-filter);
+    -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
+}
+
+[data-theme="glass"].dark .cz-toast-item,
+.dark [data-theme="glass"] .cz-toast-item {
+    background: color-mix(in srgb, var(--cz-theme-surface) 92%, transparent);
+    border-color: rgba(255, 255, 255, 0.14);
+    border-left-color: var(--cz-toast-color);
+}
+
+
+/* ==========================================================================
+   CASCADE SELECT — layered translucent drilldown
+   ========================================================================== */
+[data-theme="glass"] .cz-cascade-select-trigger {
+    background: color-mix(in srgb, var(--cz-theme-surface) 88%, transparent);
+    border-color: rgba(255, 255, 255, 0.65);
+    backdrop-filter: var(--cz-theme-backdrop-filter);
+    -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
+}
+
+[data-theme="glass"] .cz-cascade-select-panel {
+    background: color-mix(in srgb, var(--cz-theme-surface) 92%, transparent);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: var(--cz-theme-shadow-hover, var(--cz-shadow-lg));
+    backdrop-filter: var(--cz-theme-backdrop-filter);
+    -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
+}
+
+[data-theme="glass"] .cz-cascade-select-column + .cz-cascade-select-column {
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="glass"] .cz-cascade-select-option--hovered {
+    background: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="glass"] .cz-cascade-select-option--selected {
+    background: color-mix(in srgb, var(--cz-color-primary) 14%, transparent);
+    color: var(--cz-color-primary);
+}
+
+[data-theme="glass"].dark .cz-cascade-select-trigger,
+.dark [data-theme="glass"] .cz-cascade-select-trigger,
+[data-theme="glass"].dark .cz-cascade-select-panel,
+.dark [data-theme="glass"] .cz-cascade-select-panel {
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+[data-theme="glass"].dark .cz-cascade-select-column + .cz-cascade-select-column,
+.dark [data-theme="glass"] .cz-cascade-select-column + .cz-cascade-select-column {
+    border-left-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="glass"].dark .cz-cascade-select-option--hovered,
+.dark [data-theme="glass"] .cz-cascade-select-option--hovered {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+
+/* ==========================================================================
+   EDITOR — frosted writing surface with translucent toolbar
+   ========================================================================== */
+[data-theme="glass"] .cz-editor {
+    background: color-mix(in srgb, var(--cz-theme-surface) 90%, transparent);
+    border-color: rgba(255, 255, 255, 0.65);
+    box-shadow: var(--cz-theme-shadow-base, var(--cz-shadow-md));
+    backdrop-filter: var(--cz-theme-backdrop-filter);
+    -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
+}
+
+[data-theme="glass"] .cz-editor-toolbar {
+    background: rgba(255, 255, 255, 0.35);
+    border-bottom-color: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="glass"] .cz-editor-select {
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="glass"] .cz-editor-btn:hover,
+[data-theme="glass"] .cz-editor-color:hover {
+    background: rgba(255, 255, 255, 0.65);
+}
+
+[data-theme="glass"].dark .cz-editor,
+.dark [data-theme="glass"] .cz-editor {
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+[data-theme="glass"].dark .cz-editor-toolbar,
+.dark [data-theme="glass"] .cz-editor-toolbar {
+    background: rgba(255, 255, 255, 0.06);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="glass"].dark .cz-editor-select,
+.dark [data-theme="glass"] .cz-editor-select {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+[data-theme="glass"].dark .cz-editor-btn:hover,
+.dark [data-theme="glass"] .cz-editor-btn:hover,
+[data-theme="glass"].dark .cz-editor-color:hover,
+.dark [data-theme="glass"] .cz-editor-color:hover {
+    background: rgba(255, 255, 255, 0.12);
 }

@@ -52,42 +52,26 @@
     --cz-rating-label-fs: 1.125rem;
 }
 
-.cz-rating-cancel {
-    background: transparent;
-    border: none;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-    color: var(--cz-theme-text-muted, #9ca3af);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.2s ease, transform 0.2s ease;
-
-    &:hover:not(:disabled) {
-        color: var(--cz-color-danger);
-        transform: scale(1.1);
-    }
-
-    &:active:not(:disabled) {
-        transform: scale(0.9);
-    }
-}
-
 .cz-rating-stars {
     display: flex;
     align-items: center;
     gap: 0.25rem;
 }
 
+[data-orientation="vertical"] .cz-rating-stars {
+    flex-direction: column;
+}
+
 .cz-rating-star {
-    display: flex;
+    position: relative;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: var(--cz-theme-text-muted, #d1d5db);
-    transition: color 0.2s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     outline: none;
+    border-radius: 50%;
+    color: var(--cz-rating-off-color, var(--cz-theme-text-muted, #d1d5db));
+    transition: color 0.2s ease, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
     &:hover {
         transform: scale(1.2);
@@ -96,11 +80,76 @@
     &--focused {
         color: var(--cz-theme-text-primary, #4b5563);
     }
+
+    &:has(.cz-rating-input:focus-visible) {
+        outline: 2px solid var(--cz-color-primary);
+        outline-offset: 2px;
+    }
+}
+
+/* Hidden native radio inputs (screen reader accessible) */
+.cz-rating-input-container {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.cz-rating-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    margin: 0;
+    cursor: inherit;
+}
+
+.cz-rating-off-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cz-rating-on-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 1;
+    clip-path: inset(0 100% 0 0);
+}
+
+.cz-rating-star--highlighted .cz-rating-on-icon {
+    clip-path: none;
+}
+
+.cz-rating-star--half .cz-rating-on-icon {
+    clip-path: inset(0 50% 0 0);
+}
+
+.cz-rating-on-icon--vertical {
+    clip-path: inset(0 0 100% 0);
+}
+
+.cz-rating-star--highlighted .cz-rating-on-icon--vertical {
+    clip-path: none;
+}
+
+.cz-rating-star--half .cz-rating-on-icon--vertical {
+    clip-path: inset(0 0 50% 0);
 }
 
 /* Color Variants */
 @mixin cz-rating-variant($name, $variable) {
-    .cz-rating-star--color-#{$name}.cz-rating-star--active {
+    .cz-rating-star--color-#{$name}.cz-rating-star--highlighted {
         color: var(#{$variable});
     }
 }
@@ -129,10 +178,10 @@
     .cz-rating-star {
         color: var(--cz-neo-shadow-dark, #a3b1c6);
         filter: drop-shadow(1px 1px 1px var(--cz-neo-shadow-light, #ffffff));
-        
-        &--active {
-            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
-            
+
+        &--highlighted {
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.1));
+
             &.cz-rating-star--color-primary { color: var(--cz-color-primary); }
             &.cz-rating-star--color-secondary { color: var(--cz-color-secondary); }
             &.cz-rating-star--color-success { color: var(--cz-color-success); }
@@ -142,11 +191,6 @@
             &.cz-rating-star--color-dark { color: var(--cz-color-dark); }
         }
     }
-
-    .cz-rating-cancel {
-        color: var(--cz-neo-shadow-dark, #a3b1c6);
-        &:hover { color: var(--cz-color-danger); }
-    }
 }
 
 /* ==========================================================================
@@ -154,13 +198,13 @@
    ========================================================================== */
 [data-theme="glass"] {
     .cz-rating-star {
-        color: rgba(255, 255, 255, 0.7); // Increased opacity for better visibility
-        filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.1)); // Added subtle shadow for definition
-        
-        &--active {
+        color: rgba(255, 255, 255, 0.7);
+        filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.1));
+
+        &--highlighted {
             color: var(--cz-color-primary);
             filter: drop-shadow(0 0 8px var(--cz-color-primary-300));
-            
+
             &.cz-rating-star--color-primary { color: var(--cz-color-primary); }
             &.cz-rating-star--color-secondary { color: var(--cz-color-secondary); }
             &.cz-rating-star--color-success { color: var(--cz-color-success); }

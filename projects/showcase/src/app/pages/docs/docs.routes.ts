@@ -142,6 +142,12 @@ export const docsRoutes: Routes = [
                 title: 'Select | Codezium UI Docs',
             },
             {
+                path: 'components/multiselect',
+                loadComponent: () =>
+                    import('./pages/multiselect/multiselect-doc').then(m => m.MultiSelectDocPage),
+                title: 'MultiSelect | Codezium UI Docs',
+            },
+            {
                 path: 'components/textarea',
                 loadComponent: () =>
                     import('./pages/textarea/textarea-doc').then(m => m.TextareaDocPage),
@@ -566,6 +572,12 @@ export const docsRoutes: Routes = [
                 loadComponent: () =>
                     import('./pages/file-upload/file-upload-doc').then(m => m.FileUploadDocPage),
                 title: 'FileUpload | Codezium UI Docs',
+            },
+            {
+                path: 'components/editor',
+                loadComponent: () =>
+                    import('./pages/editor/editor-doc').then(m => m.EditorDocPage),
+                title: 'Editor | Codezium UI Docs',
             },
             {
                 path: 'components/terminal',

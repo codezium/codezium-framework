@@ -1,0 +1,122 @@
+<div class="cz-editor-toolbar" (mousedown)="onToolbarMouseDown($event)">
+    @if (headerTemplate(); as headerTpl) {
+        <ng-container *ngTemplateOutlet="headerTpl; context: { editor: api }" />
+    } @else {
+        @if (isFormatAllowed('header')) {
+            <select class="cz-editor-select" aria-label="Text style"
+                (change)="formatBlock($any($event.target).value)">
+                @for (format of headerFormats; track format.value) {
+                    <option [value]="format.value">{{ format.label }}</option>
+                }
+            </select>
+        }
+
+        @if (isFormatAllowed('font-family')) {
+            <select class="cz-editor-select" aria-label="Font family"
+                (change)="setFont($any($event.target).value)">
+                <option value="">Font</option>
+                @for (family of fontFamilies(); track family) {
+                    <option [value]="family" [style.font-family]="family">{{ family }}</option>
+                }
+            </select>
+        }
+
+        @if (isFormatAllowed('font-size')) {
+            <select class="cz-editor-select cz-editor-select--size" aria-label="Font size"
+                (change)="setFontSize(+$any($event.target).value)">
+                <option value="">Size</option>
+                @for (size of fontSizes(); track size) {
+                    <option [value]="size">{{ size }}</option>
+                }
+            </select>
+        }
+
+        <span class="cz-editor-formats">
+            @if (isFormatAllowed('bold')) {
+                <button type="button" class="cz-editor-btn" [class.cz-editor-btn--active]="isActive('bold')"
+                    aria-label="Bold" (click)="exec('bold')">
+                    <svg [lucideIcon]="BoldIcon" [size]="15"></svg>
+                </button>
+            }
+            @if (isFormatAllowed('italic')) {
+                <button type="button" class="cz-editor-btn" [class.cz-editor-btn--active]="isActive('italic')"
+                    aria-label="Italic" (click)="exec('italic')">
+                    <svg [lucideIcon]="ItalicIcon" [size]="15"></svg>
+                </button>
+            }
+            @if (isFormatAllowed('underline')) {
+                <button type="button" class="cz-editor-btn" [class.cz-editor-btn--active]="isActive('underline')"
+                    aria-label="Underline" (click)="exec('underline')">
+                    <svg [lucideIcon]="UnderlineIcon" [size]="15"></svg>
+                </button>
+            }
+        </span>
+
+        @if (isFormatAllowed('color')) {
+            <label class="cz-editor-color" aria-label="Text color">
+                <svg [lucideIcon]="ColorIcon" [size]="15"></svg>
+                <input type="color" class="cz-editor-color-input" (input)="setColor($any($event.target).value)" />
+            </label>
+        }
+
+        @if (isFormatAllowed('background')) {
+            <label class="cz-editor-color" aria-label="Background color">
+                <svg [lucideIcon]="BackgroundIcon" [size]="15"></svg>
+                <input type="color" class="cz-editor-color-input" (input)="setBackground($any($event.target).value)" />
+            </label>
+        }
+
+        <span class="cz-editor-formats">
+            @if (isFormatAllowed('list')) {
+                <button type="button" class="cz-editor-btn" [class.cz-editor-btn--active]="isActive('insertUnorderedList')"
+                    aria-label="Bullet list" (click)="insertList(false)">
+                    <svg [lucideIcon]="ListIcon" [size]="15"></svg>
+                </button>
+                <button type="button" class="cz-editor-btn" [class.cz-editor-btn--active]="isActive('insertOrderedList')"
+                    aria-label="Ordered list" (click)="insertList(true)">
+                    <svg [lucideIcon]="ListOrderedIcon" [size]="15"></svg>
+                </button>
+            }
+            @if (isFormatAllowed('link')) {
+                <button type="button" class="cz-editor-btn" aria-label="Insert link" (click)="insertLink()">
+                    <svg [lucideIcon]="LinkIcon" [size]="15"></svg>
+                </button>
+            }
+            @if (isFormatAllowed('image')) {
+                <button type="button" class="cz-editor-btn" aria-label="Insert image" (click)="insertImage()">
+                    <svg [lucideIcon]="ImageIcon" [size]="15"></svg>
+                </button>
+            }
+            @if (isFormatAllowed('code-block')) {
+                <button type="button" class="cz-editor-btn" [class.cz-editor-btn--active]="isActive('code-block')"
+                    aria-label="Code block" (click)="toggleCodeBlock()">
+                    <svg [lucideIcon]="CodeIcon" [size]="15"></svg>
+                </button>
+            }
+            @if (isFormatAllowed('clean')) {
+                <button type="button" class="cz-editor-btn" aria-label="Clear formatting" (click)="clean()">
+                    <svg [lucideIcon]="CleanIcon" [size]="15"></svg>
+                </button>
+            }
+        </span>
+    }
+</div>
+
+<input #imageInput type="file" accept="image/*" class="cz-editor-image-input" (change)="onImageInput($event)" />
+
+<div
+    #contentEl
+    class="cz-editor-content"
+    [attr.contenteditable]="editable()"
+    [attr.data-placeholder]="placeholder() || null"
+    [attr.aria-label]="'Editor'"
+    [attr.aria-multiline]="true"
+    [attr.aria-invalid]="invalid() || null"
+    role="textbox"
+    (input)="onContentInput()"
+    (paste)="onContentPaste($event)"
+    (focus)="onContentFocus()"
+    (blur)="onContentBlur()"
+    (keyup)="onContentSelectionChange()"
+    (mouseup)="onContentSelectionChange()"
+></div>

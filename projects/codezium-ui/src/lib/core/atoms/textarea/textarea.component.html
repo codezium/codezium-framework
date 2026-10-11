@@ -1,7 +1,7 @@
 <div 
     class="cz-input-wrapper cz-textarea-wrapper"
     [class.cz-input-fluid]="fluid()"
-    [class.cz-input-filled]="filled()"
+    [class.cz-input-filled]="isFilled()"
     [class.cz-input-disabled]="actualDisabled()"
     [class.cz-input-has-error]="isInvalid"
     [class.cz-input-focused]="isFocused()"
@@ -10,7 +10,7 @@
     [attr.data-color]="color() || null"
 >
     @if (label() && labelPosition() === 'none') {
-        <label class="cz-input-label-static">{{ label() }}</label>
+        <label class="cz-input-label-static" [attr.id]="effectiveInputId() + '-label'">{{ label() }}</label>
     }
 
     <div class="cz-input-container" [class.cz-float-active]="isFocused() || hasValue()">
@@ -20,10 +20,18 @@
             [cols]="cols()"
             [placeholder]="actualPlaceholder()"
             [disabled]="actualDisabled()"
+            [attr.readonly]="readonly() ? '' : null"
+            [attr.id]="effectiveInputId()"
+            [attr.name]="name() || null"
+            [attr.aria-label]="ariaLabel() || null"
+            [attr.aria-labelledby]="ariaLabelledBy() || (label() ? effectiveInputId() + '-label' : null)"
+            [attr.aria-invalid]="isInvalid ? 'true' : null"
+            [attr.autofocus]="autofocus() ? '' : null"
+            [attr.tabindex]="tabindex()"
             [value]="value()"
             (input)="onInputChange($event)"
-            (blur)="onBlur()"
-            (focus)="onFocus()"
+            (blur)="onBlur($event)"
+            (focus)="onFocus($event)"
             class="cz-input-native cz-textarea-native"
             [class.cz-has-value]="hasValue()"
             [class.cz-textarea-no-resize]="autoResize()"
@@ -31,9 +39,9 @@
 
         @if (label()) {
             @if (labelPosition() === 'over') {
-                <label class="cz-input-label-over">{{ label() }}</label>
+                <label class="cz-input-label-over" [attr.id]="effectiveInputId() + '-label'">{{ label() }}</label>
             } @else if (labelPosition() === 'in' || labelPosition() === 'float') {
-                <label class="cz-input-label-inner">{{ label() }}</label>
+                <label class="cz-input-label-inner" [attr.id]="effectiveInputId() + '-label'">{{ label() }}</label>
             }
         }
     </div>

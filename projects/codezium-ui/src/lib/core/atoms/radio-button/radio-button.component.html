@@ -1,19 +1,23 @@
 <div class="cz-radio-container" 
      [class.cz-radio-checked]="checked()"
      [class.cz-radio-invalid]="isInvalid"
-     (click)="onClick($event)">
+     (click)="handleClick($event)">
     
     <div class="cz-radio-element">
         <input #rb
                type="radio"
-               role="radio"
-               [attr.name]="name()"
-               [attr.id]="name() + '_' + value()"
+               [attr.name]="name() || null"
+               [attr.id]="effectiveInputId()"
                [checked]="checked()"
                [disabled]="isDisabled()"
+               [attr.tabindex]="tabindex()"
+               [autofocus]="autofocus()"
+               [attr.aria-label]="ariaLabel()"
+               [attr.aria-labelledby]="ariaLabelledBy()"
+               [attr.aria-invalid]="isInvalid || null"
                (change)="onInputChange($event)"
-               (focus)="onFocus()"
-               (blur)="onBlur()"
+               (focus)="onFocus($event)"
+               (blur)="onBlur($event)"
                class="cz-radio-native">
         
         <div class="cz-radio-inner"
@@ -33,7 +37,7 @@
     </div>
 
     @if (label()) {
-        <label [attr.for]="name() + '_' + value()"
+        <label [attr.for]="effectiveInputId()"
                class="cz-radio-label">
             {{ label() }}
         </label>

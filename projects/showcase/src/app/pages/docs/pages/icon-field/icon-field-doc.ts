@@ -12,16 +12,7 @@ import { AppCodeComponent, Code } from '../../../../shared/code-block/code-block
 import { LanguageService } from '../../../../core/services/language.service';
 import { ICON_FIELD_DOC_I18N } from './icon-field-doc.i18n';
 import { FormsModule } from '@angular/forms';
-import {
-  LucideSearch,
-  LucideUser,
-  LucideLock,
-  LucideCheck,
-  LucideInfo,
-  LucideMapPin,
-  LucideMessageSquare,
-  type LucideIconInput,
-} from '@lucide/angular';
+import { LucideSearch, LucideUser, LucideLock, LucideCheck, LucideInfo, LucideMapPin, LucideMessageSquare, type LucideIconInput, LucideMail } from '@lucide/angular';
 
 @Component({
   selector: 'app-icon-field-doc',
@@ -196,6 +187,27 @@ import {
         <app-code [code]="componentsCode" />
       </section>
 
+      <!-- Native Input -->
+      <section class="cz-docs-section">
+        <h2 class="cz-h2">{{ t().nativeInput }}</h2>
+        <p class="cz-mb-md">{{ t().nativeInputDescription }}</p>
+        <div class="cz-flex cz-flex-col cz-gap-md cz-mb-md">
+          <cz-icon-field iconPosition="left">
+            <cz-input-icon [icon]="SearchIcon" />
+            <input class="cz-input-native" placeholder="Search" />
+          </cz-icon-field>
+          <cz-icon-field iconPosition="right">
+            <cz-input-icon [icon]="MailIcon" />
+            <input class="cz-input-native" type="email" placeholder="Email" />
+          </cz-icon-field>
+          <cz-icon-field iconPosition="left">
+            <cz-input-icon [icon]="MessageSquareIcon" />
+            <textarea class="cz-input-native" rows="2" placeholder="Comments"></textarea>
+          </cz-icon-field>
+        </div>
+        <app-code [code]="nativeInputCode" />
+      </section>
+
       <!-- API Reference -->
       <section class="cz-docs-section">
         <h2 id="api" class="cz-h2 cz-mb-md">{{ t().properties }}</h2>
@@ -278,6 +290,7 @@ export class IconFieldDocPage {
   );
 
   readonly SearchIcon = LucideSearch;
+  MailIcon = LucideMail;
   readonly UserIcon = LucideUser;
   readonly LockIcon = LucideLock;
   readonly CheckIcon = LucideCheck;
@@ -341,6 +354,24 @@ export class MyComponent {
 }`,
   };
 
+  nativeInputCode: Code = {
+    html: `<cz-icon-field iconPosition="left">
+    <cz-input-icon [icon]="SearchIcon" />
+    <input class="cz-input-native" placeholder="Search" />
+</cz-icon-field>
+
+<cz-icon-field iconPosition="right">
+    <cz-input-icon [icon]="MailIcon" />
+    <input class="cz-input-native" type="email" placeholder="Email" />
+</cz-icon-field>
+
+<!-- Any native input/textarea works; without the class the field still styles it -->
+<cz-icon-field iconPosition="left">
+    <cz-input-icon [icon]="MessageSquareIcon" />
+    <textarea rows="2" placeholder="Comments"></textarea>
+</cz-icon-field>`
+  };
+
   componentsCode: Code = {
     html: `
 <!-- Password -->
@@ -393,6 +424,7 @@ import { LucideSearch, LucideCheck, LucideLock } from '@lucide/angular';
 @Component({ ... })
 export class MyComponent {
     SearchIcon = LucideSearch;
+  MailIcon = LucideMail;
     CheckIcon = LucideCheck;
     LockIcon = LucideLock;
 }`,
@@ -420,6 +452,7 @@ import { LucideSearch } from '@lucide/angular';
 @Component({ ... })
 export class MyComponent {
     SearchIcon = LucideSearch;
+  MailIcon = LucideMail;
 }`,
   };
 
@@ -435,6 +468,7 @@ import { LucideSearch } from '@lucide/angular';
 @Component({ ... })
 export class MyComponent {
     SearchIcon = LucideSearch;
+  MailIcon = LucideMail;
 }`,
   };
 }

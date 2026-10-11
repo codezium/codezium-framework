@@ -121,12 +121,38 @@
         }
     }
 
+    .cz-select-scroll {
+        max-height: 250px;
+        overflow-y: auto;
+    }
+
     .cz-select-items {
         list-style: none;
         margin: 0;
         padding: var(--cz-spacing-xs) 0;
-        max-height: 250px;
-        overflow-y: auto;
+    }
+
+    .cz-select-header,
+    .cz-select-footer {
+        padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+        border-bottom: 1px solid var(--cz-theme-border-color);
+        background: var(--cz-theme-surface-hover);
+        font-size: var(--cz-font-size-sm);
+    }
+
+    .cz-select-footer {
+        border-bottom: none;
+        border-top: 1px solid var(--cz-theme-border-color);
+    }
+
+    .cz-select-group {
+        padding: var(--cz-spacing-xs) var(--cz-spacing-md);
+        font-size: var(--cz-font-size-sm);
+        font-weight: 600;
+        color: var(--cz-theme-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        list-style: none;
     }
 
     .cz-select-item {
@@ -139,7 +165,7 @@
         color: var(--cz-theme-text-primary);
         font-size: var(--cz-font-size);
 
-        &:hover, &.cz-select-item-hovered {
+        &:hover, &.cz-select-item-hovered, &.cz-select-item-highlighted {
             background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
         }
 
@@ -149,9 +175,52 @@
             font-weight: 500;
         }
 
+        &.cz-select-item-disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         .cz-select-check {
             color: var(--cz-color-primary);
+            flex-shrink: 0;
         }
+    }
+
+    .cz-select-trigger--editable {
+        cursor: text;
+
+        .cz-select-input {
+            flex: 1;
+            min-width: 0;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            padding: 0;
+
+            &::placeholder {
+                color: var(--cz-theme-input-placeholder, var(--cz-color-gray-400));
+            }
+        }
+
+        .cz-select-actions {
+            cursor: pointer;
+        }
+    }
+
+    &.cz-input-readonly .cz-select-trigger {
+        cursor: default;
+    }
+
+    .cz-select-loading {
+        display: inline-flex;
+        color: var(--cz-theme-text-muted);
+    }
+
+    .cz-spin {
+        animation: cz-select-spin 0.8s linear infinite;
     }
 
     .cz-select-empty {
@@ -247,5 +316,14 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes cz-select-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }

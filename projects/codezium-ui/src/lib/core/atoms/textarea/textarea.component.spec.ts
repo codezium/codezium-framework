@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { CzTextAreaComponent } from './textarea.component';
 import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
@@ -15,6 +16,12 @@ import { CzValidationLocale } from '../../i18n';
       [placeholder]="placeholder"
       [autoResize]="autoResize"
       [locale]="locale"
+      [invalid]="invalid"
+      [variant]="variant"
+      [readonly]="readonly"
+      [inputId]="inputId"
+      [name]="name"
+      [ariaLabel]="ariaLabel"
     ></cz-textarea>
   `,
 })
@@ -24,6 +31,12 @@ class TestHostComponent {
   placeholder = 'Test Placeholder';
   autoResize = false;
   locale: CzValidationLocale = 'es';
+  invalid = false;
+  variant: 'outlined' | 'filled' = 'outlined';
+  readonly = false;
+  inputId = '';
+  name = '';
+  ariaLabel: string | null = null;
 }
 
 describe('CzTextAreaComponent', () => {
@@ -185,4 +198,44 @@ describe('CzTextAreaComponent', () => {
       expect(container.classList.contains('cz-float-active')).toBe(true);
     });
   });
+    it('should apply the invalid input class', () => {
+        hostComponent.invalid = true;
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.cz-input-has-error')).toBeTruthy();
+    });
+
+    it('should support the filled variant', () => {
+        hostComponent.variant = 'filled';
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector('.cz-input-filled')).toBeTruthy();
+    });
+
+    it('should apply readonly to the native textarea', () => {
+        hostComponent.readonly = true;
+        fixture.detectChanges();
+        const textarea = fixture.nativeElement.querySelector('textarea');
+        expect(textarea.hasAttribute('readonly')).toBe(true);
+    });
+
+    it('should expose id, name and aria attributes', () => {
+        hostComponent.inputId = 'my-textarea';
+        hostComponent.name = 'description';
+        hostComponent.ariaLabel = 'Description';
+        fixture.detectChanges();
+        const textarea = fixture.nativeElement.querySelector('textarea');
+        expect(textarea.getAttribute('id')).toBe('my-textarea');
+        expect(textarea.getAttribute('name')).toBe('description');
+        expect(textarea.getAttribute('aria-label')).toBe('Description');
+    });
+
+    it('should emit onResize when autoResize recalculates the height', () => {
+        const spy = vi.fn();
+        component.onResizeEvent.subscribe(spy);
+        hostComponent.autoResize = true;
+        fixture.detectChanges();
+
+        component.resize();
+        expect(spy).toHaveBeenCalledTimes(1);
+    });
+
 });

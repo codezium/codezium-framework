@@ -34,27 +34,27 @@ import { keyFilterDocI18n } from './key-filter-doc.i18n';
                     <div class="cz-grid cz-grid-cols-1 cz-md:grid-cols-3 cz-gap-md cz-p-md cz-border cz-border-surface-hover cz-rounded-lg">
                         <div class="cz-flex cz-flex-col cz-gap-xs">
                             <label class="cz-text-sm cz-font-medium">Integer</label>
-                            <input type="text" czKeyFilter="integer" class="cz-input" placeholder="Only integers" />
+                            <input type="text" czKeyFilter="integer" class="cz-input-native" placeholder="Only integers" />
                         </div>
                         <div class="cz-flex cz-flex-col cz-gap-xs">
                             <label class="cz-text-sm cz-font-medium">Number</label>
-                            <input type="text" czKeyFilter="number" class="cz-input" placeholder="Numbers and decimal" />
+                            <input type="text" czKeyFilter="number" class="cz-input-native" placeholder="Numbers and decimal" />
                         </div>
                         <div class="cz-flex cz-flex-col cz-gap-xs">
                             <label class="cz-text-sm cz-font-medium">Money</label>
-                            <input type="text" czKeyFilter="money" class="cz-input" placeholder="Money format" />
+                            <input type="text" czKeyFilter="money" class="cz-input-native" placeholder="Money format" />
                         </div>
                         <div class="cz-flex cz-flex-col cz-gap-xs">
                             <label class="cz-text-sm cz-font-medium">Hex</label>
-                            <input type="text" czKeyFilter="hex" class="cz-input" placeholder="Hex chars (0-9, A-F)" />
+                            <input type="text" czKeyFilter="hex" class="cz-input-native" placeholder="Hex chars (0-9, A-F)" />
                         </div>
                         <div class="cz-flex cz-flex-col cz-gap-xs">
                             <label class="cz-text-sm cz-font-medium">Alpha</label>
-                            <input type="text" czKeyFilter="alpha" class="cz-input" placeholder="Alphabetic only" />
+                            <input type="text" czKeyFilter="alpha" class="cz-input-native" placeholder="Alphabetic only" />
                         </div>
                         <div class="cz-flex cz-flex-col cz-gap-xs">
                             <label class="cz-text-sm cz-font-medium">Alphanum</label>
-                            <input type="text" czKeyFilter="alphanum" class="cz-input" placeholder="Alphanumeric only" />
+                            <input type="text" czKeyFilter="alphanum" class="cz-input-native" placeholder="Alphanumeric only" />
                         </div>
                     </div>
                 </div>

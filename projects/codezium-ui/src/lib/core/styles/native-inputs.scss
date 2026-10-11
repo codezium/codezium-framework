@@ -1,0 +1,70 @@
+/* ==========================================================================
+   NATIVE INPUT MIXINS — Shared look for bare native inputs integrated with
+   the framework (.cz-input-native standalone usage, IconField, IftaLabel,
+   FloatLabel, InputGroup, custom forms, etc.)
+   ========================================================================== */
+
+@mixin cz-native-input {
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size);
+    line-height: var(--cz-line-height-base, 1.5);
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--cz-theme-input-bg, var(--cz-theme-surface, #ffffff));
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    border: 1px solid var(--cz-theme-input-border, var(--cz-color-gray-400));
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+    padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    outline: none;
+    appearance: none;
+
+    &::placeholder {
+        color: var(--cz-theme-input-placeholder, var(--cz-color-gray-400));
+    }
+
+    &:hover:not(:disabled):not(:focus) {
+        border-color: var(--cz-theme-input-border-hover, var(--cz-color-gray-500));
+    }
+
+    &:focus {
+        border-color: var(--cz-color-primary);
+        box-shadow: 0 0 0 3px var(--cz-color-primary-200);
+    }
+
+    &:disabled {
+        background: var(--cz-color-gray-100);
+        color: var(--cz-color-gray-500);
+        cursor: not-allowed;
+    }
+
+    &[readonly] {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
+    }
+}
+
+@mixin cz-native-input-modifiers {
+    &[data-size="sm"] {
+        font-size: var(--cz-font-size-sm);
+        padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
+    }
+
+    &[data-size="lg"] {
+        font-size: var(--cz-font-size-lg);
+        padding: var(--cz-spacing-md) var(--cz-spacing-lg);
+    }
+
+    &.cz-input-filled {
+        background: var(--cz-theme-surface-active);
+        border-color: transparent;
+    }
+
+    &[aria-invalid="true"],
+    &.cz-input-invalid {
+        border-color: var(--cz-color-danger);
+
+        &:focus {
+            box-shadow: 0 0 0 3px var(--cz-color-danger-100);
+        }
+    }
+}

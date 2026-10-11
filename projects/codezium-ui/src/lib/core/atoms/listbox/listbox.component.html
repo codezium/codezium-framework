@@ -1,42 +1,149 @@
-@if (filter()) {
-    <div class="cz-listbox-filter">
-        <input
-            class="cz-listbox-filter-input"
-            type="text"
-            [placeholder]="filterPlaceholder()"
-            [value]="filterValue()"
-            [disabled]="actualDisabled()"
-            [attr.aria-label]="filterPlaceholder()"
-            (input)="filterValue.set($any($event.target).value)"
-            (click)="$event.stopPropagation()"
-        />
+@if (filter() || headerTemplate() || (multiple() && checkbox() && showToggleAll())) {
+    <div class="cz-listbox-header">
+        @if (headerTemplate(); as headerTpl) {
+            <ng-container *ngTemplateOutlet="headerTpl" />
+        } @else {
+            @if (multiple() && checkbox() && showToggleAll()) {
+                <span class="cz-listbox-toggle-all">
+                    <cz-checkbox [binary]="true" [ngModel]="allSelected()" [indeterminate]="someSelected()"
+                        (onChange)="toggleAll($event.checked, $event.originalEvent)" ariaLabel="Select all" />
+                </span>
+            }
+
+            @if (filter()) {
+                @if (filterTemplate(); as filterTpl) {
+                    <ng-container *ngTemplateOutlet="filterTpl; context: { filter: filterCallback }" />
+                } @else {
+                    <div class="cz-listbox-filter">
+                        <svg [lucideIcon]="SearchIcon" [size]="14" class="cz-listbox-filter-icon"></svg>
+                        <input
+                            class="cz-listbox-filter-input"
+                            type="text"
+                            [value]="filterQuery()"
+                            [placeholder]="filterPlaceholder()"
+                            [disabled]="actualDisabled()"
+                            [attr.aria-label]="ariaFilterLabel()"
+                            [attr.aria-controls]="effectiveId()"
+                            (input)="onFilterInput($event)"
+                            (click)="$event.stopPropagation()"
+                        />
+                    </div>
+                }
+            }
+        }
     </div>
 }
 
 <div
     class="cz-listbox-items"
+    [class.cz-listbox-items--scroll]="!!scrollHeight()"
+    [class.cz-listbox-items--virtual]="virtualScroll()"
+    [id]="effectiveId()"
     role="listbox"
-    tabindex="0"
+    [attr.tabindex]="actualDisabled() ? null : tabindex()"
     [attr.aria-multiselectable]="multiple() ? 'true' : null"
     [attr.aria-label]="ariaLabel()"
+    [attr.aria-invalid]="invalid() || null"
+    [style.max-height]="scrollHeight() || null"
     (keydown)="onKeyDown($event)"
+    (focus)="onListFocus($event)"
+    (blur)="onListBlur($event)"
+    (scroll)="onListScroll($event)"
 >
-    @for (option of filteredOptions(); track getValue(option); let i = $index) {
-        <div
-            class="cz-listbox-item"
-            role="option"
-            [attr.aria-selected]="isSelected(option)"
-            [class.cz-listbox-item--selected]="isSelected(option)"
-            [class.cz-listbox-item--focused]="i === focusedIndex()"
-            (click)="toggleOption(option, $event)"
-            (mouseenter)="focusedIndex.set(i)"
-        >
-            <span class="cz-listbox-item-label">{{ getLabel(option) }}</span>
-            @if (isSelected(option)) {
-                <svg [lucideIcon]="CheckIcon" [size]="14" class="cz-listbox-check"></svg>
+    @if (virtualScroll() && virtualOffsetBefore() > 0) {
+        <div class="cz-listbox-spacer" aria-hidden="true" [style.height.px]="virtualOffsetBefore()"></div>
+    }
+
+    @if (group()) {
+        @for (groupItem of filteredOptions(); track $index) {
+            <div class="cz-listbox-group" role="presentation">
+                @if (groupTemplate(); as groupTpl) {
+                    <ng-container *ngTemplateOutlet="groupTpl; context: { $implicit: groupItem }" />
+                } @else {
+                    {{ groupItem[optionGroupLabel()] }}
+                }
+            </div>
+
+            @for (option of groupOptions(groupItem); track getValue(option)) {
+                <ng-container *ngTemplateOutlet="optionRow; context: { $implicit: option, entry: entryFor(option) }" />
+            }
+        }
+    } @else {
+        @for (entry of displayEntries(); track trackEntry($index, entry)) {
+            <ng-container *ngTemplateOutlet="optionRow; context: { $implicit: entry.option, entry: entry }" />
+        }
+    }
+
+    @if (virtualScroll() && virtualOffsetAfter() > 0) {
+        <div class="cz-listbox-spacer" aria-hidden="true" [style.height.px]="virtualOffsetAfter()"></div>
+    }
+
+    @if (flatOptions().length === 0) {
+        <div class="cz-listbox-empty">
+            @if (isFiltering() && emptyFilterTemplate(); as emptyFilterTpl) {
+                <ng-container *ngTemplateOutlet="emptyFilterTpl" />
+            } @else if (!isFiltering() && emptyTemplate(); as emptyTpl) {
+                <ng-container *ngTemplateOutlet="emptyTpl" />
+            } @else {
+                {{ isFiltering() ? emptyFilterMessage() : emptyMessage() }}
             }
         </div>
-    } @empty {
-        <div class="cz-listbox-empty">{{ emptyMessage() }}</div>
     }
 </div>
+
+@if (footerTemplate(); as footerTpl) {
+    <div class="cz-listbox-footer">
+        <ng-container *ngTemplateOutlet="footerTpl" />
+    </div>
+}
+
+<span class="cz-listbox-live" aria-live="polite">{{ selectedMessage() }}</span>
+
+<ng-template #optionRow let-option let-entry="entry">
+    <div
+        class="cz-listbox-item"
+        role="option"
+        [attr.aria-selected]="isSelected(option)"
+        [attr.aria-disabled]="isOptionDisabled(option) || null"
+        [class.cz-listbox-item--selected]="isSelected(option)"
+        [class.cz-listbox-item--highlight]="highlightOnSelect() && isSelected(option)"
+        [class.cz-listbox-item--focused]="entry.index === focusedIndex()"
+        [class.cz-listbox-item--disabled]="isOptionDisabled(option)"
+        [class.cz-listbox-item--dragging]="draggedIndex() === entry.index"
+        [attr.draggable]="dragdrop() && !actualDisabled() ? 'true' : null"
+        (click)="toggleOption(option, $event)"
+        (dblclick)="onOptionDblClick(option, $event)"
+        (mouseenter)="onOptionHover(entry)"
+        (dragstart)="onDragStart(entry, $event)"
+        (dragover)="onDragOver($event)"
+        (drop)="handleDrop($event, entry)"
+        (dragend)="onDragEnd()"
+    >
+        @if (multiple() && checkbox()) {
+            <span class="cz-listbox-option-checkbox" (click)="$event.stopPropagation()">
+                <cz-checkbox [binary]="true" [ngModel]="isSelected(option)" [disabled]="isOptionDisabled(option)"
+                    (ngModelChange)="toggleOption(option, $event)" size="sm" />
+            </span>
+        }
+
+        @if (itemTemplate(); as itemTpl) {
+            <span class="cz-listbox-item-content">
+                <ng-container
+                    *ngTemplateOutlet="itemTpl; context: { $implicit: option, index: entry.index, selected: isSelected(option) }"
+                />
+            </span>
+        } @else {
+            <span class="cz-listbox-item-label">{{ getLabel(option) }}</span>
+        }
+
+        @if (checkmark() && isSelected(option)) {
+            <span class="cz-listbox-checkmark">
+                @if (checkmarkTemplate(); as checkmarkTpl) {
+                    <ng-container *ngTemplateOutlet="checkmarkTpl; context: { $implicit: option }" />
+                } @else {
+                    <svg [lucideIcon]="CheckIcon" [size]="14"></svg>
+                }
+            </span>
+        }
+    </div>
+</ng-template>

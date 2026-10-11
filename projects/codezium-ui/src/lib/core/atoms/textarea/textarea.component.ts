@@ -2,6 +2,7 @@ import {
   Component,
   input,
   computed,
+  output,
   Optional,
   Self,
   ViewEncapsulation,
@@ -33,13 +34,33 @@ export class CzTextAreaComponent implements ControlValueAccessor {
   size = input<CzInputSize>('md');
   color = input<CzInputColor>('');
   filled = input<boolean>(false);
+  variant = input<'outlined' | 'filled'>('outlined');
   fluid = input<boolean>(false);
   disabled = input<boolean>(false);
+  readonly = input<boolean>(false);
+  invalid = input<boolean>(false);
   placeholder = input<string>('');
   helpText = input<string>('');
   rows = input<number>(3);
   cols = input<number>(20);
   autoResize = input<boolean>(false);
+  autofocus = input<boolean>(false);
+  inputId = input<string>('');
+  name = input<string>('');
+  ariaLabel = input<string | null>(null);
+  ariaLabelledBy = input<string | null>(null);
+  tabindex = input<number | null>(null);
+
+  /** Callback to invoke on textarea resize */
+  onResizeEvent = output<Event>({ alias: 'onResize' });
+  /** Callback to invoke when the textarea receives focus */
+  onFocusEvent = output<Event>({ alias: 'onFocus' });
+  /** Callback to invoke when the textarea loses focus */
+  onBlurEvent = output<Event>({ alias: 'onBlur' });
+
+  private static nextId = 0;
+  private readonly autoId = `cz-textarea-${++CzTextAreaComponent.nextId}`;
+  readonly effectiveInputId = computed(() => this.inputId() || this.autoId);
 
   // Validation Inputs
   showErrors = input<boolean>(true);
@@ -52,6 +73,7 @@ export class CzTextAreaComponent implements ControlValueAccessor {
   formsDisabled = signal<boolean>(false);
 
   // Computeds
+  readonly isFilled = computed(() => this.filled() || this.variant() === 'filled');
   actualDisabled = computed(() => this.disabled() || this.formsDisabled());
   hasValue = computed(() => {
     const v = this.value();
@@ -87,6 +109,7 @@ export class CzTextAreaComponent implements ControlValueAccessor {
 
   // --- Validation ---
   get isInvalid(): boolean {
+    if (this.invalid()) return true;
     if (!this.ngControl) return false;
     return !!(this.ngControl.invalid && (this.ngControl.touched || this.ngControl.dirty));
   }
@@ -142,13 +165,15 @@ export class CzTextAreaComponent implements ControlValueAccessor {
     }
   }
 
-  onBlur(): void {
+  onBlur(event?: Event): void {
     this.isFocused.set(false);
     this.onTouched();
+    if (event) this.onBlurEvent.emit(event);
   }
 
-  onFocus(): void {
+  onFocus(event?: Event): void {
     this.isFocused.set(true);
+    if (event) this.onFocusEvent.emit(event);
   }
 
   public resize(): void {
@@ -156,6 +181,7 @@ export class CzTextAreaComponent implements ControlValueAccessor {
     if (textarea) {
       textarea.style.height = 'auto';
       textarea.style.height = textarea.scrollHeight + 'px';
+      this.onResizeEvent.emit(new Event('resize'));
     }
   }
 }

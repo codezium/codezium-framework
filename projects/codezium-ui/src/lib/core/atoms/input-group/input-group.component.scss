@@ -6,21 +6,141 @@
     display: flex;
     align-items: stretch;
     width: 100%;
+    background: var(--cz-theme-input-bg, var(--cz-theme-surface, var(--cz-color-white)));
+    border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-input-border, var(--cz-color-gray-400));
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
 
-    > *:not(.cz-input-group-addon) {
+    &:focus-within {
+        border-color: var(--cz-color-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--cz-color-primary) 20%, transparent);
+    }
+
+    /* --- Children join the group outline: no own borders, only outer corners rounded --- */
+    > * {
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+    }
+
+    > :first-child {
+        border-start-start-radius: var(--cz-theme-radius-base, var(--cz-radius-md)) !important;
+        border-end-start-radius: var(--cz-theme-radius-base, var(--cz-radius-md)) !important;
+    }
+
+    > :last-child {
+        border-start-end-radius: var(--cz-theme-radius-base, var(--cz-radius-md)) !important;
+        border-end-end-radius: var(--cz-theme-radius-base, var(--cz-radius-md)) !important;
+    }
+
+    /* --- Bare native controls inside the group --- */
+    > input,
+    > textarea {
+        flex: 1 1 auto;
+        min-width: 0;
+        width: 100%;
+        padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+        background: transparent;
+        color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+        font-family: var(--cz-font-base);
+        font-size: var(--cz-font-size);
+        line-height: var(--cz-line-height-base, 1.5);
+        outline: none;
+
+        &::placeholder {
+            color: var(--cz-theme-input-placeholder, var(--cz-color-gray-400));
+        }
+    }
+
+    /* --- Nested library controls lose their own outline --- */
+    .cz-input-wrapper,
+    .cz-input-container,
+    .cz-password-wrapper,
+    .cz-select-wrapper,
+    .cz-textarea-wrapper,
+    .cz-autocomplete-container,
+    .cz-select-trigger,
+    .cz-select-button-container,
+    .cz-file-upload-basic,
+    .cz-file-upload-basic-button {
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: transparent;
+    }
+
+    /* Higher specificity so theme input shadows/borders never double up inside a group */
+    &.cz-input-group .cz-input-wrapper .cz-input-native,
+    &.cz-input-group .cz-password-wrapper .cz-input-native,
+    &.cz-input-group .cz-select-wrapper .cz-input-native,
+    &.cz-input-group .cz-textarea-wrapper .cz-textarea-native,
+    &.cz-input-group .cz-input-container .cz-input-native {
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: transparent !important;
+    }
+
+    /* The control fills the remaining space of the group */
+    .cz-input-wrapper,
+    .cz-autocomplete-container {
+        flex: 1 1 auto;
+        min-width: 0;
+        width: 100%;
+    }
+
+    /* --- Component hosts that wrap an input-like control grow to fill the group --- */
+    > cz-input-text,
+    > cz-textarea,
+    > cz-password,
+    > cz-select,
+    > cz-multiselect,
+    > cz-autocomplete,
+    > cz-cascade-select,
+    > cz-tree-select,
+    > cz-date-picker,
+    > cz-input-otp,
+    > cz-input-tags,
+    > cz-icon-field,
+    > cz-float-label,
+    > cz-ifta-label {
         flex: 1 1 auto;
         min-width: 0;
     }
 
-    /* Square off inner corners so addons and controls look joined */
-    > .cz-input-group-addon:first-child {
-        border-start-end-radius: 0;
-        border-end-end-radius: 0;
+    /* --- Buttons and addons keep their intrinsic size --- */
+    > cz-button,
+    > cz-button-group,
+    > cz-split-button,
+    > .cz-input-group-addon {
+        flex: 0 0 auto;
     }
 
-    > .cz-input-group-addon:last-child {
-        border-start-start-radius: 0;
-        border-end-start-radius: 0;
+    /* --- Button inside the group fills the full height and loses its own outline --- */
+    > cz-button {
+        display: flex;
+
+        .cz-button-native {
+            height: 100%;
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+    }
+
+    > cz-button:first-child .cz-button-native {
+        border-start-start-radius: var(--cz-theme-radius-base, var(--cz-radius-md)) !important;
+        border-end-start-radius: var(--cz-theme-radius-base, var(--cz-radius-md)) !important;
+    }
+
+    > cz-button:last-child .cz-button-native {
+        border-start-end-radius: var(--cz-theme-radius-base, var(--cz-radius-md)) !important;
+        border-end-end-radius: var(--cz-theme-radius-base, var(--cz-radius-md)) !important;
+    }
+
+    /* --- Addons --- */
+    > .cz-input-group-addon {
+        flex: 0 0 auto;
     }
 }
 
@@ -37,4 +157,52 @@
     font-family: var(--cz-font-base);
     font-size: var(--cz-font-size-sm);
     white-space: nowrap;
+}
+
+/* ==========================================================================
+   THEMES
+   ========================================================================== */
+
+/* --- Neo: one raised pill for the whole group --- */
+[data-theme="neo"] .cz-input-group {
+    border: none;
+    background: var(--cz-theme-surface);
+    box-shadow: var(--cz-neo-raised);
+
+    &:focus-within {
+        box-shadow: var(--cz-neo-pressed);
+    }
+
+    > .cz-input-group-addon {
+        background: transparent;
+        border: none;
+        box-shadow: none;
+    }
+}
+
+/* --- Glass: translucent frosted group --- */
+[data-theme="glass"] .cz-input-group {
+    background: color-mix(in srgb, var(--cz-theme-surface) 88%, transparent);
+    border-color: rgba(255, 255, 255, 0.65);
+    backdrop-filter: var(--cz-theme-backdrop-filter);
+    -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
+
+    &:focus-within {
+        border-color: var(--cz-color-primary);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--cz-color-primary) 22%, transparent);
+    }
+
+    > .cz-input-group-addon {
+        background: rgba(255, 255, 255, 0.35);
+        border: none;
+    }
+}
+
+[data-theme="glass"].dark .cz-input-group,
+.dark [data-theme="glass"] .cz-input-group {
+    border-color: rgba(255, 255, 255, 0.14);
+
+    > .cz-input-group-addon {
+        background: rgba(255, 255, 255, 0.06);
+    }
 }

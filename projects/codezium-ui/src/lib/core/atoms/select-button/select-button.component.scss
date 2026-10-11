@@ -197,76 +197,82 @@
 /* ── NEO THEME ── */
 [data-theme="neo"] .cz-select-button,
 .cz-select-button[data-theme="neo"] {
+    /* Segmented tray: pressed groove that holds the options */
     .cz-select-button-container {
         border: none !important;
-        background: transparent !important;
-        box-shadow: none !important;
-        padding: 0.6rem !important;
-        gap: 0.85rem !important;
+        background: var(--cz-theme-surface, var(--cz-neo-bg, #e0e5ec)) !important;
+        box-shadow: var(--cz-neo-pressed) !important;
+        border-radius: var(--cz-radius-lg, 0.5rem) !important;
+        padding: 0.3rem !important;
+        gap: 0.3rem !important;
         overflow: visible !important;
+
+        &:focus-within {
+            box-shadow: var(--cz-neo-pressed), 0 0 0 2px var(--cz-color-primary-200) !important;
+        }
     }
 
     .cz-select-button-option {
-        border: 1px solid transparent !important;
-        background: var(--cz-theme-surface, #f4f3f3) !important;
-        border-radius: var(--cz-radius-lg) !important;
-        box-shadow: var(--cz-theme-shadow-base, 5px 5px 10px var(--cz-neo-shadow-dark), -5px -5px 10px var(--cz-neo-shadow-light)) !important;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        margin: 0 !important;
-        color: var(--cz-theme-text-primary, #333333) !important;
-        font-weight: 500;
+        border: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        background: transparent !important;
+        border-radius: calc(var(--cz-radius-lg, 0.5rem) - 0.15rem) !important;
+        box-shadow: none !important;
+        color: var(--cz-theme-text-secondary, #64748b) !important;
+        font-weight: 600;
+        transition: color 0.2s ease, box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease;
 
         &:hover:not(:disabled):not(.cz-select-button-option--active) {
-            transform: translateY(-2px);
-            box-shadow: var(--cz-theme-shadow-hover, 7px 7px 14px var(--cz-neo-shadow-dark), -7px -7px 14px var(--cz-neo-shadow-light)) !important;
+            color: var(--cz-color-primary) !important;
+            transform: none;
+            box-shadow: var(--cz-neo-flat) !important;
         }
 
         &--active {
-            background: var(--cz-color-primary) !important;
-            color: var(--cz-color-primary-contrast, #ffffff) !important;
-            border-color: var(--cz-color-primary) !important;
-            box-shadow: 
-                inset 5px 5px 10px rgba(0,0,0,0.15),
-                inset -5px -5px 10px rgba(255,255,255,0.05) !important;
-            transform: translateY(0) !important;
+            background: var(--cz-theme-surface, var(--cz-neo-bg, #e0e5ec)) !important;
+            color: var(--cz-color-primary) !important;
+            box-shadow: var(--cz-neo-raised) !important;
+            transform: none !important;
 
             &:hover {
-                transform: translateY(0) !important;
-                box-shadow: 
-                    inset 5px 5px 10px rgba(0,0,0,0.15),
-                    inset -5px -5px 10px rgba(255,255,255,0.05) !important;
+                box-shadow: var(--cz-neo-raised) !important;
+                transform: none !important;
             }
         }
 
         &:disabled {
+            background: transparent !important;
             box-shadow: none !important;
-            background: rgba(0,0,0,0.03) !important;
             opacity: 0.4;
             transform: none !important;
         }
     }
 
+    /* Variant colors drive the active label color (and a soft matching glow) */
     @each $name in ('secondary', 'success', 'warning', 'danger', 'info', 'dark') {
         &[data-color="#{$name}"] .cz-select-button-option--active {
-            background: var(--cz-color-#{$name}) !important;
-            color: var(--cz-color-#{$name}-contrast, #ffffff) !important;
-            border-color: var(--cz-color-#{$name}) !important;
-            box-shadow: 
-                inset 5px 5px 10px rgba(0,0,0,0.15),
-                inset -5px -5px 10px rgba(255,255,255,0.05) !important;
+            color: var(--cz-color-#{$name}) !important;
+            box-shadow: var(--cz-neo-raised), 0 0 0 1px color-mix(in srgb, var(--cz-color-#{$name}) 25%, transparent) !important;
 
             &:hover {
-                box-shadow: 
-                    inset 5px 5px 10px rgba(0,0,0,0.15),
-                    inset -5px -5px 10px rgba(255,255,255,0.05) !important;
-                transform: translateY(0) !important;
+                box-shadow: var(--cz-neo-raised), 0 0 0 1px color-mix(in srgb, var(--cz-color-#{$name}) 25%, transparent) !important;
             }
         }
     }
 
+    /* Primary keeps the same treatment with its own soft ring */
+    &[data-color="primary"] .cz-select-button-option--active {
+        box-shadow: var(--cz-neo-raised), 0 0 0 1px color-mix(in srgb, var(--cz-color-primary) 25%, transparent) !important;
+
+        &:hover {
+            box-shadow: var(--cz-neo-raised), 0 0 0 1px color-mix(in srgb, var(--cz-color-primary) 25%, transparent) !important;
+        }
+    }
+
     &.cz-select-button--has-error .cz-select-button-container {
-        border: 2px solid var(--cz-color-danger-200) !important;
-        border-radius: var(--cz-radius-xl);
+        box-shadow: var(--cz-neo-pressed), 0 0 0 2px var(--cz-color-danger-200) !important;
+        border-radius: var(--cz-radius-lg, 0.5rem) !important;
     }
 }
 

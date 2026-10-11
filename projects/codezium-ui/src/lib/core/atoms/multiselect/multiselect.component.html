@@ -1,0 +1,315 @@
+<div
+    class="cz-input-wrapper cz-multiselect-wrapper"
+    [class.cz-input-fluid]="fluid()"
+    [class.cz-input-filled]="isFilled()"
+    [class.cz-input-disabled]="actualDisabled()"
+    [class.cz-input-readonly]="readonly()"
+    [class.cz-input-has-error]="isInvalid"
+    [class.cz-input-focused]="isFocused() || isOpen()"
+    [attr.data-size]="size()"
+    [attr.data-label-position]="labelPosition()"
+    [attr.data-color]="color() || null"
+>
+    @if (label() && labelPosition() === 'none') {
+        <label class="cz-input-label-static" [attr.id]="effectiveInputId() + '-label'">{{ label() }}</label>
+    }
+
+    <div class="cz-input-container" [class.cz-float-active]="(isFocused() || isOpen()) || hasValue()">
+        <div
+            #triggerEl
+            class="cz-input-native cz-multiselect-trigger"
+            role="combobox"
+            aria-haspopup="listbox"
+            [attr.id]="effectiveInputId()"
+            [attr.tabindex]="actualDisabled() ? -1 : (tabindex() ?? 0)"
+            [attr.aria-label]="ariaLabel() || null"
+            [attr.aria-labelledby]="ariaLabelledBy() || (label() ? effectiveInputId() + '-label' : null)"
+            [attr.aria-expanded]="isOpen()"
+            [attr.aria-controls]="isOpen() ? panelId() : null"
+            [attr.aria-activedescendant]="activeDescendant()"
+            [attr.aria-disabled]="actualDisabled() ? 'true' : null"
+            (click)="onTriggerClick($event)"
+            (keydown)="onKeyDown($event)"
+            (focus)="isFocused.set(true); onFocusEvent.emit($event)"
+            (blur)="isFocused.set(false)"
+        >
+            <span class="cz-multiselect-label" [class.cz-multiselect-placeholder]="!hasValue()">
+                @if (selectedItemsTemplate()) {
+                    <ng-container
+                        [ngTemplateOutlet]="selectedItemsTemplate()!"
+                        [ngTemplateOutletContext]="{ $implicit: value() }"
+                    />
+                } @else if (hasValue()) {
+                    @if (display() === 'chip') {
+                        @if (value().length > maxSelectedLabels()) {
+                            <span class="cz-multiselect-chip cz-multiselect-chip--overflow">{{ selectedItemsLabelText() }}</span>
+                        } @else {
+                            @for (val of value(); track val) {
+                                <span class="cz-multiselect-chip">
+                                    @if (chipIconTemplate()) {
+                                        <span class="cz-multiselect-chip-icon">
+                                            <ng-container [ngTemplateOutlet]="chipIconTemplate()!" [ngTemplateOutletContext]="{ $implicit: val }" />
+                                        </span>
+                                    }
+                                    <span class="cz-multiselect-chip-label">{{ labelByValue(val) }}</span>
+                                    @if (!actualDisabled() && !readonly()) {
+                                        <span class="cz-multiselect-chip-remove" (click)="removeOption(val, $event)">
+                                            @if (removeTokenIconTemplate()) {
+                                                <ng-container [ngTemplateOutlet]="removeTokenIconTemplate()!" [ngTemplateOutletContext]="{ $implicit: val }" />
+                                            } @else {
+                                                <svg [lucideIcon]="chipIcon()" [size]="12"></svg>
+                                            }
+                                        </span>
+                                    }
+                                </span>
+                            }
+                        }
+                    } @else {
+                        {{ displayLabel() }}
+                    }
+                } @else {
+                    {{ actualPlaceholder() }}
+                }
+            </span>
+
+            <div class="cz-multiselect-actions">
+                @if (showClearButton() && hasValue() && !loading()) {
+                    <span class="cz-multiselect-clear" (click)="clear($event)">
+                        @if (clearIconTemplate()) {
+                            <ng-container [ngTemplateOutlet]="clearIconTemplate()!" />
+                        } @else {
+                            <svg [lucideIcon]="clearIcon()" [size]="14"></svg>
+                        }
+                    </span>
+                }
+                @if (loading()) {
+                    <span class="cz-multiselect-loading">
+                        @if (loadingIconTemplate()) {
+                            <ng-container [ngTemplateOutlet]="loadingIconTemplate()!" />
+                        } @else {
+                            <svg [lucideIcon]="loadingIcon()" [size]="16" class="cz-spin"></svg>
+                        }
+                    </span>
+                }
+                <span class="cz-multiselect-chevron" [class.cz-multiselect-chevron-open]="isOpen()">
+                    @if (dropdownIconTemplate()) {
+                        <ng-container [ngTemplateOutlet]="dropdownIconTemplate()!" />
+                    } @else {
+                        <svg [lucideIcon]="dropdownIcon()" [size]="18"></svg>
+                    }
+                </span>
+            </div>
+        </div>
+
+        @if (label()) {
+            @if (labelPosition() === 'over') {
+                <label class="cz-input-label-over" [attr.id]="effectiveInputId() + '-label'">{{ label() }}</label>
+            } @else if (labelPosition() === 'in' || labelPosition() === 'float') {
+                <label class="cz-input-label-inner" [attr.id]="effectiveInputId() + '-label'">{{ label() }}</label>
+            }
+        }
+
+        <!-- Dropdown Panel -->
+        @if (isOpen()) {
+            <div
+                class="cz-multiselect-panel"
+                [class]="panelStyleClass()"
+                [style.z-index]="panelZIndex()"
+                role="listbox"
+                [attr.id]="panelId()"
+                aria-multiselectable="true"
+            >
+                @if (headerTemplate()) {
+                    <div class="cz-multiselect-header-template">
+                        <ng-container [ngTemplateOutlet]="headerTemplate()!" />
+                    </div>
+                }
+
+                @if (showHeader()) {
+                    <div class="cz-multiselect-header">
+                        @if (showToggleAll() && !selectionLimit()) {
+                            <span class="cz-multiselect-toggle-all" (click)="$event.stopPropagation()">
+                                @if (headerCheckboxIconTemplate()) {
+                                    <span class="cz-multiselect-toggle-all-custom" (click)="onToggleAll($event, !allSelected())">
+                                        <ng-container
+                                            [ngTemplateOutlet]="headerCheckboxIconTemplate()!"
+                                            [ngTemplateOutletContext]="{ checked: allSelected(), partialSelected: partialSelected(), class: 'cz-multiselect-toggle-all-icon' }"
+                                        />
+                                    </span>
+                                } @else {
+                                    <cz-checkbox
+                                        [binary]="true"
+                                        [ngModel]="allSelected()"
+                                        [indeterminate]="partialSelected()"
+                                        [disabled]="actualDisabled()"
+                                        (onChange)="onToggleAll($event.originalEvent, $event.checked)"
+                                        ariaLabel="Select all"
+                                    />
+                                }
+                            </span>
+                        }
+
+                        @if (filter()) {
+                            @if (filterTemplate()) {
+                                <ng-container
+                                    [ngTemplateOutlet]="filterTemplate()!"
+                                    [ngTemplateOutletContext]="{ options: filterOptions }"
+                                />
+                            } @else {
+                                <div class="cz-multiselect-filter-container" (click)="$event.stopPropagation()">
+                                    <span class="cz-multiselect-filter-icon">
+                                        @if (filterIconTemplate()) {
+                                            <ng-container [ngTemplateOutlet]="filterIconTemplate()!" />
+                                        } @else {
+                                            <svg [lucideIcon]="filterIcon()" [size]="14"></svg>
+                                        }
+                                    </span>
+                                    <input
+                                        #filterInput
+                                        type="text"
+                                        class="cz-multiselect-filter-input"
+                                        [placeholder]="filterPlaceholder()"
+                                        [value]="filterValue()"
+                                        [attr.aria-label]="filterPlaceholder()"
+                                        (input)="onFilterInput($event)"
+                                    />
+                                </div>
+                            }
+                        }
+                    </div>
+                }
+
+                <div
+                    #panelEl
+                    class="cz-multiselect-scroll"
+                    [style.max-height]="scrollHeight() || null"
+                    (scroll)="onPanelScroll($event)"
+                >
+                    @if (group()) {
+                        <ul class="cz-multiselect-items">
+                            @for (grp of filteredGroups(); track $index; let gi = $index) {
+                                <li class="cz-multiselect-group" role="presentation">
+                                    @if (groupTemplate()) {
+                                        <ng-container [ngTemplateOutlet]="groupTemplate()!" [ngTemplateOutletContext]="{ $implicit: grp }" />
+                                    } @else {
+                                        {{ grp[optionGroupLabel()] }}
+                                    }
+                                </li>
+                                @for (option of groupOptions()[gi]; track optionIndex(option)) {
+                                    <li
+                                        class="cz-multiselect-item"
+                                        role="option"
+                                        [id]="optionId(optionIndex(option))"
+                                        [class.cz-multiselect-item-selected]="isSelected(option)"
+                                        [class.cz-multiselect-item-highlighted]="optionIndex(option) === highlightedIndex()"
+                                        [class.cz-multiselect-item-disabled]="isOptionDisabled(option)"
+                                        [attr.aria-selected]="isSelected(option)"
+                                        [attr.aria-disabled]="isOptionDisabled(option) ? 'true' : null"
+                                        (mouseenter)="onOptionHover(optionIndex(option))"
+                                        (click)="onOptionClick(option, optionIndex(option), $event)"
+                                    >
+                                        @if (itemTemplate()) {
+                                            <ng-container [ngTemplateOutlet]="itemTemplate()!" [ngTemplateOutletContext]="{ $implicit: option }" />
+                                        } @else {
+                                            @if (itemCheckboxIconTemplate()) {
+                                                <span class="cz-multiselect-checkbox-custom">
+                                                    <ng-container
+                                                        [ngTemplateOutlet]="itemCheckboxIconTemplate()!"
+                                                        [ngTemplateOutletContext]="{ checked: isSelected(option), class: 'cz-multiselect-checkbox-icon' }"
+                                                    />
+                                                </span>
+                                            } @else {
+                                                <cz-checkbox
+                                                    class="cz-multiselect-option-checkbox"
+                                                    [binary]="true"
+                                                    [ngModel]="isSelected(option)"
+                                                    [readonly]="true"
+                                                    [tabindex]="-1"
+                                                    [disabled]="actualDisabled()"
+                                                />
+                                            }
+                                            <span class="cz-multiselect-item-label">{{ getOptionLabel(option) }}</span>
+                                        }
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    } @else {
+                        <ul
+                            class="cz-multiselect-items"
+                            [style.padding-top.px]="virtualOffsetBefore()"
+                            [style.padding-bottom.px]="virtualOffsetAfter()"
+                        >
+                            @for (option of visibleOptions(); track optionIndex(option)) {
+                                <li
+                                    class="cz-multiselect-item"
+                                    role="option"
+                                    [id]="optionId(optionIndex(option))"
+                                    [class.cz-multiselect-item-selected]="isSelected(option)"
+                                    [class.cz-multiselect-item-highlighted]="optionIndex(option) === highlightedIndex()"
+                                    [class.cz-multiselect-item-disabled]="isOptionDisabled(option)"
+                                    [attr.aria-selected]="isSelected(option)"
+                                    [attr.aria-disabled]="isOptionDisabled(option) ? 'true' : null"
+                                    (mouseenter)="onOptionHover(optionIndex(option))"
+                                    (click)="onOptionClick(option, optionIndex(option), $event)"
+                                >
+                                    @if (itemTemplate()) {
+                                        <ng-container [ngTemplateOutlet]="itemTemplate()!" [ngTemplateOutletContext]="{ $implicit: option }" />
+                                    } @else {
+                                        @if (itemCheckboxIconTemplate()) {
+                                            <span class="cz-multiselect-checkbox-custom">
+                                                <ng-container
+                                                    [ngTemplateOutlet]="itemCheckboxIconTemplate()!"
+                                                    [ngTemplateOutletContext]="{ checked: isSelected(option), class: 'cz-multiselect-checkbox-icon' }"
+                                                />
+                                            </span>
+                                        } @else {
+                                            <cz-checkbox
+                                                class="cz-multiselect-option-checkbox"
+                                                [binary]="true"
+                                                [ngModel]="isSelected(option)"
+                                                [readonly]="true"
+                                                [tabindex]="-1"
+                                                [disabled]="actualDisabled()"
+                                            />
+                                        }
+                                        <span class="cz-multiselect-item-label">{{ getOptionLabel(option) }}</span>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+
+                    @if (!filteredOptions().length) {
+                        <div class="cz-multiselect-empty">
+                            @if (filter() && filterValue() && emptyFilterTemplate()) {
+                                <ng-container [ngTemplateOutlet]="emptyFilterTemplate()!" />
+                            } @else if (!(filter() && filterValue()) && emptyTemplate()) {
+                                <ng-container [ngTemplateOutlet]="emptyTemplate()!" />
+                            } @else {
+                                {{ filter() && filterValue() ? emptyFilterMessage() : emptyMessage() }}
+                            }
+                        </div>
+                    }
+                </div>
+
+                @if (footerTemplate()) {
+                    <div class="cz-multiselect-footer">
+                        <ng-container [ngTemplateOutlet]="footerTemplate()!" />
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="cz-input-messages">
+        @if (showErrors() && isInvalid && errorMessage) {
+            <small class="cz-input-error-text">{{ errorMessage }}</small>
+        }
+        <ng-content select="[czError]"></ng-content>
+        @if (helpText()) {
+            <small class="cz-input-help-text">{{ helpText() }}</small>
+        }
+        <ng-content select="[czHelp]"></ng-content>
+    </div>
+</div>

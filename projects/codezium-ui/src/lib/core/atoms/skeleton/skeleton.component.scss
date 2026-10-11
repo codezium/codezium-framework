@@ -3,9 +3,19 @@
    ========================================================================== */
 
 .cz-skeleton {
+    --cz-skeleton-background: var(--cz-theme-surface-active, var(--cz-color-gray-200));
+    --cz-skeleton-animation-background: linear-gradient(
+        90deg,
+        transparent 0%,
+        color-mix(in srgb, var(--cz-theme-surface, #fff) 70%, transparent) 50%,
+        transparent 100%
+    );
+    --cz-skeleton-border-radius: var(--cz-radius-sm);
+
+    position: relative;
     display: block;
-    background: var(--cz-theme-surface-active, var(--cz-color-gray-200));
-    border-radius: var(--cz-radius-sm);
+    background: var(--cz-skeleton-background);
+    border-radius: var(--cz-skeleton-border-radius);
     overflow: hidden;
 }
 
@@ -30,5 +40,20 @@
 
     100% {
         opacity: 1;
+    }
+}
+
+.cz-skeleton--wave::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: var(--cz-skeleton-animation-background);
+    animation: cz-skeleton-wave 1.6s infinite;
+}
+
+@keyframes cz-skeleton-wave {
+    100% {
+        transform: translateX(100%);
     }
 }

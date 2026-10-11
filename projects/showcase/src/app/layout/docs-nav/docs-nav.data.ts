@@ -136,6 +136,7 @@ export const DOCS_NAV: NavItem[] = [
             { label: 'RadioButton', path: '/docs/components/radio-button' },
             { label: 'Rating', path: '/docs/components/rating' },
             { label: 'Select', path: '/docs/components/select' },
+            { label: 'MultiSelect', path: '/docs/components/multiselect' },
             { label: 'SelectButton', path: '/docs/components/select-button' },
             { label: 'Slider', path: '/docs/components/slider' },
             { label: 'TextArea', path: '/docs/components/textarea' },
@@ -172,6 +173,7 @@ export const DOCS_NAV: NavItem[] = [
         label: 'Misc',
         icon: LucidePuzzle,
         children: [
+            { label: 'Editor', path: '/docs/components/editor' },
             { label: 'ScrollTop', path: '/docs/components/scroll-top' },
             { label: 'Terminal', path: '/docs/components/terminal' },
         ],

@@ -192,3 +192,13 @@ $radio-colors: (
         }
     }
 }
+
+/* ---------- Filled variant ---------- */
+.cz-radio--filled .cz-radio-inner {
+    background: var(--cz-theme-surface-active, var(--cz-color-gray-100));
+    border-color: transparent;
+
+    &:hover {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-200));
+    }
+}

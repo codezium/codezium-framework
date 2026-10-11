@@ -1,63 +1,214 @@
-<div class="cz-tree-select-wrapper">
-    <div
-        class="cz-tree-select-trigger"
-        [class.cz-tree-select-trigger--open]="isOpen()"
-        tabindex="0"
-        role="button"
-        aria-haspopup="tree"
-        [attr.aria-expanded]="isOpen()"
-        [attr.aria-label]="ariaLabel()"
-        (click)="toggle()"
-        (keydown)="onKeyDown($event)"
-    >
-        @if (value() !== null && value() !== undefined) {
-            <span class="cz-tree-select-value">{{ selectedLabel() }}</span>
-        } @else {
-            <span class="cz-tree-select-placeholder">{{ placeholder() }}</span>
-        }
+<div
+    class="cz-input-wrapper cz-tree-select-wrapper"
+    [class.cz-input-fluid]="fluid()"
+    [class.cz-input-filled]="isFilled()"
+    [class.cz-input-disabled]="actualDisabled()"
+    [class.cz-input-readonly]="readonly()"
+    [class.cz-input-has-error]="isInvalid"
+    [class.cz-input-focused]="isFocused() || isOpen()"
+    [attr.data-size]="size()"
+    [attr.data-label-position]="labelPosition()"
+>
+    @if (label() && labelPosition() === 'none') {
+        <label class="cz-input-label-static" [attr.id]="effectiveInputId() + '-label'">{{ label() }}</label>
+    }
 
-        @if (clearable() && value() !== null && value() !== undefined && !actualDisabled()) {
-            <svg [lucideIcon]="XIcon" [size]="14" class="cz-tree-select-clear" (click)="clear($event)"></svg>
-        }
+    <div class="cz-input-container" [class.cz-float-active]="isFocused() || isOpen() || hasValue()">
+        <div
+            #triggerEl
+            class="cz-input-native cz-tree-select-trigger"
+            role="combobox"
+            aria-haspopup="tree"
+            [attr.id]="effectiveInputId()"
+            [attr.tabindex]="actualDisabled() ? -1 : (tabindex() ?? 0)"
+            [attr.aria-label]="ariaLabel() || null"
+            [attr.aria-labelledby]="ariaLabelledBy() || (label() ? effectiveInputId() + '-label' : null)"
+            [attr.aria-expanded]="isOpen()"
+            [attr.aria-controls]="isOpen() ? panelId() : null"
+            [attr.aria-activedescendant]="activeDescendant()"
+            [attr.aria-disabled]="actualDisabled() ? 'true' : null"
+            [attr.aria-invalid]="isInvalid ? 'true' : null"
+            (click)="toggle()"
+            (keydown)="onKeyDown($event)"
+            (focus)="onFocus($event)"
+            (blur)="onBlur($event)"
+        >
+            <span class="cz-tree-select-label" [class.cz-tree-select-placeholder]="!hasValue()">
+                @if (valueTemplate(); as tpl) {
+                    <ng-container
+                        [ngTemplateOutlet]="tpl"
+                        [ngTemplateOutletContext]="{ $implicit: isMultiple() ? selectedNodes() : (selectedNodes()[0] ?? null) }"
+                    />
+                } @else if (hasValue() && isMultiple() && display() === 'chip') {
+                    @for (node of selectedNodes(); track $index) {
+                        <span class="cz-tree-select-chip">
+                            <span class="cz-tree-select-chip-label">{{ getOptionLabel(node) }}</span>
+                            @if (!actualDisabled() && !readonly()) {
+                                <span class="cz-tree-select-chip-remove" (click)="removeValue(getOptionValue(node), $event)">
+                                    <svg [lucideIcon]="XIcon" [size]="12"></svg>
+                                </span>
+                            }
+                        </span>
+                    }
+                } @else {
+                    {{ hasValue() ? selectedLabel() : placeholder() }}
+                }
+            </span>
 
-        <svg [lucideIcon]="ChevronDownIcon" [size]="16" class="cz-tree-select-chevron"></svg>
-    </div>
-
-    @if (isOpen()) {
-        <div class="cz-tree-select-panel" [style.z-index]="panelZIndex()" role="tree" [attr.aria-label]="ariaLabel()">
-            @for (row of visibleRows(); track row.node) {
-                <div
-                    class="cz-tree-select-node"
-                    role="treeitem"
-                    [attr.aria-expanded]="row.expandable ? isExpanded(row.node) : null"
-                    [attr.aria-selected]="isSelected(row.node)"
-                    [class.cz-tree-select-node--selected]="isSelected(row.node)"
-                    [style.paddingLeft.rem]="0.5 + row.depth * 1.25"
-                    (click)="selectNode(row.node, $event)"
-                >
-                    @if (row.expandable) {
-                        <button
-                            type="button"
-                            class="cz-tree-select-toggle"
-                            [attr.aria-label]="isExpanded(row.node) ? 'Collapse' : 'Expand'"
-                            (click)="toggleExpand(row.node, $event)"
-                        >
-                            <svg
-                                [lucideIcon]="isExpanded(row.node) ? ChevronDownIcon : ChevronRightIcon"
-                                [size]="14"
-                            ></svg>
-                        </button>
+            <div class="cz-tree-select-actions">
+                @if (showClearButton()) {
+                    <span class="cz-tree-select-clear" (click)="clear($event)">
+                        @if (clearIconTemplate()) {
+                            <ng-container [ngTemplateOutlet]="clearIconTemplate()!" />
+                        } @else {
+                            <svg [lucideIcon]="XIcon" [size]="14"></svg>
+                        }
+                    </span>
+                }
+                <span class="cz-tree-select-chevron" [class.cz-tree-select-chevron-open]="isOpen()">
+                    @if (dropdownIconTemplate()) {
+                        <ng-container [ngTemplateOutlet]="dropdownIconTemplate()!" />
                     } @else {
-                        <span class="cz-tree-select-spacer"></span>
+                        <svg [lucideIcon]="ChevronDownIcon" [size]="18"></svg>
+                    }
+                </span>
+            </div>
+        </div>
+
+        @if (label()) {
+            @if (labelPosition() === 'over') {
+                <label class="cz-input-label-over" [attr.id]="effectiveInputId() + '-label'">{{ label() }}</label>
+            } @else if (labelPosition() === 'in' || labelPosition() === 'float') {
+                <label class="cz-input-label-inner" [attr.id]="effectiveInputId() + '-label'">{{ label() }}</label>
+            }
+        }
+
+        <!-- Tree Panel -->
+        @if (isOpen()) {
+            <div
+                class="cz-tree-select-panel"
+                [style.z-index]="panelZIndex()"
+                role="tree"
+                [attr.id]="panelId()"
+                [attr.aria-multiselectable]="isMultiple() ? 'true' : null"
+            >
+                @if (headerTemplate()) {
+                    <div class="cz-tree-select-header">
+                        <ng-container [ngTemplateOutlet]="headerTemplate()!" />
+                    </div>
+                }
+
+                @if (filter()) {
+                    <div class="cz-tree-select-filter-container" (click)="$event.stopPropagation()">
+                        <span class="cz-tree-select-filter-icon">
+                            @if (filterIconTemplate()) {
+                                <ng-container [ngTemplateOutlet]="filterIconTemplate()!" />
+                            } @else {
+                                <svg [lucideIcon]="SearchIcon" [size]="14"></svg>
+                            }
+                        </span>
+                        <input
+                            type="text"
+                            class="cz-tree-select-filter-input"
+                            [placeholder]="filterPlaceholder()"
+                            [value]="filterValue()"
+                            [attr.aria-label]="filterPlaceholder()"
+                            (input)="onFilterInput($event)"
+                        />
+                    </div>
+                }
+
+                <div
+                    #panelEl
+                    class="cz-tree-select-scroll"
+                    [style.max-height]="scrollHeight() || null"
+                >
+                    @for (row of visibleRows(); track $index; let i = $index) {
+                        <div
+                            class="cz-tree-select-row"
+                            role="treeitem"
+                            [id]="optionId(i)"
+                            [class.cz-tree-select-row--selected]="isSelected(row.node)"
+                            [class.cz-tree-select-row--partial]="selectionMode() === 'checkbox' && isPartial(row.node)"
+                            [class.cz-tree-select-row--highlighted]="i === highlightedIndex()"
+                            [class.cz-tree-select-row--disabled]="!isNodeSelectable(row.node)"
+                            [attr.aria-level]="row.depth + 1"
+                            [attr.aria-selected]="isSelected(row.node)"
+                            [attr.aria-checked]="selectionMode() === 'checkbox' ? (isChecked(row.node) ? 'true' : (isPartial(row.node) ? 'mixed' : 'false')) : null"
+                            [attr.aria-expanded]="row.expandable ? isExpanded(row.node) : null"
+                            [attr.aria-disabled]="!isNodeSelectable(row.node) ? 'true' : null"
+                            [style.padding-left.rem]="0.5 + row.depth * 1.25"
+                            (click)="selectNode(row.node, $event)"
+                        >
+                            @if (row.expandable) {
+                                <span
+                                    class="cz-tree-select-toggler"
+                                    (click)="toggleExpand(row.node, $event)"
+                                >
+                                    <svg
+                                        [lucideIcon]="isExpanded(row.node) ? ChevronDownIcon : ChevronRightIcon"
+                                        [size]="14"
+                                    ></svg>
+                                </span>
+                            } @else {
+                                <span class="cz-tree-select-toggler cz-tree-select-toggler--leaf"></span>
+                            }
+
+                            @if (selectionMode() === 'checkbox') {
+                                <span class="cz-tree-select-checkbox">
+                                    @if (isChecked(row.node)) {
+                                        <svg [lucideIcon]="CheckIcon" [size]="12"></svg>
+                                    } @else if (isPartial(row.node)) {
+                                        <svg [lucideIcon]="MinusIcon" [size]="12"></svg>
+                                    }
+                                </span>
+                            }
+
+                            @if (itemTemplate()) {
+                                <ng-container
+                                    [ngTemplateOutlet]="itemTemplate()!"
+                                    [ngTemplateOutletContext]="{ $implicit: row.node, depth: row.depth }"
+                                />
+                            } @else {
+                                <span class="cz-tree-select-row-label">{{ getOptionLabel(row.node) }}</span>
+                            }
+
+                            @if (selectionMode() === 'single' && isSelected(row.node)) {
+                                <svg [lucideIcon]="CheckIcon" [size]="14" class="cz-tree-select-row-check"></svg>
+                            }
+                        </div>
                     }
 
-                    <span class="cz-tree-select-label">{{ getOptionLabel(row.node) }}</span>
-
-                    @if (isSelected(row.node)) {
-                        <svg [lucideIcon]="CheckIcon" [size]="14" class="cz-tree-select-check"></svg>
+                    @if (!visibleRows().length) {
+                        <div class="cz-tree-select-empty">
+                            @if (filterValue().trim() && emptyFilterTemplate()) {
+                                <ng-container [ngTemplateOutlet]="emptyFilterTemplate()!" />
+                            } @else if (!filterValue().trim() && emptyTemplate()) {
+                                <ng-container [ngTemplateOutlet]="emptyTemplate()!" />
+                            } @else {
+                                {{ filterValue().trim() ? emptyFilterMessage() : emptyMessage() }}
+                            }
+                        </div>
                     }
                 </div>
-            }
-        </div>
-    }
+
+                @if (footerTemplate()) {
+                    <div class="cz-tree-select-footer">
+                        <ng-container [ngTemplateOutlet]="footerTemplate()!" />
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="cz-input-messages">
+        @if (showErrors() && isInvalid && errorMessage) {
+            <small class="cz-input-error-text">{{ errorMessage }}</small>
+        }
+        <ng-content select="[czError]"></ng-content>
+        @if (helpText()) {
+            <small class="cz-input-help-text">{{ helpText() }}</small>
+        }
+        <ng-content select="[czHelp]"></ng-content>
+    </div>
 </div>

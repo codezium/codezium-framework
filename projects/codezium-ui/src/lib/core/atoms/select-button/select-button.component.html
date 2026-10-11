@@ -1,23 +1,38 @@
 <div class="cz-select-button-wrapper" [class.cz-select-button-wrapper--fluid]="fluid()">
     @if (label()) {
-        <label class="cz-select-button-label-group">{{ label() }}</label>
+        <label class="cz-select-button-label-group" [attr.id]="groupLabelId">{{ label() }}</label>
     }
 
-    <div class="cz-select-button-container" role="group">
-        @for (option of options(); track $index) {
+    <div
+        class="cz-select-button-container"
+        role="group"
+        [ngClass]="styleClass()"
+        [attr.aria-labelledby]="effectiveAriaLabelledBy()"
+    >
+        @for (option of options(); track $index; let i = $index) {
             <button
+                #optionButton
                 type="button"
                 class="cz-select-button-option"
                 [class.cz-select-button-option--active]="isSelected(option)"
-                [disabled]="actualDisabled()"
-                (click)="onOptionClick($event, option, $index)"
-                (keydown)="onKeyDown($event, option, $index)"
+                [disabled]="isButtonDisabled(option)"
+                (click)="onOptionClick($event, option, i)"
+                (keydown)="onKeyDown($event, option, i)"
                 [attr.aria-pressed]="isSelected(option)"
-                [attr.tabindex]="actualDisabled() ? -1 : (focusedIndex() === $index || (focusedIndex() === -1 && $index === 0) ? 0 : -1)"
+                [attr.aria-label]="getLabel(option)"
+                [attr.aria-disabled]="isButtonDisabled(option) ? 'true' : null"
+                [attr.tabindex]="actualDisabled() ? -1 : (focusedIndex() === i || (focusedIndex() === -1 && i === 0) ? tabindex() : -1)"
             >
-                <span class="cz-select-button-option-label">
-                    {{ getLabel(option) }}
-                </span>
+                @if (itemTemplate()) {
+                    <ng-container
+                        [ngTemplateOutlet]="itemTemplate()!"
+                        [ngTemplateOutletContext]="{ $implicit: option, index: i }"
+                    />
+                } @else {
+                    <span class="cz-select-button-option-label">
+                        {{ getLabel(option) }}
+                    </span>
+                }
             </button>
         }
     </div>

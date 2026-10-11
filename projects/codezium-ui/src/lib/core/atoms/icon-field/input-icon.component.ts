@@ -16,12 +16,16 @@ import { LucideDynamicIcon, type LucideIconInput } from '@lucide/angular';
     imports: [CommonModule, LucideDynamicIcon],
     template: `
         <div class="cz-input-icon-container" [class.cz-icon-animating]="isAnimating()">
-            <svg 
-                [lucideIcon]="icon()" 
-                [size]="size()" 
-                [color]="actualColor()"
-                class="cz-input-icon-element">
-            </svg>
+            @if (icon(); as iconInput) {
+                <svg
+                    [lucideIcon]="iconInput"
+                    [size]="size()"
+                    [color]="actualColor()"
+                    class="cz-input-icon-element">
+                </svg>
+            } @else {
+                <ng-content></ng-content>
+            }
         </div>
     `,
     styleUrl: './input-icon.component.scss',
@@ -33,8 +37,11 @@ import { LucideDynamicIcon, type LucideIconInput } from '@lucide/angular';
     }
 })
 export class CzInputIconComponent implements OnChanges {
-    /** Lucide icon component, LucideIconData, or the name of an icon registered with provideLucideIcons() */
-    icon = input.required<LucideIconInput>();
+    /**
+     * Lucide icon component, LucideIconData, or the name of an icon registered with provideLucideIcons().
+     * When omitted, any projected content is rendered instead (ng-content / ng-template).
+     */
+    icon = input<LucideIconInput | null>(null);
 
     /** Size of the icon in pixels */
     size = input<number>(18);

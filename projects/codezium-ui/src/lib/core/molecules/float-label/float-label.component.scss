@@ -1,3 +1,5 @@
+@use '../../styles/native-inputs' as ni;
+
 /* ==========================================================================
    FLOAT LABEL (cz-float-label)
    Usage: <cz-float-label><input placeholder=" " /><label>Name</label></cz-float-label>
@@ -10,9 +12,16 @@
     display: inline-block;
 
     > input,
+    > textarea,
     > .cz-input-container {
         width: 100%;
         box-sizing: border-box;
+    }
+
+    /* Bare native inputs (without .cz-input-native) still get the framework look */
+    > :where(input, textarea):not(.cz-input-native) {
+        @include ni.cz-native-input;
+        @include ni.cz-native-input-modifiers;
     }
 
     > label {
@@ -30,7 +39,9 @@
 
     /* Floated state */
     > input:focus ~ label,
-    > input:not(:placeholder-shown) ~ label {
+    > input:not(:placeholder-shown) ~ label,
+    > textarea:focus ~ label,
+    > textarea:not(:placeholder-shown) ~ label {
         top: 0;
         transform: translateY(-50%) scale(0.85);
         transform-origin: left center;
@@ -43,7 +54,9 @@
 /* Variant: label floats fully above the border (no background) */
 .cz-float-label[data-variant="over"] {
     > input:focus ~ label,
-    > input:not(:placeholder-shown) ~ label {
+    > input:not(:placeholder-shown) ~ label,
+    > textarea:focus ~ label,
+    > textarea:not(:placeholder-shown) ~ label {
         top: -0.6rem;
         background: transparent;
         padding: 0;

@@ -1,13 +1,27 @@
 import { Injectable, signal } from '@angular/core';
+import { type LucideIconInput } from '@lucide/angular';
 import { CzSeverity } from '../../types';
 
 export interface CzToastMessage {
     id: number;
-    severity: CzSeverity;
+    /** Severity of the message (default `info`) */
+    severity?: CzSeverity;
     summary?: string;
     detail?: string;
     /** Auto dismiss time in ms (0 = sticky) */
     life?: number;
+    /** Sticky toast: stays until dismissed manually */
+    sticky?: boolean;
+    /** Key of the target toast component */
+    key?: string;
+    /** Custom icon overriding the severity icon */
+    icon?: LucideIconInput;
+    /** Spins the message icon (e.g. while loading) */
+    iconSpin?: boolean;
+    /** Extra class applied to the toast item */
+    styleClass?: string;
+    /** Arbitrary data for custom message templates */
+    data?: Record<string, any>;
 }
 
 export type CzToastInput = Omit<CzToastMessage, 'id'>;
@@ -16,6 +30,8 @@ export type CzToastInput = Omit<CzToastMessage, 'id'>;
  * CzToastService
  *
  * Global service used to push toast messages rendered by `<cz-toast />`.
+ * The service only holds state; auto-dismiss timers are managed by the
+ * toast component (per its `life` input), following the PrimeNG model.
  */
 @Injectable({ providedIn: 'root' })
 export class CzToastService {
@@ -26,14 +42,15 @@ export class CzToastService {
 
     add(message: CzToastInput): number {
         const id = ++this.counter;
-        const toast: CzToastMessage = { life: 3000, ...message, id };
-        this.messages.update((list) => [...list, toast]);
-
-        if (toast.life && toast.life > 0) {
-            setTimeout(() => this.remove(id), toast.life);
-        }
-
+        this.messages.update((list) => [...list, { severity: 'info' as CzSeverity, ...message, id }]);
         return id;
+    }
+
+    addAll(messages: CzToastInput[]): void {
+        this.messages.update((list) => [
+            ...list,
+            ...messages.map((message) => ({ severity: 'info' as CzSeverity, ...message, id: ++this.counter })),
+        ]);
     }
 
     success(detail: string, summary = 'Success'): number {
@@ -53,10 +70,15 @@ export class CzToastService {
     }
 
     remove(id: number): void {
-        this.messages.update((list) => list.filter((m) => m.id !== id));
+        this.messages.update((list) => list.filter((message) => message.id !== id));
     }
 
-    clear(): void {
-        this.messages.set([]);
+    /** Clears all messages, or only the messages targeting a toast with the given key */
+    clear(key?: string): void {
+        if (key === undefined) {
+            this.messages.set([]);
+            return;
+        }
+        this.messages.update((list) => list.filter((message) => message.key !== key));
     }
 }

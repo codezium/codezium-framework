@@ -58,7 +58,7 @@ describe('CzToggleButtonComponent', () => {
             const changeSpy = vi.fn();
             const outputSpy = vi.fn();
             component.registerOnChange(changeSpy);
-            component.onChange.subscribe(outputSpy);
+            component.onCheckedChange.subscribe(outputSpy);
 
             const button = fixture.debugElement.query(By.css('.cz-toggle-button-input')).nativeElement;
             button.click();
@@ -274,4 +274,34 @@ describe('CzToggleButtonComponent', () => {
             expect(toggleHost.classList.contains('cz-toggle-button--disabled')).toBe(true);
         });
     });
+        it('should apply the invalid state from the invalid input', () => {
+            fixture.componentRef.setInput('invalid', true);
+            fixture.detectChanges();
+            expect(fixture.nativeElement.classList.contains('cz-toggle-button--has-error')).toBe(true);
+        });
+
+        it('should not clear the selection when allowEmpty is false', () => {
+            fixture.componentRef.setInput('allowEmpty', false);
+            component.writeValue(true);
+            fixture.detectChanges();
+
+            const button = fixture.debugElement.query(By.css('.cz-toggle-button-input')).nativeElement;
+            button.click();
+            fixture.detectChanges();
+
+            expect(component.checked()).toBe(true);
+        });
+
+        it('should emit onChange with originalEvent and checked', () => {
+            fixture.detectChanges();
+            const spy = vi.fn();
+            component.onChangeEvent.subscribe(spy);
+
+            fixture.debugElement.query(By.css('.cz-toggle-button-input')).nativeElement.click();
+
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy.mock.calls[0][0].checked).toBe(true);
+            expect(spy.mock.calls[0][0].originalEvent).toBeTruthy();
+        });
+
 });

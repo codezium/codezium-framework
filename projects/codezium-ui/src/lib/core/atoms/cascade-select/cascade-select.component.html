@@ -1,55 +1,129 @@
-<div class="cz-cascade-select-wrapper">
+<div class="cz-cascade-select-wrapper" [attr.data-label-position]="label() ? labelPosition() : null">
+    @if (label() && labelPosition() === 'none') {
+        <label class="cz-cascade-select-label-static" [attr.for]="effectiveInputId()">{{ label() }}</label>
+    }
+
     <div
         class="cz-cascade-select-trigger"
         [class.cz-cascade-select-trigger--open]="isOpen()"
+        [class.cz-float-active]="isOpen() || hasValue()"
         tabindex="0"
-        role="button"
-        aria-haspopup="listbox"
+        role="combobox"
+        aria-haspopup="tree"
+        [id]="effectiveInputId()"
         [attr.aria-expanded]="isOpen()"
+        [attr.aria-controls]="panelId()"
+        [attr.aria-activedescendant]="activeDescendant()"
         [attr.aria-label]="ariaLabel()"
+        [attr.aria-labelledby]="ariaLabelledBy()"
+        [attr.aria-invalid]="isInvalid || null"
+        [attr.aria-busy]="loading() || null"
         (click)="toggle()"
         (keydown)="onKeyDown($event)"
     >
-        @if (value() !== null && value() !== undefined) {
-            <span class="cz-cascade-select-value">{{ selectedLabel() }}</span>
+        @if (label() && labelPosition() !== 'none') {
+            <label class="cz-cascade-select-label-inner" [attr.for]="effectiveInputId()">{{ label() }}</label>
+        }
+
+        @if (hasValue()) {
+            @if (valueTemplate(); as valueTpl) {
+                <span class="cz-cascade-select-value">
+                    <ng-container *ngTemplateOutlet="valueTpl; context: { $implicit: value() }" />
+                </span>
+            } @else {
+                <span class="cz-cascade-select-value">{{ selectedLabel() }}</span>
+            }
         } @else {
             <span class="cz-cascade-select-placeholder">{{ placeholder() }}</span>
         }
 
-        @if (clearable() && value() !== null && value() !== undefined && !actualDisabled()) {
+        @if (showClearButton() && hasValue()) {
             <svg [lucideIcon]="XIcon" [size]="14" class="cz-cascade-select-clear" (click)="clear($event)"></svg>
         }
 
-        <svg [lucideIcon]="ChevronDownIcon" [size]="16" class="cz-cascade-select-chevron"></svg>
+        @if (loading()) {
+            @if (loadingIconTemplate(); as loadingTpl) {
+                <span class="cz-cascade-select-loading">
+                    <ng-container *ngTemplateOutlet="loadingTpl" />
+                </span>
+            } @else {
+                <span class="cz-cascade-select-loading">
+                    <cz-progress-spinner [size]="16" [strokeWidth]="2" ariaLabel="Loading" />
+                </span>
+            }
+        } @else if (triggerIconTemplate(); as triggerTpl) {
+            <span class="cz-cascade-select-chevron">
+                <ng-container *ngTemplateOutlet="triggerTpl" />
+            </span>
+        } @else {
+            <svg [lucideIcon]="ChevronDownIcon" [size]="16" class="cz-cascade-select-chevron"></svg>
+        }
     </div>
 
     @if (isOpen()) {
-        <div class="cz-cascade-select-panel" [style.z-index]="panelZIndex()">
-            <div class="cz-cascade-select-columns">
-                @for (column of columns(); track $index; let colIndex = $index) {
-                    <ul class="cz-cascade-select-column" role="listbox">
-                        @for (option of column; track getOptionLabel(option)) {
-                            <li
-                                class="cz-cascade-select-option"
-                                role="option"
-                                [attr.aria-selected]="isSelected(option)"
-                                [class.cz-cascade-select-option--hovered]="isHovered(option, colIndex)"
-                                [class.cz-cascade-select-option--selected]="isSelected(option)"
-                                (click)="selectOption(option, $event, colIndex)"
-                                (mouseenter)="hoverOption(option, colIndex)"
-                            >
-                                <span>{{ getOptionLabel(option) }}</span>
+        <div class="cz-cascade-select-panel" [id]="panelId()" [style.z-index]="panelZIndex()" role="tree">
+            @if (headerTemplate(); as headerTpl) {
+                <div class="cz-cascade-select-header">
+                    <ng-container *ngTemplateOutlet="headerTpl" />
+                </div>
+            }
 
-                                @if (option.items?.length) {
-                                    <svg [lucideIcon]="ChevronRightIcon" [size]="14"></svg>
-                                } @else if (isSelected(option)) {
-                                    <svg [lucideIcon]="CheckIcon" [size]="14"></svg>
-                                }
-                            </li>
-                        }
-                    </ul>
-                }
-            </div>
+            @if (loading() && !options().length) {
+                <div class="cz-cascade-select-loading-state">
+                    @if (loadingIconTemplate(); as loadingTpl) {
+                        <ng-container *ngTemplateOutlet="loadingTpl" />
+                    } @else {
+                        <cz-progress-spinner [size]="28" [strokeWidth]="3" ariaLabel="Loading" />
+                    }
+                </div>
+            } @else if (!options().length) {
+                <div class="cz-cascade-select-empty">{{ emptyMessage() }}</div>
+            } @else {
+                <div class="cz-cascade-select-columns">
+                    @for (column of columns(); track $index; let colIndex = $index) {
+                        <ul class="cz-cascade-select-column" role="group"
+                            [attr.aria-label]="colIndex === 0 ? ariaLabel() : null">
+                            @for (option of column; track getOptionValue(option); let rowIndex = $index) {
+                                <li
+                                    class="cz-cascade-select-option"
+                                    role="treeitem"
+                                    [id]="optionId(colIndex, rowIndex)"
+                                    [attr.aria-label]="getLabel(option, colIndex)"
+                                    [attr.aria-level]="colIndex + 1"
+                                    [attr.aria-posinset]="rowIndex + 1"
+                                    [attr.aria-setsize]="column.length"
+                                    [attr.aria-selected]="isSelected(option, colIndex)"
+                                    [attr.aria-expanded]="childrenOf(option, colIndex).length ? isHovered(option, colIndex) : null"
+                                    [class.cz-cascade-select-option--hovered]="isHovered(option, colIndex)"
+                                    [class.cz-cascade-select-option--selected]="isSelected(option, colIndex)"
+                                    (click)="selectOption(option, $event, colIndex)"
+                                    (mouseenter)="hoverOption(option, colIndex)"
+                                >
+                                    @if (optionTemplate(); as optionTpl) {
+                                        <span class="cz-cascade-select-option-content">
+                                            <ng-container *ngTemplateOutlet="optionTpl; context: { $implicit: option, level: colIndex }" />
+                                        </span>
+                                    } @else {
+                                        <span>{{ getLabel(option, colIndex) }}</span>
+                                    }
+
+                                    @if (childrenOf(option, colIndex).length) {
+                                        <svg [lucideIcon]="ChevronRightIcon" [size]="14"></svg>
+                                    } @else if (isSelected(option, colIndex)) {
+                                        <svg [lucideIcon]="CheckIcon" [size]="14"></svg>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            }
+
+            @if (footerTemplate(); as footerTpl) {
+                <div class="cz-cascade-select-footer">
+                    <ng-container *ngTemplateOutlet="footerTpl" />
+                </div>
+            }
         </div>
     }
 </div>

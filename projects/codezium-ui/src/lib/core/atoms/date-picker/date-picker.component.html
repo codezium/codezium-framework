@@ -1,71 +1,323 @@
-<div class="cz-date-picker-wrapper">
-    <div
-        class="cz-date-picker-input"
-        [class.cz-date-picker-input--open]="isOpen()"
-        tabindex="0"
-        role="button"
-        aria-haspopup="dialog"
-        [attr.aria-expanded]="isOpen()"
-        [attr.aria-label]="ariaLabel()"
-        (click)="toggle()"
-        (keydown)="onInputKeyDown($event)"
-    >
-        <svg [lucideIcon]="CalendarIcon" [size]="16" class="cz-date-picker-cal"></svg>
-
-        @if (value()) {
-            <span class="cz-date-picker-value">{{ displayValue() }}</span>
-        } @else {
-            <span class="cz-date-picker-placeholder">{{ placeholder() }}</span>
+@if (!inline()) {
+    <div class="cz-date-picker-wrapper" [attr.data-label-position]="label() ? labelPosition() : null">
+        @if (label() && labelPosition() === 'none') {
+            <label class="cz-date-picker-label-static" [attr.for]="effectiveInputId()">{{ label() }}</label>
         }
 
-        @if (showClear() && value() && !actualDisabled()) {
-            <svg
-                [lucideIcon]="XIcon"
-                [size]="14"
-                class="cz-date-picker-clear"
-                (click)="clear($event)"
-            ></svg>
+        <div class="cz-date-picker-input" [class.cz-date-picker-input--open]="isOpen()"
+            [class.cz-date-picker-input--filled]="isFilled()" [class.cz-date-picker-input--invalid]="isInvalid()"
+            [class.cz-date-picker-input--with-button]="showIcon() && iconDisplay() === 'button'"
+            [class.cz-date-picker-input--with-input-icon]="showIcon() && iconDisplay() === 'input'">
+
+            @if (label() && (labelPosition() === 'over' || labelPosition() === 'float')) {
+                <label class="cz-date-picker-label-inner" [attr.for]="effectiveInputId()">{{ label() }}</label>
+            } @else if (label() && labelPosition() === 'in') {
+                <label class="cz-date-picker-label-inner cz-date-picker-label-inner--in" [attr.for]="effectiveInputId()">{{ label() }}</label>
+            }
+
+            <input
+                #inputEl
+                type="text"
+                class="cz-date-picker-native"
+                [class]="inputStyleClass()"
+                [id]="effectiveInputId()"
+                [value]="inputText()"
+                [placeholder]="placeholder()"
+                [disabled]="actualDisabled()"
+                [readonly]="readonly() || readonlyInput()"
+                [attr.tabindex]="tabindex()"
+                role="combobox"
+                aria-autocomplete="none"
+                aria-haspopup="dialog"
+                [attr.aria-expanded]="isOpen()"
+                [attr.aria-controls]="panelId()"
+                [attr.aria-label]="ariaLabel()"
+                [attr.aria-labelledby]="ariaLabelledBy()"
+                [attr.aria-invalid]="isInvalid() || null"
+                (input)="onInputChange($event)"
+                (focus)="onInputFocus($event)"
+                (blur)="onInputBlur($event)"
+                (keydown)="onInputKeyDown($event)"
+            />
+
+            @if (showClearButton()) {
+                <span class="cz-date-picker-clear" role="button" tabindex="-1" aria-label="Clear"
+                    (click)="clear($event)">
+                    @if (clearIconTemplate(); as clearTpl) {
+                        <ng-container *ngTemplateOutlet="clearTpl" />
+                    } @else {
+                        <svg [lucideIcon]="XIcon" [size]="14"></svg>
+                    }
+                </span>
+            }
+
+            @if (showIcon() && iconDisplay() === 'input') {
+                <span class="cz-date-picker-input-icon" role="button" tabindex="-1" [attr.aria-label]="iconAriaLabel()"
+                    (click)="toggle()">
+                    @if (inputIconTemplate(); as inputIconTpl) {
+                        <ng-container
+                            *ngTemplateOutlet="inputIconTpl; context: { clickCallBack: iconClickCallback }" />
+                    } @else if (triggerIconTemplate(); as triggerTpl) {
+                        <ng-container *ngTemplateOutlet="triggerTpl" />
+                    } @else {
+                        <svg [lucideIcon]="CalendarIcon" [size]="16"></svg>
+                    }
+                </span>
+            }
+        </div>
+
+        @if (showIcon() && iconDisplay() === 'button') {
+            <button type="button" class="cz-date-picker-dropdown" [disabled]="actualDisabled()"
+                [attr.aria-label]="iconAriaLabel()" aria-haspopup="dialog" [attr.aria-expanded]="isOpen()"
+                [attr.aria-controls]="panelId()" (click)="toggle()">
+                @if (triggerIconTemplate(); as triggerTpl) {
+                    <ng-container *ngTemplateOutlet="triggerTpl" />
+                } @else {
+                    <svg [lucideIcon]="CalendarIcon" [size]="16"></svg>
+                }
+            </button>
         }
     </div>
+}
 
-    @if (isOpen()) {
-        <div class="cz-date-picker-panel" [style.z-index]="panelZIndex()" role="dialog" [attr.aria-label]="monthLabel()">
-            <div class="cz-date-picker-header">
-                <button type="button" class="cz-date-picker-nav" aria-label="Previous month" (click)="prevMonth()">
-                    <svg [lucideIcon]="ChevronLeftIcon" [size]="16"></svg>
-                </button>
-                <span class="cz-date-picker-month">{{ monthLabel() }}</span>
-                <button type="button" class="cz-date-picker-nav" aria-label="Next month" (click)="nextMonth()">
-                    <svg [lucideIcon]="ChevronRightIcon" [size]="16"></svg>
-                </button>
+@if (isOpen() || inline()) {
+    <div class="cz-date-picker-panel" [class]="panelStyleClass()" [id]="panelId()" [style.z-index]="panelZIndex()"
+        role="dialog" aria-modal="true"
+        [attr.aria-label]="(ariaLabel() || 'Choose date') + (selectedLabel() ? ': ' + selectedLabel() : '')">
+
+        @if (headerTemplate(); as headerTpl) {
+            <div class="cz-date-picker-custom-header">
+                <ng-container *ngTemplateOutlet="headerTpl" />
             </div>
+        }
 
-            <div class="cz-date-picker-weekdays">
-                @for (day of weekDays(); track day) {
-                    <span>{{ day }}</span>
-                }
-            </div>
-
-            <div class="cz-date-picker-grid">
-                @for (week of weeks(); track $index) {
-                    @for (day of week; track $index) {
-                        @if (day) {
-                            <button
-                                type="button"
-                                class="cz-date-picker-day"
-                                [class.cz-date-picker-day--today]="isToday(day)"
-                                [class.cz-date-picker-day--selected]="isSelected(day)"
-                                [disabled]="isDateDisabled(day)"
-                                (click)="selectDay(day, $event)"
-                            >
-                                {{ day.getDate() }}
-                            </button>
-                        } @else {
-                            <span class="cz-date-picker-day cz-date-picker-day--empty"></span>
-                        }
+        <div class="cz-date-picker-header">
+                <button type="button" class="cz-date-picker-nav"
+                    [attr.aria-label]="viewMode() === 'year' ? 'Previous decade' : viewMode() === 'month' ? 'Previous year' : 'Previous month'"
+                    (click)="viewMode() === 'year' ? prevDecade() : viewMode() === 'month' ? prevYear() : prevMonth()">
+                    @if (previousIconTemplate(); as previousTpl) {
+                        <ng-container *ngTemplateOutlet="previousTpl" />
+                    } @else {
+                        <svg [lucideIcon]="ChevronLeftIcon" [size]="16"></svg>
                     }
+                </button>
+
+                @if (!timeOnly()) {
+                    <button type="button" class="cz-date-picker-title" (click)="onTitleClick()">
+                        @if (viewMode() === 'year') {
+                            @if (decadeTemplate(); as decadeTpl) {
+                                <ng-container
+                                    *ngTemplateOutlet="decadeTpl; context: { $implicit: [years()[0], years()[9]] }" />
+                            } @else {
+                                <span>{{ decadeLabel() }}</span>
+                            }
+                        } @else if (viewMode() === 'month') {
+                            <span>{{ yearLabel() }}</span>
+                        } @else {
+                            <span>{{ monthLabel() }}</span>
+                        }
+                    </button>
+                } @else {
+                    <span class="cz-date-picker-title cz-date-picker-title--static">{{ timeLabel() }}</span>
+                }
+
+                <button type="button" class="cz-date-picker-nav"
+                    [attr.aria-label]="viewMode() === 'year' ? 'Next decade' : viewMode() === 'month' ? 'Next year' : 'Next month'"
+                    (click)="viewMode() === 'year' ? nextDecade() : viewMode() === 'month' ? nextYear() : nextMonth()">
+                    @if (nextIconTemplate(); as nextTpl) {
+                        <ng-container *ngTemplateOutlet="nextTpl" />
+                    } @else {
+                        <svg [lucideIcon]="ChevronRightIcon" [size]="16"></svg>
+                    }
+                </button>
+        </div>
+
+        @if (!timeOnly()) {
+            @if (viewMode() === 'date') {
+                <div class="cz-date-picker-months">
+                    @for (table of monthTables(); track table.year + '-' + table.month) {
+                        <table class="cz-date-picker-table" role="grid"
+                            [attr.aria-label]="monthName(table.month) + ' ' + table.year">
+                            <thead>
+                                <tr>
+                                    @if (showWeek()) {
+                                        <th scope="col" class="cz-date-picker-week-header" aria-label="Week number">
+                                            <span>#</span>
+                                        </th>
+                                    }
+                                    @for (day of weekDays(); track day.short) {
+                                        <th scope="col" [attr.abbr]="day.long">
+                                            <span>{{ day.short }}</span>
+                                        </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (week of table.weeks; track $index) {
+                                    <tr>
+                                        @if (showWeek()) {
+                                            <td class="cz-date-picker-week-number">{{ week.weekNumber }}</td>
+                                        }
+                                        @for (cell of week.days; track cell.date.getTime()) {
+                                            @if (cell.otherMonth && !showOtherMonths()) {
+                                                <td class="cz-date-picker-day-cell"></td>
+                                            } @else {
+                                                <td class="cz-date-picker-day-cell"
+                                                    [class.cz-date-picker-day-cell--other]="cell.otherMonth"
+                                                    [class.cz-date-picker-day-cell--range]="isInRange(cell.date)"
+                                                    [class.cz-date-picker-day-cell--range-start]="isRangeStart(cell.date)"
+                                                    [class.cz-date-picker-day-cell--range-end]="isRangeEnd(cell.date)">
+                                                    @if (isDateDisabled(cell.date) && disabledDateTemplate(); as disabledTpl) {
+                                                        <ng-container
+                                                            *ngTemplateOutlet="disabledTpl; context: { $implicit: cell.date }" />
+                                                    } @else {
+                                                        <button type="button" class="cz-date-picker-day"
+                                                            [class.cz-date-picker-day--today]="isToday(cell.date)"
+                                                            [class.cz-date-picker-day--selected]="isSelected(cell.date)"
+                                                            [class.cz-date-picker-day--other]="cell.otherMonth"
+                                                            [disabled]="isDateDisabled(cell.date) || (cell.otherMonth && !selectOtherMonths())"
+                                                            [attr.aria-label]="dateAriaLabel(cell.date)"
+                                                            [attr.aria-selected]="isSelected(cell.date)"
+                                                            [attr.aria-current]="isToday(cell.date) ? 'date' : null"
+                                                            (click)="selectDay(cell.date, $event)">
+                                                            @if (dateTemplate(); as dateTpl) {
+                                                                <ng-container
+                                                                    *ngTemplateOutlet="dateTpl; context: { $implicit: { day: cell.date.getDate(), month: cell.date.getMonth(), year: cell.date.getFullYear(), date: cell.date, otherMonth: cell.otherMonth }, selected: isSelected(cell.date) }" />
+                                                            } @else {
+                                                                <span>{{ cell.date.getDate() }}</span>
+                                                            }
+                                                        </button>
+                                                    }
+                                                </td>
+                                            }
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            } @else if (viewMode() === 'month') {
+                <div class="cz-date-picker-month-view" role="grid">
+                    @for (month of months(); track month.month) {
+                        <button type="button" class="cz-date-picker-month-cell"
+                            [class.cz-date-picker-month-cell--selected]="month.month === viewMonth()"
+                            [disabled]="isMonthDisabled(month.month)" (click)="selectMonth(month.month)">
+                            {{ month.label }}
+                        </button>
+                    }
+                </div>
+            } @else {
+                <div class="cz-date-picker-year-view" role="grid">
+                    @for (year of years(); track year) {
+                        <button type="button" class="cz-date-picker-year-cell"
+                            [class.cz-date-picker-year-cell--selected]="year === viewYear()"
+                            [disabled]="isYearDisabled(year)" (click)="selectYear(year)">
+                            {{ year }}
+                        </button>
+                    }
+                </div>
+            }
+        }
+
+        @if (showTime() || timeOnly()) {
+            <div class="cz-date-picker-time" [class.cz-date-picker-time--only]="timeOnly()">
+                <div class="cz-date-picker-spinner">
+                    <button type="button" class="cz-date-picker-spinner-btn" aria-label="Previous hour"
+                        (click)="decrementHour($event)">
+                        @if (decrementIconTemplate(); as decrementTpl) {
+                            <ng-container *ngTemplateOutlet="decrementTpl" />
+                        } @else {
+                            <svg [lucideIcon]="ChevronUpIcon" [size]="14"></svg>
+                        }
+                    </button>
+                    <span class="cz-date-picker-spinner-value">{{ hour().toString().padStart(2, '0') }}</span>
+                    <button type="button" class="cz-date-picker-spinner-btn" aria-label="Next hour"
+                        (click)="incrementHour($event)">
+                        @if (incrementIconTemplate(); as incrementTpl) {
+                            <ng-container *ngTemplateOutlet="incrementTpl" />
+                        } @else {
+                            <svg [lucideIcon]="ChevronDownIcon" [size]="14"></svg>
+                        }
+                    </button>
+                </div>
+
+                <span class="cz-date-picker-time-separator">{{ timeSeparator() }}</span>
+
+                <div class="cz-date-picker-spinner">
+                    <button type="button" class="cz-date-picker-spinner-btn" aria-label="Previous minute"
+                        (click)="decrementMinute($event)">
+                        @if (decrementIconTemplate(); as decrementTpl) {
+                            <ng-container *ngTemplateOutlet="decrementTpl" />
+                        } @else {
+                            <svg [lucideIcon]="ChevronUpIcon" [size]="14"></svg>
+                        }
+                    </button>
+                    <span class="cz-date-picker-spinner-value">{{ minute().toString().padStart(2, '0') }}</span>
+                    <button type="button" class="cz-date-picker-spinner-btn" aria-label="Next minute"
+                        (click)="incrementMinute($event)">
+                        @if (incrementIconTemplate(); as incrementTpl) {
+                            <ng-container *ngTemplateOutlet="incrementTpl" />
+                        } @else {
+                            <svg [lucideIcon]="ChevronDownIcon" [size]="14"></svg>
+                        }
+                    </button>
+                </div>
+
+                @if (showSeconds()) {
+                    <span class="cz-date-picker-time-separator">{{ timeSeparator() }}</span>
+                    <div class="cz-date-picker-spinner">
+                        <button type="button" class="cz-date-picker-spinner-btn" aria-label="Previous second"
+                            (click)="decrementSecond($event)">
+                            @if (decrementIconTemplate(); as decrementTpl) {
+                                <ng-container *ngTemplateOutlet="decrementTpl" />
+                            } @else {
+                                <svg [lucideIcon]="ChevronUpIcon" [size]="14"></svg>
+                            }
+                        </button>
+                        <span class="cz-date-picker-spinner-value">{{ second().toString().padStart(2, '0') }}</span>
+                        <button type="button" class="cz-date-picker-spinner-btn" aria-label="Next second"
+                            (click)="incrementSecond($event)">
+                            @if (incrementIconTemplate(); as incrementTpl) {
+                                <ng-container *ngTemplateOutlet="incrementTpl" />
+                            } @else {
+                                <svg [lucideIcon]="ChevronDownIcon" [size]="14"></svg>
+                            }
+                        </button>
+                    </div>
+                }
+
+                @if (use12Hours()) {
+                    <button type="button" class="cz-date-picker-meridiem" (click)="toggleMeridiem()"
+                        [attr.aria-label]="isPM() ? 'pm' : 'am'">
+                        {{ isPM() ? 'PM' : 'AM' }}
+                    </button>
                 }
             </div>
-        </div>
-    }
-</div>
+        }
+
+        @if (showButtonBar()) {
+            @if (buttonBarTemplate(); as buttonBarTpl) {
+                <div class="cz-date-picker-button-bar">
+                    <ng-container
+                        *ngTemplateOutlet="buttonBarTpl; context: { todayCallback: todayCallback, clearCallback: clearCallback }" />
+                </div>
+            } @else {
+                <div class="cz-date-picker-button-bar">
+                    <button type="button" class="cz-date-picker-bar-btn" [class]="todayButtonStyleClass()"
+                        (click)="todayCallback($event)">Today</button>
+                    <button type="button" class="cz-date-picker-bar-btn" [class]="clearButtonStyleClass()"
+                        (click)="clear($event)">Clear</button>
+                </div>
+            }
+        }
+
+        @if (footerTemplate(); as footerTpl) {
+            <div class="cz-date-picker-custom-footer">
+                <ng-container *ngTemplateOutlet="footerTpl" />
+            </div>
+        }
+
+        <span class="cz-date-picker-live" aria-live="polite">{{ selectedLabel() }}</span>
+    </div>
+}

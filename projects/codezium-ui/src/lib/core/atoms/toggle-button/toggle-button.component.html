@@ -6,35 +6,50 @@
 
     <div class="cz-toggle-button-wrapper">
         <button
+            #toggleButton
             type="button"
             class="cz-toggle-button-input"
             [class.cz-toggle-button-input--checked]="checked()"
             [disabled]="actualDisabled()"
+            [attr.id]="inputId() || null"
+            [attr.tabindex]="actualDisabled() ? -1 : tabindex()"
             [attr.aria-pressed]="checked()"
-            [attr.aria-label]="ariaLabel()"
-            [attr.aria-labelledby]="ariaLabelledBy()"
+            [attr.aria-label]="ariaLabel() || null"
+            [attr.aria-labelledby]="ariaLabelledBy() || null"
+            [attr.aria-invalid]="isInvalid ? 'true' : null"
             (click)="toggle($event)"
             (keydown)="onKeyDown($event)"
             (blur)="onModelTouched()"
         >
-            <!-- Icons & Labels -->
-            <div class="cz-toggle-button-content">
-                @if (checked()) {
-                    @if (onIcon()) {
-                        <i [class]="onIcon()" class="cz-toggle-button-icon-on"></i>
+            <!-- Custom content template -->
+            @if (contentTemplate(); as tpl) {
+                <div class="cz-toggle-button-content">
+                    <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="{ $implicit: checked() }" />
+                </div>
+            } @else {
+                <!-- Icons & Labels -->
+                <div class="cz-toggle-button-content" [class.cz-toggle-button-content--icon-right]="iconPos() === 'right'">
+                    @if (checked()) {
+                        @if (iconTemplate(); as iconTpl) {
+                            <ng-container [ngTemplateOutlet]="iconTpl" [ngTemplateOutletContext]="{ $implicit: checked() }" />
+                        } @else if (onIcon()) {
+                            <i [class]="onIcon()" class="cz-toggle-button-icon-on"></i>
+                        }
+                        @if (onLabel()) {
+                            <span class="cz-toggle-button-text-on">{{ onLabel() }}</span>
+                        }
+                    } @else {
+                        @if (iconTemplate(); as iconTpl) {
+                            <ng-container [ngTemplateOutlet]="iconTpl" [ngTemplateOutletContext]="{ $implicit: checked() }" />
+                        } @else if (offIcon()) {
+                            <i [class]="offIcon()" class="cz-toggle-button-icon-off"></i>
+                        }
+                        @if (offLabel()) {
+                            <span class="cz-toggle-button-text-off">{{ offLabel() }}</span>
+                        }
                     }
-                    @if (onLabel()) {
-                        <span class="cz-toggle-button-text-on">{{ onLabel() }}</span>
-                    }
-                } @else {
-                    @if (offIcon()) {
-                        <i [class]="offIcon()" class="cz-toggle-button-icon-off"></i>
-                    }
-                    @if (offLabel()) {
-                        <span class="cz-toggle-button-text-off">{{ offLabel() }}</span>
-                    }
-                }
-            </div>
+                </div>
+            }
         </button>
 
         <!-- Helper Text -->

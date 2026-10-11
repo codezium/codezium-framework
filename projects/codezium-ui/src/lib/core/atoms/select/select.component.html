@@ -1,90 +1,272 @@
-<div 
+<div
     class="cz-input-wrapper cz-select-wrapper"
     [class.cz-input-fluid]="fluid()"
-    [class.cz-input-filled]="filled()"
+    [class.cz-input-filled]="isFilled()"
     [class.cz-input-disabled]="actualDisabled()"
+    [class.cz-input-readonly]="readonly()"
     [class.cz-input-has-error]="isInvalid"
     [class.cz-input-focused]="isFocused() || isOpen()"
+    [class.cz-select-multiple]="multiple()"
     [attr.data-size]="size()"
     [attr.data-label-position]="labelPosition()"
     [attr.data-color]="color() || null"
 >
     @if (label() && labelPosition() === 'none') {
-        <label class="cz-input-label-static">{{ label() }}</label>
+        <label class="cz-input-label-static" [attr.id]="effectiveInputId() + '-label'" [attr.for]="editable() ? effectiveInputId() : null">{{ label() }}</label>
     }
 
     <div class="cz-input-container" [class.cz-float-active]="(isFocused() || isOpen()) || hasValue()">
-        <div 
-            class="cz-input-native cz-select-trigger"
-            [class.cz-has-value]="hasValue()"
-            (click)="toggleDropdown()"
-            (keydown)="onKeyDown($event)"
-            tabindex="0"
-        >
-            <span class="cz-select-label" [class.cz-select-placeholder]="!hasValue()">
-                {{ hasValue() ? selectedLabel() : actualPlaceholder() }}
-            </span>
-            
-            <div class="cz-select-actions">
-                @if (clearable() && hasValue() && !actualDisabled()) {
-                    <svg 
-                        [lucideIcon]="XIcon" 
-                        [size]="14" 
-                        class="cz-select-clear" 
-                        (click)="clear($event)"
-                    ></svg>
-                }
-                <svg 
-                    [lucideIcon]="ChevronDownIcon" 
-                    [size]="18" 
-                    class="cz-select-chevron"
-                    [class.cz-select-chevron-open]="isOpen()"
-                ></svg>
+        @if (editable()) {
+            <div class="cz-input-native cz-select-trigger cz-select-trigger--editable">
+                <input
+                    #editableInput
+                    class="cz-select-input"
+                    type="text"
+                    role="combobox"
+                    aria-haspopup="listbox"
+                    [attr.id]="effectiveInputId()"
+                    [attr.name]="name() || null"
+                    [attr.aria-label]="ariaLabel() || null"
+                    [attr.aria-labelledby]="ariaLabelledBy() || (label() ? effectiveInputId() + '-label' : null)"
+                    [attr.aria-expanded]="isOpen()"
+                    [attr.aria-controls]="isOpen() ? panelId() : null"
+                    [attr.aria-activedescendant]="activeDescendant()"
+                    aria-autocomplete="list"
+                    [value]="editableText()"
+                    [placeholder]="actualPlaceholder()"
+                    [disabled]="actualDisabled()"
+                    [attr.tabindex]="tabindex() ?? null"
+                    [attr.autofocus]="autofocus() ? '' : null"
+                    (click)="onTriggerClick($event)"
+                    (input)="onEditableInput($event)"
+                    (blur)="onEditableBlur($event)"
+                    (focus)="isFocused.set(true); onFocusEvent.emit($event)"
+                    (keydown)="onKeyDown($event)"
+                />
+                <div class="cz-select-actions">
+                    @if (showClearButton() && hasValue() && !loading()) {
+                        <span class="cz-select-clear" (click)="clear($event)">
+                            @if (clearIconTemplate()) {
+                                <ng-container [ngTemplateOutlet]="clearIconTemplate()!" />
+                            } @else {
+                                <svg [lucideIcon]="clearIcon()" [size]="14"></svg>
+                            }
+                        </span>
+                    }
+                    @if (loading()) {
+                        <span class="cz-select-loading">
+                            @if (loadingIconTemplate()) {
+                                <ng-container [ngTemplateOutlet]="loadingIconTemplate()!" />
+                            } @else {
+                                <svg [lucideIcon]="loadingIcon()" [size]="16" class="cz-spin"></svg>
+                            }
+                        </span>
+                    }
+                    <span class="cz-select-chevron" [class.cz-select-chevron-open]="isOpen()" (click)="toggleDropdown()">
+                        @if (dropdownIconTemplate()) {
+                            <ng-container [ngTemplateOutlet]="dropdownIconTemplate()!" />
+                        } @else {
+                            <svg [lucideIcon]="dropdownIcon()" [size]="18"></svg>
+                        }
+                    </span>
+                </div>
             </div>
-        </div>
+        } @else {
+            <div
+                #triggerEl
+                class="cz-input-native cz-select-trigger"
+                role="combobox"
+                aria-haspopup="listbox"
+                [attr.id]="effectiveInputId()"
+                [attr.tabindex]="actualDisabled() ? -1 : (tabindex() ?? 0)"
+                [attr.aria-label]="ariaLabel() || null"
+                [attr.aria-labelledby]="ariaLabelledBy() || (label() ? effectiveInputId() + '-label' : null)"
+                [attr.aria-expanded]="isOpen()"
+                [attr.aria-controls]="isOpen() ? panelId() : null"
+                [attr.aria-activedescendant]="activeDescendant()"
+                [attr.aria-disabled]="actualDisabled() ? 'true' : null"
+                (click)="onTriggerClick($event)"
+                (keydown)="onKeyDown($event)"
+                (focus)="isFocused.set(true); onFocusEvent.emit($event)"
+                (blur)="isFocused.set(false)"
+            >
+                <span class="cz-select-label" [class.cz-select-placeholder]="!hasValue()">
+                    @if (selectedItemTemplate()) {
+                        <ng-container
+                            [ngTemplateOutlet]="selectedItemTemplate()!"
+                            [ngTemplateOutletContext]="{ $implicit: multiple() ? value() : selectedOption() }"
+                        />
+                    } @else {
+                        {{ hasValue() ? selectedLabel() : actualPlaceholder() }}
+                    }
+                </span>
+
+                <div class="cz-select-actions">
+                    @if (showClearButton() && hasValue() && !loading()) {
+                        <span class="cz-select-clear" (click)="clear($event)">
+                            @if (clearIconTemplate()) {
+                                <ng-container [ngTemplateOutlet]="clearIconTemplate()!" />
+                            } @else {
+                                <svg [lucideIcon]="clearIcon()" [size]="14"></svg>
+                            }
+                        </span>
+                    }
+                    @if (loading()) {
+                        <span class="cz-select-loading">
+                            @if (loadingIconTemplate()) {
+                                <ng-container [ngTemplateOutlet]="loadingIconTemplate()!" />
+                            } @else {
+                                <svg [lucideIcon]="loadingIcon()" [size]="16" class="cz-spin"></svg>
+                            }
+                        </span>
+                    }
+                    <span class="cz-select-chevron" [class.cz-select-chevron-open]="isOpen()">
+                        @if (dropdownIconTemplate()) {
+                            <ng-container [ngTemplateOutlet]="dropdownIconTemplate()!" />
+                        } @else {
+                            <svg [lucideIcon]="dropdownIcon()" [size]="18"></svg>
+                        }
+                    </span>
+                </div>
+            </div>
+        }
 
         @if (label()) {
             @if (labelPosition() === 'over') {
-                <label class="cz-input-label-over">{{ label() }}</label>
+                <label class="cz-input-label-over" [attr.id]="effectiveInputId() + '-label'" [attr.for]="editable() ? effectiveInputId() : null">{{ label() }}</label>
             } @else if (labelPosition() === 'in' || labelPosition() === 'float') {
-                <label class="cz-input-label-inner">{{ label() }}</label>
+                <label class="cz-input-label-inner" [attr.id]="effectiveInputId() + '-label'" [attr.for]="editable() ? effectiveInputId() : null">{{ label() }}</label>
             }
         }
 
         <!-- Dropdown Panel -->
         @if (isOpen()) {
-            <div class="cz-select-panel" [style.z-index]="panelZIndex()">
-                @if (filterable()) {
-                    <div class="cz-select-filter-container">
-                        <input 
-                            #filterInput
-                            type="text" 
-                            class="cz-select-filter-input"
-                            [placeholder]="filterPlaceholder()"
-                            [value]="filterValue()"
-                            (input)="filterValue.set($any($event.target).value)"
-                            (click)="$event.stopPropagation()"
-                        />
+            <div
+                class="cz-select-panel"
+                [class]="panelStyleClass()"
+                [style.z-index]="panelZIndex()"
+                role="listbox"
+                [attr.id]="panelId()"
+                [attr.aria-multiselectable]="multiple() ? 'true' : null"
+            >
+                @if (headerTemplate()) {
+                    <div class="cz-select-header">
+                        <ng-container [ngTemplateOutlet]="headerTemplate()!" />
                     </div>
                 }
 
-                <ul class="cz-select-items">
-                    @for (option of filteredOptions(); track getValue(option); let i = $index) {
-                        <li 
-                            class="cz-select-item"
-                            [class.cz-select-item-selected]="getValue(option) === value()"
-                            [class.cz-select-item-hovered]="i === hoveredIndex()"
-                            (click)="onOptionSelect(option)"
-                        >
-                            <span class="cz-select-item-label">{{ getLabel(option) }}</span>
-                            @if (getValue(option) === value()) {
-                                <svg [lucideIcon]="CheckIcon" [size]="14" class="cz-select-check"></svg>
+                @if (effectiveFilter()) {
+                    <div class="cz-select-filter-container" (click)="$event.stopPropagation()">
+                        @if (filterTemplate()) {
+                            <ng-container
+                                [ngTemplateOutlet]="filterTemplate()!"
+                                [ngTemplateOutletContext]="{ options: filterOptions }"
+                            />
+                        } @else {
+                            <input
+                                #filterInput
+                                type="text"
+                                class="cz-select-filter-input"
+                                [placeholder]="filterPlaceholder()"
+                                [value]="filterValue()"
+                                [attr.aria-label]="filterPlaceholder()"
+                                (input)="onFilterInput($event)"
+                            />
+                        }
+                    </div>
+                }
+
+                <div
+                    #panelEl
+                    class="cz-select-scroll"
+                    [style.max-height]="scrollHeight() || null"
+                    (scroll)="onPanelScroll($event)"
+                >
+                    @if (group()) {
+                        <ul class="cz-select-items">
+                            @for (grp of filteredGroups(); track $index; let gi = $index) {
+                                <li class="cz-select-group" role="presentation">
+                                    @if (groupTemplate()) {
+                                        <ng-container [ngTemplateOutlet]="groupTemplate()!" [ngTemplateOutletContext]="{ $implicit: grp }" />
+                                    } @else {
+                                        {{ grp[optionGroupLabel()] }}
+                                    }
+                                </li>
+                                @for (option of groupOptions()[gi]; track optionIndex(option); let i = $index) {
+                                    <li
+                                        class="cz-select-item"
+                                        role="option"
+                                        [id]="optionId(optionIndex(option))"
+                                        [class.cz-select-item-selected]="isSelected(option)"
+                                        [class.cz-select-item-highlighted]="optionIndex(option) === highlightedIndex()"
+                                        [class.cz-select-item-disabled]="isOptionDisabled(option)"
+                                        [attr.aria-selected]="isSelected(option)"
+                                        [attr.aria-disabled]="isOptionDisabled(option) ? 'true' : null"
+                                        (mouseenter)="onOptionHover(optionIndex(option))"
+                                        (click)="onOptionClick(option, optionIndex(option), $event)"
+                                    >
+                                        @if (itemTemplate()) {
+                                            <ng-container [ngTemplateOutlet]="itemTemplate()!" [ngTemplateOutletContext]="{ $implicit: option }" />
+                                        } @else {
+                                            <span class="cz-select-item-label">{{ getOptionLabel(option) }}</span>
+                                        }
+                                        @if (checkmark() && isSelected(option)) {
+                                            <svg [lucideIcon]="CheckIcon" [size]="14" class="cz-select-check"></svg>
+                                        }
+                                    </li>
+                                }
                             }
-                        </li>
-                    } @empty {
-                        <li class="cz-select-empty">{{ emptyMessage() }}</li>
+                        </ul>
+                    } @else {
+                        <ul
+                            class="cz-select-items"
+                            [style.padding-top.px]="virtualOffsetBefore()"
+                            [style.padding-bottom.px]="virtualOffsetAfter()"
+                        >
+                            @for (option of visibleOptions(); track optionIndex(option); let i = $index) {
+                                <li
+                                    class="cz-select-item"
+                                    role="option"
+                                    [id]="optionId(optionIndex(option))"
+                                    [class.cz-select-item-selected]="isSelected(option)"
+                                    [class.cz-select-item-highlighted]="optionIndex(option) === highlightedIndex()"
+                                    [class.cz-select-item-disabled]="isOptionDisabled(option)"
+                                    [attr.aria-selected]="isSelected(option)"
+                                    [attr.aria-disabled]="isOptionDisabled(option) ? 'true' : null"
+                                    (mouseenter)="onOptionHover(optionIndex(option))"
+                                    (click)="onOptionClick(option, optionIndex(option), $event)"
+                                >
+                                    @if (itemTemplate()) {
+                                        <ng-container [ngTemplateOutlet]="itemTemplate()!" [ngTemplateOutletContext]="{ $implicit: option }" />
+                                    } @else {
+                                        <span class="cz-select-item-label">{{ getOptionLabel(option) }}</span>
+                                    }
+                                    @if (checkmark() && isSelected(option)) {
+                                        <svg [lucideIcon]="CheckIcon" [size]="14" class="cz-select-check"></svg>
+                                    }
+                                </li>
+                            }
+                        </ul>
                     }
-                </ul>
+
+                    @if (!filteredOptions().length) {
+                        <div class="cz-select-empty">
+                            @if (effectiveFilter() && filterValue() && emptyFilterTemplate()) {
+                                <ng-container [ngTemplateOutlet]="emptyFilterTemplate()!" />
+                            } @else if (!(effectiveFilter() && filterValue()) && emptyTemplate()) {
+                                <ng-container [ngTemplateOutlet]="emptyTemplate()!" />
+                            } @else {
+                                {{ effectiveFilter() && filterValue() ? emptyFilterMessage() : emptyMessage() }}
+                            }
+                        </div>
+                    }
+                </div>
+
+                @if (footerTemplate()) {
+                    <div class="cz-select-footer">
+                        <ng-container [ngTemplateOutlet]="footerTemplate()!" />
+                    </div>
+                }
             </div>
         }
     </div>

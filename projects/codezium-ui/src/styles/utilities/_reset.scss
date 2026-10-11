@@ -10,6 +10,20 @@
     vertical-align: baseline;
 }
 
+/* Restore semantic text elements flattened by the universal `font: inherit` reset */
+b,
+strong {
+    font-weight: bolder;
+}
+
+i,
+em,
+cite,
+dfn,
+var {
+    font-style: italic;
+}
+
 body {
     font-family: var(--cz-font-base);
     font-size: var(--cz-font-size-md);

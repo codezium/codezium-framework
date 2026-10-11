@@ -140,4 +140,20 @@ describe('CzToggleSwitchComponent', () => {
         expect(host.getAttribute('data-size')).toBe('lg');
         expect(host.classList.contains('cz-toggle-switch--checked')).toBe(true);
     });
+    it('should apply the invalid state from the invalid input', () => {
+        fixture.componentRef.setInput('invalid', true);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.classList.contains('cz-toggle-switch--has-error')).toBe(true);
+    });
+
+    it('should expose inputId and aria attributes', () => {
+        fixture.componentRef.setInput('inputId', 'my-switch');
+        fixture.componentRef.setInput('ariaLabelledBy', 'switch-label');
+        fixture.detectChanges();
+        const button = fixture.debugElement.query(By.css('.cz-toggle-switch-track')).nativeElement;
+        expect(button.getAttribute('id')).toBe('my-switch');
+        expect(button.getAttribute('aria-labelledby')).toBe('switch-label');
+        expect(button.getAttribute('role')).toBe('switch');
+    });
+
 });

@@ -264,3 +264,186 @@ describe('CzAutocompleteComponent', () => {
     });
   });
 });
+
+describe('CzAutocompleteComponent — PrimeNG parity', () => {
+  let fixture: ComponentFixture<CzAutocompleteComponent>;
+  let component: CzAutocompleteComponent;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [CzAutocompleteComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(CzAutocompleteComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should render the clear icon and reset the value', () => {
+    fixture.componentRef.setInput('showClear', true);
+    fixture.componentRef.setInput('field', 'name');
+    component.writeValue({ name: 'Brazil' });
+    fixture.detectChanges();
+
+    const clearButton = fixture.nativeElement.querySelector('.cz-autocomplete-clear') as HTMLElement;
+    expect(clearButton).toBeTruthy();
+
+    const spy = vi.fn();
+    component.onClear.subscribe(spy);
+
+    clearButton.click();
+    fixture.detectChanges();
+
+    expect(component.value()).toBeNull();
+    expect(spy).toHaveBeenCalled();
+    expect(fixture.nativeElement.querySelector('.cz-autocomplete-clear')).toBeNull();
+  });
+
+  it('should render grouped suggestions', () => {
+    fixture.componentRef.setInput('group', true);
+    fixture.componentRef.setInput('optionGroupLabel', 'label');
+    fixture.componentRef.setInput('optionGroupChildren', 'items');
+    fixture.componentRef.setInput('optionLabel', 'label');
+    fixture.componentRef.setInput('suggestions', [
+      { label: 'Frontend', items: [{ label: 'Angular' }, { label: 'React' }] },
+      { label: 'Backend', items: [{ label: 'Node' }] },
+    ]);
+    component.showOverlay();
+    fixture.detectChanges();
+
+    const groups = fixture.nativeElement.querySelectorAll('.cz-autocomplete-group');
+    expect(groups.length).toBe(2);
+    expect(groups[0].textContent).toContain('Frontend');
+    expect(fixture.nativeElement.querySelectorAll('.cz-autocomplete-item').length).toBe(3);
+    expect(component.flatOptions().length).toBe(3);
+  });
+
+  it('should support optionLabel as a function', () => {
+    fixture.componentRef.setInput('optionLabel', (item: any) => `${item.name}!`);
+    component.writeValue({ name: 'Brazil' });
+    fixture.detectChanges();
+
+    expect(component.inputValue()).toBe('Brazil!');
+  });
+
+  it('should apply the invalid state', () => {
+    fixture.componentRef.setInput('invalid', true);
+    fixture.detectChanges();
+
+    const wrapper = fixture.nativeElement.querySelector('.cz-autocomplete-wrapper');
+    expect(wrapper.classList.contains('cz-autocomplete-has-error')).toBe(true);
+  });
+
+  it('should emit onFocus and onBlur', () => {
+    fixture.detectChanges();
+
+    const focusSpy = vi.fn();
+    const blurSpy = vi.fn();
+    component.onFocusEvent.subscribe(focusSpy);
+    component.onBlurEvent.subscribe(blurSpy);
+
+    component.onFocus(new Event('focus'));
+    component.onBlur(new Event('blur'));
+
+    expect(focusSpy).toHaveBeenCalled();
+    expect(blurSpy).toHaveBeenCalled();
+  });
+
+  it('should respect minQueryLength', () => {
+    fixture.componentRef.setInput('minQueryLength', 3);
+    fixture.detectChanges();
+
+    expect(component.effectiveMinQueryLength()).toBe(3);
+  });
+
+  it('should select the focused option when selectOnFocus is enabled', () => {
+    fixture.componentRef.setInput('selectOnFocus', true);
+    fixture.componentRef.setInput('optionLabel', 'label');
+    fixture.componentRef.setInput('suggestions', [{ label: 'Angular' }, { label: 'React' }]);
+    component.showOverlay();
+    fixture.detectChanges();
+
+    component.onKeyDown(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    fixture.detectChanges();
+
+    expect(component.value()).toEqual({ label: 'React' });
+    expect(component.overlayVisible()).toBe(true);
+  });
+
+  it('should ignore hover focus when focusOnHover is disabled', () => {
+    fixture.componentRef.setInput('focusOnHover', false);
+    fixture.detectChanges();
+
+    component.onOptionHover({ label: 'Angular' });
+    expect(component.highlightOption).toBeNull();
+
+    fixture.componentRef.setInput('focusOnHover', true);
+    fixture.detectChanges();
+
+    component.onOptionHover({ label: 'Angular' });
+    expect(component.highlightOption).toEqual({ label: 'Angular' });
+  });
+
+  it('should allow duplicates in multiple mode when unique is disabled', () => {
+    fixture.componentRef.setInput('multiple', true);
+    fixture.componentRef.setInput('unique', false);
+    fixture.componentRef.setInput('optionLabel', 'label');
+    fixture.detectChanges();
+
+    component.selectItem({ label: 'Angular' });
+    component.selectItem({ label: 'Angular' });
+
+    expect(component.value().length).toBe(2);
+  });
+
+  it('should window suggestions with virtual scroll', () => {
+    const many = Array.from({ length: 200 }, (_, i) => ({ label: `Item ${i}` }));
+    fixture.componentRef.setInput('optionLabel', 'label');
+    fixture.componentRef.setInput('suggestions', many);
+    fixture.componentRef.setInput('virtualScroll', true);
+    fixture.componentRef.setInput('virtualScrollItemSize', 30);
+    fixture.componentRef.setInput('scrollHeight', '150px');
+    component.showOverlay();
+    fixture.detectChanges();
+
+    expect(component.visibleSuggestions().length).toBeLessThan(200);
+    expect(fixture.nativeElement.querySelector('.cz-autocomplete-spacer')).toBeTruthy();
+
+    const list = fixture.nativeElement.querySelector('.cz-autocomplete-items') as HTMLElement;
+    list.scrollTop = 900;
+    list.dispatchEvent(new Event('scroll'));
+    fixture.detectChanges();
+
+    expect(component.virtualStart()).toBeGreaterThan(0);
+    expect(component.visibleSuggestions()[0].label).not.toBe('Item 0');
+  });
+
+  it('should render header, footer and empty templates', () => {
+    const hostFixture = TestBed.createComponent(TemplatesHostComponent);
+    hostFixture.detectChanges();
+
+    expect(hostFixture.nativeElement.querySelector('.custom-ac-header')).toBeTruthy();
+    expect(hostFixture.nativeElement.querySelector('.custom-ac-footer')).toBeTruthy();
+    expect(hostFixture.nativeElement.querySelector('.custom-ac-empty')).toBeTruthy();
+  });
+});
+
+@Component({
+  imports: [CzAutocompleteComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  template: `
+    <cz-autocomplete [suggestions]="[]">
+      <ng-template #headerTemplate>
+        <span class="custom-ac-header">Header</span>
+      </ng-template>
+
+      <ng-template #footerTemplate>
+        <span class="custom-ac-footer">Footer</span>
+      </ng-template>
+
+      <ng-template #emptyTemplate>
+        <span class="custom-ac-empty">Nothing</span>
+      </ng-template>
+    </cz-autocomplete>
+  `,
+})
+class TemplatesHostComponent {}

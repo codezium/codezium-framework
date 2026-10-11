@@ -21,3 +21,4 @@ export * from './gallery';
 export * from './compare';
 export * from './file-upload';
 export * from './terminal';
+export * from './editor';

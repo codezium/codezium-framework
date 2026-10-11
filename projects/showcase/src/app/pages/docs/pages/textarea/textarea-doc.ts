@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, FormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CzTextAreaComponent } from 'codezium-ui';
+import { CzTextAreaComponent, CzMessageComponent, CzButtonComponent, CzKeyFilterDirective, CzToastService } from 'codezium-ui';
 import { AppCodeComponent, Code } from '../../../../shared/code-block/code-block.component';
 import { LanguageService } from '../../../../core/services/language.service';
 import { TEXTAREA_DOC_I18N } from './textarea-doc.i18n';
 
 @Component({
     selector: 'cz-textarea-doc-page',
-    imports: [CommonModule, CzTextAreaComponent, AppCodeComponent, ReactiveFormsModule, FormsModule],
+    imports: [CommonModule, CzTextAreaComponent, CzMessageComponent, CzButtonComponent, CzKeyFilterDirective, AppCodeComponent, ReactiveFormsModule, FormsModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <div class="doc-page">
@@ -115,6 +115,89 @@ import { TEXTAREA_DOC_I18N } from './textarea-doc.i18n';
                 <app-code [code]="validationCode" />
             </section>
 
+
+            <!-- ── FILLED ── -->
+            <section>
+                <h2 id="filled">{{ t().filledTitle }}</h2>
+                <p>{{ t().filledDesc }}</p>
+                <div class="cz-flex cz-flex-wrap cz-gap-md cz-mb-md">
+                    <cz-textarea label="Filled" variant="filled" placeholder="Filled variant" labelPosition="float"></cz-textarea>
+                    <cz-textarea label="Outlined" variant="outlined" placeholder="Outlined variant" labelPosition="float"></cz-textarea>
+                </div>
+                <app-code [code]="filledCode" />
+            </section>
+
+            <!-- ── SIZES ── -->
+            <section>
+                <h2 id="sizes">{{ t().sizesTitle }}</h2>
+                <p>{{ t().sizesDesc }}</p>
+                <div class="cz-flex cz-flex-col cz-items-start cz-gap-md cz-mb-md">
+                    <cz-textarea [(ngModel)]="sizeValue1" size="sm" placeholder="Small" [rows]="2"></cz-textarea>
+                    <cz-textarea [(ngModel)]="sizeValue2" placeholder="Normal" [rows]="2"></cz-textarea>
+                    <cz-textarea [(ngModel)]="sizeValue3" size="lg" placeholder="Large" [rows]="2"></cz-textarea>
+                </div>
+                <app-code [code]="sizesCode" />
+            </section>
+
+            <!-- ── INVALID ── -->
+            <section>
+                <h2 id="invalid">{{ t().invalidTitle }}</h2>
+                <p>{{ t().invalidDesc }}</p>
+                <div class="cz-flex cz-flex-wrap cz-gap-md cz-mb-md">
+                    <cz-textarea [ngModel]="invalidValue" (ngModelChange)="invalidValue = $event"
+                        [invalid]="!invalidValue" placeholder="Address" label="Address" labelPosition="float"></cz-textarea>
+                    <cz-textarea [invalid]="true" variant="filled" placeholder="Filled invalid" label="Filled" labelPosition="float"></cz-textarea>
+                </div>
+                <app-code [code]="invalidCode" />
+            </section>
+
+            <!-- ── KEY FILTER ── -->
+            <section>
+                <h2 id="keyfilter">{{ t().keyFilterTitle }}</h2>
+                <p [innerHTML]="t().keyFilterDesc"></p>
+                <div class="cz-mb-md">
+                    <cz-textarea czKeyFilter="integer" label="Only integers" [autoResize]="true"
+                        placeholder="Type letters to see them blocked" labelPosition="float"></cz-textarea>
+                </div>
+                <app-code [code]="keyFilterCode" />
+            </section>
+
+            <!-- ── FORMS ── -->
+            <section>
+                <h2 id="forms">{{ t().formsTitle }}</h2>
+                <p>{{ t().formsDesc }}</p>
+                <div class="cz-flex cz-flex-wrap cz-gap-xl cz-mb-md">
+                    <form [formGroup]="exampleForm" (ngSubmit)="onSubmit()" class="cz-flex cz-flex-col cz-gap-sm" style="width: 18rem">
+                        <strong class="cz-text-sm">{{ t().reactiveForms }}</strong>
+                        <cz-textarea formControlName="address" [invalid]="isInvalid('address')" [rows]="3"
+                            placeholder="Address" label="Address" labelPosition="float"></cz-textarea>
+                        @if (isInvalid('address')) {
+                            <cz-message severity="danger" [text]="t().requiredMessage" />
+                        }
+                        <cz-button [label]="t().submit" severity="secondary" type="submit" />
+                    </form>
+
+                    <form #tdForm="ngForm" (ngSubmit)="onTemplateSubmit(tdForm)" class="cz-flex cz-flex-col cz-gap-sm" style="width: 18rem">
+                        <strong class="cz-text-sm">{{ t().templateDrivenForms }}</strong>
+                        <cz-textarea name="address" [(ngModel)]="templateValue" required [rows]="3"
+                            placeholder="Address" label="Address" labelPosition="float"
+                            [invalid]="!!(addressModel.invalid && (addressModel.touched || tdForm.submitted))" #addressModel="ngModel"></cz-textarea>
+                        @if (addressModel.invalid && (addressModel.touched || tdForm.submitted)) {
+                            <cz-message severity="danger" [text]="t().requiredMessage" />
+                        }
+                        <cz-button [label]="t().submit" severity="secondary" type="submit" />
+                    </form>
+                </div>
+                <app-code [code]="formsCode" />
+            </section>
+
+            <!-- ── ACCESSIBILITY ── -->
+            <section>
+                <h2 id="accessibility">{{ t().accessibilityTitle }}</h2>
+                <h3 id="screenreader">{{ t().screenReader }}</h3>
+                <p>{{ t().screenReaderDesc }}</p>
+            </section>
+
             <!-- ── API ── -->
             <section>
                 <h2 id="api">{{ t().apiTitle }}</h2>
@@ -134,6 +217,14 @@ import { TEXTAREA_DOC_I18N } from './textarea-doc.i18n';
                             <tr><td><code>filled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Filled background style.</td></tr>
                             <tr><td><code>fluid</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Full width.</td></tr>
                             <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disabled state.</td></tr>
+                            <tr><td><code>readonly</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Readonly state.</td></tr>
+                            <tr><td><code>variant</code></td><td><code>'outlined' | 'filled'</code></td><td><code>'outlined'</code></td><td>Input variant.</td></tr>
+                            <tr><td><code>invalid</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Invalid state for failed validation.</td></tr>
+                            <tr><td><code>autofocus</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Automatically gets focus on load.</td></tr>
+                            <tr><td><code>inputId / name / tabindex</code></td><td><code>string / string / number</code></td><td><code>—</code></td><td>Native input attributes.</td></tr>
+                            <tr><td><code>ariaLabel / ariaLabelledBy</code></td><td><code>string</code></td><td><code>null</code></td><td>Accessibility labels.</td></tr>
+                            <tr><td><code>onResize</code></td><td><code>output&lt;Event&gt;</code></td><td><code>—</code></td><td>Emitted on textarea resize.</td></tr>
+                            <tr><td><code>onFocus / onBlur</code></td><td><code>output&lt;Event&gt;</code></td><td><code>—</code></td><td>Focus events.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -147,13 +238,42 @@ export class TextareaDocPage {
     readonly currentLang = this.lang.currentLang;
 
     basicValue = '';
+    sizeValue1 = '';
+    sizeValue2 = '';
+    sizeValue3 = '';
+    invalidValue = '';
+    templateValue = '';
+    private readonly toast = inject(CzToastService);
 
     testForm = new FormGroup({
         requiredField: new FormControl('', Validators.required)
     });
 
+    exampleForm = new FormGroup({
+        address: new FormControl('', Validators.required)
+    });
+    formSubmitted = false;
+
+    onSubmit(): void {
+        this.formSubmitted = true;
+        if (this.exampleForm.valid) {
+            this.toast.success(this.t().formSubmitted, 'Textarea');
+        }
+    }
+
+    onTemplateSubmit(form: any): void {
+        if (form.valid && this.templateValue) {
+            this.toast.success(this.t().formSubmitted, 'Textarea');
+        }
+    }
+
+    isInvalid(controlName: string): boolean {
+        const control = this.exampleForm.get(controlName);
+        return !!control?.invalid && (control.touched || this.formSubmitted);
+    }
+
     importCode: Code = {
-        typescript: `import { CzTextAreaComponent } from 'codezium-ui';`
+        typescript: `import { CzTextAreaComponent, CzMessageComponent, CzButtonComponent, CzKeyFilterDirective, CzToastService } from 'codezium-ui';`
     };
 
     basicCode: Code = {
@@ -163,7 +283,7 @@ export class TextareaDocPage {
     [(ngModel)]="basicValue">
 </cz-textarea>`,
         typescript: `import { FormsModule } from '@angular/forms';
-import { CzTextAreaComponent } from 'codezium-ui';
+import { CzTextAreaComponent, CzMessageComponent, CzButtonComponent, CzKeyFilterDirective, CzToastService } from 'codezium-ui';
 
 @Component({
     imports: [CzTextAreaComponent, FormsModule],
@@ -180,7 +300,7 @@ export class MyComponent {
     [autoResize]="true"
     placeholder="This area grows as you type...">
 </cz-textarea>`,
-        typescript: `import { CzTextAreaComponent } from 'codezium-ui';
+        typescript: `import { CzTextAreaComponent, CzMessageComponent, CzButtonComponent, CzKeyFilterDirective, CzToastService } from 'codezium-ui';
 
 @Component({
     imports: [CzTextAreaComponent],
@@ -229,6 +349,44 @@ export class MyComponent {
 // Use [fluid]="true" for full-width components`
     };
 
+    filledCode: Code = {
+        html: `<cz-textarea label="Filled" variant="filled" labelPosition="float" />
+<cz-textarea label="Outlined" variant="outlined" labelPosition="float" />`
+    };
+
+    sizesCode: Code = {
+        html: `<cz-textarea [(ngModel)]="value1" size="sm" placeholder="Small" [rows]="2" />
+<cz-textarea [(ngModel)]="value2" placeholder="Normal" [rows]="2" />
+<cz-textarea [(ngModel)]="value3" size="lg" placeholder="Large" [rows]="2" />`
+    };
+
+    invalidCode: Code = {
+        html: `<cz-textarea [(ngModel)]="value" [invalid]="!value" placeholder="Address" label="Address" labelPosition="float" />
+<cz-textarea [invalid]="true" variant="filled" placeholder="Filled invalid" />`
+    };
+
+    keyFilterCode: Code = {
+        html: `<textarea pTextarea czKeyFilter="integer" rows="3" placeholder="Only integers"></textarea>`
+    };
+
+    formsCode: Code = {
+        html: `<!-- Reactive forms -->
+<form [formGroup]="exampleForm" (ngSubmit)="onSubmit()">
+    <cz-textarea formControlName="address" [invalid]="isInvalid('address')"
+        placeholder="Address" label="Address" labelPosition="float" />
+    @if (isInvalid('address')) {
+        <cz-message severity="danger" text="Address is required." />
+    }
+    <cz-button label="Submit" type="submit" />
+</form>
+
+<!-- Template-driven forms -->
+<form #form="ngForm" (ngSubmit)="onSubmit(form)">
+    <cz-textarea name="address" [(ngModel)]="value" required
+        [invalid]="!!(address.invalid && (address.touched || form.submitted))" #address="ngModel" />
+</form>`
+    };
+
     validationCode: Code = {
         html: `<form [formGroup]="myForm">
     <cz-textarea 
@@ -238,7 +396,7 @@ export class MyComponent {
     </cz-textarea>
 </form>`,
         typescript: `import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CzTextAreaComponent } from 'codezium-ui';
+import { CzTextAreaComponent, CzMessageComponent, CzButtonComponent, CzKeyFilterDirective, CzToastService } from 'codezium-ui';
 
 @Component({
     imports: [CzTextAreaComponent, ReactiveFormsModule],

@@ -1,15 +1,19 @@
-import { 
-    ChangeDetectionStrategy, 
-    Component, 
-    computed, 
-    inject,
-    input, 
-    model, 
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    contentChild,
+    ElementRef,
+    input,
+    model,
     Optional,
-    output, 
+    output,
     Self,
+    TemplateRef,
     ViewEncapsulation,
-    signal 
+    viewChildren,
+    signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -18,6 +22,24 @@ import { CZ_VALIDATION_MESSAGES, CzValidationLocale, CzValidationErrorKeys } fro
 export type CzSelectButtonSize = 'sm' | 'md' | 'lg';
 export type CzSelectButtonColor = 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'dark';
 export type CzSelectButtonLabelPosition = 'left' | 'right' | 'top';
+
+export interface CzSelectButtonChangeEvent {
+    originalEvent: Event;
+    value: any;
+}
+
+export interface CzSelectButtonOptionClickEvent {
+    originalEvent: Event;
+    option: any;
+    index: number;
+}
+
+export interface CzSelectButtonItemTemplateContext {
+    $implicit: any;
+    index: number;
+}
+
+let selectButtonUid = 0;
 
 @Component({
     selector: 'cz-select-button',
@@ -28,7 +50,7 @@ export type CzSelectButtonLabelPosition = 'left' | 'right' | 'top';
     encapsulation: ViewEncapsulation.None,
     host: {
         'class': 'cz-select-button',
-        '[class.cz-select-button--disabled]': 'disabled()',
+        '[class.cz-select-button--disabled]': 'actualDisabled()',
         '[class.cz-select-button--label-left]': 'labelPosition() === "left"',
         '[class.cz-select-button--label-right]': 'labelPosition() === "right"',
         '[class.cz-select-button--has-error]': 'isInvalid',
@@ -36,7 +58,7 @@ export type CzSelectButtonLabelPosition = 'left' | 'right' | 'top';
         '[attr.data-color]': 'color()'
     }
 })
-export class CzSelectButtonComponent implements ControlValueAccessor {
+export class CzSelectButtonComponent implements ControlValueAccessor, AfterViewInit {
     /** Array of options to display */
     options = input.required<any[]>();
 
@@ -46,8 +68,17 @@ export class CzSelectButtonComponent implements ControlValueAccessor {
     /** Property name or getter function to use as the value of an option */
     optionValue = input<string>();
 
+    /** Name of the disabled field of an option or function to determine disabled state */
+    optionDisabled = input<string | ((item: any) => boolean) | null>(null);
+
     /** Whether to allow multiple selection */
     multiple = input<boolean>(false);
+
+    /** Whether selection can be cleared when clicking the selected option */
+    unselectable = input<boolean>(false);
+
+    /** Whether selection can be cleared (single mode and last value in multiple mode) */
+    allowEmpty = input<boolean>(true);
 
     /** Size of the component */
     size = input<CzSelectButtonSize>('md');
@@ -67,6 +98,24 @@ export class CzSelectButtonComponent implements ControlValueAccessor {
     /** Disabled state */
     disabled = model<boolean>(false);
 
+    /** When present, it specifies that the component should have invalid state style */
+    invalid = input<boolean>(false);
+
+    /** Index of the element in tabbing order */
+    tabindex = input<number>(0);
+
+    /** When present, it specifies that the component should automatically get focus on load */
+    autofocus = input<boolean>(false);
+
+    /** Establishes relationships between the component and label(s) where its value should be one or more element IDs */
+    ariaLabelledBy = input<string | null>(null);
+
+    /** A property to uniquely identify a value in options */
+    dataKey = input<string>('');
+
+    /** Style class of the component */
+    styleClass = input<string>('');
+
     /** Helper text to display below the component */
     helperText = input<string>('');
 
@@ -79,8 +128,14 @@ export class CzSelectButtonComponent implements ControlValueAccessor {
     /** Custom error message overrides */
     customErrors = input<Partial<CzValidationErrorKeys>>();
 
-    /** Callback for selection change */
-    onChange = output<any>();
+    /** Custom item template */
+    itemTemplate = contentChild<TemplateRef<CzSelectButtonItemTemplateContext>>('itemTemplate');
+
+    /** Callback to invoke on selection change */
+    onChangeEvent = output<CzSelectButtonChangeEvent>({ alias: 'onChange' });
+
+    /** Callback to invoke on input click */
+    onOptionClickEvent = output<CzSelectButtonOptionClickEvent>({ alias: 'onOptionClick' });
 
     /** Internal value state */
     value = signal<any>(null);
@@ -94,6 +149,11 @@ export class CzSelectButtonComponent implements ControlValueAccessor {
     /** Computed disabled state combining both inputs */
     actualDisabled = computed(() => this.disabled() || this.formsDisabled());
 
+    private readonly buttons = viewChildren<ElementRef<HTMLButtonElement>>('optionButton');
+
+    /** Unique id for the group label */
+    private readonly labelId = `cz-select-button-label-${++selectButtonUid}`;
+
     // ControlValueAccessor implementations
     onModelChange: Function = (_: any) => { };
     onModelTouched: Function = () => { };
@@ -104,8 +164,15 @@ export class CzSelectButtonComponent implements ControlValueAccessor {
         }
     }
 
+    ngAfterViewInit(): void {
+        if (this.autofocus() && !this.actualDisabled()) {
+            this.buttons()[0]?.nativeElement.focus();
+        }
+    }
+
     /** Validation helpers */
     get isInvalid(): boolean {
+        if (this.invalid()) return true;
         if (!this.ngControl) return false;
         return !!(this.ngControl.invalid && (this.ngControl.touched || this.ngControl.dirty));
     }
@@ -131,17 +198,37 @@ export class CzSelectButtonComponent implements ControlValueAccessor {
     }
 
     getLabel(option: any): string {
-        if (this.optionLabel()) {
-            return option[this.optionLabel()!];
-        }
-        return option;
+        if (option === null || option === undefined) return '';
+        if (typeof option === 'string' || typeof option === 'number') return String(option);
+        const labelKey = this.optionLabel();
+        if (labelKey) return option[labelKey] ?? '';
+        return option.label !== undefined ? String(option.label) : String(option);
     }
 
     getValue(option: any): any {
-        if (this.optionValue()) {
-            return option[this.optionValue()!];
+        const valueKey = this.optionValue();
+        if (valueKey) return option?.[valueKey];
+        if (this.optionLabel() || option?.value === undefined) return option;
+        return option.value;
+    }
+
+    isOptionDisabled(option: any): boolean {
+        const optionDisabled = this.optionDisabled();
+        if (typeof optionDisabled === 'function') return !!optionDisabled(option);
+        if (typeof optionDisabled === 'string' && optionDisabled) return !!option?.[optionDisabled];
+        return option?.disabled !== undefined ? !!option.disabled : false;
+    }
+
+    isButtonDisabled(option: any): boolean {
+        return this.actualDisabled() || this.isOptionDisabled(option);
+    }
+
+    private isEqual(a: any, b: any): boolean {
+        const key = this.dataKey();
+        if (key && a && b && typeof a === 'object' && typeof b === 'object') {
+            return a[key] === b[key];
         }
-        return option;
+        return a === b;
     }
 
     isSelected(option: any): boolean {
@@ -149,34 +236,49 @@ export class CzSelectButtonComponent implements ControlValueAccessor {
         const currentValue = this.value();
 
         if (this.multiple()) {
-            return Array.isArray(currentValue) && currentValue.includes(optionValue);
+            return Array.isArray(currentValue) && currentValue.some((val) => this.isEqual(val, optionValue));
         }
 
-        return currentValue === optionValue;
+        return this.isEqual(currentValue, optionValue);
     }
 
+    /** Whether the current selection can be cleared (PrimeNG parity) */
+    getAllowEmpty(): boolean {
+        if (this.multiple()) {
+            return this.allowEmpty() || (this.value()?.length ?? 0) !== 1;
+        }
+        return this.allowEmpty();
+    }
+
+    /** Combined label association for the group */
+    readonly effectiveAriaLabelledBy = computed(() => this.ariaLabelledBy() || (this.label() ? this.labelId : null));
+
+    /** Unique id exposed for the rendered label */
+    readonly groupLabelId = this.labelId;
+
     onOptionClick(event: Event, option: any, index: number): void {
-        if (this.actualDisabled()) return;
+        if (this.actualDisabled() || this.isOptionDisabled(option)) return;
+
+        const selected = this.isSelected(option);
+        if (selected && this.unselectable()) return;
 
         const optionValue = this.getValue(option);
         let newValue: any;
 
         if (this.multiple()) {
+            if (selected && !this.getAllowEmpty()) return;
             const currentValues = Array.isArray(this.value()) ? [...this.value()] : [];
-            const valueIndex = currentValues.indexOf(optionValue);
-
-            if (valueIndex > -1) {
-                currentValues.splice(valueIndex, 1);
-            } else {
-                currentValues.push(optionValue);
-            }
-            newValue = currentValues;
+            newValue = selected
+                ? currentValues.filter((val) => !this.isEqual(val, optionValue))
+                : [...currentValues, optionValue];
         } else {
-            newValue = this.value() === optionValue ? null : optionValue;
+            if (selected && !this.getAllowEmpty()) return;
+            newValue = selected ? null : optionValue;
         }
 
-        this.updateValue(newValue);
         this.focusedIndex.set(index);
+        this.updateValue(newValue, event);
+        this.onOptionClickEvent.emit({ originalEvent: event, option, index });
     }
 
     onKeyDown(event: KeyboardEvent, option: any, index: number): void {
@@ -198,28 +300,35 @@ export class CzSelectButtonComponent implements ControlValueAccessor {
                 event.preventDefault();
                 this.navigate(-1);
                 break;
+            case 'Home':
+                event.preventDefault();
+                this.focusButton(0);
+                break;
+            case 'End':
+                event.preventDefault();
+                this.focusButton((this.options()?.length || 0) - 1);
+                break;
         }
     }
 
     private navigate(direction: number): void {
         const length = this.options()?.length || 0;
         if (length === 0) return;
-
-        const nextIndex = (this.focusedIndex() + direction + length) % length;
-        this.focusedIndex.set(nextIndex);
-        
-        // Focus the button in the DOM
-        const buttons = document.querySelectorAll('.cz-select-button-option');
-        if (buttons[nextIndex]) {
-            (buttons[nextIndex] as HTMLElement).focus();
-        }
+        const current = this.focusedIndex();
+        const nextIndex = (current + direction + length) % length;
+        this.focusButton(nextIndex);
     }
 
-    private updateValue(val: any): void {
+    private focusButton(index: number): void {
+        this.focusedIndex.set(index);
+        this.buttons()[index]?.nativeElement.focus();
+    }
+
+    private updateValue(val: any, event?: Event): void {
         this.value.set(val);
         this.onModelChange(val);
         this.onModelTouched();
-        this.onChange.emit(val);
+        this.onChangeEvent.emit({ originalEvent: event ?? new Event('change'), value: val });
     }
 
     // CVA METHODS

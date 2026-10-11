@@ -9,6 +9,7 @@
     /* --- 1. SUPERFICIES Y FONDOS --- */
     --cz-theme-html-bg: var(--cz-color-gray-50);
     --cz-theme-surface: var(--cz-color-white);
+    --cz-float-label-bg: var(--cz-color-white);
     --cz-theme-surface-hover: var(--cz-color-gray-50);
     --cz-theme-surface-active: var(--cz-color-gray-100);
 
@@ -50,6 +51,7 @@
     /* --- 1. SUPERFICIES Y FONDOS --- */
     --cz-theme-html-bg: var(--cz-dark-navy, #0f172a);
     --cz-theme-surface: var(--cz-navy, #1e293b);
+    --cz-float-label-bg: var(--cz-navy, #1e293b);
     --cz-theme-surface-hover: var(--cz-light-navy, #334155);
     --cz-theme-surface-active: var(--cz-lightest-navy, #475569);
 

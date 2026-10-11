@@ -4,17 +4,26 @@
     }
 
     <button
+        #switchButton
         type="button"
         role="switch"
         class="cz-toggle-switch-track"
         [disabled]="actualDisabled()"
+        [attr.id]="inputId() || null"
+        [attr.tabindex]="actualDisabled() ? -1 : tabindex()"
         [attr.aria-checked]="checked()"
         [attr.aria-label]="ariaLabel() || label() || null"
+        [attr.aria-labelledby]="ariaLabelledBy() || null"
         [attr.aria-readonly]="readonly() || null"
+        [attr.aria-invalid]="isInvalid ? 'true' : null"
         (click)="toggle($event)"
         (keydown)="onKeyDown($event)"
         (blur)="onModelTouched()"
     >
-        <span class="cz-toggle-switch-handle"></span>
+        <span class="cz-toggle-switch-handle">
+            @if (handleTemplate(); as tpl) {
+                <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="{ $implicit: checked() }" />
+            }
+        </span>
     </button>
 </div>

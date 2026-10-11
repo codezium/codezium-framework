@@ -1,25 +1,32 @@
-<div class="cz-toast-stack" [style.z-index]="stackZIndex()" aria-live="polite" aria-atomic="false">
-    @for (message of messages(); track message.id) {
-        <div class="cz-toast-item" role="status" [attr.data-severity]="message.severity">
-            <svg [lucideIcon]="iconFor(message)" [size]="18" class="cz-toast-icon"></svg>
+<div class="cz-toast-stack" [class.cz-toast-stack--stacked]="mode() === 'stacked'"
+    [class.cz-toast-stack--expanded]="mode() === 'expanded'" role="alert" aria-live="assertive" aria-atomic="true"
+    [style.z-index]="stackZIndex()" [style.--cz-toast-stack-gap.px]="stackGap()"
+    (mouseenter)="pauseTimers()" (mouseleave)="resumeTimers()">
+    @for (message of messages(); track message.id; let i = $index) {
+        <div class="cz-toast-item" [attr.data-severity]="message.severity"
+            [class.cz-toast-item--stacked]="mode() === 'stacked'"
+            [class.cz-toast-item--stack-hidden]="isStackHidden(i)"
+            [style.--cz-toast-stack-offset]="stackedOffset(i)"
+            [class]="message.styleClass || ''">
+            @if (messageTemplate(); as msgTpl) {
+                <ng-container *ngTemplateOutlet="msgTpl; context: { $implicit: message, closeFn: closeFn(message.id) }" />
+            } @else {
+                <svg [lucideIcon]="message.icon ?? iconFor(message)" [size]="18" class="cz-toast-icon"
+                    [class.cz-toast-icon--spin]="message.iconSpin === true"></svg>
 
-            <div class="cz-toast-body">
-                @if (message.summary) {
-                    <div class="cz-toast-summary">{{ message.summary }}</div>
-                }
-                @if (message.detail) {
-                    <div class="cz-toast-detail">{{ message.detail }}</div>
-                }
-            </div>
+                <div class="cz-toast-body">
+                    @if (message.summary) {
+                        <div class="cz-toast-summary">{{ message.summary }}</div>
+                    }
+                    @if (message.detail) {
+                        <div class="cz-toast-detail">{{ message.detail }}</div>
+                    }
+                </div>
 
-            <button
-                type="button"
-                class="cz-toast-close"
-                aria-label="Close"
-                (click)="close(message.id)"
-            >
-                &times;
-            </button>
+                <button type="button" class="cz-toast-close" aria-label="Close" (click)="close(message.id)">
+                    &times;
+                </button>
+            }
         </div>
     }
 </div>

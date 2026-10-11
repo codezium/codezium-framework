@@ -488,8 +488,8 @@
 
    --cz-neo-shadow-inset: inset 2px 2px 4px var(--cz-neo-shadow-dark), inset -2px -2px 4px var(--cz-neo-shadow-light);
    --cz-neo-inset-shadow: inset 2px 2px 4px rgba(163, 177, 198, 0.5), inset -2px -2px 4px rgba(255, 255, 255, 0.7);
-   --cz-neo-shadow-raised: 4px 4px 8px var(--cz-neo-shadow-dark), -4px -4px 8px var(--cz-neo-shadow-light);
-   --cz-neo-shadow-pressed: inset 2px 2px 4px var(--cz-neo-shadow-dark), inset -2px -2px 2px var(--cz-neo-shadow-light);
+   --cz-neo-shadow-raised: var(--cz-neo-raised, 4px 4px 8px var(--cz-neo-shadow-dark), -4px -4px 8px var(--cz-neo-shadow-light));
+   --cz-neo-shadow-pressed: var(--cz-neo-pressed, inset 2px 2px 4px var(--cz-neo-shadow-dark), inset -2px -2px 2px var(--cz-neo-shadow-light));
    --cz-neo-shadow-hover: 2px 2px 4px var(--cz-neo-shadow-dark), -2px -2px 4px var(--cz-neo-shadow-light);
    --cz-neo-box-shadow: var(--cz-neo-shadow-distance) var(--cz-neo-shadow-distance) var(--cz-neo-blur) var(--cz-neo-shadow-dark), calc(var(--cz-neo-shadow-distance) * -1) calc(var(--cz-neo-shadow-distance) * -1) var(--cz-neo-blur) var(--cz-neo-shadow-light);
 

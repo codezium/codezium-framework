@@ -154,6 +154,28 @@
             background: var(--cz-color-gray-100); // Fondo inactivo neutral
             color: var(--cz-color-gray-500);
         }
+
+        .cz-input-label-inner,
+        .cz-input-label-over,
+        .cz-input-label-static {
+            color: var(--cz-color-gray-500);
+        }
+    }
+
+    /* Disabled in dark mode: neutral translucent surface with readable text */
+    .dark &.cz-input-disabled .cz-input-native,
+    .dark & .cz-input-disabled .cz-input-native {
+        background: rgba(255, 255, 255, 0.06) !important;
+        color: rgba(255, 255, 255, 0.45) !important;
+    }
+
+    .dark &.cz-input-disabled .cz-input-label-inner,
+    .dark &.cz-input-disabled .cz-input-label-over,
+    .dark &.cz-input-disabled .cz-input-label-static,
+    .dark & .cz-input-disabled .cz-input-label-inner,
+    .dark & .cz-input-disabled .cz-input-label-over,
+    .dark & .cz-input-disabled .cz-input-label-static {
+        color: rgba(255, 255, 255, 0.45) !important;
     }
 
     /* Estado: Validaciones y Error */
@@ -234,10 +256,8 @@
                 top: 0;
                 font-size: var(--cz-font-size-xs, 0.75rem);
                 transform: translateY(-50%);
-                /* Fondo con mini blur para tapar el borde sin transparencia visible */
-                background: var(--cz-theme-input-bg, var(--cz-theme-surface));
-                backdrop-filter: blur(4px);
-                -webkit-backdrop-filter: blur(4px);
+                /* Opaque background so the border never shows through the label */
+                background: var(--cz-input-color-bg, var(--cz-float-label-bg, var(--cz-theme-surface, #ffffff)));
                 padding: 0 var(--cz-spacing-xs);
                 border-radius: var(--cz-radius-sm);
                 color: var(--cz-theme-input-label, var(--cz-color-gray-500));
@@ -286,34 +306,37 @@
             outline: none !important;
         }
 
-        /* Color variants en neo */
-        $neo-colors: (
-            "primary": (--cz-color-primary-50, --cz-neo-shadow-dark-primary),
-            "success": (--cz-color-success-50, --cz-neo-shadow-dark-success),
-            "danger": (--cz-color-danger-50, --cz-neo-shadow-dark-danger),
-            "warning": (--cz-color-warning-50, --cz-neo-shadow-dark-warning),
-            "info": (--cz-color-info-50, --cz-neo-shadow-dark-info),
-            "secondary": (--cz-color-secondary-50, --cz-neo-shadow-dark),
-        );
+    }
 
-        @each $name, $vals in $neo-colors {
-            $bg: list.nth($vals, 1);
-            $shadow: list.nth($vals, 2);
+    /* Color variants en neo (raised with colored soft shadows) */
+    $neo-colors: (
+        "primary": --cz-neo-shadow-dark-primary,
+        "success": --cz-neo-shadow-dark-success,
+        "danger": --cz-neo-shadow-dark-danger,
+        "warning": --cz-neo-shadow-dark-warning,
+        "info": --cz-neo-shadow-dark-info,
+        "secondary": --cz-neo-shadow-dark,
+    );
 
-            &[data-color="#{$name}"] {
-                .cz-input-native {
-                    background: var(#{$bg}) !important;
-                    box-shadow:
-                        4px 4px 8px var(#{$shadow}),
-                        -4px -4px 8px var(--cz-neo-shadow-light) !important;
-                }
+    @each $name, $shadow in $neo-colors {
+        .cz-input-wrapper[data-color="#{$name}"] {
+            .cz-input-native {
+                background: var(--cz-input-color-bg, var(--cz-color-#{$name}-50)) !important;
+                border: none !important;
+                outline: none !important;
+                color: var(--cz-input-color-text, var(--cz-color-#{$name}-900)) !important;
+                box-shadow:
+                    4px 4px 8px var(#{$shadow}),
+                    -4px -4px 8px var(--cz-neo-shadow-light) !important;
+            }
 
-                &.cz-input-focused .cz-input-native {
-                    box-shadow:
-                        inset 4px 4px 8px var(#{$shadow}),
-                        inset -4px -4px 8px var(--cz-neo-shadow-light) !important;
-                    background: var(#{$bg}) !important;
-                }
+            &.cz-input-focused .cz-input-native {
+                box-shadow:
+                    inset 4px 4px 8px var(#{$shadow}),
+                    inset -4px -4px 8px var(--cz-neo-shadow-light) !important;
+                background: var(--cz-input-color-bg, var(--cz-color-#{$name}-50)) !important;
+                border: none !important;
+                outline: none !important;
             }
         }
     }
@@ -463,40 +486,86 @@ $cz-input-colors: (
     $text: list.nth($values, 4);
 
     .cz-input-wrapper[data-color="#{$name}"] {
+        --cz-input-color-bg: var(#{$bg});
+        --cz-input-color-border: var(#{$border});
+        --cz-input-color-ring: var(#{$ring});
+        --cz-input-color-text: var(#{$text});
+        --cz-input-color-placeholder: var(#{$border});
+
         .cz-input-native {
-            background: var(#{$bg}) !important;
-            border-color: var(#{$border}) !important;
-            color: var(#{$text}) !important;
+            background: var(--cz-input-color-bg) !important;
+            border-color: var(--cz-input-color-border) !important;
+            color: var(--cz-input-color-text) !important;
 
             &::placeholder {
-                color: var(#{$border});
-                opacity: 0.7;
+                color: var(--cz-input-color-placeholder);
+                opacity: 0.75;
             }
         }
 
+        /* Labels always readable over the colored background */
+        .cz-input-label-static,
+        .cz-input-label-inner,
+        .cz-input-label-over {
+            color: var(--cz-input-color-text) !important;
+        }
+
+        /* Floated label masks the border with the same colored background */
+        &[data-label-position="float"] .cz-input-container.cz-float-active .cz-input-label-inner {
+            background: var(--cz-input-color-bg) !important;
+            color: var(--cz-input-color-text) !important;
+        }
+
         &.cz-input-focused .cz-input-native {
-            background: var(#{$bg}) !important;
-            border-color: var(#{$border}) !important;
-            box-shadow: 0 0 0 3px var(#{$ring}) !important;
+            background: var(--cz-input-color-bg) !important;
+            border-color: var(--cz-input-color-border) !important;
+            box-shadow: 0 0 0 3px var(--cz-input-color-ring) !important;
         }
 
         &:not(.cz-input-focused):not(.cz-input-disabled):hover .cz-input-native {
-            border-color: var(#{$border}) !important;
+            border-color: var(--cz-input-color-border) !important;
             filter: brightness(0.97);
         }
+    }
+
+    /* Dark mode: tinted dark backgrounds with light colored text */
+    .dark .cz-input-wrapper[data-color="#{$name}"],
+    .dark [data-theme="glass"] .cz-input-wrapper[data-color="#{$name}"],
+    .dark [data-theme="neo"] .cz-input-wrapper[data-color="#{$name}"] {
+        --cz-input-color-bg: color-mix(in srgb, var(--cz-color-#{$name}) 16%, #111d38);
+        --cz-input-color-border: color-mix(in srgb, var(--cz-color-#{$name}) 45%, transparent);
+        --cz-input-color-ring: color-mix(in srgb, var(--cz-color-#{$name}) 30%, transparent);
+        --cz-input-color-text: var(--cz-color-#{$name}-200);
+        --cz-input-color-placeholder: color-mix(in srgb, var(--cz-color-#{$name}-200) 55%, transparent);
     }
 }
 
 .cz-input-wrapper[data-color="dark"] {
+    --cz-input-color-bg: var(--cz-color-gray-800, #1f2937);
+    --cz-input-color-border: var(--cz-color-gray-700, #374151);
+    --cz-input-color-text: var(--cz-color-white, #ffffff);
+    --cz-input-color-placeholder: var(--cz-color-gray-400, #9ca3af);
+
     .cz-input-native {
-        background: var(--cz-color-gray-800, #1f2937) !important;
-        border-color: var(--cz-color-gray-700, #374151) !important;
-        color: var(--cz-color-white, #ffffff) !important;
+        background: var(--cz-input-color-bg) !important;
+        border-color: var(--cz-input-color-border) !important;
+        color: var(--cz-input-color-text) !important;
 
         &::placeholder {
-            color: var(--cz-color-gray-400, #9ca3af);
+            color: var(--cz-input-color-placeholder);
             opacity: 1;
         }
+    }
+
+    .cz-input-label-static,
+    .cz-input-label-inner,
+    .cz-input-label-over {
+        color: var(--cz-input-color-text) !important;
+    }
+
+    &[data-label-position="float"] .cz-input-container.cz-float-active .cz-input-label-inner {
+        background: var(--cz-input-color-bg) !important;
+        color: var(--cz-input-color-text) !important;
     }
 
     &:not(.cz-input-focused):not(.cz-input-disabled):hover .cz-input-native {
@@ -505,14 +574,9 @@ $cz-input-colors: (
     }
 
     &.cz-input-focused .cz-input-native {
-        background: var(--cz-color-gray-800, #1f2937) !important;
+        background: var(--cz-input-color-bg) !important;
         border-color: rgba(255, 255, 255, 0.9) !important;
         box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2) !important;
     }
-
-    .cz-input-label-static,
-    .cz-input-label-over,
-    .cz-input-label-inner {
-        color: var(--cz-color-gray-300, #d1d5db);
-    }
 }
+

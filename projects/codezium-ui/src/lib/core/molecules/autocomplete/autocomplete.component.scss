@@ -824,3 +824,63 @@ $cz-input-colors: (
     text-align: center;
   }
 }
+/* ==========================================================================
+   AUTOCOMPLETE — PrimeNG parity additions (clear, group, header/footer, virtual)
+   ========================================================================== */
+
+.cz-autocomplete-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--cz-theme-text-muted, var(--cz-color-gray-500));
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-100));
+        color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    }
+}
+
+.cz-autocomplete-header,
+.cz-autocomplete-footer {
+    padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+    color: var(--cz-theme-text-secondary, var(--cz-color-gray-700));
+}
+
+.cz-autocomplete-header {
+    border-bottom: var(--cz-theme-border-width, 1px) solid var(--cz-theme-divider, var(--cz-color-gray-100));
+}
+
+.cz-autocomplete-footer {
+    border-top: var(--cz-theme-border-width, 1px) solid var(--cz-theme-divider, var(--cz-color-gray-100));
+}
+
+.cz-autocomplete-group {
+    padding: var(--cz-spacing-xs) var(--cz-spacing-md);
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-xs);
+    font-weight: var(--cz-font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--cz-theme-text-muted, var(--cz-color-gray-500));
+}
+
+.cz-autocomplete-spacer {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.cz-autocomplete-items-virtual {
+    position: relative;
+}

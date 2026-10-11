@@ -1,3 +1,5 @@
+@use '../../styles/native-inputs' as ni;
+
 /* ==========================================================================
    IFTA LABEL (cz-ifta-label)
    Usage: <cz-ifta-label><input /><label>Name</label></cz-ifta-label>
@@ -9,9 +11,17 @@
     display: inline-block;
 
     > input,
+    > textarea,
     > .cz-input-container {
         width: 100%;
         box-sizing: border-box;
+        padding-top: 1.25rem;
+    }
+
+    /* Bare native inputs (without .cz-input-native) still get the framework look */
+    > :where(input, textarea):not(.cz-input-native) {
+        @include ni.cz-native-input;
+        @include ni.cz-native-input-modifiers;
         padding-top: 1.25rem;
     }
 
@@ -28,5 +38,6 @@
         font-weight: var(--cz-font-weight-medium);
         pointer-events: none;
         white-space: nowrap;
+        z-index: 1;
     }
 }

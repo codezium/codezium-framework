@@ -1,47 +1,79 @@
-<div class="cz-rating-container" 
-     (mouseleave)="onMouseLeave()"
-     [class.cz-rating--invalid]="isInvalid">
-    
+<div class="cz-rating-container"
+     [class.cz-rating-container--vertical]="orientation() === 'vertical'">
+
     @if (label() && labelPosition() === 'left') {
         <label class="cz-rating-label cz-rating-label--left">{{ label() }}</label>
     }
 
-    @if (cancel()) {
-        <button type="button" 
-                class="cz-rating-cancel"
-                [disabled]="isDisabled()"
-                (click)="onCancelClick($event)"
-                aria-label="Cancel Selection">
-            <svg [lucideIcon]="iconCancel()" [size]="iconSize()"></svg>
-        </button>
-    }
-
-    <div class="cz-rating-stars">
+    <div class="cz-rating-stars"
+         role="radiogroup"
+         [attr.aria-orientation]="orientation()">
         @for (star of starsArray(); track star) {
-            <span class="cz-rating-star"
-                  [class.cz-rating-star--active]="star <= (hoveredValue() ?? value() ?? 0)"
-                  [class.cz-rating-star--focused]="focusedStar() === star"
-                  [class.cz-rating-star--color-primary]="color() === 'primary'"
-                  [class.cz-rating-star--color-secondary]="color() === 'secondary'"
-                  [class.cz-rating-star--color-success]="color() === 'success'"
-                  [class.cz-rating-star--color-warning]="color() === 'warning'"
-                  [class.cz-rating-star--color-danger]="color() === 'danger'"
-                  [class.cz-rating-star--color-info]="color() === 'info'"
-                  [class.cz-rating-star--color-dark]="color() === 'dark'"
-                  (click)="onStarClick($event, star)"
-                  (mouseenter)="onStarMouseEnter(star)"
-                  (keydown)="onKeyDown($event, star)"
-                  tabindex="0"
-                  (focus)="onStarFocus(star)"
-                  (blur)="onStarBlur()"
-                  role="button"
-                  [attr.aria-label]="star + ' stars'"
-                  [attr.aria-pressed]="star <= (value() ?? 0)">
-                <svg 
-                    [lucideIcon]="star <= (hoveredValue() ?? value() ?? 0) ? iconOn() : iconOff()" 
-                    [size]="iconSize()"
-                ></svg>
-            </span>
+            <div class="cz-rating-star"
+                 [class.cz-rating-star--highlighted]="isHighlighted(star - 1)"
+                 [class.cz-rating-star--half]="isHalf(star - 1)"
+                 [class.cz-rating-star--focused]="focusedStar() === star || focusedStar() === star - 0.5"
+                 [class.cz-rating-star--color-primary]="color() === 'primary'"
+                 [class.cz-rating-star--color-secondary]="color() === 'secondary'"
+                 [class.cz-rating-star--color-success]="color() === 'success'"
+                 [class.cz-rating-star--color-warning]="color() === 'warning'"
+                 [class.cz-rating-star--color-danger]="color() === 'danger'"
+                 [class.cz-rating-star--color-info]="color() === 'info'"
+                 [class.cz-rating-star--color-dark]="color() === 'dark'"
+                 (click)="onOptionClick($event, star)"
+                 (pointermove)="onPointerMove($event, star - 1)">
+
+                <span class="cz-rating-input-container">
+                    @if (allowHalf()) {
+                        <input type="radio"
+                               class="cz-rating-input"
+                               [value]="star - 0.5"
+                               [name]="inputName()"
+                               [checked]="value() === star - 0.5"
+                               [disabled]="isDisabled()"
+                               [attr.readonly]="readonly() ? '' : null"
+                               [attr.aria-label]="starAriaLabel(star - 0.5)"
+                               (focus)="onInputFocus($event, star - 0.5)"
+                               (blur)="onInputBlur($event)"
+                               (change)="onInputChange($event, star - 0.5)" />
+                    }
+                    <input type="radio"
+                           class="cz-rating-input"
+                           [value]="star"
+                           [name]="inputName()"
+                           [checked]="value() === star"
+                           [disabled]="isDisabled()"
+                           [attr.readonly]="readonly() ? '' : null"
+                           [attr.autofocus]="autofocus() && star === 1 ? '' : null"
+                           [attr.aria-label]="starAriaLabel(star)"
+                           (focus)="onInputFocus($event, star)"
+                           (blur)="onInputBlur($event)"
+                           (change)="onInputChange($event, star)" />
+                </span>
+
+                <span class="cz-rating-off-icon"
+                      [ngClass]="iconOffClass()"
+                      [ngStyle]="iconOffStyle()">
+                    @if (offIconTemplate(); as tpl) {
+                        <ng-container [ngTemplateOutlet]="tpl"
+                                      [ngTemplateOutletContext]="offIconContext(star)" />
+                    } @else {
+                        <svg [lucideIcon]="iconOff()" [size]="iconSize()"></svg>
+                    }
+                </span>
+
+                <span class="cz-rating-on-icon"
+                      [class.cz-rating-on-icon--vertical]="orientation() === 'vertical'"
+                      [ngClass]="iconOnClass()"
+                      [ngStyle]="iconOnStyle()">
+                    @if (onIconTemplate(); as tpl) {
+                        <ng-container [ngTemplateOutlet]="tpl"
+                                      [ngTemplateOutletContext]="onIconContext(star)" />
+                    } @else {
+                        <svg [lucideIcon]="iconOn()" [size]="iconSize()"></svg>
+                    }
+                </span>
+            </div>
         }
     </div>
 
@@ -50,7 +82,7 @@
     }
 </div>
 
-@if (isInvalid) {
+@if (isInvalid()) {
     <div class="cz-rating-messages">
         @if (ngControl?.errors?.['required']) {
             <small class="cz-rating-error">Este campo es requerido.</small>

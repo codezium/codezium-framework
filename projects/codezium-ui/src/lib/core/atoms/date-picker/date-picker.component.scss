@@ -76,6 +76,18 @@
     box-shadow: var(--cz-shadow-lg);
 }
 
+/* Inline mode: the calendar flows in the layout instead of overlaying content */
+.cz-date-picker--inline {
+    position: relative;
+
+    .cz-date-picker-panel {
+        position: static;
+        top: auto;
+        left: auto;
+        box-shadow: var(--cz-shadow-md, var(--cz-shadow-lg));
+    }
+}
+
 .cz-date-picker-header {
     display: flex;
     align-items: center;
@@ -170,4 +182,353 @@
     .cz-date-picker-input {
         cursor: not-allowed;
     }
+}
+
+/* ==========================================================================
+   DATE PICKER — PrimeNG parity additions
+   ========================================================================== */
+
+.cz-date-picker-wrapper {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+
+    &[data-label-position="none"] {
+        flex-direction: column;
+    }
+}
+
+.cz-date-picker-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: var(--cz-spacing-xs);
+    min-width: 0;
+}
+
+.cz-date-picker-native {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--cz-font-base);
+    color: inherit;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+}
+
+.cz-date-picker-clear,
+.cz-date-picker-input-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cz-theme-text-muted, var(--cz-color-gray-500));
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &:hover {
+        color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    }
+}
+
+.cz-date-picker-dropdown {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 var(--cz-spacing-md);
+    border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-input-border, var(--cz-color-gray-400));
+    border-left: none;
+    border-radius: 0 var(--cz-theme-radius-base, var(--cz-radius-md)) var(--cz-theme-radius-base, var(--cz-radius-md)) 0;
+    background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
+    color: var(--cz-theme-text-secondary, var(--cz-color-gray-700));
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover:not(:disabled) {
+        background: var(--cz-theme-surface-active, var(--cz-color-gray-100));
+        color: var(--cz-color-primary);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+}
+
+.cz-date-picker-input--with-button {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* ---------- Labels ---------- */
+.cz-date-picker-label-static {
+    display: block;
+    margin-bottom: var(--cz-spacing-xs);
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+    font-weight: var(--cz-font-weight-medium);
+    color: var(--cz-theme-text-secondary, var(--cz-color-gray-700));
+}
+
+.cz-date-picker-label-inner {
+    font-family: var(--cz-font-base);
+    color: var(--cz-theme-text-muted, var(--cz-color-gray-500));
+    pointer-events: none;
+    flex-shrink: 0;
+}
+
+.cz-date-picker-label-inner--in {
+    margin-right: var(--cz-spacing-xs);
+    font-size: var(--cz-font-size-sm);
+}
+
+.cz-date-picker-wrapper[data-label-position="over"] .cz-date-picker-input {
+    padding-top: calc(var(--cz-spacing-sm) + 0.5rem);
+}
+
+.cz-date-picker-wrapper[data-label-position="over"] .cz-date-picker-label-inner {
+    position: absolute;
+    top: var(--cz-spacing-xxs);
+    left: var(--cz-spacing-md);
+    font-size: var(--cz-font-size-xs);
+}
+
+.cz-date-picker-wrapper[data-label-position="float"] .cz-date-picker-label-inner {
+    position: absolute;
+    left: var(--cz-spacing-md);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: var(--cz-font-size);
+    transition: all 0.15s ease;
+}
+
+.cz-date-picker-wrapper[data-label-position="float"] .cz-date-picker-input--open,
+.cz-date-picker-wrapper[data-label-position="float"] .cz-date-picker-input:focus-within {
+    padding-top: calc(var(--cz-spacing-sm) + 0.5rem);
+}
+
+.cz-date-picker-wrapper[data-label-position="float"] .cz-date-picker-input--open .cz-date-picker-label-inner,
+.cz-date-picker-wrapper[data-label-position="float"] .cz-date-picker-input:focus-within .cz-date-picker-label-inner {
+    top: var(--cz-spacing-xxs);
+    transform: none;
+    font-size: var(--cz-font-size-xs);
+}
+
+/* ---------- Views ---------- */
+.cz-date-picker-months {
+    display: flex;
+    gap: var(--cz-spacing-lg);
+}
+
+.cz-date-picker-title {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-family: var(--cz-font-heading);
+    font-size: var(--cz-font-size-sm);
+    font-weight: var(--cz-font-weight-semibold);
+    cursor: pointer;
+    border-radius: var(--cz-radius-sm);
+
+    &:hover {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-100));
+        color: var(--cz-color-primary);
+    }
+
+    &--static {
+        cursor: default;
+
+        &:hover {
+            background: transparent;
+            color: inherit;
+        }
+    }
+}
+
+.cz-date-picker-week-header,
+.cz-date-picker-week-number {
+    color: var(--cz-theme-text-muted, var(--cz-color-gray-400));
+    font-size: var(--cz-font-size-xs);
+    font-weight: var(--cz-font-weight-medium);
+    text-align: center;
+}
+
+.cz-date-picker-month-view,
+.cz-date-picker-year-view {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--cz-spacing-sm);
+    padding: var(--cz-spacing-sm);
+}
+
+.cz-date-picker-month-cell,
+.cz-date-picker-year-cell {
+    padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    border: none;
+    border-radius: var(--cz-radius-sm);
+    background: transparent;
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+
+    &:hover:not(:disabled) {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-100));
+        color: var(--cz-color-primary);
+    }
+
+    &--selected {
+        background: color-mix(in srgb, var(--cz-color-primary) 14%, transparent);
+        color: var(--cz-color-primary);
+        font-weight: var(--cz-font-weight-semibold);
+    }
+
+    &:disabled {
+        color: var(--cz-theme-text-muted, var(--cz-color-gray-300));
+        cursor: not-allowed;
+    }
+}
+
+/* ---------- Range highlight ---------- */
+.cz-date-picker-day-cell--range {
+    background: color-mix(in srgb, var(--cz-color-primary) 10%, transparent);
+}
+
+.cz-date-picker-day-cell--range-start,
+.cz-date-picker-day-cell--range-end {
+    background: color-mix(in srgb, var(--cz-color-primary) 16%, transparent);
+    border-radius: var(--cz-radius-sm);
+}
+
+/* ---------- Time picker ---------- */
+.cz-date-picker-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--cz-spacing-sm);
+    padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    border-top: var(--cz-theme-border-width, 1px) solid var(--cz-theme-divider, var(--cz-color-gray-100));
+}
+
+.cz-date-picker-time--only {
+    border-top: none;
+    padding: var(--cz-spacing-lg);
+}
+
+.cz-date-picker-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--cz-spacing-xxs);
+}
+
+.cz-date-picker-spinner-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.25rem;
+    padding: 0;
+    border: none;
+    border-radius: var(--cz-radius-sm);
+    background: transparent;
+    color: var(--cz-theme-text-muted, var(--cz-color-gray-500));
+    cursor: pointer;
+
+    &:hover {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-100));
+        color: var(--cz-color-primary);
+    }
+}
+
+.cz-date-picker-spinner-value {
+    font-family: var(--cz-font-code);
+    font-size: var(--cz-font-size-md);
+    font-weight: var(--cz-font-weight-semibold);
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    min-width: 2ch;
+    text-align: center;
+}
+
+.cz-date-picker-time-separator {
+    font-weight: var(--cz-font-weight-semibold);
+    color: var(--cz-theme-text-muted, var(--cz-color-gray-500));
+}
+
+.cz-date-picker-meridiem {
+    padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
+    border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-border-color, var(--cz-color-gray-200));
+    border-radius: var(--cz-radius-sm);
+    background: transparent;
+    color: var(--cz-theme-text-secondary, var(--cz-color-gray-700));
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+    font-weight: var(--cz-font-weight-semibold);
+    cursor: pointer;
+
+    &:hover {
+        border-color: var(--cz-color-primary);
+        color: var(--cz-color-primary);
+    }
+}
+
+/* ---------- Button bar ---------- */
+.cz-date-picker-button-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--cz-spacing-sm);
+    padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    border-top: var(--cz-theme-border-width, 1px) solid var(--cz-theme-divider, var(--cz-color-gray-100));
+}
+
+.cz-date-picker-bar-btn {
+    padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
+    border: none;
+    border-radius: var(--cz-radius-sm);
+    background: transparent;
+    color: var(--cz-color-primary);
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+    font-weight: var(--cz-font-weight-medium);
+    cursor: pointer;
+
+    &:hover {
+        background: color-mix(in srgb, var(--cz-color-primary) 10%, transparent);
+    }
+}
+
+.cz-date-picker-custom-header,
+.cz-date-picker-custom-footer {
+    padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    border-bottom: var(--cz-theme-border-width, 1px) solid var(--cz-theme-divider, var(--cz-color-gray-100));
+}
+
+.cz-date-picker-custom-footer {
+    border-bottom: none;
+    border-top: var(--cz-theme-border-width, 1px) solid var(--cz-theme-divider, var(--cz-color-gray-100));
+}
+
+.cz-date-picker-live {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.cz-date-picker--touch-ui .cz-date-picker-day,
+.cz-date-picker--touch-ui .cz-date-picker-nav {
+    min-width: 2.5rem;
+    min-height: 2.5rem;
 }

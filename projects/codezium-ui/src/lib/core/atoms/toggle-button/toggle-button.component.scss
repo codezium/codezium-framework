@@ -118,51 +118,75 @@
     /* ── THEME: GLASS ── */
     &[data-theme="glass"] {
         .cz-toggle-button-input {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--cz-color-white, #ffffff);
+            background: var(--cz-theme-input-bg, rgba(255, 255, 255, 0.35));
+            backdrop-filter: var(--cz-theme-backdrop-filter, blur(12px));
+            -webkit-backdrop-filter: var(--cz-theme-backdrop-filter, blur(12px));
+            border: 1px solid var(--cz-theme-input-border, rgba(255, 255, 255, 0.45));
+            color: var(--cz-theme-text-primary, #1f2937);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 
             &--checked {
-                background: rgba(var(--cz-color-primary-rgb), 0.4);
+                background: var(--cz-color-primary);
                 border-color: var(--cz-color-primary);
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                color: var(--cz-color-primary-contrast, #ffffff);
+                box-shadow: 0 6px 18px var(--cz-color-primary-200);
+            }
+
+            &:focus-visible {
+                box-shadow: 0 0 0 3px var(--cz-color-primary-200);
             }
         }
 
-        &.dark .cz-toggle-button-input,
-        .dark & .cz-toggle-button-input {
-            background: rgba(0, 0, 0, 0.2);
-            border-color: rgba(255, 255, 255, 0.1);
+        @each $name, $value in (
+            "secondary": --cz-color-secondary,
+            "success": --cz-color-success,
+            "warning": --cz-color-warning,
+            "danger": --cz-color-danger,
+            "info": --cz-color-info,
+            "dark": --cz-color-dark
+        ) {
+            &[data-color="#{$name}"] .cz-toggle-button-input--checked {
+                background: var(#{$value});
+                border-color: var(#{$value});
+                box-shadow: 0 6px 18px var(--cz-color-#{$name}-200);
+            }
         }
     }
 
     /* ── THEME: NEO ── */
     &[data-theme="neo"] {
         .cz-toggle-button-input {
-            background: var(--cz-neo-bg, #f0f2f5);
+            background: var(--cz-theme-surface, var(--cz-neo-bg, #e0e5ec));
             border: none;
-            box-shadow: var(--cz-neo-shadow-raised);
-            color: var(--cz-theme-text-primary, #374151);
+            box-shadow: var(--cz-neo-raised);
+            color: var(--cz-theme-text-secondary, #64748b);
+            font-weight: 600;
+            transition: box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+
+            &:hover:not(:disabled):not(.cz-toggle-button-input--checked) {
+                box-shadow: var(--cz-neo-flat);
+                color: var(--cz-color-primary);
+            }
 
             &--checked {
-                box-shadow: var(--cz-neo-shadow-pressed);
+                background: var(--cz-theme-surface, var(--cz-neo-bg, #e0e5ec));
+                box-shadow: var(--cz-neo-pressed);
                 color: var(--cz-color-primary);
-                background: var(--cz-neo-bg, #f0f2f5);
+
+                &:hover {
+                    box-shadow: var(--cz-neo-pressed);
+                }
             }
 
             &:active:not(:disabled) {
-                box-shadow: var(--cz-neo-shadow-pressed);
+                box-shadow: var(--cz-neo-pressed);
+            }
+
+            &:focus-visible {
+                box-shadow: var(--cz-neo-raised), 0 0 0 2px var(--cz-color-primary-200);
             }
         }
 
-        &[data-color] .cz-toggle-button-input--checked {
-            // In Neo, checked state usually keeps background same but sinks the container
-            // and changes the icon/text color to the primary color
-            background: var(--cz-neo-bg, #f0f2f5);
-        }
-        
         @each $name, $value in (
             "secondary": --cz-color-secondary,
             "success": --cz-color-success,
@@ -173,8 +197,15 @@
         ) {
             &[data-color="#{$name}"] .cz-toggle-button-input--checked {
                 color: var(#{$value});
+                box-shadow: var(--cz-neo-pressed), 0 0 0 1px color-mix(in srgb, var(#{$value}) 25%, transparent);
             }
         }
+    }
+
+    /* ── INVALID STATE ── */
+    &.cz-toggle-button--has-error .cz-toggle-button-input {
+        border-color: var(--cz-color-danger) !important;
+        box-shadow: 0 0 0 2px var(--cz-color-danger-200) !important;
     }
 
     /* ── DARK MODE OVERRIDES (Base/Standard) ── */

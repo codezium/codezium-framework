@@ -100,7 +100,7 @@ describe('Cross-component composition', () => {
             const track = fixture.debugElement.query(By.css('.cz-toggle-switch-track')).nativeElement;
             expect(track.getAttribute('aria-checked')).toBe('true');
 
-            expect(fixture.debugElement.query(By.css('.cz-date-picker-value'))).toBeTruthy();
+            expect(fixture.debugElement.query(By.css('.cz-date-picker-native')).nativeElement.value).toBeTruthy();
         });
 
         it('should propagate model changes to the controls', () => {

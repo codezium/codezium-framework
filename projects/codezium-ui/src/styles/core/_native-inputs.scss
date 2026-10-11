@@ -1,0 +1,27 @@
+@use '../../lib/core/styles/native-inputs' as ni;
+
+/* ==========================================================================
+   NATIVE INPUTS — Global standalone styles
+   Apply `cz-input-native` to any native input/textarea to get the Codezium
+   look outside of the wrapper components (IconField, IftaLabel, FloatLabel,
+   InputGroup, custom forms, etc.)
+
+   Inside `.cz-input-wrapper` based components the scoped styles win by
+   specificity, so these rules never double up.
+   ========================================================================== */
+
+.cz-input-native {
+    @include ni.cz-native-input;
+    @include ni.cz-native-input-modifiers;
+}
+
+textarea.cz-input-native {
+    resize: vertical;
+    min-height: 4.5rem;
+}
+
+/* Dark mode: more visible focus ring */
+.dark .cz-input-native:focus,
+[data-theme="dark"] .cz-input-native:focus {
+    box-shadow: 0 0 0 3px var(--cz-color-primary-300);
+}
