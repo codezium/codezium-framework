@@ -5,21 +5,22 @@ import {
   Optional,
   Self,
   ViewEncapsulation,
-  signal
+  signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgControl, ControlValueAccessor } from '@angular/forms';
 import { CZ_VALIDATION_MESSAGES, CzValidationLocale, CzValidationErrorKeys } from '../../i18n';
-import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
+import { LucideDynamicIcon, LucideEye, LucideEyeOff } from '@lucide/angular';
 import { CzInputSize, CzLabelPosition, CzInputColor } from '../../types';
 
 @Component({
   selector: 'cz-password',
-  standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [CommonModule, LucideDynamicIcon],
   templateUrl: './password.component.html',
   styleUrls: ['./password.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.Eager,
+  encapsulation: ViewEncapsulation.None,
 })
 export class CzPasswordComponent implements ControlValueAccessor {
   // Common Inputs (mirrored from CzInputText)
@@ -44,8 +45,8 @@ export class CzPasswordComponent implements ControlValueAccessor {
   strongLabel = input<string>('Strong');
 
   // Icons
-  readonly EyeIcon = Eye;
-  readonly EyeOffIcon = EyeOff;
+  readonly EyeIcon = LucideEye;
+  readonly EyeOffIcon = LucideEyeOff;
 
   // Local State
   value = signal<string>('');
@@ -63,24 +64,24 @@ export class CzPasswordComponent implements ControlValueAccessor {
   actualPlaceholder = computed(() => {
     const positionsToHide: CzLabelPosition[] = ['float', 'in', 'over'];
     if (positionsToHide.includes(this.labelPosition()) && this.label()) {
-      return (this.isFocused() || this.hasValue()) ? this.placeholder() : '';
+      return this.isFocused() || this.hasValue() ? this.placeholder() : '';
     }
     return this.placeholder();
   });
 
-  inputType = computed(() => this.showPassword() ? 'text' : 'password');
+  inputType = computed(() => (this.showPassword() ? 'text' : 'password'));
 
   strengthScore = computed(() => {
     const val = this.value();
     if (!val) return 0;
-    
+
     let score = 0;
     if (val.length > 6) score += 20;
     if (val.length > 10) score += 20;
     if (/[a-z]/.test(val) && /[A-Z]/.test(val)) score += 20;
     if (/\d/.test(val)) score += 20;
     if (/[!@#$%^&*(),.?":{}|<>]/.test(val)) score += 20;
-    
+
     return score;
   });
 
@@ -100,8 +101,8 @@ export class CzPasswordComponent implements ControlValueAccessor {
   });
 
   // ControlValueAccessor
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
   constructor(@Optional() @Self() public ngControl: NgControl) {
     if (this.ngControl != null) {
@@ -119,7 +120,7 @@ export class CzPasswordComponent implements ControlValueAccessor {
     const errors = this.ngControl.errors;
     const dictionary = {
       ...CZ_VALIDATION_MESSAGES[this.locale()],
-      ...this.customErrors()
+      ...this.customErrors(),
     };
 
     for (const key of Object.keys(errors)) {
@@ -168,6 +169,6 @@ export class CzPasswordComponent implements ControlValueAccessor {
 
   onToggleMask(): void {
     if (this.actualDisabled()) return;
-    this.showPassword.update(v => !v);
+    this.showPassword.update((v) => !v);
   }
 }

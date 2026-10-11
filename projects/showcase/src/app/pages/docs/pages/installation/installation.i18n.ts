@@ -25,7 +25,7 @@ export const INSTALL_I18N = {
         icons: {
             title: '3. Setup Icons (Optional)',
             p1: 'Codezium UI components use <a href="https://lucide.dev/icons/" target="_blank" class="cz-text-primary">Lucide Icons</a> internally as SVGs. If you wish to use them in your own application, you can optionally install their Angular package:',
-            code: 'npm install lucide-angular'
+            code: 'npm install @lucide/angular'
         },
         usage: {
             title: '4. First Component',
@@ -35,7 +35,6 @@ import { CzInputTextComponent } from 'codezium-ui';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [CzInputTextComponent],
   template: \`
     <div data-theme="base">
@@ -76,7 +75,7 @@ export class AppComponent {}`
         icons: {
             title: '3. Configurar Iconos (Opcional)',
             p1: 'Los componentes de Codezium UI utilizan <a href="https://lucide.dev/icons/" target="_blank" class="cz-text-primary">Lucide Icons</a> internamente como SVGs. Si deseas usarlos en tu propia aplicación, puedes instalar su paquete para Angular de forma opcional:',
-            code: 'npm install lucide-angular'
+            code: 'npm install @lucide/angular'
         },
         usage: {
             title: '4. Primer Componente',
@@ -86,7 +85,6 @@ import { CzInputTextComponent } from 'codezium-ui';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [CzInputTextComponent],
   template: \`
     <div data-theme="base">
@@ -127,7 +125,7 @@ export class AppComponent {}`
         icons: {
             title: '3. Configurar Ícones (Opcional)',
             p1: 'Os componentes do Codezium UI usam o <a href="https://lucide.dev/icons/" target="_blank" class="cz-text-primary">Lucide Icons</a> internamente como SVGs. Se você quiser usá-los no seu próprio aplicativo, você pode instalar opcionalmente o pacote Angular deles:',
-            code: 'npm install lucide-angular'
+            code: 'npm install @lucide/angular'
         },
         usage: {
             title: '4. Primeiro Componente',
@@ -137,7 +135,6 @@ import { CzInputTextComponent } from 'codezium-ui';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [CzInputTextComponent],
   template: \`
     <div data-theme="base">
@@ -178,7 +175,7 @@ export class AppComponent {}`
         icons: {
             title: '3. Configurer les Icônes (Optionnel)',
             p1: 'Les composants de Codezium UI utilisent les <a href="https://lucide.dev/icons/" target="_blank" class="cz-text-primary">Lucide Icons</a> en interne comme SVG. Pour votre propre projet, vous pouvez installer leur package Angular :',
-            code: 'npm install lucide-angular'
+            code: 'npm install @lucide/angular'
         },
         usage: {
             title: '4. Premier Composant',
@@ -188,7 +185,6 @@ import { CzInputTextComponent } from 'codezium-ui';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [CzInputTextComponent],
   template: \`
     <div data-theme="base">
@@ -229,7 +225,7 @@ export class AppComponent {}`
         icons: {
             title: '3. Icons einrichten (Optional)',
             p1: 'Die Komponenten verwenden intern <a href="https://lucide.dev/icons/" target="_blank" class="cz-text-primary">Lucide Icons</a> als SVGs. Wenn Sie diese Icons in Ihrer Anwendung verwenden möchten, können Sie das Angular-Paket installieren:',
-            code: 'npm install lucide-angular'
+            code: 'npm install @lucide/angular'
         },
         usage: {
             title: '4. Erste Komponente',
@@ -239,7 +235,6 @@ import { CzInputTextComponent } from 'codezium-ui';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [CzInputTextComponent],
   template: \`
     <div data-theme="base">

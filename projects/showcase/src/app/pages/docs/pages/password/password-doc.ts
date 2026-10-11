@@ -7,7 +7,6 @@ import { PASSWORD_DOC_I18N } from './password-doc.i18n';
 
 @Component({
     selector: 'cz-password-doc-page',
-    standalone: true,
     imports: [CzPasswordComponent, AppCodeComponent, ReactiveFormsModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
@@ -143,7 +142,6 @@ export class PasswordDocPage {
 import { CzPasswordComponent } from 'codezium-ui';
 
 @Component({
-    standalone: true,
     imports: [ReactiveFormsModule, CzPasswordComponent],
     template: '...'
 })
@@ -167,7 +165,6 @@ export class MyComponent {
 import { CzPasswordComponent } from 'codezium-ui';
 
 @Component({
-    standalone: true,
     imports: [ReactiveFormsModule, CzPasswordComponent],
     template: '...'
 })

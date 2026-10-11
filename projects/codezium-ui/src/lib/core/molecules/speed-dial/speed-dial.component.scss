@@ -1,0 +1,109 @@
+/* ==========================================================================
+   SPEED DIAL (cz-speed-dial)
+   ========================================================================== */
+
+.cz-speed-dial {
+    display: inline-block;
+    position: relative;
+}
+
+.cz-speed-dial-container {
+    display: inline-flex;
+}
+
+.cz-speed-dial-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--cz-color-primary);
+    color: var(--cz-color-white);
+    cursor: pointer;
+    box-shadow: var(--cz-shadow-lg);
+    transition: var(--cz-transition-transform);
+
+    &:hover {
+        filter: brightness(0.95);
+    }
+
+    &.cz-speed-dial-trigger--open {
+        transform: rotate(45deg);
+    }
+}
+
+.cz-speed-dial-actions {
+    position: absolute;
+    display: flex;
+    gap: var(--cz-spacing-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    animation: cz-speed-dial-enter 0.15s ease-out;
+}
+
+.cz-speed-dial[data-direction="up"] .cz-speed-dial-actions {
+    bottom: calc(100% + var(--cz-spacing-sm));
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: column-reverse;
+}
+
+.cz-speed-dial[data-direction="down"] .cz-speed-dial-actions {
+    top: calc(100% + var(--cz-spacing-sm));
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: column;
+}
+
+.cz-speed-dial[data-direction="left"] .cz-speed-dial-actions {
+    right: calc(100% + var(--cz-spacing-sm));
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: row-reverse;
+}
+
+.cz-speed-dial[data-direction="right"] .cz-speed-dial-actions {
+    left: calc(100% + var(--cz-spacing-sm));
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: row;
+}
+
+.cz-speed-dial-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--cz-theme-surface, var(--cz-color-white));
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    cursor: pointer;
+    box-shadow: var(--cz-shadow-md);
+
+    &:hover:not(:disabled) {
+        background: var(--cz-color-primary-50);
+        color: var(--cz-color-primary);
+    }
+
+    &:disabled {
+        opacity: var(--cz-input-disabled-opacity, 0.5);
+        cursor: not-allowed;
+    }
+}
+
+@keyframes cz-speed-dial-enter {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

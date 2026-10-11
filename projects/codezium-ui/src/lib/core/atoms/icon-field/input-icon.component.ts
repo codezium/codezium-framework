@@ -9,29 +9,19 @@ import {
     signal
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule } from 'lucide-angular';
+import { LucideDynamicIcon, type LucideIconInput } from '@lucide/angular';
 
 @Component({
     selector: 'cz-input-icon',
-    standalone: true,
-    imports: [CommonModule, LucideAngularModule],
+    imports: [CommonModule, LucideDynamicIcon],
     template: `
         <div class="cz-input-icon-container" [class.cz-icon-animating]="isAnimating()">
-            @if (isStringIcon()) {
-                <lucide-icon 
-                    [name]="$any(icon())" 
-                    [size]="size()" 
-                    [color]="actualColor()"
-                    class="cz-input-icon-element">
-                </lucide-icon>
-            } @else {
-                <lucide-icon 
-                    [img]="$any(icon())" 
-                    [size]="size()" 
-                    [color]="actualColor()"
-                    class="cz-input-icon-element">
-                </lucide-icon>
-            }
+            <svg 
+                [lucideIcon]="icon()" 
+                [size]="size()" 
+                [color]="actualColor()"
+                class="cz-input-icon-element">
+            </svg>
         </div>
     `,
     styleUrl: './input-icon.component.scss',
@@ -43,8 +33,8 @@ import { LucideAngularModule } from 'lucide-angular';
     }
 })
 export class CzInputIconComponent implements OnChanges {
-    /** Name (string) or Icon Data (LucideIconData) of the Lucide icon */
-    icon = input.required<string | any>();
+    /** Lucide icon component, LucideIconData, or the name of an icon registered with provideLucideIcons() */
+    icon = input.required<LucideIconInput>();
 
     /** Size of the icon in pixels */
     size = input<number>(18);
@@ -57,8 +47,6 @@ export class CzInputIconComponent implements OnChanges {
     color = input<string>();
 
     isAnimating = signal<boolean>(false);
-
-    isStringIcon = computed(() => typeof this.icon() === 'string');
 
     private semanticColors = ['primary', 'secondary', 'success', 'warning', 'danger', 'info', 'dark'];
 

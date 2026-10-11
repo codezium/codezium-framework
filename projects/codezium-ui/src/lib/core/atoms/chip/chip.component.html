@@ -1,0 +1,19 @@
+@if (image()) {
+    <img class="cz-chip-image" [src]="image()" [alt]="label()" />
+} @else if (icon(); as iconRef) {
+    <cz-icon class="cz-chip-icon" [icon]="iconRef" [size]="16" />
+}
+
+<span class="cz-chip-label">{{ label() }}</span>
+
+@if (removable()) {
+    <button
+        type="button"
+        class="cz-chip-remove"
+        [attr.aria-label]="removeAriaLabel()"
+        [disabled]="disabled()"
+        (click)="remove($event)"
+    >
+        &times;
+    </button>
+}

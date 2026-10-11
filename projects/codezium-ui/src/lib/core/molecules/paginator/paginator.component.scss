@@ -1,0 +1,73 @@
+/* ==========================================================================
+   PAGINATOR (cz-paginator)
+   ========================================================================== */
+
+.cz-paginator {
+    display: block;
+}
+
+.cz-paginator-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--cz-spacing-md);
+    flex-wrap: wrap;
+    font-family: var(--cz-font-base);
+}
+
+.cz-paginator-rows {
+    padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
+    border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-input-border, var(--cz-color-gray-400));
+    border-radius: var(--cz-theme-radius-sm, var(--cz-radius-sm));
+    background: var(--cz-theme-input-bg, var(--cz-theme-surface));
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    font-size: var(--cz-font-size-sm);
+}
+
+.cz-paginator-pages {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--cz-spacing-xs);
+}
+
+.cz-paginator-nav,
+.cz-paginator-page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 var(--cz-spacing-xs);
+    border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-border-color, var(--cz-color-gray-200));
+    border-radius: var(--cz-theme-radius-sm, var(--cz-radius-sm));
+    background: var(--cz-theme-surface, var(--cz-color-white));
+    color: var(--cz-theme-text-secondary, var(--cz-color-gray-600));
+    font-size: var(--cz-font-size-sm);
+    cursor: pointer;
+    transition: var(--cz-transition-bg);
+
+    &:hover:not(:disabled) {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
+    }
+
+    &:disabled {
+        opacity: var(--cz-input-disabled-opacity, 0.5);
+        cursor: not-allowed;
+    }
+}
+
+.cz-paginator-page--active {
+    background: var(--cz-color-primary);
+    border-color: var(--cz-color-primary);
+    color: var(--cz-color-white);
+    font-weight: var(--cz-font-weight-semibold);
+
+    &:hover:not(:disabled) {
+        background: var(--cz-color-primary);
+    }
+}
+
+.cz-paginator-report {
+    font-size: var(--cz-font-size-sm);
+    color: var(--cz-theme-text-muted, var(--cz-color-gray-500));
+}

@@ -1,0 +1,42 @@
+/* ==========================================================================
+   INPUT OTP (cz-input-otp)
+   ========================================================================== */
+
+.cz-input-otp {
+    display: inline-flex;
+}
+
+.cz-input-otp-container {
+    display: inline-flex;
+    gap: var(--cz-spacing-sm);
+}
+
+.cz-input-otp-input {
+    width: 2.75rem;
+    height: 3rem;
+    padding: 0;
+    text-align: center;
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-xl);
+    font-weight: var(--cz-font-weight-semibold);
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    background: var(--cz-theme-input-bg, var(--cz-theme-surface));
+    border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-input-border, var(--cz-color-gray-400));
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+    transition: var(--cz-theme-transition-base, var(--cz-transition-normal));
+    outline: none;
+
+    &:focus {
+        border-color: var(--cz-color-primary);
+        box-shadow: 0 0 0 3px var(--cz-color-primary-200);
+    }
+
+    &:disabled {
+        opacity: var(--cz-input-disabled-opacity, 0.5);
+        cursor: not-allowed;
+    }
+}
+
+.cz-input-otp--disabled {
+    opacity: var(--cz-input-disabled-opacity, 0.5);
+}

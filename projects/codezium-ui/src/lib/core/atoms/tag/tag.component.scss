@@ -1,0 +1,42 @@
+/* ==========================================================================
+   TAG (cz-tag)
+   ========================================================================== */
+
+.cz-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--cz-spacing-xs);
+    font-family: var(--cz-font-base);
+    font-weight: var(--cz-font-weight-medium);
+    line-height: 1;
+    border-radius: var(--cz-radius-sm);
+    background: var(--cz-tag-color);
+    color: var(--cz-color-white);
+
+    &.cz-tag--rounded {
+        border-radius: 999px;
+    }
+
+    &[data-severity="primary"] { --cz-tag-color: var(--cz-color-primary); }
+    &[data-severity="secondary"] { --cz-tag-color: var(--cz-color-secondary); }
+    &[data-severity="success"] { --cz-tag-color: var(--cz-color-success); }
+    &[data-severity="info"] { --cz-tag-color: var(--cz-color-info); }
+    &[data-severity="warning"] { --cz-tag-color: var(--cz-color-warning); }
+    &[data-severity="danger"] { --cz-tag-color: var(--cz-color-danger); }
+    &[data-severity="dark"] { --cz-tag-color: var(--cz-color-gray-900); }
+}
+
+.cz-tag[data-size="sm"] {
+    font-size: var(--cz-font-size-xs);
+    padding: 0.2rem 0.45rem;
+}
+
+.cz-tag[data-size="md"] {
+    font-size: var(--cz-font-size-sm);
+    padding: 0.3rem 0.6rem;
+}
+
+.cz-tag[data-size="lg"] {
+    font-size: var(--cz-font-size);
+    padding: 0.4rem 0.75rem;
+}

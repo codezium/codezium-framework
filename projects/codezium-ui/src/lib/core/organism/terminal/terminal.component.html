@@ -1,0 +1,26 @@
+<div class="cz-terminal-container">
+    <div class="cz-terminal-output" role="log" aria-live="polite" [attr.aria-label]="ariaLabel()">
+        @for (line of lines(); track $index) {
+            <div class="cz-terminal-line" [class.cz-terminal-line--command]="line.type === 'command'">
+                @if (line.type === 'command') {
+                    <span class="cz-terminal-prompt">{{ prompt() }}</span>
+                }
+                <span class="cz-terminal-text">{{ line.text }}</span>
+            </div>
+        }
+    </div>
+
+    <div class="cz-terminal-input-line">
+        <span class="cz-terminal-prompt">{{ prompt() }}</span>
+        <input
+            class="cz-terminal-input"
+            type="text"
+            autocomplete="off"
+            spellcheck="false"
+            [attr.aria-label]="ariaLabel()"
+            [ngModel]="inputValue()"
+            (ngModelChange)="inputValue.set($event)"
+            (keydown)="onKeyDown($event)"
+        />
+    </div>
+</div>

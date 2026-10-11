@@ -1,0 +1,15 @@
+<div class="cz-popover-wrapper">
+    <span class="cz-popover-trigger" (click)="toggle($event)">
+        <ng-content select="[czPopoverTrigger]" />
+    </span>
+
+    @if (visible()) {
+        <div
+            class="cz-popover-panel"
+            role="dialog"
+            [attr.data-position]="position()"
+        >
+            <ng-content />
+        </div>
+    }
+</div>

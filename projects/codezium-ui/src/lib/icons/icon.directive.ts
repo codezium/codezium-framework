@@ -9,17 +9,16 @@ import {
     SimpleChanges,
     inject
 } from '@angular/core';
-import { type LucideIconData } from 'lucide-angular';
+import { type LucideIconInput } from '@lucide/angular';
 import { CzIconComponent } from './icon.component';
 
 @Directive({
     selector: '[czIcon]',
-    standalone: true
 })
 export class CzIconDirective implements OnChanges {
     // Input principal para recibir el icono. Usamos Input antiguo para compatibilidad amplia
     // en lugar de input.required() debido a limitantes de Angular al crear componentes dinámicos simples
-    @Input('czIcon') icon!: LucideIconData;
+    @Input('czIcon') icon!: LucideIconInput;
 
     // Tamaño del icono
     @Input() czIconSize: number | string = 20;

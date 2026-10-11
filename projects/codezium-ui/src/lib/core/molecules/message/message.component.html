@@ -1,0 +1,18 @@
+@if (!closed()) {
+    <div class="cz-message-content" role="alert">
+        <svg [lucideIcon]="actualIcon()" [size]="18" class="cz-message-icon"></svg>
+
+        <div class="cz-message-body">
+            @if (text()) {
+                <span class="cz-message-text">{{ text() }}</span>
+            }
+            <ng-content />
+        </div>
+
+        @if (closable()) {
+            <button type="button" class="cz-message-close" aria-label="Close" (click)="close()">
+                &times;
+            </button>
+        }
+    </div>
+}

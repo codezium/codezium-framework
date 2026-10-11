@@ -1,0 +1,26 @@
+<svg
+    class="cz-progress-spinner-svg"
+    [attr.width]="size()"
+    [attr.height]="size()"
+    viewBox="25 25 50 50"
+    role="progressbar"
+    [attr.aria-label]="ariaLabel()"
+    [style.animation-duration]="animationDuration()"
+>
+    <circle
+        class="cz-progress-spinner-track"
+        cx="50"
+        cy="50"
+        r="20"
+        fill="none"
+        [attr.stroke-width]="strokeWidth()"
+    />
+    <circle
+        class="cz-progress-spinner-fill"
+        cx="50"
+        cy="50"
+        r="20"
+        [attr.fill]="fill()"
+        [attr.stroke-width]="strokeWidth()"
+    />
+</svg>

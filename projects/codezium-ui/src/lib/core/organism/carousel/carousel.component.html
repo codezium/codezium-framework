@@ -1,0 +1,37 @@
+<div class="cz-carousel-container">
+    <div class="cz-carousel-viewport">
+        <div
+            class="cz-carousel-track"
+            [style.transform]="'translateX(-' + activeIndex() * 100 + '%)'"
+        >
+            @for (item of items(); track $index) {
+                <div class="cz-carousel-slide">{{ display(item) }}</div>
+            }
+        </div>
+    </div>
+
+    @if (showNavigators() && items().length > 1) {
+        <button type="button" class="cz-carousel-nav cz-carousel-nav--prev" aria-label="Previous slide" (click)="prev()">
+            <svg [lucideIcon]="PrevIcon" [size]="18"></svg>
+        </button>
+        <button type="button" class="cz-carousel-nav cz-carousel-nav--next" aria-label="Next slide" (click)="next()">
+            <svg [lucideIcon]="NextIcon" [size]="18"></svg>
+        </button>
+    }
+
+    @if (showIndicators() && items().length > 1) {
+        <div class="cz-carousel-indicators" role="tablist">
+            @for (item of items(); track $index; let i = $index) {
+                <button
+                    type="button"
+                    class="cz-carousel-indicator"
+                    role="tab"
+                    [class.cz-carousel-indicator--active]="i === activeIndex()"
+                    [attr.aria-selected]="i === activeIndex()"
+                    [attr.aria-label]="'Slide ' + (i + 1)"
+                    (click)="goTo(i)"
+                ></button>
+            }
+        </div>
+    }
+</div>

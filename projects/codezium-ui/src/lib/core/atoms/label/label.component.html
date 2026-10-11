@@ -1,0 +1,6 @@
+<label class="cz-label" [attr.for]="htmlFor() || null">
+    <ng-content />
+    @if (required()) {
+        <span class="cz-label-required" aria-hidden="true">*</span>
+    }
+</label>

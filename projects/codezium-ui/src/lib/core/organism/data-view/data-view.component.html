@@ -1,0 +1,38 @@
+<div class="cz-data-view-container">
+    @if (sortable() || rows() > 0) {
+        <div class="cz-data-view-header">
+            @if (sortable()) {
+                <button
+                    type="button"
+                    class="cz-data-view-sort"
+                    [attr.aria-label]="'Sort by ' + field()"
+                    (click)="toggleSort()"
+                >
+                    <svg [lucideIcon]="SortIcon" [size]="14"></svg>
+                    <span>{{ sortOrder() === 'asc' ? 'ASC' : sortOrder() === 'desc' ? 'DESC' : 'SORT' }}</span>
+                </button>
+            }
+        </div>
+    }
+
+    @if (processedValue().length > 0) {
+        <div class="cz-data-view-items" [attr.data-layout]="layout()">
+            @for (item of processedValue(); track $index) {
+                <div class="cz-data-view-item">{{ display(item) }}</div>
+            }
+        </div>
+    } @else {
+        <div class="cz-data-view-empty">{{ emptyMessage() }}</div>
+    }
+
+    @if (rows() > 0) {
+        <div class="cz-data-view-footer">
+            <cz-paginator
+                [totalRecords]="value().length"
+                [rows]="rows()"
+                [ngModel]="page()"
+                (ngModelChange)="page.set($event)"
+            />
+        </div>
+    }
+</div>

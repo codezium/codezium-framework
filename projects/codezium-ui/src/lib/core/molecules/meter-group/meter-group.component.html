@@ -1,0 +1,21 @@
+<div class="cz-meter-group-container">
+    <div class="cz-meter-group-bar" role="img" [attr.aria-label]="'Total ' + total() + ' of ' + max()">
+        @for (item of value(); track item.label; let i = $index) {
+            <div
+                class="cz-meter-group-segment"
+                [style.background]="colorOf(item, i)"
+                [style.flex-basis.%]="percentOf(item)"
+            ></div>
+        }
+    </div>
+
+    <ul class="cz-meter-group-legend">
+        @for (item of value(); track item.label; let i = $index) {
+            <li class="cz-meter-group-legend-item">
+                <span class="cz-meter-group-dot" [style.background]="colorOf(item, i)"></span>
+                <span class="cz-meter-group-legend-label">{{ item.label }}</span>
+                <span class="cz-meter-group-legend-value">{{ item.value }}</span>
+            </li>
+        }
+    </ul>
+</div>

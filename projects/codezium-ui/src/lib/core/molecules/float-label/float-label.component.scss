@@ -1,0 +1,51 @@
+/* ==========================================================================
+   FLOAT LABEL (cz-float-label)
+   Usage: <cz-float-label><input placeholder=" " /><label>Name</label></cz-float-label>
+   The label must be placed after the input. A placeholder (even " ") is required
+   for the :placeholder-shown detection.
+   ========================================================================== */
+
+.cz-float-label {
+    position: relative;
+    display: inline-block;
+
+    > input,
+    > .cz-input-container {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    > label {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+        font-family: var(--cz-font-base);
+        font-size: var(--cz-font-size);
+        pointer-events: none;
+        transition: var(--cz-theme-transition-base, var(--cz-transition-normal));
+        white-space: nowrap;
+    }
+
+    /* Floated state */
+    > input:focus ~ label,
+    > input:not(:placeholder-shown) ~ label {
+        top: 0;
+        transform: translateY(-50%) scale(0.85);
+        transform-origin: left center;
+        background: var(--cz-theme-surface, var(--cz-color-white));
+        padding: 0 0.25rem;
+        color: var(--cz-theme-input-label-active, var(--cz-color-gray-900));
+    }
+}
+
+/* Variant: label floats fully above the border (no background) */
+.cz-float-label[data-variant="over"] {
+    > input:focus ~ label,
+    > input:not(:placeholder-shown) ~ label {
+        top: -0.6rem;
+        background: transparent;
+        padding: 0;
+    }
+}

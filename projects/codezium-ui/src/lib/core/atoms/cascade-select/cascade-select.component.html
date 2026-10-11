@@ -1,0 +1,55 @@
+<div class="cz-cascade-select-wrapper">
+    <div
+        class="cz-cascade-select-trigger"
+        [class.cz-cascade-select-trigger--open]="isOpen()"
+        tabindex="0"
+        role="button"
+        aria-haspopup="listbox"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-label]="ariaLabel()"
+        (click)="toggle()"
+        (keydown)="onKeyDown($event)"
+    >
+        @if (value() !== null && value() !== undefined) {
+            <span class="cz-cascade-select-value">{{ selectedLabel() }}</span>
+        } @else {
+            <span class="cz-cascade-select-placeholder">{{ placeholder() }}</span>
+        }
+
+        @if (clearable() && value() !== null && value() !== undefined && !actualDisabled()) {
+            <svg [lucideIcon]="XIcon" [size]="14" class="cz-cascade-select-clear" (click)="clear($event)"></svg>
+        }
+
+        <svg [lucideIcon]="ChevronDownIcon" [size]="16" class="cz-cascade-select-chevron"></svg>
+    </div>
+
+    @if (isOpen()) {
+        <div class="cz-cascade-select-panel">
+            <div class="cz-cascade-select-columns">
+                @for (column of columns(); track $index; let colIndex = $index) {
+                    <ul class="cz-cascade-select-column" role="listbox">
+                        @for (option of column; track getOptionLabel(option)) {
+                            <li
+                                class="cz-cascade-select-option"
+                                role="option"
+                                [attr.aria-selected]="isSelected(option)"
+                                [class.cz-cascade-select-option--hovered]="isHovered(option, colIndex)"
+                                [class.cz-cascade-select-option--selected]="isSelected(option)"
+                                (click)="selectOption(option, $event, colIndex)"
+                                (mouseenter)="hoverOption(option, colIndex)"
+                            >
+                                <span>{{ getOptionLabel(option) }}</span>
+
+                                @if (option.items?.length) {
+                                    <svg [lucideIcon]="ChevronRightIcon" [size]="14"></svg>
+                                } @else if (isSelected(option)) {
+                                    <svg [lucideIcon]="CheckIcon" [size]="14"></svg>
+                                }
+                            </li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+    }
+</div>

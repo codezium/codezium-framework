@@ -2,15 +2,14 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CzRatingComponent } from 'codezium-ui';
-import { LucideAngularModule, Heart, HeartOff, Zap } from 'lucide-angular';
+import { LucideHeart, LucideHeartOff, LucideZap } from '@lucide/angular';
 import { AppCodeComponent, Code } from '../../../../shared/code-block/code-block.component';
 import { LanguageService } from '../../../../core/services/language.service';
 import { RATING_DOC_I18N } from './rating-doc.i18n';
 
 @Component({
     selector: 'cz-rating-doc-page',
-    standalone: true,
-    imports: [CommonModule, CzRatingComponent, AppCodeComponent, ReactiveFormsModule, FormsModule, LucideAngularModule],
+    imports: [CommonModule, CzRatingComponent, AppCodeComponent, ReactiveFormsModule, FormsModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <div class="doc-page">
@@ -127,9 +126,9 @@ import { RATING_DOC_I18N } from './rating-doc.i18n';
                             <tr><td><code>cancel</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Whether to show the cancel button.</td></tr>
                             <tr><td><code>readonly</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Readonly state.</td></tr>
                             <tr><td><code>disabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disabled state.</td></tr>
-                            <tr><td><code>iconOn</code></td><td><code>any</code></td><td><code>Star</code></td><td>Icon for active state.</td></tr>
-                            <tr><td><code>iconOff</code></td><td><code>any</code></td><td><code>StarOff</code></td><td>Icon for inactive state.</td></tr>
-                            <tr><td><code>iconCancel</code></td><td><code>any</code></td><td><code>XCircle</code></td><td>Icon for cancel button.</td></tr>
+                            <tr><td><code>iconOn</code></td><td><code>LucideIconInput</code></td><td><code>LucideStar</code></td><td>Icon for active state.</td></tr>
+                            <tr><td><code>iconOff</code></td><td><code>LucideIconInput</code></td><td><code>LucideStarOff</code></td><td>Icon for inactive state.</td></tr>
+                            <tr><td><code>iconCancel</code></td><td><code>LucideIconInput</code></td><td><code>LucideXCircle</code></td><td>Icon for cancel button.</td></tr>
                             <tr><td><code>color</code></td><td><code>string</code></td><td><code>'primary'</code></td><td>Color variant.</td></tr>
                         </tbody>
                     </table>
@@ -151,9 +150,9 @@ export class RatingDocPage {
     valLabel2 = signal<number>(5);
     valSize = signal<number>(3);
 
-    HeartIcon = Heart;
-    HeartOffIcon = HeartOff;
-    ZapIcon = Zap;
+    HeartIcon = LucideHeart;
+    HeartOffIcon = LucideHeartOff;
+    ZapIcon = LucideZap;
 
     importCode: Code = {
         typescript: `import { CzRatingComponent } from 'codezium-ui';`
@@ -196,12 +195,12 @@ export class RatingDocPage {
     customIconsCode: Code = {
         html: `<cz-rating [(ngModel)]="valHeart" [iconOn]="HeartIcon" [iconOff]="HeartOffIcon" color="danger" />
 <cz-rating [(ngModel)]="valZap" [iconOn]="ZapIcon" color="warning" [cancel]="false" />`,
-        typescript: `import { Heart, HeartOff, Zap } from 'lucide-angular';
+        typescript: `import { LucideHeart, LucideHeartOff, LucideZap } from '@lucide/angular';
 
 export class MyComponent {
-    HeartIcon = Heart;
-    HeartOffIcon = HeartOff;
-    ZapIcon = Zap;
+    HeartIcon = LucideHeart;
+    HeartOffIcon = LucideHeartOff;
+    ZapIcon = LucideZap;
     
     valHeart = signal(3);
     valZap = signal(5);

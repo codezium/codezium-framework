@@ -1,0 +1,51 @@
+/* ==========================================================================
+   TABS (cz-tabs + cz-tab)
+   ========================================================================== */
+
+.cz-tabs {
+    display: block;
+}
+
+.cz-tabs-header {
+    display: flex;
+    align-items: center;
+    gap: var(--cz-spacing-xs);
+    border-bottom: var(--cz-theme-border-width, 1px) solid var(--cz-theme-divider, var(--cz-color-gray-200));
+    margin-bottom: var(--cz-spacing-md);
+}
+
+.cz-tabs-tab {
+    padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: var(--cz-theme-text-secondary, var(--cz-color-gray-600));
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+    font-weight: var(--cz-font-weight-medium);
+    cursor: pointer;
+    transition: var(--cz-transition-color);
+
+    &:hover:not(:disabled) {
+        color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    }
+
+    &:disabled {
+        opacity: var(--cz-input-disabled-opacity, 0.5);
+        cursor: not-allowed;
+    }
+
+    &.cz-tabs-tab--active {
+        color: var(--cz-color-primary);
+        border-bottom-color: var(--cz-color-primary);
+    }
+}
+
+.cz-tabs-content {
+    display: block;
+}
+
+.cz-tab-panel {
+    display: block;
+    color: var(--cz-theme-text-secondary, var(--cz-color-gray-700));
+}

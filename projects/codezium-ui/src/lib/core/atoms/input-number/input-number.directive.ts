@@ -1,7 +1,6 @@
 import {
   Directive,
   ElementRef,
-  HostListener,
   Renderer2,
   forwardRef,
   input,
@@ -16,7 +15,13 @@ export type CzInputNumberMode = 'decimal' | 'currency';
 
 @Directive({
   selector: '[czInputNumber]',
-  standalone: true
+  host: {
+    '(focus)': 'onFocus()',
+    '(blur)': 'onBlur()',
+    '(keydown)': 'onKeyDown($event)',
+    '(paste)': 'onPaste($event)',
+    '(input)': 'onInput($event)',
+  },
 })
 export class CzInputNumberDirective implements ControlValueAccessor, OnInit {
   private el = inject(ElementRef);
@@ -114,13 +119,11 @@ export class CzInputNumberDirective implements ControlValueAccessor, OnInit {
   }
 
   // ==== Host Listeners ====
-  @HostListener('focus')
   onFocus(): void {
     this.isFocused = true;
     this.updateView(true); // Maybe strip formatting for easier editing, or just keep as is
   }
 
-  @HostListener('blur')
   onBlur(): void {
     this.isFocused = false;
     this.onTouched();
@@ -128,7 +131,6 @@ export class CzInputNumberDirective implements ControlValueAccessor, OnInit {
     this.updateView(); // Re-apply strict formatting
   }
 
-  @HostListener('keydown', ['$event'])
   onKeyDown(event: KeyboardEvent): void {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
       if (this.ALWAYS_PERMITTED_KEYS.has(event.key)) return;
@@ -138,7 +140,6 @@ export class CzInputNumberDirective implements ControlValueAccessor, OnInit {
       }
   }
 
-  @HostListener('paste', ['$event'])
   onPaste(event: ClipboardEvent): void {
       const pastedText = event.clipboardData?.getData('text') ?? '';
       if (!pastedText.split('').every(char => this.allowedRegex.test(char))) {
@@ -146,7 +147,6 @@ export class CzInputNumberDirective implements ControlValueAccessor, OnInit {
       }
   }
 
-  @HostListener('input', ['$event'])
   onInput(event: Event): void {
     const target = event.target as HTMLInputElement | null;
     if (!target) return;

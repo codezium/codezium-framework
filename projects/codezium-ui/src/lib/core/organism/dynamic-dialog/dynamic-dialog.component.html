@@ -1,0 +1,9 @@
+<cz-dialog
+    [visible]="visible()"
+    [header]="active()?.config?.header || ''"
+    [width]="active()?.config?.width || '30rem'"
+    [closable]="active()?.config?.closable !== false"
+    (onHide)="close()"
+>
+    <ng-template #host></ng-template>
+</cz-dialog>

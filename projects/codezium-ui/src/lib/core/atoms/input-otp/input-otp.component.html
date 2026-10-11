@@ -1,0 +1,20 @@
+<div class="cz-input-otp-container" role="group" [attr.aria-label]="ariaLabel()">
+    @for (i of indexes(); track i) {
+        <input
+            #otpInput
+            class="cz-input-otp-input"
+            [type]="mask() ? 'password' : 'text'"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            maxlength="1"
+            [value]="charAt(i)"
+            [disabled]="actualDisabled()"
+            [readonly]="readonly()"
+            [attr.aria-label]="(i + 1) + ' / ' + length()"
+            (input)="onInput($event, i)"
+            (keydown)="onKeyDown($event, i)"
+            (paste)="onPaste($event, i)"
+            (blur)="onTouched()"
+        />
+    }
+</div>

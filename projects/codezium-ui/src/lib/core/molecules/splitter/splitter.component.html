@@ -1,0 +1,19 @@
+<div #container class="cz-splitter-container">
+    @for (size of sizes(); track $index; let i = $index; let last = $last) {
+        <div class="cz-splitter-panel" [style.flex-basis.%]="size">
+            <ng-content />
+        </div>
+
+        @if (!last) {
+            <div
+                class="cz-splitter-gutter"
+                role="separator"
+                tabindex="0"
+                [attr.aria-orientation]="orientation()"
+                [attr.aria-label]="'Resize panel ' + (i + 1)"
+                (mousedown)="startResize($event, i)"
+                (keydown)="onGutterKeyDown($event, i)"
+            ></div>
+        }
+    }
+</div>

@@ -1,4 +1,4 @@
-import { Directive, input, HostListener } from '@angular/core';
+import { Directive, input } from '@angular/core';
 
 export type CzKeyFilterPreset = 'integer' | 'number' | 'money' | 'hex' | 'alpha' | 'alphanum';
 
@@ -33,7 +33,10 @@ const ALWAYS_PERMITTED_KEYS = new Set([
  */
 @Directive({
     selector: '[czKeyFilter]',
-    host: {}, // Host bindings handled via @HostListener
+    host: {
+        '(keydown)': 'onKeyDown($event)',
+        '(paste)': 'onPaste($event)',
+    },
 })
 export class CzKeyFilterDirective {
     /** Accept either a preset string or a raw RegExp */
@@ -47,7 +50,6 @@ export class CzKeyFilterDirective {
         return CZ_KEY_FILTER_PRESETS[val] ?? CZ_KEY_FILTER_PRESETS['alphanum'];
     }
 
-    @HostListener('keydown', ['$event'])
     onKeyDown(event: KeyboardEvent): void {
         // Never block meta combinations (Ctrl+C, Cmd+V, etc.)
         if (event.ctrlKey || event.metaKey || event.altKey) return;
@@ -61,7 +63,6 @@ export class CzKeyFilterDirective {
         }
     }
 
-    @HostListener('paste', ['$event'])
     onPaste(event: ClipboardEvent): void {
         const pastedText = event.clipboardData?.getData('text') ?? '';
         // Validate that every character in the pasted string is valid

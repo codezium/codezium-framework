@@ -8,7 +8,8 @@ import {
   signal,
   ElementRef,
   ViewChild,
-  effect
+  effect,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgControl, ControlValueAccessor } from '@angular/forms';
@@ -17,11 +18,11 @@ import { CzInputSize, CzLabelPosition, CzInputColor } from '../../types';
 
 @Component({
   selector: 'cz-textarea',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './textarea.component.html',
   styleUrls: ['./textarea.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.Eager,
+  encapsulation: ViewEncapsulation.None,
 })
 export class CzTextAreaComponent implements ControlValueAccessor {
   @ViewChild('textareaElement') textareaElement!: ElementRef<HTMLTextAreaElement>;
@@ -60,14 +61,14 @@ export class CzTextAreaComponent implements ControlValueAccessor {
   actualPlaceholder = computed(() => {
     const positionsToHide: CzLabelPosition[] = ['float', 'in', 'over'];
     if (positionsToHide.includes(this.labelPosition()) && this.label()) {
-      return (this.isFocused() || this.hasValue()) ? this.placeholder() : '';
+      return this.isFocused() || this.hasValue() ? this.placeholder() : '';
     }
     return this.placeholder();
   });
 
   // Callbacks
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
   constructor(@Optional() @Self() public ngControl: NgControl) {
     if (this.ngControl != null) {
@@ -95,7 +96,7 @@ export class CzTextAreaComponent implements ControlValueAccessor {
     const errors = this.ngControl.errors;
     const dictionary = {
       ...CZ_VALIDATION_MESSAGES[this.locale()],
-      ...this.customErrors()
+      ...this.customErrors(),
     };
 
     for (const key of Object.keys(errors)) {

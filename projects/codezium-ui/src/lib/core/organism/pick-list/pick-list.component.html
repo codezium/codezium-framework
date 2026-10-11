@@ -1,0 +1,72 @@
+<div class="cz-pick-list-container" [attr.aria-label]="ariaLabel()">
+    <ul class="cz-pick-list-panel" role="listbox" aria-label="Source">
+        @for (item of availableItems(); track $index; let i = $index) {
+            <li
+                class="cz-pick-list-item"
+                role="option"
+                [attr.aria-selected]="i === selectedSource()"
+                [class.cz-pick-list-item--selected]="i === selectedSource()"
+                (click)="selectSource(i)"
+            >
+                {{ display(item) }}
+            </li>
+        } @empty {
+            <li class="cz-pick-list-empty">No items</li>
+        }
+    </ul>
+
+    <div class="cz-pick-list-controls">
+        <button
+            type="button"
+            class="cz-pick-list-btn"
+            aria-label="Move all right"
+            [disabled]="!canMoveAllRight()"
+            (click)="moveAllRight()"
+        >
+            <svg [lucideIcon]="AllRightIcon" [size]="16"></svg>
+        </button>
+        <button
+            type="button"
+            class="cz-pick-list-btn"
+            aria-label="Move right"
+            [disabled]="!canMoveRight()"
+            (click)="moveRight()"
+        >
+            <svg [lucideIcon]="RightIcon" [size]="16"></svg>
+        </button>
+        <button
+            type="button"
+            class="cz-pick-list-btn"
+            aria-label="Move left"
+            [disabled]="!canMoveLeft()"
+            (click)="moveLeft()"
+        >
+            <svg [lucideIcon]="LeftIcon" [size]="16"></svg>
+        </button>
+        <button
+            type="button"
+            class="cz-pick-list-btn"
+            aria-label="Move all left"
+            [disabled]="!canMoveAllLeft()"
+            (click)="moveAllLeft()"
+        >
+            <svg [lucideIcon]="AllLeftIcon" [size]="16"></svg>
+        </button>
+    </div>
+
+    <ul class="cz-pick-list-panel" role="listbox" aria-label="Target">
+        @for (item of target(); track $index; let i = $index) {
+            <li
+                class="cz-pick-list-item"
+                role="option"
+                [attr.aria-selected]="i === selectedTarget()"
+                [class.cz-pick-list-item--selected]="i === selectedTarget()"
+                (click)="selectTarget(i)"
+            >
+                {{ display(item) }}
+            </li>
+        } @empty {
+            <li class="cz-pick-list-empty">No items</li>
+        }
+    </ul>
+</div>

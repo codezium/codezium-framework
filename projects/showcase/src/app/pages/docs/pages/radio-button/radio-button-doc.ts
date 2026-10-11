@@ -8,7 +8,6 @@ import { RADIO_BUTTON_DOC_I18N } from './radio-button-doc.i18n';
 
 @Component({
     selector: 'cz-radio-button-doc-page',
-    standalone: true,
     imports: [CommonModule, CzRadioButtonComponent, AppCodeComponent, ReactiveFormsModule, FormsModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `

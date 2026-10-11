@@ -1,0 +1,51 @@
+/* ==========================================================================
+   AVATAR (cz-avatar)
+   ========================================================================== */
+
+.cz-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--cz-theme-surface-active, var(--cz-color-gray-200));
+    color: var(--cz-theme-text-secondary, var(--cz-color-gray-700));
+    border-radius: 50%;
+    font-family: var(--cz-font-base);
+    font-weight: var(--cz-font-weight-semibold);
+    text-transform: uppercase;
+    line-height: 1;
+
+    &.cz-avatar--square {
+        border-radius: var(--cz-radius-sm);
+    }
+}
+
+.cz-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cz-avatar[data-size="sm"] {
+    width: 2rem;
+    height: 2rem;
+    font-size: var(--cz-font-size-sm);
+}
+
+.cz-avatar[data-size="md"] {
+    width: 2.75rem;
+    height: 2.75rem;
+    font-size: var(--cz-font-size-lg);
+}
+
+.cz-avatar[data-size="lg"] {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: var(--cz-font-size-xl);
+}
+
+.cz-avatar[data-size="xl"] {
+    width: 5rem;
+    height: 5rem;
+    font-size: var(--cz-font-size-3xl);
+}

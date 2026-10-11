@@ -1,0 +1,16 @@
+<div
+    class="cz-virtual-scroller-viewport"
+    [style.height.px]="height()"
+    tabindex="0"
+    (scroll)="onScroll($event)"
+>
+    <div class="cz-virtual-scroller-spacer" [style.height.px]="totalHeight()"></div>
+
+    <div class="cz-virtual-scroller-items" [style.transform]="'translateY(' + offsetY() + 'px)'">
+        @for (item of visibleItems(); track item.index) {
+            <div class="cz-virtual-scroller-item" [style.height.px]="itemSize()">
+                {{ display(item.value) }}
+            </div>
+        }
+    </div>
+</div>

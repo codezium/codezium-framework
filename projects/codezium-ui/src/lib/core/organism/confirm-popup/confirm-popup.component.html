@@ -1,0 +1,24 @@
+@if (visible()) {
+    <div
+        class="cz-confirm-popup"
+        role="dialog"
+        [style.left.px]="position()?.x ?? 0"
+        [style.top.px]="position()?.y ?? 0"
+    >
+        <p class="cz-confirm-popup-message">{{ config()?.message }}</p>
+
+        <div class="cz-confirm-popup-actions">
+            <cz-button
+                [label]="config()?.rejectLabel || 'No'"
+                variant="text"
+                severity="secondary"
+                (onClick)="reject()"
+            />
+            <cz-button
+                [label]="config()?.acceptLabel || 'Yes'"
+                [severity]="config()?.severity || 'primary'"
+                (onClick)="accept()"
+            />
+        </div>
+    </div>
+}

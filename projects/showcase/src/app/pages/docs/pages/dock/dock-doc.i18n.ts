@@ -1,0 +1,42 @@
+export const DOCK_DOC_I18N = {
+    en: {
+        title: 'Dock',
+        lead: 'Dock provides a navigation bar with magnifying icons and tooltips, similar to macOS.',
+        importTitle: 'Import',
+        basic: 'Basic Usage',
+        basicDesc: 'Pass flat items with <code>icon</code>, <code>label</code> and <code>command</code>.',
+        api: 'API Reference',
+    },
+    es: {
+        title: 'Dock',
+        lead: 'Dock ofrece una barra de navegación con iconos que se agrandan y tooltips, similar a macOS.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Pasa ítems planos con <code>icon</code>, <code>label</code> y <code>command</code>.',
+        api: 'Referencia API',
+    },
+    pt: {
+        title: 'Dock',
+        lead: 'Dock oferece uma barra de navegação com ícones que ampliam e tooltips, similar ao macOS.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Passe itens planos com <code>icon</code>, <code>label</code> e <code>command</code>.',
+        api: 'Referência da API',
+    },
+    fr: {
+        title: 'Dock',
+        lead: 'Dock fournit une barre de navigation avec des icônes grossissantes et des infobulles, similaire à macOS.',
+        importTitle: 'Importer',
+        basic: 'Utilisation de Base',
+        basicDesc: 'Passez des éléments plats avec <code>icon</code>, <code>label</code> et <code>command</code>.',
+        api: 'Référence API',
+    },
+    de: {
+        title: 'Dock',
+        lead: 'Dock bietet eine Navigationsleiste mit vergrößernden Icons und Tooltips, ähnlich wie macOS.',
+        importTitle: 'Importieren',
+        basic: 'Grundlegende Verwendung',
+        basicDesc: 'Übergeben Sie flache Elemente mit <code>icon</code>, <code>label</code> und <code>command</code>.',
+        api: 'API-Referenz',
+    },
+};

@@ -1,0 +1,92 @@
+/* ==========================================================================
+   CAROUSEL (cz-carousel)
+   ========================================================================== */
+
+.cz-carousel {
+    display: block;
+}
+
+.cz-carousel-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+}
+
+.cz-carousel-viewport {
+    overflow: hidden;
+}
+
+.cz-carousel-track {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+
+.cz-carousel-slide {
+    flex: 0 0 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 12rem;
+    padding: var(--cz-spacing-xl);
+    background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-lg);
+    font-weight: var(--cz-font-weight-medium);
+    text-align: center;
+}
+
+.cz-carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--cz-theme-surface, var(--cz-color-white)) 80%, transparent);
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    cursor: pointer;
+    box-shadow: var(--cz-shadow-sm);
+
+    &:hover {
+        background: var(--cz-theme-surface, var(--cz-color-white));
+    }
+
+    &--prev {
+        left: var(--cz-spacing-md);
+    }
+
+    &--next {
+        right: var(--cz-spacing-md);
+    }
+}
+
+.cz-carousel-indicators {
+    position: absolute;
+    bottom: var(--cz-spacing-md);
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    gap: var(--cz-spacing-xs);
+}
+
+.cz-carousel-indicator {
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--cz-theme-text-muted, var(--cz-color-gray-400));
+    cursor: pointer;
+    transition: var(--cz-transition-transform);
+
+    &.cz-carousel-indicator--active {
+        background: var(--cz-color-primary);
+        transform: scale(1.3);
+    }
+}

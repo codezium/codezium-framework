@@ -1,0 +1,62 @@
+<div class="cz-table-container">
+    <table class="cz-table-native">
+        <thead>
+            <tr>
+                @for (column of columns(); track column.field) {
+                    <th
+                        scope="col"
+                        [style.width]="column.width || null"
+                        [class.cz-table-th--sortable]="isColumnSortable(column)"
+                        [attr.aria-sort]="isSorted(column) ? (sortOrder() === 'asc' ? 'ascending' : 'descending') : null"
+                    >
+                        <button
+                            type="button"
+                            class="cz-table-sort-btn"
+                            [disabled]="!isColumnSortable(column)"
+                            (click)="toggleSort(column)"
+                        >
+                            <span>{{ column.header }}</span>
+                            @if (isColumnSortable(column)) {
+                                <svg
+                                    [lucideIcon]="sortOrder() === 'asc' && isSorted(column) ? AscIcon : sortOrder() === 'desc' && isSorted(column) ? DescIcon : SortIcon"
+                                    [size]="14"
+                                    class="cz-table-sort-icon"
+                                ></svg>
+                            }
+                        </button>
+                    </th>
+                }
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (row of paginatedValue(); track $index) {
+                <tr
+                    class="cz-table-row"
+                    [class.cz-table-row--selected]="selectedRow() === row"
+                    [class.cz-table-row--selectable]="selectionMode() === 'single'"
+                    (click)="selectRow(row)"
+                >
+                    @for (column of columns(); track column.field) {
+                        <td>{{ row[column.field] }}</td>
+                    }
+                </tr>
+            } @empty {
+                <tr class="cz-table-empty-row">
+                    <td [attr.colspan]="columns().length || 1">{{ emptyMessage() }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (rows() > 0) {
+    <div class="cz-table-footer">
+        <cz-paginator
+            [totalRecords]="value().length"
+            [rows]="rows()"
+            [ngModel]="page()"
+            (ngModelChange)="page.set($event)"
+        />
+    </div>
+}

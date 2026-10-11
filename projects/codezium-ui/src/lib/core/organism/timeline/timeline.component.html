@@ -1,0 +1,21 @@
+<ul class="cz-timeline-container">
+    @for (event of value(); track event.title; let i = $index) {
+        <li class="cz-timeline-item" [class.cz-timeline-item--odd]="i % 2 === 1">
+            <div class="cz-timeline-marker" [attr.data-severity]="event.severity || 'primary'">
+                @if (event.icon; as iconRef) {
+                    <svg [lucideIcon]="iconRef" [size]="14"></svg>
+                }
+            </div>
+
+            <div class="cz-timeline-content" (click)="onEventSelect.emit(event)">
+                @if (event.date) {
+                    <span class="cz-timeline-date">{{ event.date }}</span>
+                }
+                <div class="cz-timeline-title">{{ event.title }}</div>
+                @if (event.content) {
+                    <p class="cz-timeline-text">{{ event.content }}</p>
+                }
+            </div>
+        </li>
+    }
+</ul>

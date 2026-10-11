@@ -1,0 +1,36 @@
+<div class="cz-speed-dial-container">
+    @if (open()) {
+        <ul class="cz-speed-dial-actions" role="menu">
+            @for (item of items(); track $index) {
+                <li role="none">
+                    <button
+                        type="button"
+                        class="cz-speed-dial-action"
+                        role="menuitem"
+                        [disabled]="item.disabled || false"
+                        [attr.aria-label]="item.label || null"
+                        [attr.title]="item.label || null"
+                        (click)="activate(item, $event)"
+                    >
+                        @if (item.icon; as iconRef) {
+                            <svg [lucideIcon]="iconRef" [size]="18"></svg>
+                        } @else {
+                            <span>{{ item.label?.charAt(0) }}</span>
+                        }
+                    </button>
+                </li>
+            }
+        </ul>
+    }
+
+    <button
+        type="button"
+        class="cz-speed-dial-trigger"
+        [class.cz-speed-dial-trigger--open]="open()"
+        [attr.aria-label]="ariaLabel()"
+        [attr.aria-expanded]="open()"
+        (click)="toggle($event)"
+    >
+        <svg [lucideIcon]="icon() ?? PlusIcon" [size]="20"></svg>
+    </button>
+</div>

@@ -1,0 +1,196 @@
+.cz-toggle-button {
+    display: inline-block;
+    vertical-align: middle;
+
+    &-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        &--label-left {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        &--label-right {
+            flex-direction: row-reverse;
+            align-items: center;
+        }
+    }
+
+    &-label {
+        font-family: var(--cz-font-base);
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--cz-theme-text-primary, #374151);
+    }
+
+    &-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    &-input {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.2s ease;
+        border: 1px solid var(--cz-theme-border-color, #d1d5db);
+        background: var(--cz-theme-surface, #ffffff);
+        color: var(--cz-theme-text-primary, #374151);
+        font-family: var(--cz-font-base);
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: var(--cz-radius-md, 8px);
+        min-width: 6rem;
+
+        &:focus-visible {
+            outline: 2px solid var(--cz-color-primary);
+            outline-offset: 2px;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        &--checked {
+            background: var(--cz-color-primary);
+            border-color: var(--cz-color-primary);
+            color: var(--cz-color-white, #ffffff);
+        }
+    }
+
+    &-content {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    &-helper {
+        font-size: 0.75rem;
+        color: var(--cz-theme-text-secondary, #6b7280);
+    }
+
+    &-error {
+        font-size: 0.75rem;
+        color: var(--cz-color-danger, #ef4444);
+        margin-top: 2px;
+    }
+
+    /* ── SIZES ── */
+    &[data-size="sm"] {
+        .cz-toggle-button-input {
+            padding: 0.35rem 0.75rem;
+            font-size: 0.8125rem;
+            min-width: 5rem;
+        }
+    }
+
+    &[data-size="lg"] {
+        .cz-toggle-button-input {
+            padding: 0.65rem 1.25rem;
+            font-size: 1.125rem;
+            min-width: 7.5rem;
+        }
+    }
+
+    /* ── COLORS ── */
+    @each $name, $value in (
+        "secondary": --cz-color-secondary,
+        "success": --cz-color-success,
+        "warning": --cz-color-warning,
+        "danger": --cz-color-danger,
+        "info": --cz-color-info,
+        "dark": --cz-color-dark
+    ) {
+        &[data-color="#{$name}"] {
+            .cz-toggle-button-input--checked {
+                background: var(#{$value});
+                border-color: var(#{$value});
+            }
+        }
+    }
+
+    /* ── THEME: GLASS ── */
+    &[data-theme="glass"] {
+        .cz-toggle-button-input {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--cz-color-white, #ffffff);
+
+            &--checked {
+                background: rgba(var(--cz-color-primary-rgb), 0.4);
+                border-color: var(--cz-color-primary);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        &.dark .cz-toggle-button-input,
+        .dark & .cz-toggle-button-input {
+            background: rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+    }
+
+    /* ── THEME: NEO ── */
+    &[data-theme="neo"] {
+        .cz-toggle-button-input {
+            background: var(--cz-neo-bg, #f0f2f5);
+            border: none;
+            box-shadow: var(--cz-neo-shadow-raised);
+            color: var(--cz-theme-text-primary, #374151);
+
+            &--checked {
+                box-shadow: var(--cz-neo-shadow-pressed);
+                color: var(--cz-color-primary);
+                background: var(--cz-neo-bg, #f0f2f5);
+            }
+
+            &:active:not(:disabled) {
+                box-shadow: var(--cz-neo-shadow-pressed);
+            }
+        }
+
+        &[data-color] .cz-toggle-button-input--checked {
+            // In Neo, checked state usually keeps background same but sinks the container
+            // and changes the icon/text color to the primary color
+            background: var(--cz-neo-bg, #f0f2f5);
+        }
+        
+        @each $name, $value in (
+            "secondary": --cz-color-secondary,
+            "success": --cz-color-success,
+            "warning": --cz-color-warning,
+            "danger": --cz-color-danger,
+            "info": --cz-color-info,
+            "dark": --cz-color-dark
+        ) {
+            &[data-color="#{$name}"] .cz-toggle-button-input--checked {
+                color: var(#{$value});
+            }
+        }
+    }
+
+    /* ── DARK MODE OVERRIDES (Base/Standard) ── */
+    &.dark, .dark & {
+        &:not([data-theme="glass"]):not([data-theme="neo"]) {
+            .cz-toggle-button-input {
+                background: var(--cz-dark-navy, #0f172a);
+                border-color: rgba(255, 255, 255, 0.1);
+                color: var(--cz-slate-200, #e2e8f0);
+
+                &--checked {
+                    background: var(--cz-color-primary);
+                    border-color: var(--cz-color-primary);
+                    color: #ffffff;
+                }
+            }
+        }
+    }
+}

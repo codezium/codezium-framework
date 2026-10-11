@@ -12,7 +12,7 @@
                 [disabled]="isDisabled()"
                 (click)="onCancelClick($event)"
                 aria-label="Cancel Selection">
-            <lucide-angular [img]="iconCancel()" [size]="iconSize()"></lucide-angular>
+            <svg [lucideIcon]="iconCancel()" [size]="iconSize()"></svg>
         </button>
     }
 
@@ -37,10 +37,10 @@
                   role="button"
                   [attr.aria-label]="star + ' stars'"
                   [attr.aria-pressed]="star <= (value() ?? 0)">
-                <lucide-angular 
-                    [img]="star <= (hoveredValue() ?? value() ?? 0) ? iconOn() : iconOff()" 
+                <svg 
+                    [lucideIcon]="star <= (hoveredValue() ?? value() ?? 0) ? iconOn() : iconOff()" 
                     [size]="iconSize()"
-                ></lucide-angular>
+                ></svg>
             </span>
         }
     </div>

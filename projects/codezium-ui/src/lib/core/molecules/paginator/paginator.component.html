@@ -1,0 +1,81 @@
+<div class="cz-paginator-container" role="navigation" [attr.aria-label]="ariaLabel()">
+    @if (rowsPerPageOptions().length > 0) {
+        <select
+            class="cz-paginator-rows"
+            [value]="effectiveRows()"
+            (change)="onRowsChange($event)"
+            [disabled]="actualDisabled()"
+            aria-label="Rows per page"
+        >
+            @for (option of rowsPerPageOptions(); track option) {
+                <option [value]="option">{{ option }}</option>
+            }
+        </select>
+    }
+
+    <div class="cz-paginator-pages">
+        @if (showFirstLastIcon()) {
+            <button
+                type="button"
+                class="cz-paginator-nav"
+                [disabled]="!canPrev() || actualDisabled()"
+                aria-label="First page"
+                (click)="firstPage()"
+            >
+                <svg [lucideIcon]="FirstIcon" [size]="14"></svg>
+            </button>
+        }
+
+        <button
+            type="button"
+            class="cz-paginator-nav"
+            [disabled]="!canPrev() || actualDisabled()"
+            aria-label="Previous page"
+            (click)="prevPage()"
+        >
+            <svg [lucideIcon]="PrevIcon" [size]="14"></svg>
+        </button>
+
+        @for (p of pages(); track p) {
+            <button
+                type="button"
+                class="cz-paginator-page"
+                [class.cz-paginator-page--active]="p === page()"
+                [attr.aria-current]="p === page() ? 'page' : null"
+                [attr.aria-label]="'Page ' + (p + 1)"
+                [disabled]="actualDisabled()"
+                (click)="goTo(p, $event)"
+            >
+                {{ p + 1 }}
+            </button>
+        }
+
+        <button
+            type="button"
+            class="cz-paginator-nav"
+            [disabled]="!canNext() || actualDisabled()"
+            aria-label="Next page"
+            (click)="nextPage()"
+        >
+            <svg [lucideIcon]="NextIcon" [size]="14"></svg>
+        </button>
+
+        @if (showFirstLastIcon()) {
+            <button
+                type="button"
+                class="cz-paginator-nav"
+                [disabled]="!canNext() || actualDisabled()"
+                aria-label="Last page"
+                (click)="lastPage()"
+            >
+                <svg [lucideIcon]="LastIcon" [size]="14"></svg>
+            </button>
+        }
+    </div>
+
+    @if (totalRecords() > 0) {
+        <span class="cz-paginator-report">
+            {{ first() + 1 }} - {{ rangeEnd() }} / {{ totalRecords() }}
+        </span>
+    }
+</div>

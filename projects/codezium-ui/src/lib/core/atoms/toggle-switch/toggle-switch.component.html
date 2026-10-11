@@ -1,0 +1,20 @@
+<div class="cz-toggle-switch-container">
+    @if (label()) {
+        <span class="cz-toggle-switch-label">{{ label() }}</span>
+    }
+
+    <button
+        type="button"
+        role="switch"
+        class="cz-toggle-switch-track"
+        [disabled]="actualDisabled()"
+        [attr.aria-checked]="checked()"
+        [attr.aria-label]="ariaLabel() || label() || null"
+        [attr.aria-readonly]="readonly() || null"
+        (click)="toggle($event)"
+        (keydown)="onKeyDown($event)"
+        (blur)="onModelTouched()"
+    >
+        <span class="cz-toggle-switch-handle"></span>
+    </button>
+</div>

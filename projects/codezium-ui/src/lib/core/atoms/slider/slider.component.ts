@@ -26,7 +26,6 @@ export type CzSliderTheme = 'base' | 'glass' | 'neo';
 
 @Component({
     selector: 'cz-slider',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './slider.component.html',
     styleUrl: './slider.component.scss',
@@ -34,7 +33,7 @@ export type CzSliderTheme = 'base' | 'glass' | 'neo';
     encapsulation: ViewEncapsulation.None,
     host: {
         'class': 'cz-slider',
-        '[class.cz-slider--disabled]': 'disabled()',
+        '[class.cz-slider--disabled]': 'actualDisabled()',
         '[class.cz-slider--vertical]': 'orientation() === "vertical"',
         '[class.cz-slider--range]': 'range()',
         '[class.cz-slider--has-error]': 'isInvalid',

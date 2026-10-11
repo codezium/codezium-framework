@@ -1,0 +1,50 @@
+<div class="cz-stepper-header" role="tablist">
+    @for (step of steps(); track step; let i = $index; let last = $last) {
+        <div
+            class="cz-stepper-step"
+            [class.cz-stepper-step--active]="i === activeIndex()"
+            [class.cz-stepper-step--completed]="isCompleted(i)"
+            [class.cz-stepper-step--disabled]="step.disabled()"
+        >
+            <div class="cz-stepper-step-main">
+                <button
+                    type="button"
+                    class="cz-stepper-indicator"
+                    role="tab"
+                    [attr.aria-selected]="i === activeIndex()"
+                    [attr.aria-label]="step.label()"
+                    [disabled]="step.disabled()"
+                    (click)="goTo(i)"
+                >
+                    @if (isCompleted(i)) {
+                        <svg [lucideIcon]="CheckIcon" [size]="14"></svg>
+                    } @else {
+                        <span>{{ i + 1 }}</span>
+                    }
+                </button>
+                <span class="cz-stepper-label">{{ step.label() }}</span>
+            </div>
+
+            @if (!last) {
+                <span class="cz-stepper-line" [class.cz-stepper-line--completed]="isCompleted(i + 1)"></span>
+            }
+        </div>
+    }
+</div>
+
+<div class="cz-stepper-content">
+    <ng-content />
+</div>
+
+@if (showNavigation()) {
+    <div class="cz-stepper-footer">
+        <cz-button
+            [label]="prevLabel()"
+            variant="text"
+            severity="secondary"
+            [disabled]="!canPrev()"
+            (onClick)="prev()"
+        />
+        <cz-button [label]="nextLabel()" [disabled]="!canNext()" (onClick)="next()" />
+    </div>
+}

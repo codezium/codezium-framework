@@ -1,0 +1,55 @@
+/* ==========================================================================
+   PROGRESS SPINNER (cz-progress-spinner)
+   ========================================================================== */
+
+.cz-progress-spinner {
+    display: inline-flex;
+
+    &[data-severity="primary"] { --cz-spinner-color: var(--cz-color-primary); }
+    &[data-severity="secondary"] { --cz-spinner-color: var(--cz-color-secondary); }
+    &[data-severity="success"] { --cz-spinner-color: var(--cz-color-success); }
+    &[data-severity="info"] { --cz-spinner-color: var(--cz-color-info); }
+    &[data-severity="warning"] { --cz-spinner-color: var(--cz-color-warning); }
+    &[data-severity="danger"] { --cz-spinner-color: var(--cz-color-danger); }
+    &[data-severity="dark"] { --cz-spinner-color: var(--cz-color-gray-900); }
+}
+
+.cz-progress-spinner-svg {
+    animation: cz-progress-spinner-rotate 2s linear infinite;
+    transform-origin: center;
+}
+
+.cz-progress-spinner-track {
+    stroke: var(--cz-theme-surface-active, var(--cz-color-gray-200));
+}
+
+.cz-progress-spinner-fill {
+    stroke: var(--cz-spinner-color);
+    stroke-dasharray: 1 200;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    animation: cz-progress-spinner-dash 1.5s ease-in-out infinite;
+}
+
+@keyframes cz-progress-spinner-rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes cz-progress-spinner-dash {
+    0% {
+        stroke-dasharray: 1 200;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90 200;
+        stroke-dashoffset: -35px;
+    }
+
+    100% {
+        stroke-dasharray: 90 200;
+        stroke-dashoffset: -124px;
+    }
+}

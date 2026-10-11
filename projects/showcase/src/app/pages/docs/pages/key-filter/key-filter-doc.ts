@@ -7,7 +7,6 @@ import { keyFilterDocI18n } from './key-filter-doc.i18n';
 
 @Component({
     selector: 'app-key-filter-doc',
-    standalone: true,
     imports: [
         CommonModule,
         AppCodeComponent,

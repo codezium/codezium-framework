@@ -8,22 +8,25 @@ import {
   OnInit,
   Optional,
   Self,
-  HostListener,
-  ViewEncapsulation
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NgControl, FormsModule } from '@angular/forms';
-import { LucideAngularModule, ChevronDown, Check, X } from 'lucide-angular';
+import { LucideDynamicIcon, LucideChevronDown, LucideCheck, LucideX } from '@lucide/angular';
 import { CzInputSize, CzLabelPosition, CzInputColor } from '../../types';
 import { CZ_VALIDATION_MESSAGES, CzValidationLocale, CzValidationErrorKeys } from '../../i18n';
 
 @Component({
   selector: 'cz-select',
-  standalone: true,
-  imports: [CommonModule, FormsModule, LucideAngularModule],
+  imports: [CommonModule, FormsModule, LucideDynamicIcon],
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.Eager,
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    '(document:click)': 'onDocumentClick($event)',
+  },
 })
 export class CzSelectComponent implements ControlValueAccessor, OnInit {
   // Common Inputs
@@ -52,9 +55,9 @@ export class CzSelectComponent implements ControlValueAccessor, OnInit {
   @ViewChild('filterInput') filterInput?: ElementRef<HTMLInputElement>;
 
   // Icons
-  readonly ChevronDownIcon = ChevronDown;
-  readonly CheckIcon = Check;
-  readonly XIcon = X;
+  readonly ChevronDownIcon = LucideChevronDown;
+  readonly CheckIcon = LucideCheck;
+  readonly XIcon = LucideX;
 
   // Local State
   value = signal<any>(null);
@@ -66,7 +69,7 @@ export class CzSelectComponent implements ControlValueAccessor, OnInit {
 
   // Computeds
   actualDisabled = computed(() => this.disabled() || this.formsDisabled());
-  
+
   hasValue = computed(() => {
     const val = this.value();
     return val !== null && val !== undefined && val !== '';
@@ -87,7 +90,7 @@ export class CzSelectComponent implements ControlValueAccessor, OnInit {
     const all = this.options();
     if (!query || !this.filterable()) return all;
 
-    return all.filter(opt => {
+    return all.filter((opt) => {
       const label = this.getLabel(opt).toLowerCase();
       return label.includes(query);
     });
@@ -96,8 +99,8 @@ export class CzSelectComponent implements ControlValueAccessor, OnInit {
   selectedLabel = computed(() => {
     const val = this.value();
     if (val === null || val === undefined || val === '') return '';
-    
-    const option = this.options().find(opt => this.getValue(opt) === val);
+
+    const option = this.options().find((opt) => this.getValue(opt) === val);
     return option ? this.getLabel(option) : String(val);
   });
 
@@ -107,7 +110,7 @@ export class CzSelectComponent implements ControlValueAccessor, OnInit {
 
   constructor(
     @Optional() @Self() public ngControl: NgControl,
-    private el: ElementRef
+    private el: ElementRef,
   ) {
     if (this.ngControl) {
       this.ngControl.valueAccessor = this;
@@ -141,14 +144,16 @@ export class CzSelectComponent implements ControlValueAccessor, OnInit {
     if (!this.isInvalid || !this.ngControl?.errors) return null;
     const dictionary = {
       ...CZ_VALIDATION_MESSAGES[this.locale()],
-      ...this.customErrors()
+      ...this.customErrors(),
     };
 
     for (const key of Object.keys(this.ngControl.errors)) {
       const mappedError: any = dictionary[key as keyof typeof dictionary];
       if (mappedError) {
         if (typeof mappedError === 'function') {
-          return mappedError(this.ngControl.errors[key].requiredLength || this.ngControl.errors[key]);
+          return mappedError(
+            this.ngControl.errors[key].requiredLength || this.ngControl.errors[key],
+          );
         }
         return mappedError;
       }
@@ -211,7 +216,6 @@ export class CzSelectComponent implements ControlValueAccessor, OnInit {
     this.onChange(null);
   }
 
-  @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     if (!this.el.nativeElement.contains(event.target)) {
       if (this.isOpen()) this.close();
@@ -234,11 +238,11 @@ export class CzSelectComponent implements ControlValueAccessor, OnInit {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
-        this.hoveredIndex.update(i => (i < options.length - 1 ? i + 1 : i));
+        this.hoveredIndex.update((i) => (i < options.length - 1 ? i + 1 : i));
         break;
       case 'ArrowUp':
         event.preventDefault();
-        this.hoveredIndex.update(i => (i > 0 ? i - 1 : 0));
+        this.hoveredIndex.update((i) => (i > 0 ? i - 1 : 0));
         break;
       case 'Enter':
         event.preventDefault();

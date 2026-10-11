@@ -1,0 +1,26 @@
+<button
+    class="cz-button-native"
+    [type]="type()"
+    [disabled]="actualDisabled()"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-busy]="loading() || null"
+    (click)="handleClick($event)"
+>
+    @if (loading()) {
+        <span class="cz-button-spinner" aria-hidden="true"></span>
+    } @else if (icon(); as iconRef) {
+        @if (iconPos() === 'left') {
+            <cz-icon class="cz-button-icon" [icon]="iconRef" [size]="iconSize()" />
+        }
+    }
+
+    @if (label()) {
+        <span class="cz-button-label">{{ label() }}</span>
+    }
+
+    @if (!loading() && iconPos() === 'right') {
+        @if (icon(); as iconRef) {
+            <cz-icon class="cz-button-icon" [icon]="iconRef" [size]="iconSize()" />
+        }
+    }
+</button>

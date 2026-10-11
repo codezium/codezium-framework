@@ -1,0 +1,23 @@
+<div class="cz-input-tags-container">
+    @for (tag of value(); track tag) {
+        <cz-chip
+            [label]="tag"
+            [removable]="!actualDisabled() && !readonly()"
+            (onRemove)="removeTag(tag)"
+        />
+    }
+
+    <input
+        class="cz-input-tags-input"
+        type="text"
+        [value]="inputValue()"
+        [placeholder]="value().length === 0 ? placeholder() : ''"
+        [disabled]="actualDisabled()"
+        [readonly]="readonly()"
+        [attr.aria-label]="ariaLabel()"
+        (input)="onInputChange($event)"
+        (keydown)="onKeyDown($event)"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+    />
+</div>

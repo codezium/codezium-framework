@@ -1,0 +1,17 @@
+<div class="cz-color-picker-wrapper">
+    <label class="cz-color-picker-swatch" [style.background]="value()">
+        <input
+            type="color"
+            class="cz-color-picker-native"
+            [value]="value()"
+            [disabled]="actualDisabled()"
+            [attr.aria-label]="ariaLabel()"
+            (input)="onInputChange($event)"
+            (blur)="onBlur()"
+        />
+    </label>
+
+    @if (showValue()) {
+        <span class="cz-color-picker-value">{{ value() }}</span>
+    }
+</div>

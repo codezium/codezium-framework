@@ -1,0 +1,106 @@
+/* ==========================================================================
+   COMPARE (cz-compare)
+   ========================================================================== */
+
+.cz-compare {
+    display: block;
+}
+
+.cz-compare-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+    user-select: none;
+}
+
+.cz-compare-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+}
+
+.cz-compare-image--left {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cz-compare-label {
+    position: absolute;
+    top: var(--cz-spacing-md);
+    padding: var(--cz-spacing-xxs) var(--cz-spacing-sm);
+    border-radius: var(--cz-radius-sm);
+    background: rgba(0, 0, 0, 0.55);
+    color: var(--cz-color-white);
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-xs);
+    font-weight: var(--cz-font-weight-medium);
+
+    &--left {
+        left: var(--cz-spacing-md);
+    }
+
+    &--right {
+        right: var(--cz-spacing-md);
+    }
+}
+
+.cz-compare-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--cz-color-white);
+    transform: translateX(-50%);
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+.cz-compare-handle-grip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: var(--cz-color-white);
+    box-shadow: var(--cz-shadow-md);
+
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 0;
+        height: 0;
+        transform: translateY(-50%);
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+    }
+
+    &::before {
+        left: 0.55rem;
+        border-right: 6px solid var(--cz-color-gray-500);
+    }
+
+    &::after {
+        right: 0.55rem;
+        border-left: 6px solid var(--cz-color-gray-500);
+    }
+}
+
+.cz-compare-range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+    -webkit-appearance: none;
+    appearance: none;
+}

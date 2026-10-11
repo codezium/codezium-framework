@@ -1,0 +1,14 @@
+@if (showValue() && mode() === 'determinate') {
+    <span class="cz-progress-bar-label">{{ clampedValue() }}%</span>
+}
+
+<div
+    class="cz-progress-bar-track"
+    role="progressbar"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [attr.aria-valuenow]="mode() === 'determinate' ? clampedValue() : null"
+    [attr.data-mode]="mode()"
+>
+    <div class="cz-progress-bar-value" [style.width.%]="clampedValue()"></div>
+</div>

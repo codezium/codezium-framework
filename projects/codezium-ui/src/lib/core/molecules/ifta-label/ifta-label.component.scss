@@ -1,0 +1,32 @@
+/* ==========================================================================
+   IFTA LABEL (cz-ifta-label)
+   Usage: <cz-ifta-label><input /><label>Name</label></cz-ifta-label>
+   The label sits on the top border of the control.
+   ========================================================================== */
+
+.cz-ifta-label {
+    position: relative;
+    display: inline-block;
+
+    > input,
+    > .cz-input-container {
+        width: 100%;
+        box-sizing: border-box;
+        padding-top: 1.25rem;
+    }
+
+    > label {
+        position: absolute;
+        top: 0;
+        left: 0.75rem;
+        transform: translateY(-50%);
+        background: var(--cz-theme-surface, var(--cz-color-white));
+        padding: 0 0.25rem;
+        color: var(--cz-theme-input-label, var(--cz-color-gray-500));
+        font-family: var(--cz-font-base);
+        font-size: var(--cz-font-size-xs);
+        font-weight: var(--cz-font-weight-medium);
+        pointer-events: none;
+        white-space: nowrap;
+    }
+}

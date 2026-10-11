@@ -140,4 +140,22 @@ describe('CzSliderComponent', () => {
         expect(component.isInvalid).toBe(false);
         expect(component.errorMessage).toBeNull();
     });
+
+    it('should update disabled state via ControlValueAccessor', () => {
+        component.setDisabledState?.(true);
+        fixture.detectChanges();
+
+        expect(component.actualDisabled()).toBe(true);
+        expect(fixture.nativeElement.classList.contains('cz-slider--disabled')).toBe(true);
+    });
+
+    it('should initialize range value with writeValue', () => {
+        fixture.componentRef.setInput('range', true);
+        fixture.detectChanges();
+
+        component.writeValue([20, 80]);
+        fixture.detectChanges();
+
+        expect(component.value()).toEqual([20, 80]);
+    });
 });

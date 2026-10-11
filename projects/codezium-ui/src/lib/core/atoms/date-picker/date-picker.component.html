@@ -1,0 +1,71 @@
+<div class="cz-date-picker-wrapper">
+    <div
+        class="cz-date-picker-input"
+        [class.cz-date-picker-input--open]="isOpen()"
+        tabindex="0"
+        role="button"
+        aria-haspopup="dialog"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-label]="ariaLabel()"
+        (click)="toggle()"
+        (keydown)="onInputKeyDown($event)"
+    >
+        <svg [lucideIcon]="CalendarIcon" [size]="16" class="cz-date-picker-cal"></svg>
+
+        @if (value()) {
+            <span class="cz-date-picker-value">{{ displayValue() }}</span>
+        } @else {
+            <span class="cz-date-picker-placeholder">{{ placeholder() }}</span>
+        }
+
+        @if (showClear() && value() && !actualDisabled()) {
+            <svg
+                [lucideIcon]="XIcon"
+                [size]="14"
+                class="cz-date-picker-clear"
+                (click)="clear($event)"
+            ></svg>
+        }
+    </div>
+
+    @if (isOpen()) {
+        <div class="cz-date-picker-panel" role="dialog" [attr.aria-label]="monthLabel()">
+            <div class="cz-date-picker-header">
+                <button type="button" class="cz-date-picker-nav" aria-label="Previous month" (click)="prevMonth()">
+                    <svg [lucideIcon]="ChevronLeftIcon" [size]="16"></svg>
+                </button>
+                <span class="cz-date-picker-month">{{ monthLabel() }}</span>
+                <button type="button" class="cz-date-picker-nav" aria-label="Next month" (click)="nextMonth()">
+                    <svg [lucideIcon]="ChevronRightIcon" [size]="16"></svg>
+                </button>
+            </div>
+
+            <div class="cz-date-picker-weekdays">
+                @for (day of weekDays(); track day) {
+                    <span>{{ day }}</span>
+                }
+            </div>
+
+            <div class="cz-date-picker-grid">
+                @for (week of weeks(); track $index) {
+                    @for (day of week; track $index) {
+                        @if (day) {
+                            <button
+                                type="button"
+                                class="cz-date-picker-day"
+                                [class.cz-date-picker-day--today]="isToday(day)"
+                                [class.cz-date-picker-day--selected]="isSelected(day)"
+                                [disabled]="isDateDisabled(day)"
+                                (click)="selectDay(day, $event)"
+                            >
+                                {{ day.getDate() }}
+                            </button>
+                        } @else {
+                            <span class="cz-date-picker-day cz-date-picker-day--empty"></span>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    }
+</div>

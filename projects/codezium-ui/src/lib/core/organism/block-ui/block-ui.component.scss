@@ -1,0 +1,29 @@
+/* ==========================================================================
+   BLOCK UI (cz-block-ui)
+   ========================================================================== */
+
+.cz-block-ui {
+    position: relative;
+    display: block;
+}
+
+.cz-block-ui-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: calc(var(--cz-z-glass-default, 10) + 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--cz-spacing-sm);
+    background: color-mix(in srgb, var(--cz-theme-surface, var(--cz-color-white)) 70%, transparent);
+    backdrop-filter: blur(2px);
+    cursor: wait;
+}
+
+.cz-block-ui-message {
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+    font-weight: var(--cz-font-weight-medium);
+    color: var(--cz-theme-text-secondary, var(--cz-color-gray-600));
+}

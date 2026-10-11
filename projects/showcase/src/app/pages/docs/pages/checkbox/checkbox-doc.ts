@@ -195,7 +195,6 @@ import { CzCheckboxComponent } from 'codezium-ui';
 @Component({
     selector: 'checkbox-dynamic-demo',
     templateUrl: './checkbox-dynamic-demo.html',
-    standalone: true,
     imports: [CzCheckboxComponent, FormsModule, JsonPipe]
 })
 export class CheckboxDynamicDemo {

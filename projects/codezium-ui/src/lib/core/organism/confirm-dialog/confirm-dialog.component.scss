@@ -1,0 +1,22 @@
+/* ==========================================================================
+   CONFIRM DIALOG (cz-confirm-dialog)
+   ========================================================================== */
+
+.cz-confirm-dialog-host {
+    display: contents;
+}
+
+.cz-confirm-message {
+    margin: 0;
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size);
+    color: var(--cz-theme-text-secondary, var(--cz-color-gray-700));
+}
+
+.cz-confirm-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--cz-spacing-sm);
+    margin-top: var(--cz-spacing-lg);
+}

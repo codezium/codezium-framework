@@ -1,0 +1,7 @@
+@if (image()) {
+    <img class="cz-avatar-image" [src]="image()" [alt]="ariaLabel() || label()" />
+} @else if (icon(); as iconRef) {
+    <cz-icon class="cz-avatar-icon" [icon]="iconRef" [size]="resolvedIconSize()" />
+} @else if (label()) {
+    <span class="cz-avatar-label">{{ label() }}</span>
+}

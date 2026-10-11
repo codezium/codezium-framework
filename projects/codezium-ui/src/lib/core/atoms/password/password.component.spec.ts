@@ -1,22 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CzPasswordComponent } from './password.component';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { By } from '@angular/platform-browser';
-import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 
 @Component({
-  standalone: true,
   imports: [CommonModule, CzPasswordComponent, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
-    <cz-password 
-      [formControl]="control" 
-      label="Password" 
-      [feedback]="feedback()" 
-      [toggleMask]="toggleMask()">
+    <cz-password
+      [formControl]="control"
+      label="Password"
+      [feedback]="feedback()"
+      [toggleMask]="toggleMask()"
+    >
     </cz-password>
-  `
+  `,
 })
 class TestHostComponent {
   control = new FormControl('', [Validators.required, Validators.minLength(8)]);
@@ -31,7 +31,7 @@ describe('CzPasswordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent, LucideAngularModule.pick({ Eye, EyeOff })]
+      imports: [TestHostComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHostComponent);
@@ -74,14 +74,14 @@ describe('CzPasswordComponent', () => {
   describe('Strength Meter (Feedback)', () => {
     it('should show strength meter only when focused and feedback is true', () => {
       const input = fixture.debugElement.query(By.css('input'));
-      
+
       // Not focused, should not be visible
       expect(fixture.debugElement.query(By.css('.cz-password-panel'))).toBeNull();
 
       // Focusing
       input.nativeElement.dispatchEvent(new Event('focus'));
       fixture.detectChanges();
-      
+
       // Panel should exist but might be hidden if no value
       const panel = fixture.debugElement.query(By.css('.cz-password-panel'));
       expect(panel).toBeTruthy();
@@ -119,7 +119,7 @@ describe('CzPasswordComponent', () => {
 
     it('should reflect form control status (invalid)', () => {
       const input = fixture.debugElement.query(By.css('input')).nativeElement;
-      
+
       // Mark as touched to trigger error display
       input.dispatchEvent(new Event('blur'));
       fixture.detectChanges();
@@ -127,7 +127,7 @@ describe('CzPasswordComponent', () => {
       expect(hostComponent.control.invalid).toBe(true);
       const wrapper = fixture.debugElement.query(By.css('.cz-input-has-error'));
       expect(wrapper).toBeTruthy();
-      
+
       const errorMsg = fixture.debugElement.query(By.css('.cz-input-error-text'));
       expect(errorMsg).toBeTruthy();
     });
@@ -138,7 +138,7 @@ describe('CzPasswordComponent', () => {
 
       const input = fixture.debugElement.query(By.css('input')).nativeElement;
       expect(input.disabled).toBe(true);
-      
+
       const wrapper = fixture.debugElement.query(By.css('.cz-input-disabled'));
       expect(wrapper).toBeTruthy();
     });

@@ -3,7 +3,6 @@ import {
     Component,
     computed,
     ElementRef,
-    HostListener,
     inject,
     input,
     model,
@@ -23,7 +22,6 @@ export type CzKnobColor = 'primary' | 'secondary' | 'success' | 'warning' | 'dan
 
 @Component({
     selector: 'cz-knob',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './knob.component.html',
     styleUrl: './knob.component.scss',
@@ -37,7 +35,14 @@ export type CzKnobColor = 'primary' | 'secondary' | 'success' | 'warning' | 'dan
         '[attr.data-size]': 'size()',
         '[attr.data-color]': 'color()',
         '[attr.data-theme]': 'theme()',
-        '[attr.tabindex]': 'actualDisabled() ? -1 : 0'
+        '[attr.tabindex]': 'actualDisabled() ? -1 : 0',
+        '(mousedown)': 'onMouseDown($event)',
+        '(window:mousemove)': 'onMouseMove($event)',
+        '(window:mouseup)': 'onMouseUp()',
+        '(touchstart)': 'onTouchStart($event)',
+        '(window:touchmove)': 'onTouchMove($event)',
+        '(window:touchend)': 'onTouchEnd()',
+        '(keydown)': 'onKeyDown($event)'
     }
 })
 export class CzKnobComponent implements ControlValueAccessor {
@@ -171,7 +176,6 @@ export class CzKnobComponent implements ControlValueAccessor {
         return dictionary.default;
     }
 
-    @HostListener('mousedown', ['$event'])
     onMouseDown(event: MouseEvent) {
         if (this.actualDisabled() || this.readOnly()) return;
         this.isDragging.set(true);
@@ -179,20 +183,17 @@ export class CzKnobComponent implements ControlValueAccessor {
         this.onModelTouched();
     }
 
-    @HostListener('window:mousemove', ['$event'])
     onMouseMove(event: MouseEvent) {
         if (this.isDragging()) {
             this.updateValueFromEvent(event);
         }
     }
 
-    @HostListener('window:mouseup')
     onMouseUp() {
         this.isDragging.set(true);
         this.isDragging.set(false);
     }
 
-    @HostListener('touchstart', ['$event'])
     onTouchStart(event: TouchEvent) {
         if (this.actualDisabled() || this.readOnly()) return;
         this.isDragging.set(true);
@@ -200,7 +201,6 @@ export class CzKnobComponent implements ControlValueAccessor {
         this.onModelTouched();
     }
 
-    @HostListener('window:touchmove', ['$event'])
     onTouchMove(event: TouchEvent) {
         if (this.isDragging()) {
             event.preventDefault();
@@ -208,12 +208,10 @@ export class CzKnobComponent implements ControlValueAccessor {
         }
     }
 
-    @HostListener('window:touchend')
     onTouchEnd() {
         this.isDragging.set(false);
     }
 
-    @HostListener('keydown', ['$event'])
     onKeyDown(event: KeyboardEvent) {
         if (this.actualDisabled() || this.readOnly()) return;
         

@@ -1,0 +1,33 @@
+<div class="cz-context-menu-target">
+    <ng-content />
+</div>
+
+@if (visible()) {
+    <ul
+        class="cz-context-menu-panel"
+        role="menu"
+        [style.left.px]="position().x"
+        [style.top.px]="position().y"
+    >
+        @for (item of items(); track $index) {
+            @if (item.separator) {
+                <li class="cz-context-menu-separator" role="separator"></li>
+            } @else {
+                <li role="none">
+                    <button
+                        type="button"
+                        class="cz-context-menu-link"
+                        role="menuitem"
+                        [disabled]="item.disabled || false"
+                        (click)="activate(item, $event)"
+                    >
+                        @if (item.icon; as iconRef) {
+                            <svg [lucideIcon]="iconRef" [size]="14" class="cz-context-menu-icon"></svg>
+                        }
+                        <span>{{ item.label }}</span>
+                    </button>
+                </li>
+            }
+        }
+    </ul>
+}

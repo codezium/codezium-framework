@@ -1,0 +1,77 @@
+/* ==========================================================================
+   METER GROUP (cz-meter-group)
+   ========================================================================== */
+
+.cz-meter-group {
+    display: block;
+}
+
+.cz-meter-group-bar {
+    display: flex;
+    width: 100%;
+    height: 1rem;
+    overflow: hidden;
+    background: var(--cz-theme-surface-active, var(--cz-color-gray-200));
+    border-radius: 999px;
+}
+
+.cz-meter-group-segment {
+    height: 100%;
+    transition: flex-basis 0.3s ease;
+}
+
+.cz-meter-group[data-orientation="vertical"] {
+    .cz-meter-group-container {
+        display: inline-flex;
+        gap: var(--cz-spacing-md);
+    }
+
+    .cz-meter-group-bar {
+        flex-direction: column-reverse;
+        width: 1rem;
+        height: 12rem;
+    }
+
+    .cz-meter-group-segment {
+        width: 100%;
+        height: auto;
+        flex-basis: auto;
+    }
+}
+
+.cz-meter-group-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--cz-spacing-md);
+    margin: var(--cz-spacing-sm) 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.cz-meter-group[data-orientation="vertical"] .cz-meter-group-legend {
+    flex-direction: column;
+    margin: 0;
+}
+
+.cz-meter-group-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--cz-spacing-xs);
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+}
+
+.cz-meter-group-dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+}
+
+.cz-meter-group-legend-label {
+    color: var(--cz-theme-text-secondary, var(--cz-color-gray-600));
+}
+
+.cz-meter-group-legend-value {
+    font-weight: var(--cz-font-weight-semibold);
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+}

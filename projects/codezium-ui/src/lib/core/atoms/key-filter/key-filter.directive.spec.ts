@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { vi } from 'vitest';
 import { CzKeyFilterDirective } from './key-filter.directive';
 
 @Component({
-    standalone: true,
     imports: [CzKeyFilterDirective],
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `<input id="test-input" czKeyFilter="integer" />`
 })
 class TestHostComponent { }

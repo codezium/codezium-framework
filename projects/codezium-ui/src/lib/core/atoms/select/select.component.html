@@ -27,19 +27,19 @@
             
             <div class="cz-select-actions">
                 @if (clearable() && hasValue() && !actualDisabled()) {
-                    <lucide-angular 
-                        [img]="XIcon" 
+                    <svg 
+                        [lucideIcon]="XIcon" 
                         [size]="14" 
                         class="cz-select-clear" 
                         (click)="clear($event)"
-                    ></lucide-angular>
+                    ></svg>
                 }
-                <lucide-angular 
-                    [img]="ChevronDownIcon" 
+                <svg 
+                    [lucideIcon]="ChevronDownIcon" 
                     [size]="18" 
                     class="cz-select-chevron"
                     [class.cz-select-chevron-open]="isOpen()"
-                ></lucide-angular>
+                ></svg>
             </div>
         </div>
 
@@ -78,7 +78,7 @@
                         >
                             <span class="cz-select-item-label">{{ getLabel(option) }}</span>
                             @if (getValue(option) === value()) {
-                                <lucide-angular [img]="CheckIcon" [size]="14" class="cz-select-check"></lucide-angular>
+                                <svg [lucideIcon]="CheckIcon" [size]="14" class="cz-select-check"></svg>
                             }
                         </li>
                     } @empty {

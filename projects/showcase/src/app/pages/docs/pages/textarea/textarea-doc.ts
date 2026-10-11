@@ -8,7 +8,6 @@ import { TEXTAREA_DOC_I18N } from './textarea-doc.i18n';
 
 @Component({
     selector: 'cz-textarea-doc-page',
-    standalone: true,
     imports: [CommonModule, CzTextAreaComponent, AppCodeComponent, ReactiveFormsModule, FormsModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `

@@ -22,6 +22,10 @@
 @use 'core/borders';
 @use 'core/transitions';
 @use 'core/z-index';
+@use 'core/ripple';
+@use 'core/tooltip';
+@use 'core/aos';
+@use 'core/fluid';
 
 /* --- 4. LAYOUT & FLEX UTILITIES --- */
 @use 'utilities/grid';

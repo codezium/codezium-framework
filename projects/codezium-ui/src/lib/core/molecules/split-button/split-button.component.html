@@ -1,0 +1,50 @@
+<div class="cz-split-button-container">
+    <button
+        type="button"
+        class="cz-split-button-main"
+        [disabled]="disabled()"
+        (click)="triggerDefault($event)"
+    >
+        @if (icon(); as iconRef) {
+            <svg [lucideIcon]="iconRef" [size]="14"></svg>
+        }
+        <span>{{ label() }}</span>
+    </button>
+
+    <button
+        type="button"
+        class="cz-split-button-toggle"
+        [disabled]="disabled()"
+        [attr.aria-haspopup]="'menu'"
+        [attr.aria-expanded]="open()"
+        aria-label="More actions"
+        (click)="toggle($event)"
+    >
+        <svg [lucideIcon]="ChevronDownIcon" [size]="14"></svg>
+    </button>
+</div>
+
+@if (open()) {
+    <ul class="cz-split-button-menu" role="menu">
+        @for (item of items(); track $index) {
+            @if (item.separator) {
+                <li class="cz-split-button-separator" role="separator"></li>
+            } @else {
+                <li role="none">
+                    <button
+                        type="button"
+                        class="cz-split-button-item"
+                        role="menuitem"
+                        [disabled]="item.disabled || false"
+                        (click)="activate(item, $event)"
+                    >
+                        @if (item.icon; as iconRef) {
+                            <svg [lucideIcon]="iconRef" [size]="14" class="cz-split-button-item-icon"></svg>
+                        }
+                        <span>{{ item.label }}</span>
+                    </button>
+                </li>
+            }
+        }
+    </ul>
+}

@@ -1,0 +1,54 @@
+<div class="cz-mega-menu-root" role="menubar">
+    @for (item of items(); track $index; let i = $index) {
+        <div class="cz-mega-menu-item">
+            <button
+                type="button"
+                class="cz-mega-menu-link"
+                role="menuitem"
+                [disabled]="item.disabled || false"
+                [class.cz-mega-menu-link--open]="openIndex() === i"
+                [attr.aria-haspopup]="item.items?.length ? 'true' : null"
+                [attr.aria-expanded]="item.items?.length ? openIndex() === i : null"
+                (click)="toggleItem(i, item, $event)"
+            >
+                @if (item.icon; as iconRef) {
+                    <svg [lucideIcon]="iconRef" [size]="14" class="cz-mega-menu-icon"></svg>
+                }
+                <span>{{ item.label }}</span>
+                @if (item.items?.length) {
+                    <svg [lucideIcon]="ChevronDownIcon" [size]="12" class="cz-mega-menu-chevron"></svg>
+                }
+            </button>
+
+            @if (item.items?.length && openIndex() === i) {
+                <div class="cz-mega-menu-panel" role="menu">
+                    @for (group of groups(); track group.label) {
+                        <div class="cz-mega-menu-column">
+                            @if (group.label) {
+                                <div class="cz-mega-menu-group-label">{{ group.label }}</div>
+                            }
+                            <ul class="cz-mega-menu-group">
+                                @for (child of group.items; track $index) {
+                                    <li role="none">
+                                        <button
+                                            type="button"
+                                            class="cz-mega-menu-leaf"
+                                            role="menuitem"
+                                            [disabled]="child.disabled || false"
+                                            (click)="activate(child, $event)"
+                                        >
+                                            @if (child.icon; as iconRef) {
+                                                <svg [lucideIcon]="iconRef" [size]="14" class="cz-mega-menu-icon"></svg>
+                                            }
+                                            <span>{{ child.label }}</span>
+                                        </button>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>

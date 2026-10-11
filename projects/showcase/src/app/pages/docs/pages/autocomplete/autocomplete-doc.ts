@@ -182,7 +182,6 @@ export class AutocompleteDocPage {
 import { CzAutocompleteComponent } from 'codezium-ui';
 
 @Component({
-  standalone: true,
   imports: [CzAutocompleteComponent],
   template: '...'
 })
@@ -215,7 +214,6 @@ export class MyComponent {
 import { CzAutocompleteComponent } from 'codezium-ui';
 
 @Component({
-  standalone: true,
   imports: [CzAutocompleteComponent],
   template: '...'
 })
@@ -252,7 +250,6 @@ export class MyComponent {
 import { CzAutocompleteComponent } from 'codezium-ui';
 
 @Component({
-  standalone: true,
   imports: [CzAutocompleteComponent],
   template: '...'
 })

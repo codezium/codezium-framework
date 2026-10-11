@@ -1,0 +1,50 @@
+<div class="cz-toggle-button-container" [class.cz-toggle-button-container--label-left]="labelPosition() === 'left'" [class.cz-toggle-button-container--label-right]="labelPosition() === 'right'">
+    <!-- Label -->
+    @if (label()) {
+        <label class="cz-toggle-button-label">{{ label() }}</label>
+    }
+
+    <div class="cz-toggle-button-wrapper">
+        <button
+            type="button"
+            class="cz-toggle-button-input"
+            [class.cz-toggle-button-input--checked]="checked()"
+            [disabled]="actualDisabled()"
+            [attr.aria-pressed]="checked()"
+            [attr.aria-label]="ariaLabel()"
+            [attr.aria-labelledby]="ariaLabelledBy()"
+            (click)="toggle($event)"
+            (keydown)="onKeyDown($event)"
+            (blur)="onModelTouched()"
+        >
+            <!-- Icons & Labels -->
+            <div class="cz-toggle-button-content">
+                @if (checked()) {
+                    @if (onIcon()) {
+                        <i [class]="onIcon()" class="cz-toggle-button-icon-on"></i>
+                    }
+                    @if (onLabel()) {
+                        <span class="cz-toggle-button-text-on">{{ onLabel() }}</span>
+                    }
+                } @else {
+                    @if (offIcon()) {
+                        <i [class]="offIcon()" class="cz-toggle-button-icon-off"></i>
+                    }
+                    @if (offLabel()) {
+                        <span class="cz-toggle-button-text-off">{{ offLabel() }}</span>
+                    }
+                }
+            </div>
+        </button>
+
+        <!-- Helper Text -->
+        @if (helperText() && !errorMessage) {
+            <small class="cz-toggle-button-helper">{{ helperText() }}</small>
+        }
+
+        <!-- Error Message -->
+        @if (errorMessage) {
+            <small class="cz-toggle-button-error">{{ errorMessage }}</small>
+        }
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div
+    class="cz-file-upload-dropzone"
+    [class.cz-file-upload-dropzone--dragging]="isDragging()"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+    (drop)="onDrop($event)"
+>
+    <svg [lucideIcon]="UploadIcon" [size]="28" class="cz-file-upload-icon"></svg>
+    <span class="cz-file-upload-label">{{ dragLabel() }}</span>
+
+    <label class="cz-file-upload-choose">
+        <span>{{ chooseLabel() }}</span>
+        <input
+            type="file"
+            class="cz-file-upload-input"
+            [multiple]="multiple()"
+            [accept]="accept()"
+            [disabled]="disabled()"
+            (change)="onFileInput($event)"
+        />
+    </label>
+</div>
+
+@if (files().length > 0) {
+    <ul class="cz-file-upload-list">
+        @for (file of files(); track file) {
+            <li class="cz-file-upload-item">
+                <svg [lucideIcon]="FileIcon" [size]="16" class="cz-file-upload-item-icon"></svg>
+                <span class="cz-file-upload-item-name">{{ file.name }}</span>
+                <span class="cz-file-upload-item-size">{{ sizeLabel(file) }}</span>
+                <button
+                    type="button"
+                    class="cz-file-upload-remove"
+                    [attr.aria-label]="'Remove ' + file.name"
+                    (click)="remove(file, $event)"
+                >
+                    <svg [lucideIcon]="TrashIcon" [size]="14"></svg>
+                </button>
+            </li>
+        }
+    </ul>
+}

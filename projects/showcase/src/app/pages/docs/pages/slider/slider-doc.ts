@@ -9,7 +9,6 @@ import { SLIDER_DOC_I18N } from './slider-doc.i18n';
 
 @Component({
     selector: 'cz-slider-doc-page',
-    standalone: true,
     imports: [CommonModule, CzSliderComponent, AppCodeComponent, FormsModule, ReactiveFormsModule],
     template: `
         <div class="doc-page">
@@ -197,7 +196,6 @@ import { CzSliderComponent } from 'codezium-ui';
 
 @Component({
     selector: 'slider-basic-demo',
-    standalone: true,
     imports: [FormsModule, CzSliderComponent],
     template: \`<cz-slider [(ngModel)]="value" label="Rate your experience" />\`
 })
@@ -215,7 +213,6 @@ import { CzSliderComponent } from 'codezium-ui';
 
 @Component({
     selector: 'slider-range-demo',
-    standalone: true,
     imports: [CommonModule, FormsModule, CzSliderComponent],
     template: \`<cz-slider [(ngModel)]="rangeValue" [range]="true" />\`
 })
@@ -233,7 +230,6 @@ import { CzSliderComponent } from 'codezium-ui';
 
 @Component({
     selector: 'slider-step-demo',
-    standalone: true,
     imports: [FormsModule, CzSliderComponent],
     template: \`
         <cz-slider [(ngModel)]="value" [step]="20" />
@@ -255,7 +251,6 @@ import { CzSliderComponent } from 'codezium-ui';
 
 @Component({
     selector: 'slider-themes-demo',
-    standalone: true,
     imports: [FormsModule, CzSliderComponent],
     template: \`
         <cz-slider [(ngModel)]="val" theme="base" />
@@ -276,7 +271,6 @@ import { CzSliderComponent } from 'codezium-ui';
 
 @Component({
     selector: 'slider-vertical-demo',
-    standalone: true,
     imports: [FormsModule, CzSliderComponent],
     template: \`
         <div style="height: 250px">
@@ -302,7 +296,6 @@ import { CzSliderComponent } from 'codezium-ui';
 
 @Component({
     selector: 'slider-colors-demo',
-    standalone: true,
     imports: [FormsModule, CzSliderComponent],
     template: \`
         <div class="cz-flex cz-flex-col cz-gap-md">
@@ -330,7 +323,6 @@ import { CzSliderComponent } from 'codezium-ui';
 
 @Component({
     selector: 'slider-validation-demo',
-    standalone: true,
     imports: [ReactiveFormsModule, CzSliderComponent],
     template: \`
         <form [formGroup]="testForm">

@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -6,11 +6,11 @@ import { CzInputNumberDirective } from './input-number.directive';
 
 @Component({
   template: `
-    <input 
-      czInputNumber 
-      [formControl]="ctrl" 
-      [mode]="mode" 
-      [locale]="locale" 
+    <input
+      czInputNumber
+      [formControl]="ctrl"
+      [mode]="mode"
+      [locale]="locale"
       [currency]="currency"
       [min]="min"
       [max]="max"
@@ -21,7 +21,7 @@ import { CzInputNumberDirective } from './input-number.directive';
     />
   `,
   imports: [CzInputNumberDirective, ReactiveFormsModule],
-  standalone: true
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 class TestHostComponent {
   ctrl = new FormControl<number | null>(null);
@@ -44,7 +44,7 @@ describe('CzInputNumberDirective', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent, CzInputNumberDirective]
+      imports: [TestHostComponent, CzInputNumberDirective],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHostComponent);
@@ -64,7 +64,7 @@ describe('CzInputNumberDirective', () => {
       fixture.detectChanges();
       component.ctrl.setValue(1234.56);
       fixture.detectChanges();
-      
+
       expect(inputEl.value).toBe('1,234.56');
     });
 
@@ -75,7 +75,7 @@ describe('CzInputNumberDirective', () => {
 
       component.ctrl.setValue(1234);
       fixture.detectChanges();
-      
+
       expect(inputEl.value).toBe('1,234');
     });
 
@@ -85,8 +85,8 @@ describe('CzInputNumberDirective', () => {
 
       component.ctrl.setValue(1234.56);
       fixture.detectChanges();
-      
-      // Note: Intl formatting adds non-breaking spaces or specific characters sometimes, 
+
+      // Note: Intl formatting adds non-breaking spaces or specific characters sometimes,
       // replace them for strict comparisons or use includes.
       expect(inputEl.value.replace(/\\s/g, '').replace(/\\u00A0/g, '')).toContain('$1,234.56');
     });
@@ -99,7 +99,7 @@ describe('CzInputNumberDirective', () => {
 
       component.ctrl.setValue(1234.56);
       fixture.detectChanges();
-      
+
       expect(inputEl.value.replace(/\\s/g, '').replace(/\\u00A0/g, '')).toContain('1.234,56');
     });
 
@@ -153,7 +153,7 @@ describe('CzInputNumberDirective', () => {
       // User types 150
       inputEl.value = '150';
       inputEl.dispatchEvent(new Event('input'));
-      
+
       // Value is temporarily 150 while typing
       expect(component.ctrl.value).toBe(150);
 
@@ -175,7 +175,7 @@ describe('CzInputNumberDirective', () => {
       // User types 5
       inputEl.value = '5';
       inputEl.dispatchEvent(new Event('input'));
-      
+
       expect(component.ctrl.value).toBe(5);
 
       // User leaves the input

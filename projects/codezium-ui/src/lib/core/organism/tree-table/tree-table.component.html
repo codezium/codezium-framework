@@ -1,0 +1,52 @@
+<div class="cz-tree-table-container">
+    <table class="cz-tree-table-native">
+        <thead>
+            <tr>
+                @for (column of columns(); track column.field) {
+                    <th scope="col" [style.width]="column.width || null">{{ column.header }}</th>
+                }
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (row of visibleRows(); track row.node) {
+                <tr class="cz-tree-table-row">
+                    @for (column of columns(); track column.field; let first = $first) {
+                        <td>
+                            @if (first) {
+                                <span
+                                    class="cz-tree-table-cell"
+                                    [style.paddingLeft.rem]="row.depth * 1.5"
+                                >
+                                    @if (row.expandable) {
+                                        <button
+                                            type="button"
+                                            class="cz-tree-table-toggle"
+                                            [attr.aria-expanded]="isExpanded(row.node)"
+                                            [attr.aria-label]="isExpanded(row.node) ? 'Collapse' : 'Expand'"
+                                            (click)="toggle(row.node, $event)"
+                                        >
+                                            <svg
+                                                [lucideIcon]="isExpanded(row.node) ? ChevronDownIcon : ChevronRightIcon"
+                                                [size]="14"
+                                            ></svg>
+                                        </button>
+                                    } @else {
+                                        <span class="cz-tree-table-spacer"></span>
+                                    }
+                                    <span>{{ row.node.data[column.field] }}</span>
+                                </span>
+                            } @else {
+                                {{ row.node.data[column.field] }}
+                            }
+                        </td>
+                    }
+                </tr>
+            } @empty {
+                <tr class="cz-tree-table-empty-row">
+                    <td [attr.colspan]="columns().length || 1">{{ emptyMessage() }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

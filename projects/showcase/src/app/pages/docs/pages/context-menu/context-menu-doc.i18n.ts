@@ -1,0 +1,42 @@
+export const CONTEXT_MENU_DOC_I18N = {
+    en: {
+        title: 'ContextMenu',
+        lead: 'ContextMenu displays an overlay menu on right-click over the projected target.',
+        importTitle: 'Import',
+        basic: 'Basic Usage',
+        basicDesc: 'Wrap the target area and pass the <code>items</code>; the menu opens at the pointer position.',
+        api: 'API Reference',
+    },
+    es: {
+        title: 'ContextMenu',
+        lead: 'ContextMenu muestra un menú overlay al hacer click derecho sobre el área proyectada.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Envuelve el área objetivo y pasa los <code>items</code>; el menú se abre en la posición del puntero.',
+        api: 'Referencia API',
+    },
+    pt: {
+        title: 'ContextMenu',
+        lead: 'ContextMenu exibe um menu overlay ao clicar com o botão direito sobre a área projetada.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Envolva a área alvo e passe os <code>items</code>; o menu abre na posição do ponteiro.',
+        api: 'Referência da API',
+    },
+    fr: {
+        title: 'ContextMenu',
+        lead: 'ContextMenu affiche un menu overlay au clic droit sur la zone projetée.',
+        importTitle: 'Importer',
+        basic: 'Utilisation de Base',
+        basicDesc: 'Enveloppez la zone cible et passez les <code>items</code> ; le menu s\'ouvre à la position du pointeur.',
+        api: 'Référence API',
+    },
+    de: {
+        title: 'ContextMenu',
+        lead: 'ContextMenu zeigt ein Overlay-Menü beim Rechtsklick über dem projizierten Ziel.',
+        importTitle: 'Importieren',
+        basic: 'Grundlegende Verwendung',
+        basicDesc: 'Umschließen Sie den Zielbereich und übergeben Sie die <code>items</code>; das Menü öffnet an der Zeigerposition.',
+        api: 'API-Referenz',
+    },
+};

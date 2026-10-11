@@ -1,0 +1,83 @@
+/* ==========================================================================
+   PICK LIST (cz-pick-list)
+   ========================================================================== */
+
+.cz-pick-list {
+    display: block;
+}
+
+.cz-pick-list-container {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: var(--cz-spacing-sm);
+}
+
+.cz-pick-list-panel {
+    margin: 0;
+    padding: var(--cz-spacing-xs) 0;
+    list-style: none;
+    height: 16rem;
+    overflow-y: auto;
+    background: var(--cz-theme-surface, var(--cz-color-white));
+    border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-border-color, var(--cz-color-gray-200));
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+}
+
+.cz-pick-list-item {
+    padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    cursor: pointer;
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+
+    &:hover {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
+    }
+
+    &.cz-pick-list-item--selected {
+        background: var(--cz-color-primary-50);
+        color: var(--cz-color-primary);
+        font-weight: var(--cz-font-weight-medium);
+    }
+}
+
+.cz-pick-list-empty {
+    padding: var(--cz-spacing-md);
+    text-align: center;
+    color: var(--cz-theme-text-muted, var(--cz-color-gray-500));
+    font-size: var(--cz-font-size-sm);
+}
+
+.cz-pick-list-controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cz-spacing-xs);
+}
+
+.cz-pick-list-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-border-color, var(--cz-color-gray-200));
+    border-radius: var(--cz-radius-sm);
+    background: var(--cz-theme-surface, var(--cz-color-white));
+    color: var(--cz-theme-text-secondary, var(--cz-color-gray-600));
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
+    }
+
+    &:disabled {
+        opacity: var(--cz-input-disabled-opacity, 0.5);
+        cursor: not-allowed;
+    }
+}
+
+.cz-pick-list--disabled {
+    opacity: var(--cz-input-disabled-opacity, 0.5);
+}

@@ -1,0 +1,42 @@
+export const TOOLBAR_DOC_I18N = {
+    en: {
+        title: 'Toolbar',
+        lead: 'Toolbar is a grouping component for buttons and other content.',
+        importTitle: 'Import',
+        basic: 'Basic Usage',
+        basicDesc: 'Project content at the start and end of the bar using the <code>czToolbarStart</code> and <code>czToolbarEnd</code> attributes.',
+        api: 'API Reference',
+    },
+    es: {
+        title: 'Toolbar',
+        lead: 'Toolbar es un componente de agrupación para botones y otros contenidos.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Proyecta contenido al inicio y final de la barra con los atributos <code>czToolbarStart</code> y <code>czToolbarEnd</code>.',
+        api: 'Referencia API',
+    },
+    pt: {
+        title: 'Toolbar',
+        lead: 'Toolbar é um componente de agrupamento para botões e outros conteúdos.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Projete conteúdo no início e no fim da barra com os atributos <code>czToolbarStart</code> e <code>czToolbarEnd</code>.',
+        api: 'Referência da API',
+    },
+    fr: {
+        title: 'Toolbar',
+        lead: 'Toolbar est un composant de regroupement pour les boutons et autres contenus.',
+        importTitle: 'Importer',
+        basic: 'Utilisation de Base',
+        basicDesc: 'Projetez du contenu au début et à la fin de la barre avec les attributs <code>czToolbarStart</code> et <code>czToolbarEnd</code>.',
+        api: 'Référence API',
+    },
+    de: {
+        title: 'Toolbar',
+        lead: 'Toolbar ist eine Gruppierungskomponente für Buttons und andere Inhalte.',
+        importTitle: 'Importieren',
+        basic: 'Grundlegende Verwendung',
+        basicDesc: 'Projizieren Sie Inhalte am Anfang und Ende der Leiste mit den Attributen <code>czToolbarStart</code> und <code>czToolbarEnd</code>.',
+        api: 'API-Referenz',
+    },
+};

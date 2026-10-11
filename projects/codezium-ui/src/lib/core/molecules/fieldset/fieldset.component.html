@@ -1,0 +1,28 @@
+<fieldset class="cz-fieldset-native">
+    <legend class="cz-fieldset-legend">
+        <span class="cz-fieldset-legend-text">{{ legend() }}</span>
+
+        @if (toggleable()) {
+            <button
+                type="button"
+                class="cz-fieldset-toggle"
+                [attr.aria-expanded]="!collapsed()"
+                [attr.aria-label]="collapsed() ? 'Expand' : 'Collapse'"
+                (click)="toggle()"
+            >
+                <svg
+                    [lucideIcon]="ChevronIcon"
+                    [size]="14"
+                    class="cz-fieldset-toggle-icon"
+                    [class.cz-fieldset-toggle-icon--collapsed]="collapsed()"
+                ></svg>
+            </button>
+        }
+    </legend>
+
+    @if (!collapsed()) {
+        <div class="cz-fieldset-content">
+            <ng-content />
+        </div>
+    }
+</fieldset>

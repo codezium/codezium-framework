@@ -1,0 +1,67 @@
+/* ==========================================================================
+   TERMINAL (cz-terminal)
+   ========================================================================== */
+
+.cz-terminal {
+    display: block;
+}
+
+.cz-terminal-container {
+    padding: var(--cz-spacing-md);
+    background: var(--cz-color-gray-900);
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+    font-family: var(--cz-font-code, monospace);
+    font-size: var(--cz-font-size-sm);
+    line-height: var(--cz-line-height-base);
+    color: var(--cz-color-gray-100);
+    overflow-y: auto;
+    max-height: 22rem;
+}
+
+.cz-terminal-output {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cz-spacing-xxs);
+}
+
+.cz-terminal-line {
+    display: flex;
+    gap: var(--cz-spacing-sm);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.cz-terminal-line--command .cz-terminal-text {
+    color: var(--cz-color-white);
+}
+
+.cz-terminal-line--command {
+    color: var(--cz-color-code, #7dd3fc);
+}
+
+.cz-terminal-prompt {
+    color: var(--cz-green, #22c55e);
+    flex-shrink: 0;
+}
+
+.cz-terminal-text {
+    color: inherit;
+}
+
+.cz-terminal-input-line {
+    display: flex;
+    align-items: center;
+    gap: var(--cz-spacing-sm);
+    margin-top: var(--cz-spacing-xs);
+}
+
+.cz-terminal-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--cz-color-white);
+    font-family: inherit;
+    font-size: inherit;
+    caret-color: var(--cz-green, #22c55e);
+}

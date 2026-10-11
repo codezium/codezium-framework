@@ -11,7 +11,6 @@ export type CzIconFieldSize = 'sm' | 'md' | 'lg';
 
 @Component({
     selector: 'cz-icon-field',
-    standalone: true,
     imports: [CommonModule],
     template: `<ng-content></ng-content>`,
     styleUrl: './icon-field.component.scss',

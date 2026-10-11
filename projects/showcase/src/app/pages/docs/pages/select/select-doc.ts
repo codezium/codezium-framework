@@ -7,7 +7,6 @@ import { SELECT_DOC_I18N } from './select-doc.i18n';
 
 @Component({
   selector: 'cz-select-doc-page',
-  standalone: true,
   imports: [CzSelectComponent, AppCodeComponent, ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `

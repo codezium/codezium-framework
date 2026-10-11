@@ -1,614 +1,1101 @@
-<div class="cz-container" style="padding-top: var(--cz-spacing-2xl); padding-bottom: var(--cz-spacing-4xl);">
+<div
+  class="cz-container"
+  style="padding-top: var(--cz-spacing-2xl); padding-bottom: var(--cz-spacing-4xl)"
+>
+  <!-- CONTROLS HEADER -->
+  <header
+    style="
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--cz-spacing-2xl);
+      padding-bottom: var(--cz-spacing-md);
+      border-bottom: 1px solid var(--cz-theme-border-color);
+    "
+  >
+    <div>
+      <h1
+        style="
+          font-family: var(--cz-font-heading);
+          margin-bottom: var(--cz-spacing-xs);
+          color: var(--cz-theme-text-primary);
+        "
+      >
+        Component Test Area
+      </h1>
+      <p style="color: var(--cz-theme-text-muted); font-size: var(--cz-font-size-sm); margin: 0">
+        Interactive preview for atoms and molecules
+      </p>
+    </div>
 
-    <!-- CONTROLS HEADER -->
-    <header
-        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--cz-spacing-2xl); padding-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-theme-border-color);">
-        <div>
-            <h1
-                style="font-family: var(--cz-font-heading); margin-bottom: var(--cz-spacing-xs); color: var(--cz-theme-text-primary);">
-                Component Test Area</h1>
-            <p style="color: var(--cz-theme-text-muted); font-size: var(--cz-font-size-sm); margin: 0;">Interactive
-                preview for atoms and molecules</p>
+    <div style="display: flex; gap: var(--cz-spacing-sm)">
+      <!-- Locale Selection -->
+      <select
+        [ngModel]="activeLocale"
+        (ngModelChange)="setLocale($event)"
+        style="
+          background: transparent;
+          border: 1px solid var(--cz-theme-border-color);
+          color: var(--cz-theme-text-primary);
+          border-radius: var(--cz-radius-md);
+          padding: 4px 8px;
+          cursor: pointer;
+        "
+      >
+        <option value="en" style="color: black">EN</option>
+        <option value="es" style="color: black">ES</option>
+        <option value="pt" style="color: black">PT</option>
+        <option value="fr" style="color: black">FR</option>
+        <option value="de" style="color: black">DE</option>
+      </select>
+
+      <!-- Theme Selection -->
+      <div
+        style="
+          display: flex;
+          background: rgba(128, 128, 128, 0.1);
+          border-radius: var(--cz-radius-md);
+          padding: 4px;
+        "
+      >
+        <button
+          (click)="setTheme('base')"
+          [style.background]="
+            activeTheme === 'base' ? 'var(--cz-color-primary-500)' : 'transparent'
+          "
+          [style.color]="activeTheme === 'base' ? 'white' : 'var(--cz-theme-text-secondary)'"
+          style="
+            border: none;
+            border-radius: var(--cz-radius-sm);
+            padding: 6px 12px;
+            cursor: pointer;
+            font-weight: 500;
+          "
+        >
+          Base
+        </button>
+        <button
+          (click)="setTheme('glass')"
+          [style.background]="
+            activeTheme === 'glass' ? 'var(--cz-color-primary-500)' : 'transparent'
+          "
+          [style.color]="activeTheme === 'glass' ? 'white' : 'var(--cz-theme-text-secondary)'"
+          style="
+            border: none;
+            border-radius: var(--cz-radius-sm);
+            padding: 6px 12px;
+            cursor: pointer;
+            font-weight: 500;
+          "
+        >
+          Glass
+        </button>
+        <button
+          (click)="setTheme('neo')"
+          [style.background]="activeTheme === 'neo' ? 'var(--cz-color-primary-500)' : 'transparent'"
+          [style.color]="activeTheme === 'neo' ? 'white' : 'var(--cz-theme-text-secondary)'"
+          style="
+            border: none;
+            border-radius: var(--cz-radius-sm);
+            padding: 6px 12px;
+            cursor: pointer;
+            font-weight: 500;
+          "
+        >
+          Neo
+        </button>
+      </div>
+
+      <!-- Dark Mode Toggle -->
+      <button
+        (click)="toggleDarkMode()"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          border: 1px solid var(--cz-theme-border-color);
+          background: transparent;
+          color: var(--cz-theme-text-primary);
+          cursor: pointer;
+        "
+      >
+        @if (isDarkMode) {
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+        } @else {
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        }
+      </button>
+    </div>
+  </header>
+
+  <form [formGroup]="testForm" class="cz-grid" style="gap: var(--cz-spacing-2xl)">
+    <!-- SECTION: Input Text Variants -->
+    <section>
+      <h2
+        style="
+          font-family: var(--cz-font-heading);
+          font-size: var(--cz-font-size-xl);
+          margin-bottom: var(--cz-spacing-md);
+          border-bottom: 1px solid var(--cz-border-color-default);
+          padding-bottom: var(--cz-spacing-xs);
+        "
+      >
+        CzInputText Variants
+      </h2>
+
+      <div
+        style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px"
+      >
+        <!-- Standard -->
+        <cz-input-text
+          formControlName="username"
+          label="Username"
+          [locale]="activeLocale"
+          color="primary"
+          placeholder="Enter a username (min 4 chars)"
+          helpText="This is standard label in 'over' position."
+        >
+        </cz-input-text>
+        <cz-input-text
+          formControlName="username"
+          label="Username"
+          [locale]="activeLocale"
+          color="secondary"
+          placeholder="Enter a username (min 4 chars)"
+          helpText="This is standard label in 'over' position."
+        >
+        </cz-input-text>
+        <cz-input-text
+          formControlName="username"
+          label="Username"
+          [locale]="activeLocale"
+          color="success"
+          placeholder="Enter a username (min 4 chars)"
+          helpText="This is standard label in 'over' position."
+        >
+        </cz-input-text>
+        <cz-input-text
+          formControlName="username"
+          label="Username"
+          [locale]="activeLocale"
+          color="danger"
+          placeholder="Enter a username (min 4 chars)"
+          helpText="This is standard label in 'over' position."
+        >
+        </cz-input-text>
+        <cz-input-text
+          formControlName="username"
+          label="Username"
+          [locale]="activeLocale"
+          color="warning"
+          placeholder="Enter a username (min 4 chars)"
+          helpText="This is standard label in 'over' position."
+        >
+        </cz-input-text>
+        <cz-input-text
+          formControlName="username"
+          label="Username"
+          [locale]="activeLocale"
+          color="info"
+          placeholder="Enter a username (min 4 chars)"
+          helpText="This is standard label in 'over' position."
+        >
+        </cz-input-text>
+        <cz-input-text
+          formControlName="username"
+          label="Username"
+          [locale]="activeLocale"
+          color="dark"
+          placeholder="Enter a username (min 4 chars)"
+          helpText="This is standard label in 'over' position."
+        >
+        </cz-input-text>
+
+        <!-- Float Label -->
+        <cz-input-text
+          formControlName="email"
+          label="Email Address"
+          labelPosition="float"
+          [locale]="activeLocale"
+          type="email"
+          helpText="This input uses the floating label variant."
+        >
+        </cz-input-text>
+
+        <!-- Outline / In position -->
+        <cz-input-text
+          label="Search Database (Uncontrolled)"
+          labelPosition="in"
+          [locale]="activeLocale"
+          placeholder="Type to search..."
+          [filled]="true"
+        >
+        </cz-input-text>
+
+        <!-- Disabled State -->
+        <cz-input-text
+          formControlName="disabledField"
+          label="System ID"
+          [locale]="activeLocale"
+          labelPosition="float"
+          helpText="This field is completely disabled programmatically."
+        >
+        </cz-input-text>
+      </div>
+    </section>
+
+    <!-- SECTION: Checkbox Variants -->
+    <section>
+      <h2
+        style="
+          font-family: var(--cz-font-heading);
+          font-size: var(--cz-font-size-xl);
+          margin-bottom: var(--cz-spacing-md);
+          border-bottom: 1px solid var(--cz-border-color-default);
+          padding-bottom: var(--cz-spacing-xs);
+        "
+      >
+        CzCheckbox Variants
+      </h2>
+
+      <div
+        style="display: flex; flex-direction: column; gap: var(--cz-spacing-xl); max-width: 600px"
+      >
+        <!-- Form Controls Showcase -->
+        <div style="display: flex; gap: var(--cz-spacing-2xl); flex-wrap: wrap">
+          <!-- Binary Boolean -->
+          <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm)">
+            <h3
+              style="
+                font-size: var(--cz-font-size-md);
+                color: var(--cz-theme-text-secondary);
+                margin: 0;
+              "
+            >
+              Binary (Boolean)
+            </h3>
+            <cz-checkbox
+              formControlName="termsAccepted"
+              [binary]="true"
+              label="I accept the Terms and Conditions"
+              labelPosition="left"
+            ></cz-checkbox>
+            <span
+              style="
+                font-size: var(--cz-font-size-sm);
+                color: var(--cz-theme-text-muted);
+                font-family: monospace;
+              "
+            >
+              Value: {{ $safeNavigationMigration(testForm.get('termsAccepted')?.value) | json }}
+            </span>
+          </div>
+
+          <!-- Array Multiple Choices -->
+          <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm)">
+            <h3
+              style="
+                font-size: var(--cz-font-size-md);
+                color: var(--cz-theme-text-secondary);
+                margin: 0;
+              "
+            >
+              Multiple Values (Array)
+            </h3>
+            <div style="display: flex; gap: var(--cz-spacing-md)">
+              <cz-checkbox formControlName="fruits" value="Apple" label="Apple"></cz-checkbox>
+              <cz-checkbox formControlName="fruits" value="Banana" label="Banana"></cz-checkbox>
+              <cz-checkbox formControlName="fruits" value="Orange" label="Orange"></cz-checkbox>
+            </div>
+            <span
+              style="
+                font-size: var(--cz-font-size-sm);
+                color: var(--cz-theme-text-muted);
+                font-family: monospace;
+              "
+            >
+              Value: {{ $safeNavigationMigration(testForm.get('fruits')?.value) | json }}
+            </span>
+          </div>
+
+          <!-- Dynamic Multiple Choices (NgModel + Data Array) -->
+          <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm)">
+            <h3
+              style="
+                font-size: var(--cz-font-size-md);
+                color: var(--cz-theme-text-secondary);
+                margin: 0;
+              "
+            >
+              Dynamic Values (Array objects)
+            </h3>
+            <div style="display: flex; gap: var(--cz-spacing-md); flex-direction: column">
+              @for (category of categories; track category.key) {
+                <cz-checkbox
+                  [value]="category"
+                  [(ngModel)]="selectedCategories"
+                  [ngModelOptions]="{ standalone: true }"
+                >
+                  <span style="font-weight: 500; margin-left: var(--cz-spacing-xs)">{{
+                    category.name
+                  }}</span>
+                </cz-checkbox>
+              }
+            </div>
+            <span
+              style="
+                font-size: var(--cz-font-size-sm);
+                color: var(--cz-theme-text-muted);
+                font-family: monospace;
+              "
+            >
+              Value length: {{ selectedCategories.length }} |
+              {{ selectedCategories | json | slice: 0 : 30 }}...
+            </span>
+          </div>
         </div>
 
-        <div style="display: flex; gap: var(--cz-spacing-sm);">
-            <!-- Locale Selection -->
-            <select [ngModel]="activeLocale" (ngModelChange)="setLocale($event)"
-                style="background: transparent; border: 1px solid var(--cz-theme-border-color); color: var(--cz-theme-text-primary); border-radius: var(--cz-radius-md); padding: 4px 8px; cursor: pointer;">
-                <option value="en" style="color: black;">EN</option>
-                <option value="es" style="color: black;">ES</option>
-                <option value="pt" style="color: black;">PT</option>
-                <option value="fr" style="color: black;">FR</option>
-                <option value="de" style="color: black;">DE</option>
-            </select>
-
-            <!-- Theme Selection -->
-            <div
-                style="display: flex; background: rgba(128,128,128,0.1); border-radius: var(--cz-radius-md); padding: 4px;">
-                <button (click)="setTheme('base')"
-                    [style.background]="activeTheme === 'base' ? 'var(--cz-color-primary-500)' : 'transparent'"
-                    [style.color]="activeTheme === 'base' ? 'white' : 'var(--cz-theme-text-secondary)'"
-                    style="border: none; border-radius: var(--cz-radius-sm); padding: 6px 12px; cursor: pointer; font-weight: 500;">
-                    Base
-                </button>
-                <button (click)="setTheme('glass')"
-                    [style.background]="activeTheme === 'glass' ? 'var(--cz-color-primary-500)' : 'transparent'"
-                    [style.color]="activeTheme === 'glass' ? 'white' : 'var(--cz-theme-text-secondary)'"
-                    style="border: none; border-radius: var(--cz-radius-sm); padding: 6px 12px; cursor: pointer; font-weight: 500;">
-                    Glass
-                </button>
-                <button (click)="setTheme('neo')"
-                    [style.background]="activeTheme === 'neo' ? 'var(--cz-color-primary-500)' : 'transparent'"
-                    [style.color]="activeTheme === 'neo' ? 'white' : 'var(--cz-theme-text-secondary)'"
-                    style="border: none; border-radius: var(--cz-radius-sm); padding: 6px 12px; cursor: pointer; font-weight: 500;">
-                    Neo
-                </button>
+        <!-- Form Controls: formControlName -->
+        <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm)">
+          <h3
+            style="
+              font-size: var(--cz-font-size-md);
+              color: var(--cz-theme-text-secondary);
+              margin: 0;
+            "
+          >
+            Reactive Form (formControlName)
+          </h3>
+          <div style="display: flex; gap: var(--cz-spacing-lg); align-items: center">
+            <cz-checkbox
+              formControlName="privacyAccepted"
+              [binary]="true"
+              label="I accept the Privacy Policy"
+              labelPosition="left"
+            ></cz-checkbox>
+            <div>
+              <strong>Form Raw Value: </strong>
+              <code
+                style="
+                  background: var(--cz-theme-surface-hover);
+                  padding: 2px 6px;
+                  border-radius: 4px;
+                "
+                >{{ testForm.controls.privacyAccepted.value }}</code
+              >
             </div>
-
-            <!-- Dark Mode Toggle -->
-            <button (click)="toggleDarkMode()"
-                style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--cz-theme-border-color); background: transparent; color: var(--cz-theme-text-primary); cursor: pointer;">
-                @if (isDarkMode) {
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5" />
-                    <line x1="12" y1="1" x2="12" y2="3" />
-                    <line x1="12" y1="21" x2="12" y2="23" />
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                    <line x1="1" y1="12" x2="3" y2="12" />
-                    <line x1="21" y1="12" x2="23" y2="12" />
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                </svg>
-                } @else {
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                </svg>
-                }
-            </button>
+          </div>
         </div>
-    </header>
 
-    <form [formGroup]="testForm" class="cz-grid" style="gap: var(--cz-spacing-2xl);">
+        <!-- Sizes -->
+        <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm)">
+          <h3
+            style="
+              font-size: var(--cz-font-size-md);
+              color: var(--cz-theme-text-secondary);
+              margin: 0;
+            "
+          >
+            Sizes
+          </h3>
+          <div style="display: flex; gap: var(--cz-spacing-xl); align-items: center">
+            <cz-checkbox [binary]="true" [circle]="true" size="sm" label="Small"></cz-checkbox>
+            <cz-checkbox
+              [binary]="true"
+              [circle]="false"
+              size="md"
+              label="Medium (Default)"
+            ></cz-checkbox>
+            <cz-checkbox [binary]="true" [circle]="false" size="lg" label="Large"></cz-checkbox>
+          </div>
+        </div>
 
-        <!-- SECTION: Input Text Variants -->
-        <section>
-            <h2
-                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
-                CzInputText Variants</h2>
-
-            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px;">
-
-                <!-- Standard -->
-                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="primary"
-                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
-                </cz-input-text>
-                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="secondary"
-                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
-                </cz-input-text>
-                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="success"
-                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
-                </cz-input-text>
-                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="danger"
-                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
-                </cz-input-text>
-                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="warning"
-                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
-                </cz-input-text>
-                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="info"
-                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
-                </cz-input-text>
-                <cz-input-text formControlName="username" label="Username" [locale]="activeLocale" color="dark"
-                    placeholder="Enter a username (min 4 chars)" helpText="This is standard label in 'over' position.">
-                </cz-input-text>
-
-                <!-- Float Label -->
-                <cz-input-text formControlName="email" label="Email Address" labelPosition="float"
-                    [locale]="activeLocale" type="email" helpText="This input uses the floating label variant.">
-                </cz-input-text>
-
-                <!-- Outline / In position -->
-                <cz-input-text label="Search Database (Uncontrolled)" labelPosition="in" [locale]="activeLocale"
-                    placeholder="Type to search..." [filled]="true">
-                </cz-input-text>
-
-                <!-- Disabled State -->
-                <cz-input-text formControlName="disabledField" label="System ID" [locale]="activeLocale"
-                    labelPosition="float" helpText="This field is completely disabled programmatically.">
-                </cz-input-text>
-
+        <!-- Template Driven [(ngModel)] Test -->
+        <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm)">
+          <h3
+            style="
+              font-size: var(--cz-font-size-md);
+              color: var(--cz-theme-text-secondary);
+              margin: 0;
+            "
+          >
+            Template Driven (NgModel)
+          </h3>
+          <div style="display: flex; gap: var(--cz-spacing-lg); align-items: center">
+            <cz-checkbox
+              [(ngModel)]="templateDrivenValue"
+              [ngModelOptions]="{ standalone: true }"
+              [binary]="true"
+              label="NgModel Two-Way Binding"
+            ></cz-checkbox>
+            <div>
+              <strong>Property Value: </strong>
+              <code
+                style="
+                  background: var(--cz-theme-surface-hover);
+                  padding: 2px 6px;
+                  border-radius: 4px;
+                "
+                >{{ templateDrivenValue }}</code
+              >
             </div>
-        </section>
+          </div>
+        </div>
+        <!-- Colors -->
+        <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm)">
+          <h3
+            style="
+              font-size: var(--cz-font-size-md);
+              color: var(--cz-theme-text-secondary);
+              margin: 0;
+            "
+          >
+            Theme Colors
+          </h3>
+          <div style="display: flex; gap: var(--cz-spacing-xl); flex-wrap: wrap">
+            <cz-checkbox [binary]="true" color="primary" label="Primary"></cz-checkbox>
+            <cz-checkbox [binary]="true" color="secondary" label="Secondary"></cz-checkbox>
+            <cz-checkbox [binary]="true" color="success" label="Success"></cz-checkbox>
+            <cz-checkbox [binary]="true" color="warning" label="Warning"></cz-checkbox>
+            <cz-checkbox [binary]="true" color="danger" label="Danger"></cz-checkbox>
+            <cz-checkbox [binary]="true" color="info" label="Info"></cz-checkbox>
+            <cz-checkbox [binary]="true" color="dark" label="Dark"></cz-checkbox>
+          </div>
+        </div>
 
+        <!-- Disabled / Readonly -->
+        <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm)">
+          <h3
+            style="
+              font-size: var(--cz-font-size-md);
+              color: var(--cz-theme-text-secondary);
+              margin: 0;
+            "
+          >
+            States
+          </h3>
+          <div style="display: flex; gap: var(--cz-spacing-xl)">
+            <cz-checkbox
+              formControlName="disabledChecked"
+              [binary]="true"
+              label="Disabled (Checked)"
+            ></cz-checkbox>
+            <cz-checkbox
+              [binary]="true"
+              [disabled]="true"
+              label="Disabled (Unchecked)"
+            ></cz-checkbox>
+            <cz-checkbox
+              formControlName="privacyAccepted"
+              [binary]="true"
+              [readonly]="true"
+              label="Readonly"
+            ></cz-checkbox>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <!-- SECTION: Input Number Directives -->
+    <section>
+      <h2
+        style="
+          font-family: var(--cz-font-heading);
+          font-size: var(--cz-font-size-xl);
+          margin-bottom: var(--cz-spacing-md);
+          border-bottom: 1px solid var(--cz-border-color-default);
+          padding-bottom: var(--cz-spacing-xs);
+        "
+      >
+        InputNumber Elements
+      </h2>
 
+      <div
+        style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px"
+      >
+        <!-- Currency -->
+        <cz-input-text
+          formControlName="price"
+          label="Purchase Price"
+          [locale]="activeLocale"
+          helpText="Validates min 100, formats to EUR currency rules."
+          czInputNumber
+          mode="currency"
+          currency="EUR"
+          [min]="100"
+          [minFractionDigits]="2"
+        >
+        </cz-input-text>
 
+        <!-- Decimal with Min/Max -->
+        <cz-input-text
+          formControlName="percentage"
+          label="Discount Percentage"
+          [locale]="activeLocale"
+          helpText="Validates between 0 and 100 with a custom suffix"
+          czInputNumber
+          mode="decimal"
+          [min]="0"
+          [max]="100"
+          suffix=" %"
+        >
+        </cz-input-text>
 
-        <!-- SECTION: Checkbox Variants -->
-        <section>
-            <h2
-                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
-                CzCheckbox Variants</h2>
+        <!-- Standard Decimal weight -->
+        <cz-input-text
+          formControlName="weight"
+          label="Item Weight"
+          [locale]="activeLocale"
+          helpText="Handles fractions (3 decimals) and suffixes"
+          czInputNumber
+          mode="decimal"
+          [minFractionDigits]="0"
+          [maxFractionDigits]="3"
+          suffix=" kg"
+        >
+        </cz-input-text>
 
-            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-xl); max-width: 600px;">
+        <!-- Native Input Currency -->
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <label
+            style="
+              font-size: var(--cz-font-size-sm);
+              font-weight: 500;
+              font-family: var(--cz-font-family);
+              color: var(--cz-theme-text-primary);
+            "
+            >Native Input: Purchase Price (EUR)</label
+          >
+          <input
+            type="text"
+            formControlName="nativePrice"
+            czInputNumber
+            mode="currency"
+            currency="EUR"
+            [min]="0"
+            style="
+              padding: 10px;
+              border: 1px solid var(--cz-theme-border-color);
+              border-radius: var(--cz-radius-md);
+              background: transparent;
+              color: var(--cz-theme-text-primary);
+              font-family: var(--cz-font-family);
+              outline: none;
+            "
+          />
+        </div>
 
-                <!-- Form Controls Showcase -->
-                <div style="display: flex; gap: var(--cz-spacing-2xl); flex-wrap: wrap;">
+        <!-- Native Input Decimal -->
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <label
+            style="
+              font-size: var(--cz-font-size-sm);
+              font-weight: 500;
+              font-family: var(--cz-font-family);
+              color: var(--cz-theme-text-primary);
+            "
+            >Native Input: Discount (%)</label
+          >
+          <input
+            type="text"
+            formControlName="nativePercentage"
+            czInputNumber
+            mode="decimal"
+            [min]="0"
+            [max]="100"
+            suffix=" %"
+            style="
+              padding: 10px;
+              border: 1px solid var(--cz-theme-border-color);
+              border-radius: var(--cz-radius-md);
+              background: transparent;
+              color: var(--cz-theme-text-primary);
+              font-family: var(--cz-font-family);
+              outline: none;
+            "
+          />
+        </div>
 
-                    <!-- Binary Boolean -->
-                    <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
-                        <h3
-                            style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
-                            Binary (Boolean)</h3>
-                        <cz-checkbox formControlName="termsAccepted" [binary]="true"
-                            label="I accept the Terms and Conditions" labelPosition="left"></cz-checkbox>
-                        <span
-                            style="font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-muted); font-family: monospace;">
-                            Value: {{ testForm.get('termsAccepted')?.value | json }}
-                        </span>
-                    </div>
+        <div
+          style="
+            background: var(--cz-theme-surface-hover);
+            padding: var(--cz-spacing-md);
+            border-radius: var(--cz-radius-md);
+            font-family: monospace;
+            font-size: var(--cz-font-size-sm);
+            color: var(--cz-theme-text-secondary);
+          "
+        >
+          <strong>Raw Form Values:</strong><br />
+          Price (number): {{ testForm.get('price')?.value }}<br />
+          Percentage (number): {{ testForm.get('percentage')?.value }}<br />
+          Weight (number): {{ testForm.get('weight')?.value }}<br /><br />
+          Native Price (number): {{ testForm.get('nativePrice')?.value }}<br />
+          Native Percentage (number): {{ testForm.get('nativePercentage')?.value }}
+        </div>
+      </div>
+    </section>
 
-                    <!-- Array Multiple Choices -->
-                    <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
-                        <h3
-                            style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
-                            Multiple Values (Array)</h3>
-                        <div style="display: flex; gap: var(--cz-spacing-md);">
-                            <cz-checkbox formControlName="fruits" value="Apple" label="Apple"></cz-checkbox>
-                            <cz-checkbox formControlName="fruits" value="Banana" label="Banana"></cz-checkbox>
-                            <cz-checkbox formControlName="fruits" value="Orange" label="Orange"></cz-checkbox>
-                        </div>
-                        <span
-                            style="font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-muted); font-family: monospace;">
-                            Value: {{ testForm.get('fruits')?.value | json }}
-                        </span>
-                    </div>
+    <!-- SECTION: Autocomplete Components -->
+    <section>
+      <h2
+        style="
+          font-family: var(--cz-font-heading);
+          font-size: var(--cz-font-size-xl);
+          margin-bottom: var(--cz-spacing-md);
+          border-bottom: 1px solid var(--cz-border-color-default);
+          padding-bottom: var(--cz-spacing-xs);
+        "
+      >
+        CzAutocomplete Elements
+      </h2>
 
-                    <!-- Dynamic Multiple Choices (NgModel + Data Array) -->
-                    <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
-                        <h3
-                            style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
-                            Dynamic Values (Array objects)</h3>
-                        <div style="display: flex; gap: var(--cz-spacing-md); flex-direction: column;">
-                            @for (category of categories; track category.key) {
-                                <cz-checkbox 
-                                    [value]="category" 
-                                    [(ngModel)]="selectedCategories" 
-                                    [ngModelOptions]="{standalone: true}">
-                                    <span style="font-weight: 500; margin-left: var(--cz-spacing-xs);">{{ category.name }}</span>
-                                </cz-checkbox>
-                            }
-                        </div>
-                        <span
-                            style="font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-muted); font-family: monospace;">
-                            Value length: {{ selectedCategories.length }} |
-                            {{ selectedCategories | json | slice:0:30 }}...
-                        </span>
-                    </div>
-                </div>
+      <div
+        style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px"
+      >
+        <!-- Basic String -->
+        <cz-autocomplete
+          formControlName="autoBasic"
+          color="primary"
+          label="Basic Strings (Primary)"
+          [suggestions]="filteredBasic"
+          (completeMethod)="filterBasic($event)"
+          helpText="Autocomplete pure strings."
+          [locale]="activeLocale"
+        >
+        </cz-autocomplete>
 
-                <!-- Form Controls: formControlName -->
-                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
-                    <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
-                        Reactive Form (formControlName)</h3>
-                    <div style="display: flex; gap: var(--cz-spacing-lg); align-items: center;">
-                        <cz-checkbox formControlName="privacyAccepted" [binary]="true"
-                            label="I accept the Privacy Policy" labelPosition="left"></cz-checkbox>
-                        <div>
-                            <strong>Form Raw Value: </strong>
-                            <code
-                                style="background: var(--cz-theme-surface-hover); padding: 2px 6px; border-radius: 4px;">{{ testForm.controls.privacyAccepted.value }}</code>
-                        </div>
-                    </div>
-                </div>
+        <!-- Objects with Field -->
+        <cz-autocomplete
+          formControlName="autoObj"
+          color="success"
+          label="Objects (Success)"
+          field="name"
+          [suggestions]="filteredCountries"
+          (completeMethod)="filterCountries($event)"
+          helpText="Handles and displays nested object values."
+          [locale]="activeLocale"
+        >
+        </cz-autocomplete>
 
-                <!-- Sizes -->
-                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
-                    <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
-                        Sizes</h3>
-                    <div style="display: flex; gap: var(--cz-spacing-xl); align-items: center;">
-                        <cz-checkbox [binary]="true" [circle]="true" size="sm" label="Small"></cz-checkbox>
-                        <cz-checkbox [binary]="true" [circle]="false" size="md" label="Medium (Default)"></cz-checkbox>
-                        <cz-checkbox [binary]="true" [circle]="false" size="lg" label="Large"></cz-checkbox>
-                    </div>
-                </div>
+        <!-- Dropdown Button -->
+        <cz-autocomplete
+          formControlName="autoDropdown"
+          color="info"
+          label="Dropdown (Info)"
+          field="name"
+          [dropdown]="true"
+          [suggestions]="filteredCountries"
+          (completeMethod)="filterCountries($event)"
+          [locale]="activeLocale"
+        >
+        </cz-autocomplete>
 
-                <!-- Template Driven [(ngModel)] Test -->
-                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
-                    <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
-                        Template Driven (NgModel)</h3>
-                    <div style="display: flex; gap: var(--cz-spacing-lg); align-items: center;">
-                        <cz-checkbox [(ngModel)]="templateDrivenValue" [ngModelOptions]="{standalone: true}"
-                            [binary]="true" label="NgModel Two-Way Binding"></cz-checkbox>
-                        <div>
-                            <strong>Property Value: </strong>
-                            <code
-                                style="background: var(--cz-theme-surface-hover); padding: 2px 6px; border-radius: 4px;">{{ templateDrivenValue }}</code>
-                        </div>
-                    </div>
-                </div>
-                <!-- Colors -->
-                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
-                    <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
-                        Theme Colors</h3>
-                    <div style="display: flex; gap: var(--cz-spacing-xl); flex-wrap: wrap;">
-                        <cz-checkbox [binary]="true" color="primary" label="Primary"></cz-checkbox>
-                        <cz-checkbox [binary]="true" color="secondary" label="Secondary"></cz-checkbox>
-                        <cz-checkbox [binary]="true" color="success" label="Success"></cz-checkbox>
-                        <cz-checkbox [binary]="true" color="warning" label="Warning"></cz-checkbox>
-                        <cz-checkbox [binary]="true" color="danger" label="Danger"></cz-checkbox>
-                        <cz-checkbox [binary]="true" color="info" label="Info"></cz-checkbox>
-                        <cz-checkbox [binary]="true" color="dark" label="Dark"></cz-checkbox>
-                    </div>
-                </div>
+        <!-- Multiple Selection (Chips) -->
+        <cz-autocomplete
+          formControlName="autoMultiple"
+          color="warning"
+          label="Multiple Chips (Warning)"
+          field="name"
+          [multiple]="true"
+          [suggestions]="filteredCountries"
+          (completeMethod)="filterCountries($event)"
+          helpText="Select multiple elements to aggregate as chips."
+          [locale]="activeLocale"
+        >
+        </cz-autocomplete>
 
-                <!-- Disabled / Readonly -->
-                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-sm);">
-                    <h3 style="font-size: var(--cz-font-size-md); color: var(--cz-theme-text-secondary); margin: 0;">
-                        States</h3>
-                    <div style="display: flex; gap: var(--cz-spacing-xl);">
-                        <cz-checkbox formControlName="disabledChecked" [binary]="true"
-                            label="Disabled (Checked)"></cz-checkbox>
-                        <cz-checkbox [binary]="true" [disabled]="true" label="Disabled (Unchecked)"></cz-checkbox>
-                        <cz-checkbox formControlName="privacyAccepted" [binary]="true" [readonly]="true"
-                            label="Readonly"></cz-checkbox>
-                    </div>
-                </div>
+        <!-- Float Label Parity -->
+        <cz-autocomplete
+          formControlName="autoFloat"
+          color="danger"
+          label="Float Label (Danger)"
+          labelPosition="float"
+          [suggestions]="filteredBasic"
+          (completeMethod)="filterBasic($event)"
+          [locale]="activeLocale"
+        >
+        </cz-autocomplete>
 
-            </div>
-        </section>
+        <!-- Over Label Parity -->
+        <cz-autocomplete
+          formControlName="autoOver"
+          color="secondary"
+          label="Over Label (Secondary)"
+          labelPosition="over"
+          [suggestions]="filteredBasic"
+          (completeMethod)="filterBasic($event)"
+          [locale]="activeLocale"
+        >
+        </cz-autocomplete>
 
-        <!-- SECTION: Input Number Directives -->
-        <section>
-            <h2
-                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
-                InputNumber Elements</h2>
+        <!-- In Label Parity -->
+        <cz-autocomplete
+          formControlName="autoIn"
+          color="dark"
+          label="In Label (Dark)"
+          labelPosition="in"
+          [suggestions]="filteredBasic"
+          (completeMethod)="filterBasic($event)"
+          [locale]="activeLocale"
+        >
+        </cz-autocomplete>
 
-            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px;">
+        <div
+          style="
+            background: var(--cz-theme-surface-hover);
+            padding: var(--cz-spacing-md);
+            border-radius: var(--cz-radius-md);
+            font-family: monospace;
+            font-size: var(--cz-font-size-sm);
+            color: var(--cz-theme-text-secondary);
+          "
+        >
+          <strong>Raw Form Values:</strong><br />
+          Basic: {{ $safeNavigationMigration(testForm.get('autoBasic')?.value) | json }}<br />
+          Obj: {{ $safeNavigationMigration(testForm.get('autoObj')?.value) | json }}<br />
+          Dropdown: {{ $safeNavigationMigration(testForm.get('autoDropdown')?.value) | json }}<br />
+          Multiple: {{ $safeNavigationMigration(testForm.get('autoMultiple')?.value) | json }}<br />
+          Float: {{ $safeNavigationMigration(testForm.get('autoFloat')?.value) | json }}<br />
+          Over: {{ $safeNavigationMigration(testForm.get('autoOver')?.value) | json }}<br />
+          In: {{ $safeNavigationMigration(testForm.get('autoIn')?.value) | json }}
+        </div>
+      </div>
+    </section>
 
-                <!-- Currency -->
-                <cz-input-text formControlName="price" label="Purchase Price" [locale]="activeLocale"
-                    helpText="Validates min 100, formats to EUR currency rules." czInputNumber mode="currency"
-                    currency="EUR" [min]="100" [minFractionDigits]="2">
-                </cz-input-text>
+    <!-- SECTION: Password Components -->
+    <section>
+      <h2
+        style="
+          font-family: var(--cz-font-heading);
+          font-size: var(--cz-font-size-xl);
+          margin-bottom: var(--cz-spacing-md);
+          border-bottom: 1px solid var(--cz-border-color-default);
+          padding-bottom: var(--cz-spacing-xs);
+        "
+      >
+        CzPassword Elements
+      </h2>
 
-                <!-- Decimal with Min/Max -->
-                <cz-input-text formControlName="percentage" label="Discount Percentage" [locale]="activeLocale"
-                    helpText="Validates between 0 and 100 with a custom suffix" czInputNumber mode="decimal"
-                    [min]="0" [max]="100" suffix=" %">
-                </cz-input-text>
+      <div
+        style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px"
+      >
+        <cz-password
+          formControlName="passBasic"
+          label="Basic"
+          placeholder="Standard password"
+          [locale]="activeLocale"
+        >
+        </cz-password>
 
-                <!-- Standard Decimal weight -->
-                <cz-input-text formControlName="weight" label="Item Weight" [locale]="activeLocale"
-                    helpText="Handles fractions (3 decimals) and suffixes" czInputNumber mode="decimal"
-                    [minFractionDigits]="0" [maxFractionDigits]="3" suffix=" kg">
-                </cz-input-text>
+        <cz-password
+          formControlName="passToggle"
+          label="Toggle Mask"
+          [toggleMask]="true"
+          placeholder="Click the eye"
+          [locale]="activeLocale"
+        >
+        </cz-password>
 
-                <!-- Native Input Currency -->
-                <div style="display: flex; flex-direction: column; gap: 4px;">
-                    <label style="font-size: var(--cz-font-size-sm); font-weight: 500; font-family: var(--cz-font-family); color: var(--cz-theme-text-primary);">Native Input: Purchase Price (EUR)</label>
-                    <input type="text" formControlName="nativePrice" czInputNumber mode="currency" currency="EUR" [min]="0" style="padding: 10px; border: 1px solid var(--cz-theme-border-color); border-radius: var(--cz-radius-md); background: transparent; color: var(--cz-theme-text-primary); font-family: var(--cz-font-family); outline: none;">
-                </div>
+        <cz-password
+          formControlName="passFeedback"
+          label="With Feedback"
+          [feedback]="true"
+          [toggleMask]="true"
+          placeholder="Type to see strength"
+          [locale]="activeLocale"
+        >
+        </cz-password>
 
-                <!-- Native Input Decimal -->
-                <div style="display: flex; flex-direction: column; gap: 4px;">
-                    <label style="font-size: var(--cz-font-size-sm); font-weight: 500; font-family: var(--cz-font-family); color: var(--cz-theme-text-primary);">Native Input: Discount (%)</label>
-                    <input type="text" formControlName="nativePercentage" czInputNumber mode="decimal" [min]="0" [max]="100" suffix=" %" style="padding: 10px; border: 1px solid var(--cz-theme-border-color); border-radius: var(--cz-radius-md); background: transparent; color: var(--cz-theme-text-primary); font-family: var(--cz-font-family); outline: none;">
-                </div>
+        <cz-password
+          formControlName="passValidation"
+          label="Validation (Min 8)"
+          [feedback]="true"
+          [toggleMask]="true"
+          [locale]="activeLocale"
+        >
+        </cz-password>
 
-                <div
-                    style="background: var(--cz-theme-surface-hover); padding: var(--cz-spacing-md); border-radius: var(--cz-radius-md); font-family: monospace; font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-secondary);">
-                    <strong>Raw Form Values:</strong><br/>
-                    Price (number): {{ testForm.get('price')?.value }}<br/>
-                    Percentage (number): {{ testForm.get('percentage')?.value }}<br/>
-                    Weight (number): {{ testForm.get('weight')?.value }}<br/><br/>
-                    Native Price (number): {{ testForm.get('nativePrice')?.value }}<br/>
-                    Native Percentage (number): {{ testForm.get('nativePercentage')?.value }}
-                </div>
+        <cz-password
+          formControlName="passFloat"
+          label="Floating"
+          labelPosition="float"
+          [locale]="activeLocale"
+        >
+        </cz-password>
 
-            </div>
-        </section>
+        <cz-password
+          formControlName="passOver"
+          label="Over Label"
+          labelPosition="over"
+          [locale]="activeLocale"
+        >
+        </cz-password>
 
-        <!-- SECTION: Autocomplete Components -->
-        <section>
-            <h2
-                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
-                CzAutocomplete Elements</h2>
+        <cz-password
+          formControlName="passIn"
+          label="In Label"
+          labelPosition="in"
+          [locale]="activeLocale"
+        >
+        </cz-password>
 
-            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px;">
+        <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-md)">
+          <cz-password
+            color="primary"
+            label="Primary"
+            placeholder="Primary color"
+            [locale]="activeLocale"
+          ></cz-password>
+          <cz-password
+            color="secondary"
+            label="Secondary"
+            placeholder="Secondary color"
+            [locale]="activeLocale"
+          ></cz-password>
+          <cz-password
+            color="dark"
+            label="Dark"
+            placeholder="Dark color"
+            [locale]="activeLocale"
+          ></cz-password>
+          <cz-password
+            color="success"
+            label="Success"
+            placeholder="Success color"
+            [locale]="activeLocale"
+          ></cz-password>
+          <cz-password
+            color="danger"
+            label="Danger"
+            placeholder="Danger color"
+            [locale]="activeLocale"
+          ></cz-password>
+        </div>
 
-                <!-- Basic String -->
-                <cz-autocomplete 
-                    formControlName="autoBasic" 
-                    color="primary"
-                    label="Basic Strings (Primary)" 
-                    [suggestions]="filteredBasic"
-                    (completeMethod)="filterBasic($event)"
-                    helpText="Autocomplete pure strings."
-                    [locale]="activeLocale">
-                </cz-autocomplete>
+        <div
+          style="
+            background: var(--cz-theme-surface-hover);
+            padding: var(--cz-spacing-md);
+            border-radius: var(--cz-radius-md);
+            font-family: monospace;
+            font-size: var(--cz-font-size-sm);
+            color: var(--cz-theme-text-secondary);
+          "
+        >
+          <strong>Raw Form Values:</strong><br />
+          Basic: {{ testForm.get('passBasic')?.value }}<br />
+          Toggle: {{ testForm.get('passToggle')?.value }}<br />
+          Feedback: {{ testForm.get('passFeedback')?.value }}<br />
+          Validation: {{ testForm.get('passValidation')?.value }}
+        </div>
+      </div>
+    </section>
 
-                <!-- Objects with Field -->
-                <cz-autocomplete 
-                    formControlName="autoObj" 
-                    color="success"
-                    label="Objects (Success)" 
-                    field="name"
-                    [suggestions]="filteredCountries"
-                    (completeMethod)="filterCountries($event)"
-                    helpText="Handles and displays nested object values."
-                    [locale]="activeLocale">
-                </cz-autocomplete>
+    <!-- SECTION: Select Components -->
+    <section>
+      <h2
+        style="
+          font-family: var(--cz-font-heading);
+          font-size: var(--cz-font-size-xl);
+          margin-bottom: var(--cz-spacing-md);
+          border-bottom: 1px solid var(--cz-border-color-default);
+          padding-bottom: var(--cz-spacing-xs);
+        "
+      >
+        CzSelect Elements
+      </h2>
 
-                <!-- Dropdown Button -->
-                <cz-autocomplete 
-                    formControlName="autoDropdown" 
-                    color="info"
-                    label="Dropdown (Info)" 
-                    field="name"
-                    [dropdown]="true"
-                    [suggestions]="filteredCountries"
-                    (completeMethod)="filterCountries($event)"
-                    [locale]="activeLocale">
-                </cz-autocomplete>
+      <div
+        style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px"
+      >
+        <cz-select
+          formControlName="selectBasic"
+          [options]="countries"
+          optionLabel="name"
+          label="Basic"
+          placeholder="Select a country"
+          [locale]="activeLocale"
+        >
+        </cz-select>
 
-                <!-- Multiple Selection (Chips) -->
-                <cz-autocomplete 
-                    formControlName="autoMultiple" 
-                    color="warning"
-                    label="Multiple Chips (Warning)" 
-                    field="name"
-                    [multiple]="true"
-                    [suggestions]="filteredCountries"
-                    (completeMethod)="filterCountries($event)"
-                    helpText="Select multiple elements to aggregate as chips."
-                    [locale]="activeLocale">
-                </cz-autocomplete>
+        <cz-select
+          formControlName="selectFilter"
+          [options]="countries"
+          optionLabel="name"
+          [filterable]="true"
+          label="Filter enabled"
+          placeholder="Search country"
+          [locale]="activeLocale"
+        >
+        </cz-select>
 
-                <!-- Float Label Parity -->
-                <cz-autocomplete 
-                    formControlName="autoFloat" 
-                    color="danger"
-                    label="Float Label (Danger)" 
-                    labelPosition="float"
-                    [suggestions]="filteredBasic"
-                    (completeMethod)="filterBasic($event)"
-                    [locale]="activeLocale">
-                </cz-autocomplete>
+        <cz-select
+          formControlName="selectClear"
+          [options]="countries"
+          optionLabel="name"
+          [clearable]="true"
+          label="Clearable"
+          placeholder="Clearable selection"
+          [locale]="activeLocale"
+        >
+        </cz-select>
 
-                <!-- Over Label Parity -->
-                <cz-autocomplete 
-                    formControlName="autoOver" 
-                    color="secondary"
-                    label="Over Label (Secondary)" 
-                    labelPosition="over"
-                    [suggestions]="filteredBasic"
-                    (completeMethod)="filterBasic($event)"
-                    [locale]="activeLocale">
-                </cz-autocomplete>
+        <cz-select
+          formControlName="selectValidation"
+          [options]="countries"
+          optionLabel="name"
+          label="Validation (Required)"
+          placeholder="Must select one"
+          [locale]="activeLocale"
+        >
+        </cz-select>
 
-                <!-- In Label Parity -->
-                <cz-autocomplete 
-                    formControlName="autoIn" 
-                    color="dark"
-                    label="In Label (Dark)" 
-                    labelPosition="in"
-                    [suggestions]="filteredBasic"
-                    (completeMethod)="filterBasic($event)"
-                    [locale]="activeLocale">
-                </cz-autocomplete>
+        <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-md)">
+          <cz-select
+            color="primary"
+            label="Primary"
+            [options]="countries"
+            optionLabel="name"
+            [locale]="activeLocale"
+          ></cz-select>
+          <cz-select
+            color="success"
+            label="Success"
+            [options]="countries"
+            optionLabel="name"
+            [locale]="activeLocale"
+          ></cz-select>
+          <cz-select
+            color="danger"
+            label="Danger"
+            [options]="countries"
+            optionLabel="name"
+            [locale]="activeLocale"
+          ></cz-select>
+        </div>
 
-                <div
-                    style="background: var(--cz-theme-surface-hover); padding: var(--cz-spacing-md); border-radius: var(--cz-radius-md); font-family: monospace; font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-secondary);">
-                    <strong>Raw Form Values:</strong><br/>
-                    Basic: {{ testForm.get('autoBasic')?.value | json }}<br/>
-                    Obj: {{ testForm.get('autoObj')?.value | json }}<br/>
-                    Dropdown: {{ testForm.get('autoDropdown')?.value | json }}<br/>
-                    Multiple: {{ testForm.get('autoMultiple')?.value | json }}<br/>
-                    Float: {{ testForm.get('autoFloat')?.value | json }}<br/>
-                    Over: {{ testForm.get('autoOver')?.value | json }}<br/>
-                    In: {{ testForm.get('autoIn')?.value | json }}
-                </div>
+        <div
+          style="
+            background: var(--cz-theme-surface-hover);
+            padding: var(--cz-spacing-md);
+            border-radius: var(--cz-radius-md);
+            font-family: monospace;
+            font-size: var(--cz-font-size-sm);
+            color: var(--cz-theme-text-secondary);
+          "
+        >
+          <strong>Raw Form Values:</strong><br />
+          Basic: {{ $safeNavigationMigration(testForm.get('selectBasic')?.value) | json }}<br />
+          Filter: {{ $safeNavigationMigration(testForm.get('selectFilter')?.value) | json }}<br />
+          Validation: {{ $safeNavigationMigration(testForm.get('selectValidation')?.value) | json }}
+        </div>
 
-            </div>
-        </section>
+        <!-- TextArea Examples -->
+        <div class="test-card mt-6">
+          <h2 class="test-title">TextArea Examples</h2>
+          <div class="test-grid">
+            <cz-textarea
+              formControlName="textBasic"
+              label="Basic TextArea"
+              placeholder="Default behavior"
+              [locale]="activeLocale"
+            >
+            </cz-textarea>
 
-        <!-- SECTION: Password Components -->
-        <section>
-            <h2
-                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
-                CzPassword Elements</h2>
+            <cz-textarea
+              formControlName="textAuto"
+              label="Auto Resize"
+              [autoResize]="true"
+              placeholder="Grows with content"
+              [locale]="activeLocale"
+            >
+            </cz-textarea>
 
-            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px;">
+            <cz-textarea
+              formControlName="textValidation"
+              label="Required TextArea"
+              placeholder="Validation test"
+              [locale]="activeLocale"
+            >
+            </cz-textarea>
 
-                <cz-password 
-                    formControlName="passBasic" 
-                    label="Basic" 
-                    placeholder="Standard password"
-                    [locale]="activeLocale">
-                </cz-password>
+            <cz-textarea
+              formControlName="textFluid"
+              label="Fluid TextArea"
+              [fluid]="true"
+              placeholder="Full width"
+              [locale]="activeLocale"
+            >
+            </cz-textarea>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                <cz-password 
-                    formControlName="passToggle" 
-                    label="Toggle Mask" 
-                    [toggleMask]="true"
-                    placeholder="Click the eye"
-                    [locale]="activeLocale">
-                </cz-password>
+    <!-- SECTION: Input Sizes -->
+    <section>
+      <h2
+        style="
+          font-family: var(--cz-font-heading);
+          font-size: var(--cz-font-size-xl);
+          margin-bottom: var(--cz-spacing-md);
+          border-bottom: 1px solid var(--cz-border-color-default);
+          padding-bottom: var(--cz-spacing-xs);
+        "
+      >
+        Sizes & Fluidity
+      </h2>
 
-                <cz-password 
-                    formControlName="passFeedback" 
-                    label="With Feedback" 
-                    [feedback]="true"
-                    [toggleMask]="true"
-                    placeholder="Type to see strength"
-                    [locale]="activeLocale">
-                </cz-password>
-
-                <cz-password 
-                    formControlName="passValidation" 
-                    label="Validation (Min 8)" 
-                    [feedback]="true"
-                    [toggleMask]="true"
-                    [locale]="activeLocale">
-                </cz-password>
-
-                <cz-password 
-                    formControlName="passFloat" 
-                    label="Floating" 
-                    labelPosition="float"
-                    [locale]="activeLocale">
-                </cz-password>
-
-                <cz-password 
-                    formControlName="passOver" 
-                    label="Over Label" 
-                    labelPosition="over"
-                    [locale]="activeLocale">
-                </cz-password>
-
-                <cz-password 
-                    formControlName="passIn" 
-                    label="In Label" 
-                    labelPosition="in"
-                    [locale]="activeLocale">
-                </cz-password>
-
-                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-md);">
-                    <cz-password color="primary" label="Primary" placeholder="Primary color" [locale]="activeLocale"></cz-password>
-                    <cz-password color="secondary" label="Secondary" placeholder="Secondary color" [locale]="activeLocale"></cz-password>
-                    <cz-password color="dark" label="Dark" placeholder="Dark color" [locale]="activeLocale"></cz-password>
-                    <cz-password color="success" label="Success" placeholder="Success color" [locale]="activeLocale"></cz-password>
-                    <cz-password color="danger" label="Danger" placeholder="Danger color" [locale]="activeLocale"></cz-password>
-                </div>
-
-                <div
-                    style="background: var(--cz-theme-surface-hover); padding: var(--cz-spacing-md); border-radius: var(--cz-radius-md); font-family: monospace; font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-secondary);">
-                    <strong>Raw Form Values:</strong><br/>
-                    Basic: {{ testForm.get('passBasic')?.value }}<br/>
-                    Toggle: {{ testForm.get('passToggle')?.value }}<br/>
-                    Feedback: {{ testForm.get('passFeedback')?.value }}<br/>
-                    Validation: {{ testForm.get('passValidation')?.value }}
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION: Select Components -->
-        <section>
-            <h2
-                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
-                CzSelect Elements</h2>
-
-            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 400px;">
-
-                <cz-select 
-                    formControlName="selectBasic" 
-                    [options]="countries" 
-                    optionLabel="name" 
-                    label="Basic" 
-                    placeholder="Select a country"
-                    [locale]="activeLocale">
-                </cz-select>
-
-                <cz-select 
-                    formControlName="selectFilter" 
-                    [options]="countries" 
-                    optionLabel="name" 
-                    [filterable]="true"
-                    label="Filter enabled" 
-                    placeholder="Search country"
-                    [locale]="activeLocale">
-                </cz-select>
-
-                <cz-select 
-                    formControlName="selectClear" 
-                    [options]="countries" 
-                    optionLabel="name" 
-                    [clearable]="true"
-                    label="Clearable" 
-                    placeholder="Clearable selection"
-                    [locale]="activeLocale">
-                </cz-select>
-
-                <cz-select 
-                    formControlName="selectValidation" 
-                    [options]="countries" 
-                    optionLabel="name" 
-                    label="Validation (Required)" 
-                    placeholder="Must select one"
-                    [locale]="activeLocale">
-                </cz-select>
-
-                <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-md);">
-                    <cz-select color="primary" label="Primary" [options]="countries" optionLabel="name" [locale]="activeLocale"></cz-select>
-                    <cz-select color="success" label="Success" [options]="countries" optionLabel="name" [locale]="activeLocale"></cz-select>
-                    <cz-select color="danger" label="Danger" [options]="countries" optionLabel="name" [locale]="activeLocale"></cz-select>
-                </div>
-
-                <div
-                    style="background: var(--cz-theme-surface-hover); padding: var(--cz-spacing-md); border-radius: var(--cz-radius-md); font-family: monospace; font-size: var(--cz-font-size-sm); color: var(--cz-theme-text-secondary);">
-                    <strong>Raw Form Values:</strong><br/>
-                    Basic: {{ testForm.get('selectBasic')?.value | json }}<br/>
-                    Filter: {{ testForm.get('selectFilter')?.value | json }}<br/>
-                    Validation: {{ testForm.get('selectValidation')?.value | json }}
-                </div>
-
-                <!-- TextArea Examples -->
-                <div class="test-card mt-6">
-                    <h2 class="test-title">TextArea Examples</h2>
-                    <div class="test-grid">
-                        <cz-textarea 
-                            formControlName="textBasic"
-                            label="Basic TextArea"
-                            placeholder="Default behavior"
-                            [locale]="activeLocale">
-                        </cz-textarea>
-
-                        <cz-textarea 
-                            formControlName="textAuto"
-                            label="Auto Resize"
-                            [autoResize]="true"
-                            placeholder="Grows with content"
-                            [locale]="activeLocale">
-                        </cz-textarea>
-
-                        <cz-textarea 
-                            formControlName="textValidation"
-                            label="Required TextArea"
-                            placeholder="Validation test"
-                            [locale]="activeLocale">
-                        </cz-textarea>
-
-                        <cz-textarea 
-                            formControlName="textFluid"
-                            label="Fluid TextArea"
-                            [fluid]="true"
-                            placeholder="Full width"
-                            [locale]="activeLocale">
-                        </cz-textarea>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION: Input Sizes -->
-        <section>
-            <h2
-                style="font-family: var(--cz-font-heading); font-size: var(--cz-font-size-xl); margin-bottom: var(--cz-spacing-md); border-bottom: 1px solid var(--cz-border-color-default); padding-bottom: var(--cz-spacing-xs);">
-                Sizes & Fluidity</h2>
-
-            <div style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 600px;">
-
-                <cz-input-text label="Small Input" size="sm" placeholder="size='sm'"></cz-input-text>
-                <cz-input-text label="Medium Input (Default)" size="md" placeholder="size='md'"></cz-input-text>
-                <cz-input-text label="Large Input" size="lg" placeholder="size='lg'"></cz-input-text>
-                <cz-input-text label="Fluid Input" [fluid]="true"
-                    placeholder="[fluid]='true' takes 100% width of container"></cz-input-text>
-
-            </div>
-        </section>
-
-    </form>
+      <div
+        style="display: flex; flex-direction: column; gap: var(--cz-spacing-lg); max-width: 600px"
+      >
+        <cz-input-text label="Small Input" size="sm" placeholder="size='sm'"></cz-input-text>
+        <cz-input-text
+          label="Medium Input (Default)"
+          size="md"
+          placeholder="size='md'"
+        ></cz-input-text>
+        <cz-input-text label="Large Input" size="lg" placeholder="size='lg'"></cz-input-text>
+        <cz-input-text
+          label="Fluid Input"
+          [fluid]="true"
+          placeholder="[fluid]='true' takes 100% width of container"
+        ></cz-input-text>
+      </div>
+    </section>
+  </form>
 </div>

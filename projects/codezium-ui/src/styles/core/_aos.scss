@@ -1,0 +1,37 @@
+/* ==========================================================================
+   ANIMATE ON SCROLL (czAnimateOnScroll directive)
+   Global styles for the aos utility classes.
+   ========================================================================== */
+
+.cz-aos {
+    opacity: 0;
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s ease;
+    will-change: opacity, transform;
+}
+
+.cz-aos[data-animation="fade-up"] {
+    transform: translateY(1.25rem);
+}
+
+.cz-aos[data-animation="fade-down"] {
+    transform: translateY(-1.25rem);
+}
+
+.cz-aos[data-animation="fade-left"] {
+    transform: translateX(1.25rem);
+}
+
+.cz-aos[data-animation="fade-right"] {
+    transform: translateX(-1.25rem);
+}
+
+.cz-aos[data-animation="zoom-in"] {
+    transform: scale(0.92);
+}
+
+.cz-aos--visible {
+    opacity: 1;
+    transform: none;
+}

@@ -1,0 +1,27 @@
+<div class="cz-compare-container">
+    <img class="cz-compare-image" [src]="rightImage()" [alt]="rightLabel()" draggable="false" />
+    <img
+        class="cz-compare-image cz-compare-image--left"
+        [src]="leftImage()"
+        [alt]="leftLabel()"
+        [style.clip-path]="clipPath()"
+        draggable="false"
+    />
+
+    <span class="cz-compare-label cz-compare-label--left">{{ leftLabel() }}</span>
+    <span class="cz-compare-label cz-compare-label--right">{{ rightLabel() }}</span>
+
+    <div class="cz-compare-handle" [style.left.%]="value()" aria-hidden="true">
+        <span class="cz-compare-handle-grip"></span>
+    </div>
+
+    <input
+        type="range"
+        class="cz-compare-range"
+        min="0"
+        max="100"
+        [value]="value()"
+        aria-label="Comparison slider"
+        (input)="onRangeInput($event)"
+    />
+</div>

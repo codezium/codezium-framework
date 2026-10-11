@@ -1,0 +1,49 @@
+<div class="cz-menubar-root" role="menubar">
+    @for (item of items(); track $index; let i = $index) {
+        <div class="cz-menubar-item">
+            <button
+                type="button"
+                class="cz-menubar-link"
+                role="menuitem"
+                [disabled]="item.disabled || false"
+                [class.cz-menubar-link--open]="openIndex() === i"
+                [attr.aria-haspopup]="item.items?.length ? 'menu' : null"
+                [attr.aria-expanded]="item.items?.length ? openIndex() === i : null"
+                (click)="toggleItem(i, item, $event)"
+            >
+                @if (item.icon; as iconRef) {
+                    <svg [lucideIcon]="iconRef" [size]="14" class="cz-menubar-icon"></svg>
+                }
+                <span>{{ item.label }}</span>
+                @if (item.items?.length) {
+                    <svg [lucideIcon]="ChevronDownIcon" [size]="12" class="cz-menubar-chevron"></svg>
+                }
+            </button>
+
+            @if (item.items?.length && openIndex() === i) {
+                <ul class="cz-menubar-dropdown" role="menu">
+                    @for (child of item.items; track $index) {
+                        @if (child.separator) {
+                            <li class="cz-menubar-separator" role="separator"></li>
+                        } @else {
+                            <li role="none">
+                                <button
+                                    type="button"
+                                    class="cz-menubar-dropdown-link"
+                                    role="menuitem"
+                                    [disabled]="child.disabled || false"
+                                    (click)="activate(child, $event)"
+                                >
+                                    @if (child.icon; as iconRef) {
+                                        <svg [lucideIcon]="iconRef" [size]="14" class="cz-menubar-icon"></svg>
+                                    }
+                                    <span>{{ child.label }}</span>
+                                </button>
+                            </li>
+                        }
+                    }
+                </ul>
+            }
+        </div>
+    }
+</div>

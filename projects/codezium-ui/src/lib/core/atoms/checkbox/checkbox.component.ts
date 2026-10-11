@@ -34,7 +34,6 @@ export type CzCheckboxSize = 'sm' | 'md' | 'lg';
 
 @Component({
     selector: 'cz-checkbox',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './checkbox.component.html',
     styleUrls: ['./checkbox.component.scss'],

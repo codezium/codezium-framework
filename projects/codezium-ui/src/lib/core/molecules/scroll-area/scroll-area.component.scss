@@ -1,0 +1,59 @@
+/* ==========================================================================
+   SCROLL AREA (cz-scroll-area)
+   Custom scrollbar experience with variant based visibility.
+   ========================================================================== */
+
+.cz-scroll-area {
+    display: block;
+}
+
+.cz-scroll-area-viewport {
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--cz-theme-text-muted, var(--cz-color-gray-400)) transparent;
+
+    /* WebKit scrollbars */
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: var(--cz-theme-text-muted, var(--cz-color-gray-400));
+        border-radius: 999px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: var(--cz-theme-text-secondary, var(--cz-color-gray-600));
+        background-clip: content-box;
+    }
+
+    &[data-variant="hover"] {
+        scrollbar-color: transparent transparent;
+
+        &::-webkit-scrollbar-thumb {
+            background: transparent;
+            background-clip: content-box;
+        }
+
+        &:hover {
+            scrollbar-color: var(--cz-theme-text-muted, var(--cz-color-gray-400)) transparent;
+
+            &::-webkit-scrollbar-thumb {
+                background: var(--cz-theme-text-muted, var(--cz-color-gray-400));
+                background-clip: content-box;
+            }
+        }
+    }
+
+    &[data-variant="always"]::-webkit-scrollbar-thumb {
+        background: var(--cz-color-primary);
+        background-clip: content-box;
+    }
+}

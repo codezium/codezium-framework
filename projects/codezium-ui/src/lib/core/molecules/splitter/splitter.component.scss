@@ -1,0 +1,40 @@
+/* ==========================================================================
+   SPLITTER (cz-splitter)
+   ========================================================================== */
+
+.cz-splitter {
+    display: block;
+}
+
+.cz-splitter-container {
+    display: flex;
+    width: 100%;
+    min-height: 8rem;
+}
+
+.cz-splitter[data-orientation="vertical"] .cz-splitter-container {
+    flex-direction: column;
+}
+
+.cz-splitter-panel {
+    overflow: auto;
+    min-width: 0;
+    min-height: 0;
+}
+
+.cz-splitter-gutter {
+    flex: 0 0 6px;
+    background: var(--cz-theme-border-color, var(--cz-color-gray-200));
+    cursor: col-resize;
+    transition: var(--cz-transition-bg);
+
+    &:hover,
+    &:focus-visible {
+        background: var(--cz-color-primary);
+        outline: none;
+    }
+}
+
+.cz-splitter[data-orientation="vertical"] .cz-splitter-gutter {
+    cursor: row-resize;
+}

@@ -1,0 +1,21 @@
+<div class="cz-tabs-header" role="tablist">
+    @for (tab of tabs(); track tab.tabId; let i = $index) {
+        <button
+            type="button"
+            class="cz-tabs-tab"
+            role="tab"
+            [id]="tab.tabId"
+            [class.cz-tabs-tab--active]="i === activeIndex()"
+            [attr.aria-selected]="i === activeIndex()"
+            [attr.aria-controls]="tab.panelId"
+            [disabled]="tab.disabled()"
+            (click)="select(i)"
+        >
+            {{ tab.header() }}
+        </button>
+    }
+</div>
+
+<div class="cz-tabs-content">
+    <ng-content />
+</div>

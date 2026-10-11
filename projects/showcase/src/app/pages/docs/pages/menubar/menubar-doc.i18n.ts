@@ -1,0 +1,42 @@
+export const MENUBAR_DOC_I18N = {
+    en: {
+        title: 'Menubar',
+        lead: 'Menubar is a horizontal menu component with dropdown submenus.',
+        importTitle: 'Import',
+        basic: 'Basic Usage',
+        basicDesc: 'Pass root items; items with <code>items</code> open a dropdown, leaves run their <code>command</code>.',
+        api: 'API Reference',
+    },
+    es: {
+        title: 'Menubar',
+        lead: 'Menubar es un componente de menú horizontal con submenús desplegables.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Pasa ítems raíz; los que tienen <code>items</code> abren un dropdown y las hojas ejecutan su <code>command</code>.',
+        api: 'Referencia API',
+    },
+    pt: {
+        title: 'Menubar',
+        lead: 'Menubar é um componente de menu horizontal com submenus dropdown.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Passe itens raiz; os com <code>items</code> abrem um dropdown e as folhas executam seu <code>command</code>.',
+        api: 'Referência da API',
+    },
+    fr: {
+        title: 'Menubar',
+        lead: 'Menubar est un menu horizontal avec des sous-menus déroulants.',
+        importTitle: 'Importer',
+        basic: 'Utilisation de Base',
+        basicDesc: 'Passez des éléments racines ; ceux avec <code>items</code> ouvrent un menu déroulant, les feuilles exécutent leur <code>command</code>.',
+        api: 'Référence API',
+    },
+    de: {
+        title: 'Menubar',
+        lead: 'Menubar ist eine horizontale Menükomponente mit Dropdown-Untermenüs.',
+        importTitle: 'Importieren',
+        basic: 'Grundlegende Verwendung',
+        basicDesc: 'Übergeben Sie Root-Elemente; Elemente mit <code>items</code> öffnen ein Dropdown, Blätter führen ihren <code>command</code> aus.',
+        api: 'API-Referenz',
+    },
+};

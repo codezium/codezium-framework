@@ -1,0 +1,19 @@
+<div class="cz-dock-bar" role="toolbar">
+    @for (item of items(); track $index) {
+        <button
+            type="button"
+            class="cz-dock-item"
+            [disabled]="item.disabled || false"
+            [attr.aria-label]="item.label || null"
+            [czTooltip]="item.label || ''"
+            tooltipPosition="top"
+            (click)="activate(item, $event)"
+        >
+            @if (item.icon; as iconRef) {
+                <svg [lucideIcon]="iconRef" [size]="22"></svg>
+            } @else {
+                <span class="cz-dock-fallback">{{ item.label?.charAt(0) }}</span>
+            }
+        </button>
+    }
+</div>

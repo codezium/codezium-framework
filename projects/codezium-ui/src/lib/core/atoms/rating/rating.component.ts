@@ -16,7 +16,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl, FormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LucideAngularModule, Star, StarOff, XCircle } from 'lucide-angular';
+import { LucideDynamicIcon, LucideStar, LucideStarOff, LucideXCircle, type LucideIconInput } from '@lucide/angular';
 
 export interface CzRatingChangeEvent {
     /** The actual value that the model was updated to */
@@ -30,8 +30,7 @@ export type CzRatingSize = 'sm' | 'md' | 'lg';
 
 @Component({
     selector: 'cz-rating',
-    standalone: true,
-    imports: [CommonModule, FormsModule, LucideAngularModule],
+    imports: [CommonModule, FormsModule, LucideDynamicIcon],
     templateUrl: './rating.component.html',
     styleUrls: ['./rating.component.scss'],
     providers: [
@@ -66,11 +65,11 @@ export class CzRatingComponent implements ControlValueAccessor, OnInit {
     /** Whether to show the cancel button */
     cancel = input<boolean>(true);
     /** Icon for unchecked state */
-    iconOff = input<any>(StarOff);
+    iconOff = input<LucideIconInput>(LucideStarOff);
     /** Icon for checked state */
-    iconOn = input<any>(Star);
+    iconOn = input<LucideIconInput>(LucideStar);
     /** Icon for cancel button */
-    iconCancel = input<any>(XCircle);
+    iconCancel = input<LucideIconInput>(LucideXCircle);
     /** Color variant */
     color = input<CzRatingColor>('primary');
     /** Component size */

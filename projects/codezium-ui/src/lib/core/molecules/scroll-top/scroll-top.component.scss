@@ -1,0 +1,43 @@
+/* ==========================================================================
+   SCROLL TOP (cz-scroll-top)
+   ========================================================================== */
+
+.cz-scroll-top {
+    display: contents;
+}
+
+.cz-scroll-top-button {
+    position: fixed;
+    right: var(--cz-spacing-lg);
+    bottom: var(--cz-spacing-lg);
+    z-index: calc(var(--cz-z-glass-default, 10) + 5);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--cz-color-primary);
+    color: var(--cz-color-white);
+    cursor: pointer;
+    box-shadow: var(--cz-shadow-lg);
+    animation: cz-scroll-top-enter 0.2s ease-out;
+
+    &:hover {
+        filter: brightness(0.92);
+    }
+}
+
+@keyframes cz-scroll-top-enter {
+    from {
+        opacity: 0;
+        transform: translateY(0.5rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

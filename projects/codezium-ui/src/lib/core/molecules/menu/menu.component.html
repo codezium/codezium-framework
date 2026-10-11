@@ -1,0 +1,61 @@
+<ul class="cz-menu-list" role="menu">
+    @for (item of items(); track $index) {
+        @if (item.separator) {
+            <li class="cz-menu-separator" role="separator"></li>
+        } @else {
+            <li class="cz-menu-item" role="none">
+                <button
+                    type="button"
+                    class="cz-menu-link"
+                    role="menuitem"
+                    [disabled]="item.disabled || false"
+                    [class.cz-menu-link--expanded]="isExpanded(item)"
+                    (click)="activate(item, $event)"
+                >
+                    @if (item.icon; as iconRef) {
+                        <svg [lucideIcon]="iconRef" [size]="14" class="cz-menu-icon"></svg>
+                    }
+                    <span class="cz-menu-label">{{ item.label }}</span>
+                    @if (item.badge) {
+                        <span class="cz-menu-badge">{{ item.badge }}</span>
+                    }
+                    @if (item.items?.length) {
+                        <svg
+                            [lucideIcon]="isExpanded(item) ? ChevronDownIcon : ChevronRightIcon"
+                            [size]="14"
+                            class="cz-menu-chevron"
+                        ></svg>
+                    }
+                </button>
+
+                @if (item.items?.length && isExpanded(item)) {
+                    <ul class="cz-menu-list cz-menu-list--nested" role="menu">
+                        @for (child of item.items; track $index) {
+                            @if (child.separator) {
+                                <li class="cz-menu-separator" role="separator"></li>
+                            } @else {
+                                <li class="cz-menu-item" role="none">
+                                    <button
+                                        type="button"
+                                        class="cz-menu-link"
+                                        role="menuitem"
+                                        [disabled]="child.disabled || false"
+                                        (click)="activate(child, $event)"
+                                    >
+                                        @if (child.icon; as iconRef) {
+                                            <svg [lucideIcon]="iconRef" [size]="14" class="cz-menu-icon"></svg>
+                                        }
+                                        <span class="cz-menu-label">{{ child.label }}</span>
+                                        @if (child.badge) {
+                                            <span class="cz-menu-badge">{{ child.badge }}</span>
+                                        }
+                                    </button>
+                                </li>
+                            }
+                        }
+                    </ul>
+                }
+            </li>
+        }
+    }
+</ul>

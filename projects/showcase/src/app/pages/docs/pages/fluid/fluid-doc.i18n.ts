@@ -1,0 +1,42 @@
+export const FLUID_DOC_I18N = {
+    en: {
+        title: 'Fluid',
+        lead: 'Fluid is a layout directive to make descendant components span the full width of their container.',
+        importTitle: 'Import',
+        basic: 'Basic Usage',
+        basicDesc: 'Attach <code>czFluid</code> to a wrapper; Codezium inputs inside stretch to 100%.',
+        api: 'API Reference',
+    },
+    es: {
+        title: 'Fluid',
+        lead: 'Fluid es una directiva de layout que hace que los componentes descendientes ocupen el ancho completo de su contenedor.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Aplica <code>czFluid</code> a un contenedor; los inputs de Codezium dentro se estiran al 100%.',
+        api: 'Referencia API',
+    },
+    pt: {
+        title: 'Fluid',
+        lead: 'Fluid é uma diretiva de layout que faz componentes descendentes ocuparem toda a largura do contêiner.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Aplique <code>czFluid</code> a um wrapper; os inputs Codezium dentro esticam para 100%.',
+        api: 'Referência da API',
+    },
+    fr: {
+        title: 'Fluid',
+        lead: 'Fluid est une directive de mise en page qui fait occuper toute la largeur du conteneur aux composants descendants.',
+        importTitle: 'Importer',
+        basic: 'Utilisation de Base',
+        basicDesc: 'Appliquez <code>czFluid</code> à un conteneur ; les inputs Codezium à l\'intérieur s\'étirent à 100%.',
+        api: 'Référence API',
+    },
+    de: {
+        title: 'Fluid',
+        lead: 'Fluid ist eine Layout-Direktive, die nachfolgende Komponenten auf die volle Containerbreite streckt.',
+        importTitle: 'Importieren',
+        basic: 'Grundlegende Verwendung',
+        basicDesc: 'Hängen Sie <code>czFluid</code> an einen Wrapper; Codezium-Inputs darin strecken sich auf 100%.',
+        api: 'API-Referenz',
+    },
+};

@@ -1,0 +1,28 @@
+@if (header() || toggleable()) {
+    <div class="cz-panel-header">
+        <span class="cz-panel-title">{{ header() }}</span>
+
+        @if (toggleable()) {
+            <button
+                type="button"
+                class="cz-panel-toggle"
+                [attr.aria-expanded]="!collapsed()"
+                [attr.aria-label]="collapsed() ? 'Expand' : 'Collapse'"
+                (click)="toggle()"
+            >
+                <svg
+                    [lucideIcon]="ChevronIcon"
+                    [size]="16"
+                    [class.cz-panel-toggle-icon--collapsed]="collapsed()"
+                    class="cz-panel-toggle-icon"
+                ></svg>
+            </button>
+        }
+    </div>
+}
+
+@if (!collapsed()) {
+    <div class="cz-panel-content">
+        <ng-content />
+    </div>
+}

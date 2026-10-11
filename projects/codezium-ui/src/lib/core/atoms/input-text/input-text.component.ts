@@ -5,7 +5,8 @@ import {
   Optional,
   Self,
   ViewEncapsulation,
-  signal
+  signal,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgControl, ControlValueAccessor } from '@angular/forms';
@@ -14,10 +15,9 @@ import { CzInputSize, CzLabelPosition, CzInputColor } from '../../types';
 
 @Component({
   selector: 'cz-input-text',
-  standalone: true,
   imports: [CommonModule],
   template: `
-    <div 
+    <div
       class="cz-input-wrapper"
       [class.cz-input-fluid]="fluid()"
       [class.cz-input-filled]="filled()"
@@ -46,11 +46,11 @@ import { CzInputSize, CzLabelPosition, CzInputColor } from '../../types';
         />
 
         @if (label()) {
-            @if (labelPosition() === 'over') {
-              <label class="cz-input-label-over">{{ label() }}</label>
-            } @else if (labelPosition() === 'in' || labelPosition() === 'float') {
-              <label class="cz-input-label-inner">{{ label() }}</label>
-            }
+          @if (labelPosition() === 'over') {
+            <label class="cz-input-label-over">{{ label() }}</label>
+          } @else if (labelPosition() === 'in' || labelPosition() === 'float') {
+            <label class="cz-input-label-inner">{{ label() }}</label>
+          }
         }
       </div>
 
@@ -59,7 +59,7 @@ import { CzInputSize, CzLabelPosition, CzInputColor } from '../../types';
         @if (showErrors() && isInvalid && errorMessage) {
           <small class="cz-input-error-text">{{ errorMessage }}</small>
         }
-        
+
         <!-- Slot para que el usuario inyecte sus propios mensajes de error (ignorando el auto) -->
         <ng-content select="[czError]"></ng-content>
 
@@ -73,7 +73,8 @@ import { CzInputSize, CzLabelPosition, CzInputColor } from '../../types';
     </div>
   `,
   styleUrls: ['./input-text.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.Eager,
+  encapsulation: ViewEncapsulation.None,
 })
 export class CzInputTextComponent implements ControlValueAccessor {
   // Inputs definidos usando Signals (Angular 17/20+)
@@ -110,14 +111,14 @@ export class CzInputTextComponent implements ControlValueAccessor {
   actualPlaceholder = computed(() => {
     const positionsToHide: CzLabelPosition[] = ['float', 'in', 'over'];
     if (positionsToHide.includes(this.labelPosition()) && this.label()) {
-      return (this.isFocused() || this.hasValue()) ? this.placeholder() : '';
+      return this.isFocused() || this.hasValue() ? this.placeholder() : '';
     }
     return this.placeholder();
   });
 
   // Callbacks del ControlValueAccessor
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
   constructor(@Optional() @Self() public ngControl: NgControl) {
     if (this.ngControl != null) {
@@ -139,7 +140,7 @@ export class CzInputTextComponent implements ControlValueAccessor {
     // Cargar Diccionario (Base en Locale + Overwrites customizados del usuario)
     const dictionary = {
       ...CZ_VALIDATION_MESSAGES[this.locale()],
-      ...this.customErrors()
+      ...this.customErrors(),
     };
 
     // Resolución dinámica y extensible de errores

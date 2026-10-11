@@ -8,7 +8,6 @@ import { SELECT_BUTTON_DOC_I18N } from './select-button-doc.i18n';
 
 @Component({
     selector: 'cz-select-button-doc-page',
-    standalone: true,
     imports: [CommonModule, CzSelectButtonComponent, AppCodeComponent, FormsModule, ReactiveFormsModule],
     template: `
         <div class="doc-page">

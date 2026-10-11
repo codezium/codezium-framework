@@ -1,0 +1,34 @@
+/* ==========================================================================
+   SKELETON (cz-skeleton)
+   ========================================================================== */
+
+.cz-skeleton {
+    display: block;
+    background: var(--cz-theme-surface-active, var(--cz-color-gray-200));
+    border-radius: var(--cz-radius-sm);
+    overflow: hidden;
+}
+
+.cz-skeleton-block {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.cz-skeleton--pulse {
+    animation: cz-skeleton-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes cz-skeleton-pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.45;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

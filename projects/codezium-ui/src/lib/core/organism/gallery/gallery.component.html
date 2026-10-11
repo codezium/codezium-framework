@@ -1,0 +1,38 @@
+<div class="cz-gallery-grid">
+    @for (image of images(); track image.src; let i = $index) {
+        <button
+            type="button"
+            class="cz-gallery-thumb"
+            [class.cz-gallery-thumb--active]="i === activeIndex()"
+            [attr.aria-label]="image.alt || ('Open image ' + (i + 1))"
+            (click)="open(i)"
+        >
+            <img [src]="thumbnailOf(image)" [alt]="image.alt || ''" />
+        </button>
+    }
+</div>
+
+@if (fullscreen() && current(); as image) {
+    <div class="cz-gallery-fullscreen" role="dialog" aria-modal="true" [attr.aria-label]="image.alt || 'Image preview'">
+        <div class="cz-gallery-backdrop" (click)="close()"></div>
+
+        <div class="cz-gallery-preview">
+            <img [src]="image.src" [alt]="image.alt || ''" />
+
+            <button type="button" class="cz-gallery-close" aria-label="Close" (click)="close()">
+                <svg [lucideIcon]="CloseIcon" [size]="20"></svg>
+            </button>
+
+            @if (images().length > 1) {
+                <button type="button" class="cz-gallery-nav cz-gallery-nav--prev" aria-label="Previous image" (click)="prev()">
+                    <svg [lucideIcon]="PrevIcon" [size]="22"></svg>
+                </button>
+                <button type="button" class="cz-gallery-nav cz-gallery-nav--next" aria-label="Next image" (click)="next()">
+                    <svg [lucideIcon]="NextIcon" [size]="22"></svg>
+                </button>
+            }
+
+            <span class="cz-gallery-counter">{{ activeIndex() + 1 }} / {{ images().length }}</span>
+        </div>
+    </div>
+}

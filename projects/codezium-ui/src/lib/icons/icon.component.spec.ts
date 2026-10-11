@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CzIconComponent } from './icon.component';
-import { Home } from 'lucide-angular';
+import { LucideHome } from '@lucide/angular';
 
 describe('CzIconComponent', () => {
     let component: CzIconComponent;
@@ -15,7 +15,7 @@ describe('CzIconComponent', () => {
         component = fixture.componentInstance;
 
         // Proveemos el Input obligatorio (signal)
-        fixture.componentRef.setInput('icon', Home);
+        fixture.componentRef.setInput('icon', LucideHome);
         fixture.detectChanges();
     });
 
@@ -44,9 +44,9 @@ describe('CzIconComponent', () => {
         expect(component.actualColor()).toBe('red');
     });
 
-    it('should render the lucide-icon element inside the template', () => {
+    it('should render the lucide svg element inside the template', () => {
         const compiled = fixture.nativeElement as HTMLElement;
-        const lucideIcon = compiled.querySelector('lucide-icon');
+        const lucideIcon = compiled.querySelector('svg');
         expect(lucideIcon).toBeTruthy();
     });
 });

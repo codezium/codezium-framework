@@ -21,7 +21,6 @@ export type CzSelectButtonLabelPosition = 'left' | 'right' | 'top';
 
 @Component({
     selector: 'cz-select-button',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './select-button.component.html',
     styleUrl: './select-button.component.scss',

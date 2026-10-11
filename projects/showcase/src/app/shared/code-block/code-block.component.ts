@@ -13,10 +13,11 @@ import {
   QueryList,
   ViewChildren,
   DOCUMENT,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CzIconComponent } from 'codezium-ui';
-import { Code as CodeIcon } from 'lucide-angular';
+import { LucideCode } from '@lucide/angular';
 
 /* TIPOS */
 export interface Code {
@@ -31,10 +32,10 @@ export interface Code {
 
 @Component({
   selector: 'app-code',
-  standalone: true,
   imports: [CzIconComponent],
   templateUrl: './code-block.component.html',
-  styleUrls: ['./code-block.component.scss']
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrls: ['./code-block.component.scss'],
 })
 export class AppCodeComponent implements AfterViewChecked, OnInit {
   @Input() code!: Code;
@@ -42,7 +43,7 @@ export class AppCodeComponent implements AfterViewChecked, OnInit {
 
   @ViewChildren('codeElement') codeElements!: QueryList<ElementRef<HTMLElement>>;
 
-  readonly codeIcon = CodeIcon;
+  readonly codeIcon = LucideCode;
   lang!: string;
   copyTitle = 'Copy';
   showCode = true;
@@ -50,8 +51,8 @@ export class AppCodeComponent implements AfterViewChecked, OnInit {
   constructor(
     @Inject(PLATFORM_ID) public platformId: any,
     @Inject(DOCUMENT) public document: Document,
-    private cdr: ChangeDetectorRef
-  ) { }
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit() {
     this.lang = this.getInitialLang();
@@ -63,13 +64,13 @@ export class AppCodeComponent implements AfterViewChecked, OnInit {
       const win: any = window as any;
       if (win['Prism'] && this.codeElements) {
         try {
-          this.codeElements.forEach(el => {
+          this.codeElements.forEach((el) => {
             if (!el.nativeElement.hasAttribute('data-highlighted')) {
               win['Prism'].highlightElement(el.nativeElement);
               el.nativeElement.setAttribute('data-highlighted', 'true');
             }
           });
-        } catch { }
+        } catch {}
       }
     }
   }
@@ -148,6 +149,6 @@ export class AppCodeComponent implements AfterViewChecked, OnInit {
 
 @NgModule({
   imports: [AppCodeComponent],
-  exports: [AppCodeComponent]
+  exports: [AppCodeComponent],
 })
-export class AppCodeModule { }
+export class AppCodeModule {}

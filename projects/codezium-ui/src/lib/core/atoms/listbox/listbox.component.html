@@ -1,0 +1,42 @@
+@if (filter()) {
+    <div class="cz-listbox-filter">
+        <input
+            class="cz-listbox-filter-input"
+            type="text"
+            [placeholder]="filterPlaceholder()"
+            [value]="filterValue()"
+            [disabled]="actualDisabled()"
+            [attr.aria-label]="filterPlaceholder()"
+            (input)="filterValue.set($any($event.target).value)"
+            (click)="$event.stopPropagation()"
+        />
+    </div>
+}
+
+<div
+    class="cz-listbox-items"
+    role="listbox"
+    tabindex="0"
+    [attr.aria-multiselectable]="multiple() ? 'true' : null"
+    [attr.aria-label]="ariaLabel()"
+    (keydown)="onKeyDown($event)"
+>
+    @for (option of filteredOptions(); track getValue(option); let i = $index) {
+        <div
+            class="cz-listbox-item"
+            role="option"
+            [attr.aria-selected]="isSelected(option)"
+            [class.cz-listbox-item--selected]="isSelected(option)"
+            [class.cz-listbox-item--focused]="i === focusedIndex()"
+            (click)="toggleOption(option, $event)"
+            (mouseenter)="focusedIndex.set(i)"
+        >
+            <span class="cz-listbox-item-label">{{ getLabel(option) }}</span>
+            @if (isSelected(option)) {
+                <svg [lucideIcon]="CheckIcon" [size]="14" class="cz-listbox-check"></svg>
+            }
+        </div>
+    } @empty {
+        <div class="cz-listbox-empty">{{ emptyMessage() }}</div>
+    }
+</div>

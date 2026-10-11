@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CzRatingComponent } from './rating.component';
 import { Component, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { LucideHeart, LucideHeartOff } from '@lucide/angular';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 describe('CzRatingComponent', () => {
@@ -165,5 +166,43 @@ describe('CzRatingComponent', () => {
         fixture.componentRef.setInput('size', 'md');
         fixture.detectChanges();
         expect(component.iconSize()).toBe(24);
+    });
+
+    it('should emit onChange with the change payload on star click', () => {
+        const spy = vi.fn();
+        component.onChangeEvent.subscribe(spy);
+
+        const stars = fixture.nativeElement.querySelectorAll('.cz-rating-star');
+        stars[2].click();
+        fixture.detectChanges();
+
+        expect(spy).toHaveBeenCalledTimes(1);
+        const payload = spy.mock.calls[0][0];
+        expect(payload.value).toBe(3);
+        expect(payload.originalEvent).toBeTruthy();
+    });
+
+    it('should emit onCancel when the cancel button is clicked', () => {
+        component.value.set(3);
+        fixture.detectChanges();
+
+        const spy = vi.fn();
+        component.onCancelEvent.subscribe(spy);
+
+        fixture.nativeElement.querySelector('.cz-rating-cancel').click();
+        fixture.detectChanges();
+
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(component.value()).toBeNull();
+    });
+
+    it('should render custom on/off icons', () => {
+        fixture.componentRef.setInput('iconOn', LucideHeart);
+        fixture.componentRef.setInput('iconOff', LucideHeartOff);
+        component.value.set(2);
+        fixture.detectChanges();
+
+        const activeStar = fixture.nativeElement.querySelector('.cz-rating-star--active svg');
+        expect(activeStar).toBeTruthy();
     });
 });

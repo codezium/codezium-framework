@@ -1,0 +1,80 @@
+/* ==========================================================================
+   TOGGLE SWITCH (cz-toggle-switch)
+   ========================================================================== */
+
+.cz-toggle-switch {
+    display: inline-flex;
+    --cz-switch-width: 2.75rem;
+    --cz-switch-height: 1.5rem;
+    --cz-switch-handle: 1.125rem;
+    --cz-switch-off-bg: var(--cz-theme-surface-active, var(--cz-color-gray-300));
+    --cz-switch-on-bg: var(--cz-color-primary);
+
+    &[data-size="sm"] {
+        --cz-switch-width: 2rem;
+        --cz-switch-height: 1.125rem;
+        --cz-switch-handle: 0.875rem;
+    }
+
+    &[data-size="lg"] {
+        --cz-switch-width: 3.5rem;
+        --cz-switch-height: 1.875rem;
+        --cz-switch-handle: 1.5rem;
+    }
+}
+
+.cz-toggle-switch-container {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--cz-spacing-sm);
+}
+
+.cz-toggle-switch-label {
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    cursor: pointer;
+}
+
+.cz-toggle-switch-track {
+    position: relative;
+    width: var(--cz-switch-width);
+    height: var(--cz-switch-height);
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: var(--cz-switch-off-bg);
+    cursor: pointer;
+    transition: var(--cz-transition-bg);
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: var(--cz-focus-shadow-primary);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: var(--cz-input-disabled-opacity, 0.5);
+    }
+
+    &.cz-toggle-switch-track--checked {
+        background: var(--cz-switch-on-bg);
+    }
+}
+
+.cz-toggle-switch-handle {
+    position: absolute;
+    top: 50%;
+    left: 0.1875rem;
+    width: var(--cz-switch-handle);
+    height: var(--cz-switch-handle);
+    border-radius: 50%;
+    background: var(--cz-color-white);
+    transform: translateY(-50%);
+    transition: var(--cz-transition-transform);
+    box-shadow: var(--cz-shadow-sm);
+}
+
+.cz-toggle-switch--checked .cz-toggle-switch-handle {
+    left: calc(100% - var(--cz-switch-handle) - 0.1875rem);
+}

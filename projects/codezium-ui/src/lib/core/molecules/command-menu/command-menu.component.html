@@ -1,0 +1,42 @@
+@if (visible()) {
+    <div class="cz-command-menu-mask" (click)="close()"></div>
+
+    <div class="cz-command-menu-panel" role="dialog" aria-modal="true">
+        <div class="cz-command-menu-search">
+            <svg [lucideIcon]="SearchIcon" [size]="16" class="cz-command-menu-search-icon"></svg>
+            <input
+                #searchInput
+                class="cz-command-menu-input"
+                type="text"
+                [placeholder]="placeholder()"
+                [ngModel]="query()"
+                (ngModelChange)="onQueryChange($event)"
+                (keydown)="onKeyDown($event)"
+                aria-label="Search commands"
+            />
+        </div>
+
+        <ul class="cz-command-menu-list" role="listbox">
+            @for (item of filtered(); track $index; let i = $index) {
+                <li
+                    class="cz-command-menu-item"
+                    role="option"
+                    [attr.aria-selected]="i === focusedIndex()"
+                    [class.cz-command-menu-item--focused]="i === focusedIndex()"
+                    (mouseenter)="focusedIndex.set(i)"
+                    (click)="select(item, $event)"
+                >
+                    @if (item.icon; as iconRef) {
+                        <svg [lucideIcon]="iconRef" [size]="14" class="cz-command-menu-icon"></svg>
+                    }
+                    <span class="cz-command-menu-label">{{ item.label }}</span>
+                    @if (item.badge) {
+                        <span class="cz-command-menu-badge">{{ item.badge }}</span>
+                    }
+                </li>
+            } @empty {
+                <li class="cz-command-menu-empty">{{ emptyMessage() }}</li>
+            }
+        </ul>
+    </div>
+}

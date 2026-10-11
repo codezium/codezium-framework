@@ -1,0 +1,41 @@
+<ul class="cz-tiered-menu-list cz-tiered-menu-root" role="menu">
+    @for (item of items(); track $index) {
+        <ng-container [ngTemplateOutlet]="itemTpl" [ngTemplateOutletContext]="{ $implicit: item }" />
+    }
+</ul>
+
+<ng-template #itemTpl let-item>
+    @if (item.separator) {
+        <li class="cz-tiered-menu-separator" role="separator"></li>
+    } @else {
+        <li class="cz-tiered-menu-item" role="none">
+            <button
+                type="button"
+                class="cz-tiered-menu-link"
+                role="menuitem"
+                [disabled]="item.disabled || false"
+                [attr.aria-haspopup]="item.items?.length ? 'menu' : null"
+                (click)="activate(item, $event)"
+            >
+                @if (item.icon; as iconRef) {
+                    <svg [lucideIcon]="iconRef" [size]="14" class="cz-tiered-menu-icon"></svg>
+                }
+                <span class="cz-tiered-menu-label">{{ item.label }}</span>
+                @if (item.badge) {
+                    <span class="cz-tiered-menu-badge">{{ item.badge }}</span>
+                }
+                @if (item.items?.length) {
+                    <svg [lucideIcon]="ChevronRightIcon" [size]="14" class="cz-tiered-menu-arrow"></svg>
+                }
+            </button>
+
+            @if (item.items?.length) {
+                <ul class="cz-tiered-menu-list cz-tiered-menu-submenu" role="menu">
+                    @for (child of item.items; track $index) {
+                        <ng-container [ngTemplateOutlet]="itemTpl" [ngTemplateOutletContext]="{ $implicit: child }" />
+                    }
+                </ul>
+            }
+        </li>
+    }
+</ng-template>

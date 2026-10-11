@@ -27,7 +27,16 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/codezium-ui/tsconfig.spec.json"
+            "tsConfig": "projects/codezium-ui/tsconfig.spec.json",
+            "coverageInclude": ["projects/codezium-ui/src/lib/**/*.ts"],
+            "coverageExclude": ["**/*.spec.ts", "**/public-api.ts", "**/index.ts"],
+            "coverageReporters": ["text-summary", "html"],
+            "coverageThresholds": {
+              "statements": 75,
+              "branches": 60,
+              "functions": 75,
+              "lines": 75
+            }
           }
         }
       }
@@ -64,7 +73,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "750kB",
                   "maximumError": "1MB"
                 },
                 {

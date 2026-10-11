@@ -1,0 +1,71 @@
+<aside class="cz-sidebar-container">
+    <div class="cz-sidebar-header">
+        <span class="cz-sidebar-title">{{ header() }}</span>
+        <button
+            type="button"
+            class="cz-sidebar-collapse"
+            [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+            [attr.aria-expanded]="!collapsed()"
+            (click)="toggleCollapse()"
+        >
+            <svg [lucideIcon]="collapsed() ? ChevronRightIcon : ChevronDownIcon" [size]="16"></svg>
+        </button>
+    </div>
+
+    <nav class="cz-sidebar-nav">
+        <ul class="cz-sidebar-list" role="menu">
+            @for (item of items(); track $index) {
+                @if (item.separator) {
+                    <li class="cz-sidebar-separator" role="separator"></li>
+                } @else {
+                    <li role="none">
+                        <button
+                            type="button"
+                            class="cz-sidebar-link"
+                            role="menuitem"
+                            [disabled]="item.disabled || false"
+                            [attr.title]="collapsed() ? (item.label || null) : null"
+                            (click)="activate(item, $event)"
+                        >
+                            @if (item.icon; as iconRef) {
+                                <svg [lucideIcon]="iconRef" [size]="16" class="cz-sidebar-icon"></svg>
+                            }
+                            <span class="cz-sidebar-label">{{ item.label }}</span>
+                            @if (item.badge) {
+                                <span class="cz-sidebar-badge">{{ item.badge }}</span>
+                            }
+                            @if (item.items?.length) {
+                                <svg
+                                    [lucideIcon]="isExpanded(item) ? ChevronDownIcon : ChevronRightIcon"
+                                    [size]="14"
+                                    class="cz-sidebar-chevron"
+                                ></svg>
+                            }
+                        </button>
+
+                        @if (item.items?.length && isExpanded(item) && !collapsed()) {
+                            <ul class="cz-sidebar-list cz-sidebar-list--nested" role="menu">
+                                @for (child of item.items; track $index) {
+                                    <li role="none">
+                                        <button
+                                            type="button"
+                                            class="cz-sidebar-link"
+                                            role="menuitem"
+                                            [disabled]="child.disabled || false"
+                                            (click)="activate(child, $event)"
+                                        >
+                                            @if (child.icon; as iconRef) {
+                                                <svg [lucideIcon]="iconRef" [size]="14" class="cz-sidebar-icon"></svg>
+                                            }
+                                            <span class="cz-sidebar-label">{{ child.label }}</span>
+                                        </button>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+</aside>

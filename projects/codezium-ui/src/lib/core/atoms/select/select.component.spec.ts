@@ -1,13 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CzSelectComponent } from './select.component';
 import { FormControl, ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { LucideAngularModule, ChevronDown, Check, X } from 'lucide-angular';
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 @Component({
-  standalone: true,
   imports: [CzSelectComponent, ReactiveFormsModule, FormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <cz-select
       [options]="options"
@@ -19,13 +18,13 @@ import { By } from '@angular/platform-browser';
       [optionLabel]="optionLabel"
       [optionValue]="optionValue"
     ></cz-select>
-  `
+  `,
 })
 class TestHostComponent {
   options = [
     { name: 'Option 1', val: 1 },
     { name: 'Option 2', val: 2 },
-    { name: 'Option 3', val: 3 }
+    { name: 'Option 3', val: 3 },
   ];
   control = new FormControl<number | null>(null);
   label = 'Select Option';
@@ -43,30 +42,28 @@ describe('CzSelectComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        TestHostComponent, 
-        ReactiveFormsModule,
-        FormsModule,
-        LucideAngularModule.pick({ ChevronDown, Check, X })
-      ]
+      imports: [TestHostComponent, ReactiveFormsModule, FormsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TestHostComponent);
     hostComponent = fixture.componentInstance;
     component = fixture.debugElement.query(By.directive(CzSelectComponent)).componentInstance;
-    fixture.detectChanges();
+    // Note: no initial detectChanges() here to prevent NG0100 when tests mutate inputs afterwards
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 
   it('should show placeholder when no value is selected', () => {
+    fixture.detectChanges();
     const triggerLabel = fixture.debugElement.query(By.css('.cz-select-label')).nativeElement;
     expect(triggerLabel.textContent.trim()).toBe('Select one');
   });
 
   it('should open dropdown when clicking the trigger', () => {
+    fixture.detectChanges();
     const trigger = fixture.debugElement.query(By.css('.cz-select-trigger')).nativeElement;
     trigger.click();
     fixture.detectChanges();
@@ -77,6 +74,7 @@ describe('CzSelectComponent', () => {
   });
 
   it('should select an option and update the form control', async () => {
+    fixture.detectChanges();
     const trigger = fixture.debugElement.query(By.css('.cz-select-trigger')).nativeElement;
     trigger.click();
     fixture.detectChanges();
@@ -96,9 +94,9 @@ describe('CzSelectComponent', () => {
 
   it('should filter options when filtering is enabled', async () => {
     hostComponent.filterable = true;
-    fixture.detectChanges();
 
     const trigger = fixture.debugElement.query(By.css('.cz-select-trigger')).nativeElement;
+    fixture.detectChanges();
     trigger.click();
     fixture.detectChanges();
 
@@ -131,11 +129,63 @@ describe('CzSelectComponent', () => {
     fixture.detectChanges();
 
     const clearBtn = fixture.debugElement.query(By.css('.cz-select-clear')).nativeElement;
-    clearBtn.click();
+    clearBtn.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     fixture.detectChanges();
     await fixture.whenStable();
 
     expect(component.value()).toBeNull();
     expect(hostComponent.control.value).toBeNull();
+  });
+
+  it('should open with ArrowDown and close with Escape', () => {
+    fixture.detectChanges();
+    const trigger = fixture.debugElement.query(By.css('.cz-select-trigger')).nativeElement;
+
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    fixture.detectChanges();
+    expect(component.isOpen()).toBe(true);
+
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    fixture.detectChanges();
+    expect(component.isOpen()).toBe(false);
+  });
+
+  it('should navigate options with arrows and select the hovered one with Enter', () => {
+    fixture.detectChanges();
+    const trigger = fixture.debugElement.query(By.css('.cz-select-trigger')).nativeElement;
+
+    trigger.click();
+    fixture.detectChanges();
+
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    fixture.detectChanges();
+    expect(component.hoveredIndex()).toBe(0);
+
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    fixture.detectChanges();
+    expect(component.hoveredIndex()).toBe(1);
+
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    fixture.detectChanges();
+
+    expect(component.value()).toBe(2);
+    expect(component.isOpen()).toBe(false);
+  });
+
+  it('should show the localized error message when invalid and touched', () => {
+    hostComponent.control.setValidators([() => ({ required: true })]);
+    hostComponent.control.markAsTouched();
+    fixture.detectChanges();
+
+    const error = fixture.debugElement.query(By.css('.cz-input-error-text')).nativeElement;
+    expect(error.textContent).toContain('Este campo es requerido.');
+  });
+
+  it('should disable through the form control', () => {
+    hostComponent.control.disable();
+    fixture.detectChanges();
+
+    expect(component.actualDisabled()).toBe(true);
+    expect(fixture.debugElement.query(By.css('.cz-input-disabled'))).toBeTruthy();
   });
 });

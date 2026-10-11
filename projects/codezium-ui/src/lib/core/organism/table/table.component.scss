@@ -1,0 +1,98 @@
+/* ==========================================================================
+   TABLE (cz-table)
+   ========================================================================== */
+
+.cz-table {
+    display: block;
+}
+
+.cz-table-container {
+    width: 100%;
+    overflow-x: auto;
+    background: var(--cz-theme-surface, var(--cz-color-white));
+    border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-border-color, var(--cz-color-gray-200));
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+}
+
+.cz-table-native {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+
+    th,
+    td {
+        padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+        text-align: left;
+    }
+
+    th {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
+        color: var(--cz-theme-text-secondary, var(--cz-color-gray-600));
+        font-weight: var(--cz-font-weight-semibold);
+        border-bottom: var(--cz-theme-border-width, 1px) solid var(--cz-theme-border-color, var(--cz-color-gray-200));
+        white-space: nowrap;
+    }
+
+    td {
+        color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+        border-bottom: var(--cz-theme-border-width, 1px) solid var(--cz-theme-divider, var(--cz-color-gray-100));
+    }
+}
+
+.cz-table-sort-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--cz-spacing-xs);
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+
+    &:disabled {
+        cursor: default;
+    }
+}
+
+.cz-table-sort-icon {
+    color: var(--cz-theme-text-muted, var(--cz-color-gray-400));
+}
+
+.cz-table-row--selectable {
+    cursor: pointer;
+
+    &:hover {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
+    }
+}
+
+.cz-table-row--selected {
+    background: var(--cz-color-primary-50);
+}
+
+.cz-table--striped .cz-table-row:nth-child(even) {
+    background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
+}
+
+.cz-table--striped .cz-table-row--selected {
+    background: var(--cz-color-primary-50);
+}
+
+.cz-table--gridlines {
+    .cz-table-native th,
+    .cz-table-native td {
+        border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-border-color, var(--cz-color-gray-200));
+    }
+}
+
+.cz-table-empty-row td {
+    text-align: center;
+    padding: var(--cz-spacing-xl);
+    color: var(--cz-theme-text-muted, var(--cz-color-gray-500));
+}
+
+.cz-table-footer {
+    margin-top: var(--cz-spacing-md);
+}

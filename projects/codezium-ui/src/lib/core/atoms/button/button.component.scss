@@ -1,0 +1,130 @@
+/* ==========================================================================
+   BUTTON (cz-button)
+   Uses shared severity tokens and works with base / glass / neo themes.
+   ========================================================================== */
+
+.cz-button {
+    display: inline-flex;
+
+    &.cz-button--fluid {
+        display: flex;
+        width: 100%;
+
+        .cz-button-native {
+            width: 100%;
+        }
+    }
+
+    /* --- Severity tokens --- */
+    &[data-severity="primary"] { --cz-button-color: var(--cz-color-primary); }
+    &[data-severity="secondary"] { --cz-button-color: var(--cz-color-secondary); }
+    &[data-severity="success"] { --cz-button-color: var(--cz-color-success); }
+    &[data-severity="info"] { --cz-button-color: var(--cz-color-info); }
+    &[data-severity="warning"] { --cz-button-color: var(--cz-color-warning); }
+    &[data-severity="danger"] { --cz-button-color: var(--cz-color-danger); }
+    &[data-severity="dark"] { --cz-button-color: var(--cz-color-gray-900); }
+}
+
+.cz-button-native {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--cz-spacing-sm);
+    cursor: pointer;
+    font-family: var(--cz-font-base);
+    font-weight: var(--cz-font-weight-medium);
+    line-height: 1;
+    border: 1px solid transparent;
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+    transition: var(--cz-theme-transition-base, var(--cz-transition-normal));
+    outline: none;
+    user-select: none;
+
+    &:focus-visible {
+        box-shadow: var(--cz-focus-shadow-primary);
+    }
+}
+
+/* --- Variants --- */
+.cz-button[data-variant="solid"] .cz-button-native {
+    background: var(--cz-button-color);
+    color: var(--cz-color-white);
+
+    &:hover:not(:disabled) {
+        filter: brightness(0.92);
+    }
+}
+
+.cz-button[data-variant="outlined"] .cz-button-native {
+    background: transparent;
+    border-color: var(--cz-button-color);
+    color: var(--cz-button-color);
+
+    &:hover:not(:disabled) {
+        background: color-mix(in srgb, var(--cz-button-color) 12%, transparent);
+    }
+}
+
+.cz-button[data-variant="text"] .cz-button-native {
+    background: transparent;
+    border-color: transparent;
+    color: var(--cz-button-color);
+
+    &:hover:not(:disabled) {
+        background: color-mix(in srgb, var(--cz-button-color) 12%, transparent);
+    }
+}
+
+/* --- Sizes --- */
+.cz-button[data-size="sm"] .cz-button-native {
+    font-size: var(--cz-font-size-sm);
+    padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
+}
+
+.cz-button[data-size="md"] .cz-button-native {
+    font-size: var(--cz-font-size);
+    padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+}
+
+.cz-button[data-size="lg"] .cz-button-native {
+    font-size: var(--cz-font-size-lg);
+    padding: var(--cz-spacing-md) var(--cz-spacing-lg);
+}
+
+/* --- Modifiers --- */
+.cz-button--rounded .cz-button-native {
+    border-radius: 999px;
+}
+
+.cz-button--icon-only .cz-button-native {
+    padding: var(--cz-spacing-sm);
+}
+
+.cz-button--raised[data-variant="solid"] .cz-button-native {
+    box-shadow: var(--cz-shadow-md);
+
+    &:hover:not(:disabled) {
+        box-shadow: var(--cz-shadow-lg);
+    }
+}
+
+/* --- States --- */
+.cz-button--disabled .cz-button-native {
+    opacity: var(--cz-input-disabled-opacity, 0.5);
+    cursor: not-allowed;
+}
+
+.cz-button-spinner {
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    animation: cz-button-spin 0.7s linear infinite;
+}
+
+@keyframes cz-button-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

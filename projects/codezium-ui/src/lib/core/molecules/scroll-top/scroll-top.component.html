@@ -1,0 +1,5 @@
+@if (visible()) {
+    <button type="button" class="cz-scroll-top-button" [attr.aria-label]="ariaLabel()" (click)="scrollToTop()">
+        <svg [lucideIcon]="ArrowIcon" [size]="20"></svg>
+    </button>
+}

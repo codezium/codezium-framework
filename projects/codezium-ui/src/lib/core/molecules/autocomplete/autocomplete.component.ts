@@ -1,7 +1,6 @@
 import {
   Component,
   ElementRef,
-  HostListener,
   OnInit,
   Optional,
   Self,
@@ -12,7 +11,8 @@ import {
   output,
   signal,
   contentChild,
-  TemplateRef
+  TemplateRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -21,11 +21,14 @@ import { CzInputSize, CzLabelPosition, CzInputColor } from '../../types';
 
 @Component({
   selector: 'cz-autocomplete',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  changeDetection: ChangeDetectionStrategy.Eager,
+  encapsulation: ViewEncapsulation.None,
+  host: {
+    '(document:click)': 'onDocumentClick($event)',
+  },
 })
 export class CzAutocompleteComponent implements ControlValueAccessor, OnInit {
   // --- Parity with input-text ---
@@ -55,11 +58,11 @@ export class CzAutocompleteComponent implements ControlValueAccessor, OnInit {
   emptyMessage = input<string>('No results found');
 
   // Outputs
-  completeMethod = output<{ originalEvent: Event, query: string }>();
+  completeMethod = output<{ originalEvent: Event; query: string }>();
   onSelect = output<any>();
   onUnselect = output<any>();
   onClear = output<void>();
-  onDropdownClick = output<{ originalEvent: Event, query: string }>();
+  onDropdownClick = output<{ originalEvent: Event; query: string }>();
 
   // Slot Templates
   itemTemplate = contentChild<TemplateRef<any>>('itemTemplate');
@@ -99,12 +102,12 @@ export class CzAutocompleteComponent implements ControlValueAccessor, OnInit {
   });
 
   // Callbacks
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
   constructor(
     @Optional() @Self() public ngControl: NgControl,
-    private el: ElementRef
+    private el: ElementRef,
   ) {
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
@@ -129,13 +132,13 @@ export class CzAutocompleteComponent implements ControlValueAccessor, OnInit {
     const errors = this.ngControl.errors;
     const dictionary = {
       ...CZ_VALIDATION_MESSAGES[this.locale()],
-      ...this.customErrors()
+      ...this.customErrors(),
     };
     for (const key of Object.keys(errors)) {
       const mappedError: any = dictionary[key as keyof typeof dictionary];
       if (mappedError) {
         if (typeof mappedError === 'function') {
-           return mappedError(errors[key].requiredLength || errors[key]);
+          return mappedError(errors[key].requiredLength || errors[key]);
         }
         return mappedError;
       }
@@ -146,7 +149,7 @@ export class CzAutocompleteComponent implements ControlValueAccessor, OnInit {
   // --- ControlValueAccessor ---
   writeValue(val: any): void {
     if (this.multiple()) {
-      this.value.set(Array.isArray(val) ? val : (val ? [val] : []));
+      this.value.set(Array.isArray(val) ? val : val ? [val] : []);
     } else {
       this.value.set(val);
       // For single mode, if it's an object visually resolve it
@@ -184,26 +187,28 @@ export class CzAutocompleteComponent implements ControlValueAccessor, OnInit {
   onBlur(): void {
     this.isFocused.set(false);
     this.onTouched();
-    
+
     // Force selection logic: If typing invalid text, revert it
     if (this.forceSelection() && !this.multiple() && this.inputValue()) {
-        const matchingSuggestion = (this.suggestions() || []).find(s => this.resolveFieldData(s) === this.inputValue());
-        if (!matchingSuggestion) {
-            // Revert back to selected value or clear
-            this.inputValue.set(this.value() ? this.resolveFieldData(this.value()) : '');
-            if (this.inputEl) this.inputEl.nativeElement.value = this.inputValue();
-        }
+      const matchingSuggestion = (this.suggestions() || []).find(
+        (s) => this.resolveFieldData(s) === this.inputValue(),
+      );
+      if (!matchingSuggestion) {
+        // Revert back to selected value or clear
+        this.inputValue.set(this.value() ? this.resolveFieldData(this.value()) : '');
+        if (this.inputEl) this.inputEl.nativeElement.value = this.inputValue();
+      }
     }
   }
 
   onInput(event: Event): void {
     if (this.actualDisabled() || this.readonly()) return;
     const query = (event.target as HTMLInputElement).value;
-    
+
     // In single mode where force selection is OFF, typing raw text becomes the value
     if (!this.multiple() && !this.forceSelection()) {
-        this.value.set(query);
-        this.onChange(query);
+      this.value.set(query);
+      this.onChange(query);
     }
     this.inputValue.set(query);
 
@@ -235,30 +240,33 @@ export class CzAutocompleteComponent implements ControlValueAccessor, OnInit {
     this.focusInput();
     const query = this.inputEl?.nativeElement.value || '';
     if (this.overlayVisible()) {
-       this.hideOverlay();
+      this.hideOverlay();
     } else {
-       this.onDropdownClick.emit({ originalEvent: event, query });
-       this.showOverlay();
+      this.onDropdownClick.emit({ originalEvent: event, query });
+      this.showOverlay();
     }
   }
 
   // --- Logic & Selection ---
   selectItem(option: any, focus: boolean = true): void {
     if (this.multiple()) {
-        const currentArr = Array.isArray(this.value()) ? [...this.value()] : [];
-        if (currentArr.findIndex(o => this.resolveFieldData(o) === this.resolveFieldData(option)) === -1) {
-            currentArr.push(option);
-            this.value.set(currentArr);
-            this.onChange(currentArr);
-        }
-        this.inputValue.set('');
-        if (this.inputEl) this.inputEl.nativeElement.value = '';
+      const currentArr = Array.isArray(this.value()) ? [...this.value()] : [];
+      if (
+        currentArr.findIndex((o) => this.resolveFieldData(o) === this.resolveFieldData(option)) ===
+        -1
+      ) {
+        currentArr.push(option);
+        this.value.set(currentArr);
+        this.onChange(currentArr);
+      }
+      this.inputValue.set('');
+      if (this.inputEl) this.inputEl.nativeElement.value = '';
     } else {
-        this.value.set(option);
-        const resolvedText = this.resolveFieldData(option);
-        this.inputValue.set(resolvedText);
-        if (this.inputEl) this.inputEl.nativeElement.value = resolvedText;
-        this.onChange(option);
+      this.value.set(option);
+      const resolvedText = this.resolveFieldData(option);
+      this.inputValue.set(resolvedText);
+      if (this.inputEl) this.inputEl.nativeElement.value = resolvedText;
+      this.onChange(option);
     }
     this.onSelect.emit(option);
     if (focus) this.focusInput();
@@ -315,7 +323,13 @@ export class CzAutocompleteComponent implements ControlValueAccessor, OnInit {
       if (event.key === 'ArrowDown' && this.dropdown()) {
         this.showOverlay();
       }
-      if (event.key === 'Backspace' && this.multiple() && this.inputValue() === '' && Array.isArray(this.value()) && this.value().length > 0) {
+      if (
+        event.key === 'Backspace' &&
+        this.multiple() &&
+        this.inputValue() === '' &&
+        Array.isArray(this.value()) &&
+        this.value().length > 0
+      ) {
         const arr = [...this.value()];
         const removed = arr.pop();
         this.value.set(arr);
@@ -341,11 +355,10 @@ export class CzAutocompleteComponent implements ControlValueAccessor, OnInit {
 
   onOverlayMouseDown(event: Event): void {
     // Prevent blur from triggering when clicking inside overlay list
-    event.preventDefault(); 
+    event.preventDefault();
   }
 
   // Host listener logic strictly matching PrimeNG clicking-out philosophy
-  @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     if (!this.el.nativeElement.contains(event.target)) {
       this.hideOverlay();

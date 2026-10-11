@@ -1,0 +1,18 @@
+@if (header() || subheader()) {
+    <div class="cz-card-header">
+        @if (header()) {
+            <div class="cz-card-title">{{ header() }}</div>
+        }
+        @if (subheader()) {
+            <div class="cz-card-subtitle">{{ subheader() }}</div>
+        }
+    </div>
+}
+
+<div class="cz-card-body">
+    <ng-content />
+</div>
+
+<div class="cz-card-footer">
+    <ng-content select="[czCardFooter]" />
+</div>

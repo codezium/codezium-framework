@@ -1,0 +1,63 @@
+<div class="cz-tree-select-wrapper">
+    <div
+        class="cz-tree-select-trigger"
+        [class.cz-tree-select-trigger--open]="isOpen()"
+        tabindex="0"
+        role="button"
+        aria-haspopup="tree"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-label]="ariaLabel()"
+        (click)="toggle()"
+        (keydown)="onKeyDown($event)"
+    >
+        @if (value() !== null && value() !== undefined) {
+            <span class="cz-tree-select-value">{{ selectedLabel() }}</span>
+        } @else {
+            <span class="cz-tree-select-placeholder">{{ placeholder() }}</span>
+        }
+
+        @if (clearable() && value() !== null && value() !== undefined && !actualDisabled()) {
+            <svg [lucideIcon]="XIcon" [size]="14" class="cz-tree-select-clear" (click)="clear($event)"></svg>
+        }
+
+        <svg [lucideIcon]="ChevronDownIcon" [size]="16" class="cz-tree-select-chevron"></svg>
+    </div>
+
+    @if (isOpen()) {
+        <div class="cz-tree-select-panel" role="tree" [attr.aria-label]="ariaLabel()">
+            @for (row of visibleRows(); track row.node) {
+                <div
+                    class="cz-tree-select-node"
+                    role="treeitem"
+                    [attr.aria-expanded]="row.expandable ? isExpanded(row.node) : null"
+                    [attr.aria-selected]="isSelected(row.node)"
+                    [class.cz-tree-select-node--selected]="isSelected(row.node)"
+                    [style.paddingLeft.rem]="0.5 + row.depth * 1.25"
+                    (click)="selectNode(row.node, $event)"
+                >
+                    @if (row.expandable) {
+                        <button
+                            type="button"
+                            class="cz-tree-select-toggle"
+                            [attr.aria-label]="isExpanded(row.node) ? 'Collapse' : 'Expand'"
+                            (click)="toggleExpand(row.node, $event)"
+                        >
+                            <svg
+                                [lucideIcon]="isExpanded(row.node) ? ChevronDownIcon : ChevronRightIcon"
+                                [size]="14"
+                            ></svg>
+                        </button>
+                    } @else {
+                        <span class="cz-tree-select-spacer"></span>
+                    }
+
+                    <span class="cz-tree-select-label">{{ getOptionLabel(row.node) }}</span>
+
+                    @if (isSelected(row.node)) {
+                        <svg [lucideIcon]="CheckIcon" [size]="14" class="cz-tree-select-check"></svg>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>

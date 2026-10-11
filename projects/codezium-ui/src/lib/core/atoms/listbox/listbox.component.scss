@@ -1,0 +1,105 @@
+/* ==========================================================================
+   LISTBOX (cz-listbox)
+   ========================================================================== */
+
+.cz-listbox {
+    display: block;
+    width: 100%;
+}
+
+.cz-listbox-items {
+    max-height: 18rem;
+    overflow-y: auto;
+    background: var(--cz-theme-input-bg, var(--cz-theme-surface));
+    border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-input-border, var(--cz-color-gray-300));
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+    outline: none;
+
+    &:focus-visible {
+        border-color: var(--cz-color-primary);
+        box-shadow: 0 0 0 3px var(--cz-color-primary-200);
+    }
+}
+
+.cz-listbox-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--cz-spacing-sm);
+    cursor: pointer;
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    transition: var(--cz-transition-bg);
+
+    &:hover {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
+    }
+
+    &.cz-listbox-item--focused {
+        background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
+        box-shadow: inset 2px 0 0 var(--cz-color-primary);
+    }
+
+    &.cz-listbox-item--selected {
+        background: var(--cz-color-primary-50);
+        color: var(--cz-color-primary);
+        font-weight: var(--cz-font-weight-medium);
+    }
+}
+
+.cz-listbox-check {
+    color: var(--cz-color-primary);
+}
+
+.cz-listbox-empty {
+    padding: var(--cz-spacing-md);
+    text-align: center;
+    color: var(--cz-theme-text-muted, var(--cz-color-gray-500));
+    font-size: var(--cz-font-size-sm);
+}
+
+.cz-listbox[data-size="sm"] {
+    .cz-listbox-item {
+        padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
+        font-size: var(--cz-font-size-sm);
+    }
+}
+
+.cz-listbox[data-size="md"] {
+    .cz-listbox-item {
+        padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+        font-size: var(--cz-font-size);
+    }
+}
+
+.cz-listbox[data-size="lg"] {
+    .cz-listbox-item {
+        padding: var(--cz-spacing-md) var(--cz-spacing-lg);
+        font-size: var(--cz-font-size-lg);
+    }
+}
+
+.cz-listbox-filter {
+    margin-bottom: var(--cz-spacing-sm);
+}
+
+.cz-listbox-filter-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    background: var(--cz-theme-input-bg, var(--cz-theme-surface));
+    border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-input-border, var(--cz-color-gray-400));
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+    outline: none;
+
+    &:focus {
+        border-color: var(--cz-color-primary);
+        box-shadow: 0 0 0 3px var(--cz-color-primary-200);
+    }
+}
+
+.cz-listbox--disabled {
+    opacity: var(--cz-input-disabled-opacity, 0.5);
+}

@@ -9,7 +9,6 @@ import { KNOB_DOC_I18N } from './knob-doc.i18n';
 
 @Component({
     selector: 'cz-knob-doc-page',
-    standalone: true,
     imports: [CommonModule, CzKnobComponent, AppCodeComponent, FormsModule, ReactiveFormsModule],
     template: `
         <div class="doc-page">
@@ -192,7 +191,6 @@ import { CzKnobComponent } from 'codezium-ui';
 
 @Component({
     selector: 'knob-basic-demo',
-    standalone: true,
     imports: [FormsModule, CzKnobComponent],
     template: \`<cz-knob [(ngModel)]="value" />\`
 })
@@ -210,7 +208,6 @@ import { CzKnobComponent } from 'codezium-ui';
 
 @Component({
     selector: 'knob-minmax-demo',
-    standalone: true,
     imports: [FormsModule, CzKnobComponent],
     template: \`
         <cz-knob [(ngModel)]="value1" [min]="-50" [max]="50" />
@@ -236,7 +233,6 @@ import { CzKnobComponent } from 'codezium-ui';
 
 @Component({
     selector: 'knob-colors-demo',
-    standalone: true,
     imports: [FormsModule, CzKnobComponent],
     template: \`
         <cz-knob [(ngModel)]="value" color="primary" />
@@ -260,7 +256,6 @@ import { CzKnobComponent } from 'codezium-ui';
 
 @Component({
     selector: 'knob-sizes-demo',
-    standalone: true,
     imports: [FormsModule, CzKnobComponent],
     template: \`
         <cz-knob [(ngModel)]="value" [size]="60" [strokeWidth]="8" />
@@ -281,7 +276,6 @@ import { CzKnobComponent } from 'codezium-ui';
 
 @Component({
     selector: 'knob-states-demo',
-    standalone: true,
     imports: [FormsModule, CzKnobComponent],
     template: \`
         <cz-knob [(ngModel)]="value" [readOnly]="true" />
@@ -301,7 +295,6 @@ import { CzKnobComponent } from 'codezium-ui';
 
 @Component({
     selector: 'knob-template-demo',
-    standalone: true,
     imports: [FormsModule, CzKnobComponent],
     template: \`<cz-knob [(ngModel)]="value" valueTemplate="{value}%" />\`
 })
@@ -320,7 +313,6 @@ import { CzKnobComponent } from 'codezium-ui';
 
 @Component({
     selector: 'knob-validation-demo',
-    standalone: true,
     imports: [ReactiveFormsModule, CzKnobComponent],
     template: \`
         <form [formGroup]="testForm">

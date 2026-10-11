@@ -1,0 +1,75 @@
+/* ==========================================================================
+   ORG CHART (cz-org-chart)
+   ========================================================================== */
+
+.cz-org-chart {
+    display: block;
+}
+
+.cz-org-chart-container {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+    padding: var(--cz-spacing-md);
+    overflow-x: auto;
+}
+
+.cz-org-chart-node-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cz-org-chart-node {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--cz-spacing-sm) var(--cz-spacing-md);
+    background: var(--cz-theme-surface, var(--cz-color-white));
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    border: var(--cz-theme-border-width, 1px) solid var(--cz-theme-border-color, var(--cz-color-gray-300));
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+    font-weight: var(--cz-font-weight-medium);
+    cursor: pointer;
+    box-shadow: var(--cz-theme-shadow-base, var(--cz-shadow-sm));
+    white-space: nowrap;
+
+    &:hover {
+        border-color: var(--cz-color-primary);
+        color: var(--cz-color-primary);
+    }
+}
+
+.cz-org-chart-children {
+    position: relative;
+    display: flex;
+    gap: var(--cz-spacing-lg);
+    padding-top: 2rem;
+
+    /* Vertical line from the parent node */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 1rem;
+        background: var(--cz-theme-border-color, var(--cz-color-gray-300));
+    }
+
+    /* Vertical stub for each child */
+    > .cz-org-chart-node-group::before {
+        content: '';
+        position: absolute;
+        top: -1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 1rem;
+        background: var(--cz-theme-border-color, var(--cz-color-gray-300));
+    }
+}

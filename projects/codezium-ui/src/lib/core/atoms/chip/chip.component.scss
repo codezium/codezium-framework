@@ -1,0 +1,52 @@
+/* ==========================================================================
+   CHIP (cz-chip)
+   ========================================================================== */
+
+.cz-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--cz-spacing-xs);
+    padding: 0.3rem 0.6rem;
+    background: var(--cz-theme-surface-active, var(--cz-color-gray-100));
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
+    border-radius: 999px;
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-sm);
+    line-height: 1;
+
+    &.cz-chip--disabled {
+        opacity: var(--cz-input-disabled-opacity, 0.5);
+    }
+}
+
+.cz-chip-image {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.cz-chip-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.1rem;
+    height: 1.1rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    font-size: var(--cz-font-size-md);
+    line-height: 1;
+    cursor: pointer;
+    transition: var(--cz-transition-bg);
+
+    &:hover:not(:disabled) {
+        background: var(--cz-base-tint-dark);
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+}

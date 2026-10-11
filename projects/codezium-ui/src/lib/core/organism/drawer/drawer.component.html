@@ -1,0 +1,29 @@
+@if (visible()) {
+    @if (modal()) {
+        <div class="cz-drawer-mask" (click)="onMaskClick()"></div>
+    }
+
+    <div
+        #drawerEl
+        class="cz-drawer"
+        role="dialog"
+        aria-modal="true"
+        tabindex="-1"
+        [attr.data-position]="position()"
+        [attr.aria-label]="header() || null"
+        [style.--cz-drawer-size]="size()"
+    >
+        @if (header()) {
+            <div class="cz-drawer-header">
+                <span class="cz-drawer-title">{{ header() }}</span>
+                <button type="button" class="cz-drawer-close" aria-label="Close" (click)="close()">
+                    &times;
+                </button>
+            </div>
+        }
+
+        <div class="cz-drawer-content">
+            <ng-content />
+        </div>
+    </div>
+}

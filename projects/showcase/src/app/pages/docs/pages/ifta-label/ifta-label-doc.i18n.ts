@@ -1,0 +1,42 @@
+export const IFTA_LABEL_DOC_I18N = {
+    en: {
+        title: 'IftaLabel',
+        lead: 'IftaLabel places the label on the top border of its form element.',
+        importTitle: 'Import',
+        basic: 'Basic Usage',
+        basicDesc: 'Wrap an input and its label (label after the input).',
+        api: 'API Reference',
+    },
+    es: {
+        title: 'IftaLabel',
+        lead: 'IftaLabel coloca la etiqueta en el borde superior de su elemento de formulario.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Envuelve un input y su etiqueta (label después del input).',
+        api: 'Referencia API',
+    },
+    pt: {
+        title: 'IftaLabel',
+        lead: 'IftaLabel coloca o rótulo na borda superior do seu elemento de formulário.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Envolva um input e seu rótulo (label após o input).',
+        api: 'Referência da API',
+    },
+    fr: {
+        title: 'IftaLabel',
+        lead: 'IftaLabel place le libellé sur la bordure supérieure de son élément de formulaire.',
+        importTitle: 'Importer',
+        basic: 'Utilisation de Base',
+        basicDesc: 'Enveloppez un input et son libellé (label après l\'input).',
+        api: 'Référence API',
+    },
+    de: {
+        title: 'IftaLabel',
+        lead: 'IftaLabel platziert das Label auf dem oberen Rahmen seines Formularelements.',
+        importTitle: 'Importieren',
+        basic: 'Grundlegende Verwendung',
+        basicDesc: 'Umschließen Sie ein Input und sein Label (Label nach dem Input).',
+        api: 'API-Referenz',
+    },
+};

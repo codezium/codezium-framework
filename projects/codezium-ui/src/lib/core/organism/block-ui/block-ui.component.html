@@ -1,0 +1,12 @@
+<ng-content />
+
+@if (blocked()) {
+    <div class="cz-block-ui-overlay" role="status" aria-live="polite">
+        @if (showSpinner()) {
+            <cz-progress-spinner [size]="40" [strokeWidth]="4" ariaLabel="Loading" />
+        }
+        @if (message()) {
+            <span class="cz-block-ui-message">{{ message() }}</span>
+        }
+    </div>
+}

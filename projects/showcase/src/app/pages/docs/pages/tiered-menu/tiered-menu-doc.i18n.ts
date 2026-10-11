@@ -1,0 +1,42 @@
+export const TIERED_MENU_DOC_I18N = {
+    en: {
+        title: 'TieredMenu',
+        lead: 'TieredMenu displays submenus in nested overlays that open on hover.',
+        importTitle: 'Import',
+        basic: 'Basic Usage',
+        basicDesc: 'Pass nested items; every level opens as a flyout panel on hover.',
+        api: 'API Reference',
+    },
+    es: {
+        title: 'TieredMenu',
+        lead: 'TieredMenu muestra submenús en overlays anidados que se abren al pasar el cursor.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Pasa ítems anidados; cada nivel se abre como panel flotante al pasar el cursor.',
+        api: 'Referencia API',
+    },
+    pt: {
+        title: 'TieredMenu',
+        lead: 'TieredMenu exibe submenus em overlays aninhados que abrem ao passar o mouse.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Passe itens aninhados; cada nível abre como painel flutuante ao passar o mouse.',
+        api: 'Referência da API',
+    },
+    fr: {
+        title: 'TieredMenu',
+        lead: 'TieredMenu affiche des sous-menus dans des overlays imbriqués qui s\'ouvrent au survol.',
+        importTitle: 'Importer',
+        basic: 'Utilisation de Base',
+        basicDesc: 'Passez des éléments imbriqués ; chaque niveau s\'ouvre en panneau volant au survol.',
+        api: 'Référence API',
+    },
+    de: {
+        title: 'TieredMenu',
+        lead: 'TieredMenu zeigt Untermenüs in verschachtelten Overlays, die beim Hovern öffnen.',
+        importTitle: 'Importieren',
+        basic: 'Grundlegende Verwendung',
+        basicDesc: 'Übergeben Sie verschachtelte Elemente; jede Ebene öffnet als Flyout-Panel beim Hovern.',
+        api: 'API-Referenz',
+    },
+};

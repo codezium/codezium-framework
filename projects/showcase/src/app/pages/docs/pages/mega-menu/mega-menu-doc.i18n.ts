@@ -1,0 +1,42 @@
+export const MEGA_MENU_DOC_I18N = {
+    en: {
+        title: 'MegaMenu',
+        lead: 'MegaMenu displays submenu columns grouped by category inside a wide panel.',
+        importTitle: 'Import',
+        basic: 'Basic Usage',
+        basicDesc: 'Children with a <code>group</code> property are arranged into columns.',
+        api: 'API Reference',
+    },
+    es: {
+        title: 'MegaMenu',
+        lead: 'MegaMenu muestra columnas de submenú agrupadas por categoría dentro de un panel ancho.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Los hijos con la propiedad <code>group</code> se organizan en columnas.',
+        api: 'Referencia API',
+    },
+    pt: {
+        title: 'MegaMenu',
+        lead: 'MegaMenu exibe colunas de submenu agrupadas por categoria dentro de um painel largo.',
+        importTitle: 'Importar',
+        basic: 'Uso Básico',
+        basicDesc: 'Filhos com a propriedade <code>group</code> são organizados em colunas.',
+        api: 'Referência da API',
+    },
+    fr: {
+        title: 'MegaMenu',
+        lead: 'MegaMenu affiche des colonnes de sous-menu groupées par catégorie dans un large panneau.',
+        importTitle: 'Importer',
+        basic: 'Utilisation de Base',
+        basicDesc: 'Les enfants avec une propriété <code>group</code> sont disposés en colonnes.',
+        api: 'Référence API',
+    },
+    de: {
+        title: 'MegaMenu',
+        lead: 'MegaMenu zeigt Untermenü-Spalten, gruppiert nach Kategorie, in einem breiten Panel.',
+        importTitle: 'Importieren',
+        basic: 'Grundlegende Verwendung',
+        basicDesc: 'Kinder mit einer <code>group</code>-Eigenschaft werden in Spalten angeordnet.',
+        api: 'API-Referenz',
+    },
+};

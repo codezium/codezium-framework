@@ -1,0 +1,21 @@
+<cz-dialog
+    [visible]="visible()"
+    [header]="config()?.header || 'Confirm'"
+    (onHide)="onHide()"
+>
+    <p class="cz-confirm-message">{{ config()?.message }}</p>
+
+    <div class="cz-confirm-actions">
+        <cz-button
+            [label]="config()?.rejectLabel || 'No'"
+            variant="text"
+            severity="secondary"
+            (onClick)="reject()"
+        />
+        <cz-button
+            [label]="config()?.acceptLabel || 'Yes'"
+            [severity]="config()?.severity || 'primary'"
+            (onClick)="accept()"
+        />
+    </div>
+</cz-dialog>

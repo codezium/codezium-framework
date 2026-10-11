@@ -1,0 +1,21 @@
+/* ==========================================================================
+   FLUID (czFluid directive)
+   Makes descendant components span the full width of their container.
+   ========================================================================== */
+
+.cz-fluid {
+    display: block;
+    width: 100%;
+}
+
+.cz-fluid > .cz-input-wrapper,
+.cz-fluid > .cz-select-wrapper,
+.cz-fluid > .cz-password-wrapper,
+.cz-fluid > .cz-autocomplete-wrapper,
+.cz-fluid > .cz-input-tags,
+.cz-fluid > .cz-date-picker,
+.cz-fluid > .cz-cascade-select,
+.cz-fluid > .cz-tree-select,
+.cz-fluid > .cz-listbox {
+    width: 100%;
+}

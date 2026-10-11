@@ -80,4 +80,50 @@ describe('CzCheckboxComponent', () => {
 
         expect(emitted).toBe(false);
     });
+
+    it('should expose checkbox role and aria-checked state', () => {
+        fixture.componentRef.setInput('binary', true);
+        fixture.detectChanges();
+
+        const box = fixture.nativeElement.querySelector('[role="checkbox"]') as HTMLElement;
+        expect(box).toBeTruthy();
+        expect(box.getAttribute('aria-checked')).toBe('false');
+
+        component.onClick(new MouseEvent('click', { bubbles: true, cancelable: true }));
+        fixture.detectChanges();
+
+        expect(box.getAttribute('aria-checked')).toBe('true');
+    });
+
+    it('should set aria-label from the label input', () => {
+        fixture.componentRef.setInput('label', 'Accept terms');
+        fixture.detectChanges();
+
+        const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+        expect(input.getAttribute('aria-label')).toBe('Accept terms');
+    });
+
+    it('should toggle with the Space key', () => {
+        fixture.componentRef.setInput('binary', true);
+        fixture.detectChanges();
+
+        const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+        input.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true }));
+        fixture.detectChanges();
+
+        expect(component.model()).toBe(true);
+        expect(component.checked()).toBe(true);
+    });
+
+    it('should not toggle with Space when readonly', () => {
+        fixture.componentRef.setInput('binary', true);
+        fixture.componentRef.setInput('readonly', true);
+        fixture.detectChanges();
+
+        const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
+        input.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true }));
+        fixture.detectChanges();
+
+        expect(component.model()).toBeFalsy();
+    });
 });

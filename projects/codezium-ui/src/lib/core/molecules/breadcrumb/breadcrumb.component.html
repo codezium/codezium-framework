@@ -1,0 +1,47 @@
+<nav class="cz-breadcrumb-nav" aria-label="Breadcrumb">
+    <ol class="cz-breadcrumb-list">
+        @if (home(); as homeItem) {
+            <li class="cz-breadcrumb-item">
+                @if (homeItem.routerLink) {
+                    <a class="cz-breadcrumb-link" [routerLink]="homeItem.routerLink" (click)="itemClick.emit(homeItem)">
+                        @if (homeItem.icon; as iconRef) {
+                            <svg [lucideIcon]="iconRef" [size]="14"></svg>
+                        } @else {
+                            {{ homeItem.label }}
+                        }
+                    </a>
+                } @else {
+                    <span class="cz-breadcrumb-link">
+                        @if (homeItem.icon; as iconRef) {
+                            <svg [lucideIcon]="iconRef" [size]="14"></svg>
+                        } @else {
+                            {{ homeItem.label }}
+                        }
+                    </span>
+                }
+                <span class="cz-breadcrumb-separator" aria-hidden="true">{{ separator() }}</span>
+            </li>
+        }
+
+        @for (item of items(); track item.label; let last = $last) {
+            <li class="cz-breadcrumb-item">
+                @if (!last) {
+                    @if (item.routerLink) {
+                        <a class="cz-breadcrumb-link" [routerLink]="item.routerLink" (click)="itemClick.emit(item)">
+                            {{ item.label }}
+                        </a>
+                    } @else if (item.url) {
+                        <a class="cz-breadcrumb-link" [href]="item.url" (click)="itemClick.emit(item)">
+                            {{ item.label }}
+                        </a>
+                    } @else {
+                        <span class="cz-breadcrumb-link" (click)="itemClick.emit(item)">{{ item.label }}</span>
+                    }
+                    <span class="cz-breadcrumb-separator" aria-hidden="true">{{ separator() }}</span>
+                } @else {
+                    <span class="cz-breadcrumb-current" aria-current="page">{{ item.label }}</span>
+                }
+            </li>
+        }
+    </ol>
+</nav>

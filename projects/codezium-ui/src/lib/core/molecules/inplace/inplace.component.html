@@ -1,0 +1,21 @@
+@if (!active()) {
+    <button type="button" class="cz-inplace-display" (click)="activate()">
+        {{ display() }}
+    </button>
+} @else {
+    <div class="cz-inplace-editor">
+        <div class="cz-inplace-content">
+            <ng-content />
+        </div>
+
+        <div class="cz-inplace-actions">
+            <cz-button
+                [label]="cancelLabel()"
+                variant="text"
+                severity="secondary"
+                (onClick)="cancel()"
+            />
+            <cz-button [label]="saveLabel()" (onClick)="save()" />
+        </div>
+    </div>
+}

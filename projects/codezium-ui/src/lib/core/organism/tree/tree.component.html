@@ -1,0 +1,35 @@
+<ul class="cz-tree-container" role="tree">
+    @for (row of visibleRows(); track row.node) {
+        <li
+            class="cz-tree-node"
+            role="treeitem"
+            [attr.aria-expanded]="row.expandable ? isExpanded(row.node) : null"
+            [attr.aria-selected]="isSelected(row.node)"
+            [class.cz-tree-node--selected]="isSelected(row.node)"
+            [style.paddingLeft.rem]="0.5 + row.depth * 1.25"
+            (click)="selectNode(row.node)"
+        >
+            @if (row.expandable) {
+                <button
+                    type="button"
+                    class="cz-tree-toggle"
+                    [attr.aria-label]="isExpanded(row.node) ? 'Collapse' : 'Expand'"
+                    (click)="toggle(row.node, $event)"
+                >
+                    <svg
+                        [lucideIcon]="isExpanded(row.node) ? ChevronDownIcon : ChevronRightIcon"
+                        [size]="14"
+                    ></svg>
+                </button>
+            } @else {
+                <span class="cz-tree-spacer"></span>
+            }
+
+            @if (row.node.icon; as iconRef) {
+                <svg [lucideIcon]="iconRef" [size]="14" class="cz-tree-icon"></svg>
+            }
+
+            <span class="cz-tree-label">{{ row.node.label }}</span>
+        </li>
+    }
+</ul>
