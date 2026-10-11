@@ -30,7 +30,8 @@
             </button>
 
             @if (item.items?.length) {
-                <ul class="cz-tiered-menu-list cz-tiered-menu-submenu" role="menu">
+                <ul class="cz-tiered-menu-list cz-tiered-menu-submenu"
+                [style.z-index]="panelZIndex()" role="menu">
                     @for (child of item.items; track $index) {
                         <ng-container [ngTemplateOutlet]="itemTpl" [ngTemplateOutletContext]="{ $implicit: child }" />
                     }

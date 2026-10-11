@@ -1,36 +1,31 @@
 <div class="cz-speed-dial-container">
-    @if (open()) {
-        <ul class="cz-speed-dial-actions" role="menu">
-            @for (item of items(); track $index) {
-                <li role="none">
-                    <button
-                        type="button"
-                        class="cz-speed-dial-action"
-                        role="menuitem"
-                        [disabled]="item.disabled || false"
-                        [attr.aria-label]="item.label || null"
-                        [attr.title]="item.label || null"
-                        (click)="activate(item, $event)"
-                    >
-                        @if (item.icon; as iconRef) {
-                            <svg [lucideIcon]="iconRef" [size]="18"></svg>
-                        } @else {
-                            <span>{{ item.label?.charAt(0) }}</span>
-                        }
-                    </button>
-                </li>
-            }
-        </ul>
+    @if (visible() && mask()) {
+        <div class="cz-speed-dial-mask" [style.z-index]="maskZIndex()" (click)="hide()" aria-hidden="true"></div>
     }
 
-    <button
-        type="button"
-        class="cz-speed-dial-trigger"
-        [class.cz-speed-dial-trigger--open]="open()"
-        [attr.aria-label]="ariaLabel()"
-        [attr.aria-expanded]="open()"
-        (click)="toggle($event)"
-    >
-        <svg [lucideIcon]="icon() ?? PlusIcon" [size]="20"></svg>
+    <ul class="cz-speed-dial-actions" [style.z-index]="actionsZIndex()" [class.cz-speed-dial-actions--visible]="visible()" role="menu"
+        [attr.aria-hidden]="!visible()">
+        @for (item of items(); track $index; let i = $index) {
+            <li class="cz-speed-dial-item" role="none" [style.transform]="itemTransform(i)"
+                [style.transition-delay.ms]="i * transitionDelay()">
+                <button type="button" class="cz-speed-dial-action" role="menuitem" [disabled]="item.disabled || false"
+                    [attr.aria-label]="item.label || null"
+                    [czTooltip]="showTooltips() && item.label ? item.label : ''"
+                    [tooltipDisabled]="!showTooltips() || !item.label" (click)="activate(item, $event)">
+                    @if (item.icon; as iconRef) {
+                        <svg [lucideIcon]="iconRef" [size]="18"></svg>
+                    } @else {
+                        <span>{{ item.label?.charAt(0) }}</span>
+                    }
+                </button>
+            </li>
+        }
+    </ul>
+
+    <button type="button" class="cz-speed-dial-trigger" [class.cz-speed-dial-trigger--open]="visible()"
+        [class.cz-speed-dial-trigger--rotated]="isRotated()" [attr.data-severity]="severity()"
+        [disabled]="disabled()" [attr.aria-label]="ariaLabel()" [attr.aria-expanded]="visible()"
+        aria-haspopup="menu" (click)="toggle($event)">
+        <svg [lucideIcon]="triggerIcon()" [size]="20"></svg>
     </button>
 </div>

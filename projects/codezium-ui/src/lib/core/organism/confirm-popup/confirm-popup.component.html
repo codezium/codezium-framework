@@ -1,6 +1,7 @@
 @if (visible()) {
     <div
         class="cz-confirm-popup"
+        [style.z-index]="panelZIndex()"
         role="dialog"
         [style.left.px]="position()?.x ?? 0"
         [style.top.px]="position()?.y ?? 0"

@@ -1,4 +1,5 @@
 import {
+    computed,
     ChangeDetectionStrategy,
     Component,
     ElementRef,
@@ -10,7 +11,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideChevronDown, LucideDynamicIcon, type LucideIconInput } from '@lucide/angular';
-import { CzMenuItem, CzSeverity, CzInputSize } from '../../types';
+import { CzMenuItem, CzSeverity, CzInputSize, CzOverlayZIndex, czOverlayZIndex } from '../../types';
 
 @Component({
     selector: 'cz-split-button',
@@ -39,6 +40,11 @@ export class CzSplitButtonComponent {
 
     /** Button size */
     size = input<CzInputSize>('md');
+    /** Overlay z-index: a number overrides it, 'none' keeps it in normal flow, null = theme default */
+    zIndex = input<CzOverlayZIndex>(null);
+
+    readonly panelZIndex = computed(() => czOverlayZIndex(this.zIndex()));
+
 
     /** Disabled state */
     disabled = input<boolean>(false);

@@ -1,35 +1,142 @@
-<ul class="cz-tree-container" role="tree">
-    @for (row of visibleRows(); track row.node) {
-        <li
-            class="cz-tree-node"
-            role="treeitem"
-            [attr.aria-expanded]="row.expandable ? isExpanded(row.node) : null"
-            [attr.aria-selected]="isSelected(row.node)"
-            [class.cz-tree-node--selected]="isSelected(row.node)"
-            [style.paddingLeft.rem]="0.5 + row.depth * 1.25"
-            (click)="selectNode(row.node)"
-        >
-            @if (row.expandable) {
-                <button
-                    type="button"
-                    class="cz-tree-toggle"
-                    [attr.aria-label]="isExpanded(row.node) ? 'Collapse' : 'Expand'"
-                    (click)="toggle(row.node, $event)"
-                >
-                    <svg
-                        [lucideIcon]="isExpanded(row.node) ? ChevronDownIcon : ChevronRightIcon"
-                        [size]="14"
-                    ></svg>
-                </button>
+<div class="cz-tree-wrapper">
+    @if (filter()) {
+        <div class="cz-tree-filter">
+            @if (filterTemplate(); as filterTpl) {
+                <ng-container *ngTemplateOutlet="filterTpl; context: { $implicit: filterValue() }" />
             } @else {
-                <span class="cz-tree-spacer"></span>
+                <input #filterInput type="text" class="cz-tree-filter-input" [value]="filterValue()"
+                    [attr.placeholder]="filterPlaceholder() || null" [autofocus]="filterInputAutoFocus()"
+                    (input)="onFilterInput($event)" aria-label="Filter" />
             }
-
-            @if (row.node.icon; as iconRef) {
-                <svg [lucideIcon]="iconRef" [size]="14" class="cz-tree-icon"></svg>
-            }
-
-            <span class="cz-tree-label">{{ row.node.label }}</span>
-        </li>
+        </div>
     }
-</ul>
+
+    @if (headerTemplate(); as headerTpl) {
+        <div class="cz-tree-header">
+            <ng-container *ngTemplateOutlet="headerTpl" />
+        </div>
+    }
+
+    <div class="cz-tree-viewport" [class.cz-tree-viewport--scroll]="!!scrollHeight()"
+        [style.max-height]="scrollHeight()" (scroll)="handleScroll($event)">
+        <ul class="cz-tree-container" role="tree" [attr.aria-label]="ariaLabel()"
+            [attr.aria-labelledby]="ariaLabelledBy()"
+            [attr.aria-multiselectable]="selectionMode() === 'multiple' || selectionMode() === 'checkbox' ? true : null">
+            @if (virtualScroll() && virtualStart() > 0) {
+                <li class="cz-tree-spacer-row" aria-hidden="true"
+                    [style.height.px]="virtualStart() * virtualItemSize()"></li>
+            }
+
+            @for (row of displayRows(); track trackNode($index, row)) {
+                <li
+                    class="cz-tree-node"
+                    role="treeitem"
+                    [attr.data-row-index]="row.index"
+                    [attr.aria-level]="row.depth + 1"
+                    [attr.aria-setsize]="row.setsize"
+                    [attr.aria-posinset]="row.posinset"
+                    [attr.aria-expanded]="row.expandable ? isExpanded(row.node) : null"
+                    [attr.aria-selected]="selectionMode() === 'checkbox' ? null : selectionMode() === 'single' ? isSingleSelected(row.node) : selectionMode() === 'multiple' ? isSelected(row.node) : null"
+                    [attr.aria-checked]="selectionMode() === 'checkbox' ? (isIndeterminate(row.node) ? 'mixed' : isChecked(row.node)) : null"
+                    [attr.tabindex]="tabIndexFor(row)"
+                    [class.cz-tree-node--selected]="selectionMode() !== 'checkbox' && isHighlighted(row.node)"
+                    [class.cz-tree-node--selectable]="selectionMode() !== 'none'"
+                    [class.cz-tree-node--virtual]="virtualScroll()"
+                    [style.height.px]="virtualScroll() ? virtualItemSize() : null"
+                    [style.paddingLeft.rem]="0.5 + row.depth * indentation()"
+                    (click)="selectNode(row.node, $event)"
+                    (focus)="focusedIndex.set(row.index)"
+                    (dblclick)="handleNodeDoubleClick(row.node)"
+                    (keydown)="onTreeKeydown($event, row)"
+                    (contextmenu)="handleNodeContextMenu(row.node, $event)"
+                >
+                    @if (selectionMode() === 'checkbox') {
+                        <span class="cz-tree-checkbox" aria-hidden="true" (click)="$event.stopPropagation()">
+                            <cz-checkbox [binary]="true" [ngModel]="isChecked(row.node)"
+                                [indeterminate]="isIndeterminate(row.node)" size="sm"
+                                (ngModelChange)="toggleCheckbox(row.node, $event)" />
+                        </span>
+                    }
+
+                    @if (row.expandable) {
+                        <button type="button" class="cz-tree-toggle" tabindex="-1" aria-hidden="true"
+                            [attr.aria-label]="togglerAriaLabel()" (click)="toggle(row.node, $event)">
+                            @if (togglerIconTemplate(); as togglerTpl) {
+                                <ng-container
+                                    *ngTemplateOutlet="togglerTpl; context: { $implicit: isExpanded(row.node), loading: row.node.loading === true }"
+                                />
+                            } @else {
+                                <svg [lucideIcon]="isExpanded(row.node) ? ChevronDownIcon : ChevronRightIcon" [size]="14"></svg>
+                            }
+                        </button>
+                    } @else {
+                        <span class="cz-tree-spacer"></span>
+                    }
+
+                    @if (nodeTemplate(); as nodeTpl) {
+                        <ng-container
+                            *ngTemplateOutlet="nodeTpl; context: { $implicit: row.node, depth: row.depth, expanded: isExpanded(row.node) }"
+                        />
+                    } @else {
+                        @if (row.node.icon; as iconRef) {
+                            <svg [lucideIcon]="iconRef" [size]="14" class="cz-tree-icon"></svg>
+                        }
+
+                        <span class="cz-tree-label">{{ row.node.label }}</span>
+                    }
+                </li>
+            } @empty {
+                <li class="cz-tree-empty">
+                    @if (emptyTemplate(); as emptyTpl) {
+                        <ng-container *ngTemplateOutlet="emptyTpl" />
+                    } @else {
+                        {{ emptyMessage() }}
+                    }
+                </li>
+            }
+
+            @if (virtualScroll() && virtualEnd() < visibleRows().length) {
+                <li class="cz-tree-spacer-row" aria-hidden="true"
+                    [style.height.px]="(visibleRows().length - virtualEnd()) * virtualItemSize()"></li>
+            }
+        </ul>
+
+        @if (loading()) {
+            <div class="cz-tree-loading" [class.cz-tree-loading--icon]="loadingMode() === 'icon'" role="status"
+                aria-live="polite">
+                @if (loadingIconTemplate(); as loadingTpl) {
+                    <ng-container *ngTemplateOutlet="loadingTpl" />
+                } @else {
+                    <cz-progress-spinner [size]="32" [strokeWidth]="3" ariaLabel="Loading" />
+                }
+            </div>
+        }
+    </div>
+
+    @if (footerTemplate(); as footerTpl) {
+        <div class="cz-tree-footer">
+            <ng-container *ngTemplateOutlet="footerTpl" />
+        </div>
+    }
+</div>
+
+@if (contextMenuVisible()) {
+    <ul class="cz-tree-context-menu" role="menu" [style.z-index]="contextMenuZIndex()"
+        [style.left.px]="contextMenuPosition().x" [style.top.px]="contextMenuPosition().y">
+        @for (item of contextMenuItems(); track $index) {
+            @if (item.separator) {
+                <li class="cz-tree-context-menu-separator" role="separator"></li>
+            } @else {
+                <li role="none">
+                    <button type="button" class="cz-tree-context-menu-item" role="menuitem"
+                        [disabled]="item.disabled || false" (click)="activateContextMenuItem(item, $event)">
+                        @if (item.icon; as iconRef) {
+                            <svg [lucideIcon]="iconRef" [size]="14" class="cz-tree-context-menu-icon"></svg>
+                        }
+                        <span>{{ item.label }}</span>
+                    </button>
+                </li>
+            }
+        }
+    </ul>
+}

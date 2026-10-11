@@ -1,4 +1,23 @@
-@if (!closed()) {
+@if (fromService()) {
+    @for (message of messages(); track message.id) {
+        <div class="cz-message-content" role="alert" [attr.data-severity]="message.severity">
+            <svg [lucideIcon]="iconFor(message.severity)" [size]="18" class="cz-message-icon"></svg>
+
+            <div class="cz-message-body">
+                @if (message.summary) {
+                    <span class="cz-message-text">{{ message.summary }}</span>
+                }
+                @if (message.detail) {
+                    <span class="cz-message-detail">{{ message.detail }}</span>
+                }
+            </div>
+
+            <button type="button" class="cz-message-close" aria-label="Close" (click)="removeFromService(message.id)">
+                &times;
+            </button>
+        </div>
+    }
+} @else if (!closed()) {
     <div class="cz-message-content" role="alert">
         <svg [lucideIcon]="actualIcon()" [size]="18" class="cz-message-icon"></svg>
 

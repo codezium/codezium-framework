@@ -29,7 +29,7 @@
     </div>
 
     @if (isOpen()) {
-        <div class="cz-date-picker-panel" role="dialog" [attr.aria-label]="monthLabel()">
+        <div class="cz-date-picker-panel" [style.z-index]="panelZIndex()" role="dialog" [attr.aria-label]="monthLabel()">
             <div class="cz-date-picker-header">
                 <button type="button" class="cz-date-picker-nav" aria-label="Previous month" (click)="prevMonth()">
                     <svg [lucideIcon]="ChevronLeftIcon" [size]="16"></svg>

@@ -5,7 +5,7 @@
 }
 
 .docs-nav {
-    padding: 16px 0;
+    padding: 12px 12px 24px;
 
     &__list {
         list-style: none;
@@ -23,21 +23,28 @@
         align-items: center;
         gap: 8px;
         width: 100%;
-        padding: 8px 16px;
+        min-height: 40px;
+        padding: 8px 12px;
         background: none;
         border: none;
-        border-radius: 6px;
+        border-radius: 8px;
         cursor: pointer;
-        font-size: 0.8125rem;
+        font-size: 0.75rem;
         font-weight: 600;
-        color: var(--cz-theme-text-primary, #111827);
+        color: var(--cz-theme-text-muted);
         text-align: left;
-        letter-spacing: 0.01em;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
-        transition: color 0.15s ease;
+        transition: color 0.15s ease, background 0.15s ease;
 
         &:hover {
-            color: var(--cz-color-primary, #6366f1);
+            color: var(--cz-theme-text-primary);
+            background: var(--cz-theme-surface-hover);
+        }
+
+        &:focus-visible {
+            outline: none;
+            box-shadow: var(--cz-focus-shadow-primary);
         }
     }
 
@@ -46,8 +53,7 @@
     }
 
     &__icon {
-        font-size: 0.9rem;
-        opacity: 0.7;
+        opacity: 0.8;
     }
 
     &__badge {
@@ -55,11 +61,11 @@
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        padding: 1px 6px;
+        padding: 1px 7px;
         border-radius: 20px;
-        background: var(--cz-color-primary-50, #eef2ff);
-        color: var(--cz-color-primary, #6366f1);
-        border: 1px solid var(--cz-color-primary-200, #c7d2fe);
+        background: rgba(0 200 255 / 0.1);
+        color: #0080ad;
+        border: 1px solid rgba(0 200 255 / 0.28);
     }
 
     &__chevron {
@@ -76,7 +82,7 @@
     &__children {
         list-style: none;
         margin: 0;
-        padding: 0 0 6px 0;
+        padding: 2px 0 8px 0;
     }
 
     &__child-item {
@@ -85,28 +91,46 @@
 
     /* LINKS */
     &__link {
+        position: relative;
         display: block;
-        padding: 6px 16px 6px 28px;
+        width: 100%;
+        padding: 9px 12px 9px 24px;
         font-size: 0.875rem;
-        color: var(--cz-theme-text-secondary, #6b7280);
+        color: var(--cz-theme-text-secondary);
         text-decoration: none;
-        border-radius: 6px;
+        border-radius: 8px;
         transition: color 0.15s ease, background 0.15s ease;
         cursor: pointer;
         border: none;
         background: none;
-        width: 100%;
         text-align: left;
 
         &:hover {
-            color: var(--cz-theme-text-primary, #111827);
-            background: var(--cz-theme-surface-hover, #f3f4f6);
+            color: var(--cz-theme-text-primary);
+            background: var(--cz-theme-surface-hover);
+        }
+
+        &:focus-visible {
+            outline: none;
+            box-shadow: var(--cz-focus-shadow-primary);
         }
 
         &--active {
-            color: var(--cz-color-primary, #6366f1) !important;
-            background: var(--cz-color-primary-50, #eef2ff) !important;
+            color: var(--cz-corp-azul, #2235e4) !important;
+            background: rgba(34 53 228 / 0.07) !important;
             font-weight: 500;
+
+            /* Corporate gradient rail */
+            &::before {
+                content: '';
+                position: absolute;
+                left: 6px;
+                top: 8px;
+                bottom: 8px;
+                width: 3px;
+                border-radius: 3px;
+                background: var(--cz-corp-gradient, linear-gradient(100deg, #2235e4, #00c8ff, #8a4dff));
+            }
         }
 
         &--disabled {
@@ -120,5 +144,21 @@
 
     &__item {
         margin-bottom: 2px;
+    }
+}
+
+/* ──────────────────────────────────────────────
+   DARK MODE — cyan accents
+────────────────────────────────────────────── */
+:host-context(.dark) {
+    .docs-nav__badge {
+        background: rgba(0 200 255 / 0.12);
+        color: #4ddcff;
+        border-color: rgba(0 200 255 / 0.3);
+    }
+
+    .docs-nav__link--active {
+        color: var(--cz-corp-cian, #00c8ff) !important;
+        background: rgba(0 200 255 / 0.08) !important;
     }
 }

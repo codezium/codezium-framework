@@ -1,16 +1,57 @@
-<div
-    class="cz-virtual-scroller-viewport"
-    [style.height.px]="height()"
-    tabindex="0"
-    (scroll)="onScroll($event)"
->
-    <div class="cz-virtual-scroller-spacer" [style.height.px]="totalHeight()"></div>
-
-    <div class="cz-virtual-scroller-items" [style.transform]="'translateY(' + offsetY() + 'px)'">
-        @for (item of visibleItems(); track item.index) {
-            <div class="cz-virtual-scroller-item" [style.height.px]="itemSize()">
-                {{ display(item.value) }}
-            </div>
+<div #viewport class="cz-virtual-scroller-viewport"
+    [class.cz-virtual-scroller-viewport--horizontal]="orientation() === 'horizontal'"
+    [class.cz-virtual-scroller-viewport--grid]="orientation() === 'both'"
+    [style.height]="scrollHeightValue()" [style.width]="scrollWidth()"
+    [attr.tabindex]="tabindex()" (scroll)="handleScroll($event)">
+    <ul class="cz-virtual-scroller-list" role="list"
+        [class.cz-virtual-scroller-list--horizontal]="orientation() === 'horizontal'"
+        [class.cz-virtual-scroller-list--grid]="orientation() === 'both'">
+        @if (spacerBefore() > 0) {
+            <li class="cz-virtual-scroller-spacer" aria-hidden="true"
+                [class.cz-virtual-scroller-spacer--grid]="orientation() === 'both'"
+                [style.height.px]="orientation() !== 'horizontal' ? spacerBefore() : null"
+                [style.width.px]="orientation() === 'horizontal' ? spacerBefore() : null"></li>
         }
-    </div>
+
+        @if (contentTemplate(); as contentTpl) {
+            <ng-container
+                *ngTemplateOutlet="contentTpl; context: { $implicit: displayItems(), first: first(), last: last(), count: items().length }"
+            />
+        } @else {
+            @for (entry of displayItems(); track trackItem($index, entry)) {
+                <li class="cz-virtual-scroller-item"
+                    [style.height.px]="itemHeight() || null"
+                    [style.width.px]="itemWidth() || null">
+                    @if (itemTemplate(); as itemTpl) {
+                        <ng-container
+                            *ngTemplateOutlet="itemTpl; context: { $implicit: entry.value, index: entry.index, count: items().length, first: first(), last: last(), even: entry.index % 2 === 0, odd: entry.index % 2 === 1, loading: entry.loading }"
+                        />
+                    } @else {
+                        {{ display(entry.value) }}
+                    }
+                </li>
+            }
+        }
+
+        @if (spacerAfter() > 0) {
+            <li class="cz-virtual-scroller-spacer" aria-hidden="true"
+                [class.cz-virtual-scroller-spacer--grid]="orientation() === 'both'"
+                [style.height.px]="orientation() !== 'horizontal' ? spacerAfter() : null"
+                [style.width.px]="orientation() === 'horizontal' ? spacerAfter() : null"></li>
+        }
+    </ul>
+
+    @if (overlayVisible()) {
+        <div class="cz-virtual-scroller-loader" role="status" aria-live="polite">
+            @if (loaderTemplate(); as loaderTpl) {
+                <ng-container
+                    *ngTemplateOutlet="loaderTpl; context: { $implicit: loaderPlaceholders(), count: visibleCount() }"
+                />
+            } @else if (loaderIconTemplate(); as iconTpl) {
+                <ng-container *ngTemplateOutlet="iconTpl" />
+            } @else {
+                <cz-progress-spinner [size]="32" [strokeWidth]="3" ariaLabel="Loading" />
+            }
+        </div>
+    }
 </div>

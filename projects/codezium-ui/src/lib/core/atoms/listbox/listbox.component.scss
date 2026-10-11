@@ -40,7 +40,7 @@
     }
 
     &.cz-listbox-item--selected {
-        background: var(--cz-color-primary-50);
+        background: color-mix(in srgb, var(--cz-color-primary) 14%, var(--cz-theme-surface));
         color: var(--cz-color-primary);
         font-weight: var(--cz-font-weight-medium);
     }

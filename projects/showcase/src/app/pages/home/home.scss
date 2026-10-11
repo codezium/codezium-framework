@@ -11,9 +11,9 @@
    LOCAL SEMANTIC ALIASES (mapeo de tokens --cz-* al contexto dark)
    ============================================================ */
 .cz-home {
-    --home-bg: #0f0f1a;
-    --home-bg2: #13131f;
-    --home-bg3: #1a1a2e;
+    --home-bg: #080f1f;
+    --home-bg2: #0d1730;
+    --home-bg3: #111d38;
     --home-surface: rgba(255, 255, 255, 0.04);
     --home-border: rgba(255, 255, 255, 0.08);
     --home-text-primary: var(--cz-color-white);
@@ -131,11 +131,11 @@
     }
 
     &--dark {
-        background: #1e1b4b;
+        background: #111d38;
         color: var(--cz-color-white);
 
         &:hover {
-            background: #2e2566;
+            background: rgba(34, 53, 228, 0.18);
         }
     }
 
@@ -180,7 +180,7 @@
     width: 100%;
 
     /* Glassmorphism Effect */
-    background: rgba(15, 15, 26, 0.75);
+    background: rgba(8, 15, 31, 0.75);
     /* Dark base with opacity */
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
@@ -328,23 +328,22 @@
     }
 }
 
-.cz-lang-dropdown {
-    position: absolute;
-    top: calc(100% + 6px);
+/* Popover panel keeps the dark navbar chrome (right-aligned, Deep Navy) */
+:host ::ng-deep .cz-popover-panel[data-position='bottom'] {
+    left: auto;
     right: 0;
-    z-index: 100;
-    list-style: none;
-    padding: var(--cz-spacing-xs) 0;
-    margin: 0;
-    min-width: 150px;
-    background: #1a1a30;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: var(--cz-radius-sm);
+    background: #111d38;
+    border-color: rgba(255, 255, 255, 0.12);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
-    animation: dropdownIn 0.15s ease;
+}
 
-    li {
-        display: flex;
+/* Rendered inside the cz-popover panel (which provides chrome) */
+.cz-lang-dropdown {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {        display: flex;
         align-items: center;
         gap: var(--cz-spacing-sm);
         padding: 9px var(--cz-spacing-md);
@@ -384,7 +383,7 @@
 
 /* ── Mobile Nav Drawer ── */
 .cz-mobile-nav {
-    background: #13131f;
+    background: #0d1730;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     padding: var(--cz-spacing-md) var(--cz-spacing-lg);
     animation: slideDown 0.2s ease;
@@ -440,7 +439,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: #0f0f1a;
+    background: #080f1f;
 
     &::before {
         content: '';
@@ -472,9 +471,9 @@
         display: inline-block;
         padding: 6px var(--cz-spacing-md);
         border-radius: 100px;
-        background: rgba(34, 53, 228, 0.15);
-        border: 1px solid rgba(34, 53, 228, 0.4);
-        color: var(--cz-color-primary-300);
+        background: rgba(0 200 255 / 0.12);
+        border: 1px solid rgba(0 200 255 / 0.35);
+        color: #4ddcff;
         font-family: var(--cz-font-base);
         font-size: var(--cz-font-size-xs);
         font-weight: var(--cz-font-weight-semibold);
@@ -493,7 +492,7 @@
 
         &--accent {
             display: block;
-            background: linear-gradient(135deg, var(--cz-color-primary-300), var(--cz-color-info-400));
+            background: var(--cz-corp-gradient, linear-gradient(100deg, #2235e4 0%, #00c8ff 52%, #8a4dff 100%));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -521,7 +520,7 @@
    CODE PREVIEW CARD
    ============================================================ */
 .cz-code-card {
-    background: #1a1a2e;
+    background: #111d38;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--cz-radius-md);
     overflow: hidden;
@@ -587,7 +586,7 @@
    ============================================================ */
 .cz-why {
     padding: var(--cz-spacing-5xl) 0;
-    background: linear-gradient(180deg, #0f0f1a 0%, #13131f 100%);
+    background: linear-gradient(180deg, #080f1f 0%, #0d1730 100%);
 }
 
 .cz-cards-grid {
@@ -637,7 +636,7 @@
    ============================================================ */
 .cz-components {
     padding: var(--cz-spacing-5xl) 0;
-    background: #13131f;
+    background: #0d1730;
 }
 
 .cz-components__preview {
@@ -648,7 +647,7 @@
 }
 
 .cz-preview-card {
-    background: #1a1a2e;
+    background: #111d38;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--cz-radius-md);
     padding: var(--cz-spacing-xl);
@@ -732,41 +731,6 @@
 
 .cz-form-field {
     margin-bottom: var(--cz-spacing-md);
-
-    label {
-        display: block;
-        font-family: var(--cz-font-base);
-        font-size: var(--cz-font-size-xs);
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--cz-slate-500);
-        margin-bottom: var(--cz-spacing-xs);
-        font-weight: var(--cz-font-weight-medium);
-    }
-}
-
-.cz-fake-input {
-    padding: 10px 14px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--cz-radius-sm);
-    font-family: var(--cz-font-base);
-    font-size: var(--cz-font-size-sm);
-    color: var(--cz-slate-400);
-
-    &--tall {
-        height: 72px;
-    }
-}
-
-.cz-form-check {
-    display: flex;
-    align-items: center;
-    gap: var(--cz-spacing-sm);
-    font-family: var(--cz-font-base);
-    font-size: var(--cz-font-size-sm);
-    color: var(--cz-slate-500);
-    margin-bottom: var(--cz-spacing-md);
 }
 
 /* ============================================================
@@ -774,7 +738,7 @@
    ============================================================ */
 .cz-themes {
     padding: var(--cz-spacing-5xl) 0;
-    background: #0f0f1a;
+    background: #080f1f;
 }
 
 .cz-themes__grid {
@@ -823,12 +787,12 @@
     }
 
     &--glass {
-        background: linear-gradient(135deg, rgba(34, 53, 228, 0.5), rgba(34, 196, 221, 0.5));
+        background: linear-gradient(135deg, rgba(34, 53, 228, 0.5), rgba(0, 200, 255, 0.5));
         border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
     &--neo {
-        background: linear-gradient(135deg, #1e1b4b, #312e81);
+        background: linear-gradient(135deg, #8a4dff, #2235e4);
         box-shadow: var(--cz-neo-box-shadow);
     }
 }
@@ -838,7 +802,7 @@
    ============================================================ */
 .cz-cta {
     padding: var(--cz-spacing-5xl) 0;
-    background: linear-gradient(135deg, var(--cz-color-primary-700), #1e40af);
+    background: var(--cz-corp-gradient-institutional, linear-gradient(100deg, #080f1f 0%, #111d38 55%, #2235e4 100%));
     text-align: center;
 
     h2 {
@@ -872,7 +836,7 @@
    ============================================================ */
 .cz-footer {
     padding: var(--cz-spacing-3xl) 0 var(--cz-spacing-xl);
-    background: #0f0f1a;
+    background: #080f1f;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
 
     &__grid {

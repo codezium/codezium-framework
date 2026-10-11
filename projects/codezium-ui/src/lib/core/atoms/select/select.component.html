@@ -53,7 +53,7 @@
 
         <!-- Dropdown Panel -->
         @if (isOpen()) {
-            <div class="cz-select-panel">
+            <div class="cz-select-panel" [style.z-index]="panelZIndex()">
                 @if (filterable()) {
                     <div class="cz-select-filter-container">
                         <input 

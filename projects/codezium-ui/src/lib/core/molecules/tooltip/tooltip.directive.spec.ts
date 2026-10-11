@@ -11,6 +11,8 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
         <button id="with-tooltip" czTooltip="Save changes" tooltipPosition="top">Save</button>
         <button id="disabled-tooltip" czTooltip="Hidden" [tooltipDisabled]="true">Disabled</button>
         <button id="empty-tooltip" czTooltip="">Empty</button>
+        <button id="z-tooltip" czTooltip="Custom z" [tooltipZIndex]="2500">Z</button>
+        <button id="none-tooltip" czTooltip="No z" tooltipZIndex="none">None</button>
     `,
 })
 class TestHostComponent {}
@@ -74,6 +76,20 @@ describe('CzTooltipDirective', () => {
     it('should not show the tooltip with empty text', () => {
         host('empty-tooltip').dispatchEvent(new MouseEvent('mouseenter'));
         expect(document.querySelector('.cz-tooltip')).toBeNull();
+    });
+
+    it('should apply a custom z-index to the tooltip', () => {
+        host('z-tooltip').dispatchEvent(new MouseEvent('mouseenter'));
+
+        const tooltip = document.querySelector('.cz-tooltip') as HTMLElement;
+        expect(tooltip.style.zIndex).toBe('2500');
+    });
+
+    it('should keep the tooltip in normal flow when tooltipZIndex is none', () => {
+        host('none-tooltip').dispatchEvent(new MouseEvent('mouseenter'));
+
+        const tooltip = document.querySelector('.cz-tooltip') as HTMLElement;
+        expect(tooltip.style.zIndex).toBe('auto');
     });
 
     it('should not duplicate the tooltip when showing twice', () => {

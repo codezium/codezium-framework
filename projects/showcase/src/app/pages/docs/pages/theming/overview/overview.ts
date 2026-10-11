@@ -51,7 +51,7 @@ import { THEMING_I18N } from './overview.i18n';
             border-radius: 8px; padding: 16px; overflow-x: auto;
             font-size: 0.875rem; margin: 8px 0 16px;
         }
-        code { font-family: 'Fira Code', monospace; }
+        code { font-family: var(--cz-font-code); }
     `],
 })
 export class ThemingOverviewPage {

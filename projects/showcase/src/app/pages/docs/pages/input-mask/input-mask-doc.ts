@@ -30,6 +30,18 @@ import { INPUT_MASK_DOC_I18N } from './input-mask-doc.i18n';
             </section>
 
             <section>
+                <h2 id="labels">{{ t().labels }}</h2>
+                <p [innerHTML]="t().labelsDesc"></p>
+                <div class="cz-flex cz-flex-col cz-gap-md cz-mb-md" style="max-width: 22rem;">
+                    <cz-input-text czInputMask="(999) 999-9999" [formControl]="phoneNone" label="No Position" labelPosition="none" />
+                    <cz-input-text czInputMask="(999) 999-9999" [formControl]="phoneOver" label="Over Label" labelPosition="over" />
+                    <cz-input-text czInputMask="(999) 999-9999" [formControl]="phoneInner" label="Inner Label" labelPosition="in" />
+                    <cz-input-text czInputMask="(999) 999-9999" [formControl]="phoneFloat" label="Floating Label" labelPosition="float" />
+                </div>
+                <app-code [code]="labelsCode" />
+            </section>
+
+            <section>
                 <h2 id="masks">{{ t().masks }}</h2>
                 <p [innerHTML]="t().masksDesc"></p>
                 <div class="cz-flex cz-flex-col cz-gap-md cz-mb-md" style="max-width: 22rem;">
@@ -78,6 +90,10 @@ export class InputMaskDocPage {
     readonly ssn = new FormControl('', [Validators.required]);
     readonly unmasked = new FormControl('');
     readonly disabled = new FormControl({ value: '5551234567', disabled: true });
+    readonly phoneNone = new FormControl('');
+    readonly phoneOver = new FormControl('');
+    readonly phoneInner = new FormControl('');
+    readonly phoneFloat = new FormControl('');
 
     importCode: Code = {
         typescript: `import { CzInputMaskDirective } from 'codezium-ui';`,
@@ -86,6 +102,13 @@ export class InputMaskDocPage {
     basicCode: Code = {
         html: `<input czInputMask="(999) 999-9999" [formControl]="phone" />
 <cz-input-text czInputMask="999-99-9999" [formControl]="ssn" label="SSN" />`,
+    };
+
+    labelsCode: Code = {
+        html: `<cz-input-text czInputMask="(999) 999-9999" label="No Position" labelPosition="none" />
+<cz-input-text czInputMask="(999) 999-9999" label="Over Label" labelPosition="over" />
+<cz-input-text czInputMask="(999) 999-9999" label="Inner Label" labelPosition="in" />
+<cz-input-text czInputMask="(999) 999-9999" label="Floating Label" labelPosition="float" />`,
     };
 
     masksCode: Code = {

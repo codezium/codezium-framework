@@ -13,7 +13,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LucideDynamicIcon, LucideSearch } from '@lucide/angular';
-import { CzMenuItem } from '../../types';
+import { CzMenuItem, CzOverlayZIndex, czOverlayZIndex } from '../../types';
 
 @Component({
     selector: 'cz-command-menu',
@@ -36,6 +36,11 @@ export class CzCommandMenuComponent {
 
     /** Search input placeholder */
     placeholder = input<string>('Type a command...');
+    /** Overlay z-index: a number overrides it, 'none' keeps it in normal flow, null = theme default */
+    zIndex = input<CzOverlayZIndex>(null);
+
+    readonly panelZIndex = computed(() => czOverlayZIndex(this.zIndex()));
+
 
     /** Message when there are no matches */
     emptyMessage = input<string>('No commands found');

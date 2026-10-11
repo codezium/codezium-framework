@@ -5,6 +5,7 @@
 @if (visible()) {
     <ul
         class="cz-context-menu-panel"
+        [style.z-index]="panelZIndex()"
         role="menu"
         [style.left.px]="position().x"
         [style.top.px]="position().y"

@@ -21,7 +21,8 @@
             </button>
 
             @if (item.items?.length && openIndex() === i) {
-                <div class="cz-mega-menu-panel" role="menu">
+                <div class="cz-mega-menu-panel"
+                [style.z-index]="panelZIndex()" role="menu">
                     @for (group of groups(); track group.label) {
                         <div class="cz-mega-menu-column">
                             @if (group.label) {

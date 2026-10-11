@@ -1,38 +1,54 @@
-<div class="cz-order-list-container">
-    <ul class="cz-order-list-items" role="listbox" [attr.aria-label]="ariaLabel()">
-        @for (item of items(); track $index; let i = $index) {
-            <li
-                class="cz-order-list-item"
-                role="option"
-                [attr.aria-selected]="i === selectedIndex()"
-                [class.cz-order-list-item--selected]="i === selectedIndex()"
-                (click)="select(i)"
-            >
-                {{ display(item) }}
-            </li>
-        } @empty {
-            <li class="cz-order-list-empty">No items</li>
+<div class="cz-order-list-container" [attr.data-controls-position]="controlsPosition()">
+    <div class="cz-order-list-main">
+        @if (filterBy()) {
+            <div class="cz-order-list-filter">
+                <input type="text" class="cz-order-list-filter-input" [placeholder]="filterPlaceholder()"
+                    [value]="filterValue()" [disabled]="actualDisabled()" (input)="onFilterInput($event)"
+                    aria-label="Filter" />
+            </div>
         }
-    </ul>
+
+        <ul class="cz-order-list-items" role="listbox" [attr.aria-label]="ariaLabel()"
+            [style.max-height]="scrollHeight()">
+            @for (item of filteredItems(); track $index; let i = $index) {
+                <li class="cz-order-list-item" role="option" [attr.aria-selected]="i === selectedIndex()"
+                    [class.cz-order-list-item--selected]="i === selectedIndex()"
+                    [class.cz-order-list-item--dragging]="dragIndex() === i"
+                    [class.cz-order-list-item--over]="overIndex() === i && dragIndex() !== i"
+                    [attr.draggable]="dragdrop() ? true : null" (click)="select(i)"
+                    (dragstart)="onDragStart(i, $event)" (dragover)="onDragOver(i, $event)"
+                    (drop)="onDrop(i, $event)" (dragend)="onDragEnd()">
+                    @if (itemTemplate(); as tpl) {
+                        <ng-container
+                            [ngTemplateOutlet]="tpl"
+                            [ngTemplateOutletContext]="{ $implicit: item, index: i, selected: i === selectedIndex() }"
+                        />
+                    } @else {
+                        {{ display(item) }}
+                    }
+                </li>
+            } @empty {
+                <li class="cz-order-list-empty">No items</li>
+            }
+        </ul>
+    </div>
 
     <div class="cz-order-list-controls">
-        <button
-            type="button"
-            class="cz-order-list-btn"
-            aria-label="Move up"
-            [disabled]="!canMoveUp()"
-            (click)="moveUp()"
-        >
+        <button type="button" class="cz-order-list-btn" aria-label="Move to top" [disabled]="!canMoveTop()"
+            (click)="moveTop()">
+            <svg [lucideIcon]="TopIcon" [size]="16"></svg>
+        </button>
+        <button type="button" class="cz-order-list-btn" aria-label="Move up" [disabled]="!canMoveUp()"
+            (click)="moveUp()">
             <svg [lucideIcon]="UpIcon" [size]="16"></svg>
         </button>
-        <button
-            type="button"
-            class="cz-order-list-btn"
-            aria-label="Move down"
-            [disabled]="!canMoveDown()"
-            (click)="moveDown()"
-        >
+        <button type="button" class="cz-order-list-btn" aria-label="Move down" [disabled]="!canMoveDown()"
+            (click)="moveDown()">
             <svg [lucideIcon]="DownIcon" [size]="16"></svg>
+        </button>
+        <button type="button" class="cz-order-list-btn" aria-label="Move to bottom" [disabled]="!canMoveBottom()"
+            (click)="moveBottom()">
+            <svg [lucideIcon]="BottomIcon" [size]="16"></svg>
         </button>
     </div>
 </div>

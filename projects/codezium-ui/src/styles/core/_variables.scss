@@ -11,8 +11,8 @@
    --cz-color-dark: #32383d;
    --cz-color-accent: #15745e;
 
-   --cz-dark-navy: #0f172a;
-   --cz-navy: #1e293b;
+   --cz-dark-navy: #080f1f;
+   --cz-navy: #111d38;
    --cz-light-navy: #334155;
    --cz-lightest-navy: #475569;
 
@@ -54,9 +54,9 @@
    --cz-blue-400: #3b82f6;
    --cz-blue-500: #2563eb;
    --cz-blue-600: #1d4ed8;
-   --cz-blue-700: #1e293b;
-   --cz-blue-800: #172554;
-   --cz-blue-900: #0f172a;
+   --cz-blue-700: #1e40af;
+   --cz-blue-800: #1e3a8a;
+   --cz-blue-900: #172554;
 
    --cz-color-primary-50: #f2f3fd;
    --cz-color-primary-100: #dfe1fb;
@@ -95,40 +95,40 @@
    --cz-eucalyptus-800: #1c3c18;
    --cz-eucalyptus-900: #12240d;
 
-   --cz-color-success-50: #edf9f1;
-   --cz-color-success-100: #d3f1dd;
-   --cz-color-success-200: #a8e4be;
-   --cz-color-success-300: #7dd79f;
-   --cz-color-success-400: #52ca80;
-   --cz-color-success-500: #28a745;
-   --cz-color-success-600: #218838;
-   --cz-color-success-700: #1a6f2d;
-   --cz-color-success-800: #145623;
-   --cz-color-success-900: #0d3d18;
+   --cz-color-success-50: #ecfdf5;
+   --cz-color-success-100: #d1fae5;
+   --cz-color-success-200: #a7f3d0;
+   --cz-color-success-300: #6ee7b7;
+   --cz-color-success-400: #34d399;
+   --cz-color-success-500: #10b981;
+   --cz-color-success-600: #059669;
+   --cz-color-success-700: #047857;
+   --cz-color-success-800: #065f46;
+   --cz-color-success-900: #064e3b;
 
    /* --- 1.6 Red / Danger Palettes --- */
    --cz-color-danger-50: #fef2f2;
-   --cz-color-danger-100: #fde2e2;
-   --cz-color-danger-200: #fbb5b9;
-   --cz-color-danger-300: #f6878b;
-   --cz-color-danger-400: #f1545f;
-   --cz-color-danger-500: #dc3545;
-   --cz-color-danger-600: #c82333;
-   --cz-color-danger-700: #a71d2a;
-   --cz-color-danger-800: #821621;
-   --cz-color-danger-900: #5c0f17;
+   --cz-color-danger-100: #fee2e2;
+   --cz-color-danger-200: #fecaca;
+   --cz-color-danger-300: #fca5a5;
+   --cz-color-danger-400: #f87171;
+   --cz-color-danger-500: #ef4444;
+   --cz-color-danger-600: #dc2626;
+   --cz-color-danger-700: #b91c1c;
+   --cz-color-danger-800: #991b1b;
+   --cz-color-danger-900: #7f1d1d;
 
    /* --- 1.7 Yellow & Amber (Warning) Palettes --- */
-   --cz-color-warning-50: #fffaeb;
+   --cz-color-warning-50: #fffbeb;
    --cz-color-warning-100: #fef3c7;
    --cz-color-warning-200: #fde68a;
    --cz-color-warning-300: #fcd34d;
    --cz-color-warning-400: #fbbf24;
-   --cz-color-warning-500: #ffc107;
-   --cz-color-warning-600: #e0a800;
-   --cz-color-warning-700: #c69500;
-   --cz-color-warning-800: #997500;
-   --cz-color-warning-900: #664d00;
+   --cz-color-warning-500: #f59e0b;
+   --cz-color-warning-600: #d97706;
+   --cz-color-warning-700: #b45309;
+   --cz-color-warning-800: #92400e;
+   --cz-color-warning-900: #78350f;
 
    --cz-quaternary-50: #fff7db;
    --cz-quaternary-100: #ffe6a8;
@@ -142,16 +142,39 @@
    --cz-quaternary-900: #4d2705;
 
    /* --- 1.8 Cyan & Teal (Info) Palettes --- */
-   --cz-color-info-50: #effcfd;
-   --cz-color-info-100: #cdf5f9;
-   --cz-color-info-200: #9aeaf3;
-   --cz-color-info-300: #67dfec;
-   --cz-color-info-400: #3dd3e3;
-   --cz-color-info-500: #22c4dd;
-   --cz-color-info-600: #1baac0;
-   --cz-color-info-700: #15879b;
-   --cz-color-info-800: #106678;
-   --cz-color-info-900: #0a454f;
+   --cz-color-info-50: #eff6ff;
+   --cz-color-info-100: #dbeafe;
+   --cz-color-info-200: #bfdbfe;
+   --cz-color-info-300: #93c5fd;
+   --cz-color-info-400: #60a5fa;
+   --cz-color-info-500: #3b82f6;
+   --cz-color-info-600: #2563eb;
+   --cz-color-info-700: #1d4ed8;
+   --cz-color-info-800: #1e40af;
+   --cz-color-info-900: #1e3a8a;
+
+   /* --- 1.8b Brand Accents — Cian Intelligence & Violeta Future --- */
+   --cz-cyan-50: #e6faff;
+   --cz-cyan-100: #c2f2ff;
+   --cz-cyan-200: #8ae8ff;
+   --cz-cyan-300: #4ddcff;
+   --cz-cyan-400: #1ad2ff;
+   --cz-cyan-500: #00c8ff;
+   --cz-cyan-600: #00a3d6;
+   --cz-cyan-700: #0080ad;
+   --cz-cyan-800: #006285;
+   --cz-cyan-900: #00475f;
+
+   --cz-violet-50: #f4eeff;
+   --cz-violet-100: #e8ddff;
+   --cz-violet-200: #d2bcff;
+   --cz-violet-300: #b995ff;
+   --cz-violet-400: #a471ff;
+   --cz-violet-500: #8a4dff;
+   --cz-violet-600: #7433e6;
+   --cz-violet-700: #5e26bd;
+   --cz-violet-800: #4a1e94;
+   --cz-violet-900: #38166e;
 
    --cz-tertiary-50: #d6faf9;
    --cz-tertiary-100: #a8f0ed;
@@ -212,7 +235,7 @@
    /* --- 1.12 Typography --- */
    --cz-font-base: "Inter", sans-serif;
    --cz-font-heading: "Inter", sans-serif;
-   --cz-font-code: "Fira Code", monospace;
+   --cz-font-code: "JetBrains Mono", "Fira Code", monospace;
 
    --cz-font-size-xs: 0.75rem;
    --cz-font-size-sm: 0.875rem;
@@ -223,6 +246,7 @@
    --cz-font-size-2xl: 1.5rem;
    --cz-font-size-3xl: 1.875rem;
    --cz-font-size-4xl: 2.25rem;
+   --cz-font-size-5xl: 3rem;
 
    --cz-font-weight-light: 300;
    --cz-font-weight-normal: 400;
@@ -359,10 +383,10 @@
    /* --- 2.4 Focus Shadows --- */
    --cz-focus-shadow-primary: 0 0 0 3px rgba(0, 200, 255, 0.4);
    --cz-focus-shadow-secondary: 0 0 0 3px rgba(108, 117, 125, 0.4);
-   --cz-focus-shadow-success: 0 0 0 3px rgba(40, 167, 69, 0.4);
-   --cz-focus-shadow-danger: 0 0 0 3px rgba(220, 53, 69, 0.4);
-   --cz-focus-shadow-warning: 0 0 0 3px rgba(255, 193, 7, 0.4);
-   --cz-focus-shadow-info: 0 0 0 3px rgba(23, 162, 184, 0.4);
+   --cz-focus-shadow-success: 0 0 0 3px rgba(16, 185, 129, 0.4);
+   --cz-focus-shadow-danger: 0 0 0 3px rgba(239, 68, 68, 0.4);
+   --cz-focus-shadow-warning: 0 0 0 3px rgba(245, 158, 11, 0.4);
+   --cz-focus-shadow-info: 0 0 0 3px rgba(59, 130, 246, 0.4);
    --cz-focus-shadow-light: 0 0 0 3px rgba(0, 0, 0, 0.1);
    --cz-focus-shadow-dark: 0 0 0 3px rgba(255, 255, 255, 0.2);
    --cz-focus-shadow-default: 0 0 0 3px rgba(83, 79, 205, 0.3);
@@ -370,10 +394,10 @@
    /* --- 2.5 Base Tints --- */
    --cz-base-tint-primary: rgba(0, 200, 255, 0.1);
    --cz-base-tint-secondary: rgba(108, 117, 125, 0.1);
-   --cz-base-tint-success: rgba(40, 167, 69, 0.1);
-   --cz-base-tint-danger: rgba(220, 53, 69, 0.1);
-   --cz-base-tint-warning: rgba(255, 193, 7, 0.1);
-   --cz-base-tint-info: rgba(23, 162, 184, 0.1);
+   --cz-base-tint-success: rgba(16, 185, 129, 0.1);
+   --cz-base-tint-danger: rgba(239, 68, 68, 0.1);
+   --cz-base-tint-warning: rgba(245, 158, 11, 0.1);
+   --cz-base-tint-info: rgba(59, 130, 246, 0.1);
    --cz-base-tint-light: rgba(248, 249, 250, 0.147);
    --cz-base-tint-dark: rgba(52, 58, 64, 0.1);
    --cz-base-tint-white: rgba(255, 255, 255, 0.705);
@@ -386,7 +410,7 @@
      ========================================================================== */
 
    /* --- 3.1 Glassmorphism Base --- */
-   --cz-glass-blur: 25px;
+   --cz-glass-blur: 20px;
    --cz-glass-radius: 16px;
    --cz-glass-padding: 1.5rem;
    --cz-glass-gap: 1rem;

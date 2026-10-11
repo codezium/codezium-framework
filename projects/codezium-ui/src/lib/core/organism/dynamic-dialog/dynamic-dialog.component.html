@@ -3,6 +3,12 @@
     [header]="active()?.config?.header || ''"
     [width]="active()?.config?.width || '30rem'"
     [closable]="active()?.config?.closable !== false"
+    [dismissableMask]="active()?.config?.dismissableMask === true"
+    [closeOnEscape]="active()?.config?.closeOnEscape !== false"
+    [draggable]="active()?.config?.draggable === true"
+    [resizable]="active()?.config?.resizable === true"
+    [maximizable]="active()?.config?.maximizable === true"
+    [breakpoints]="active()?.config?.breakpoints ?? null"
     (onHide)="close()"
 >
     <ng-template #host></ng-template>

@@ -55,6 +55,7 @@ import { DATE_PICKER_DOC_I18N } from './date-picker-doc.i18n';
                             <tr><td><code>firstDayOfWeek</code></td><td><code>number</code></td><td><code>0</code></td><td>First day of the week (0 = Sunday).</td></tr>
                             <tr><td><code>minDate</code> / <code>maxDate</code></td><td><code>Date | null</code></td><td><code>null</code></td><td>Selectable range limits.</td></tr>
                             <tr><td><code>onChange</code></td><td><code>output&lt;CzDatePickerChangeEvent&gt;</code></td><td>-</td><td>Emitted on date change.</td></tr>
+                            <tr><td><code>zIndex</code></td><td><code>number | 'none' | null</code></td><td><code>null</code></td><td>Overlay z-index: a number overrides it, <code>'none'</code> keeps it in normal flow, <code>null</code> = theme default (above everything).</td></tr>
                         </tbody>
                     </table>
                 </div>

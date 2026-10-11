@@ -1,7 +1,8 @@
 @if (visible()) {
     <div class="cz-command-menu-mask" (click)="close()"></div>
 
-    <div class="cz-command-menu-panel" role="dialog" aria-modal="true">
+    <div class="cz-command-menu-panel"
+        [style.z-index]="panelZIndex()" role="dialog" aria-modal="true">
         <div class="cz-command-menu-search">
             <svg [lucideIcon]="SearchIcon" [size]="16" class="cz-command-menu-search-icon"></svg>
             <input

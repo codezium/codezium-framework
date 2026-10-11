@@ -21,7 +21,7 @@
 
     /* Provide space for the animated over label to go outside the box */
     &[data-label-position="over"] {
-        margin-top: calc(var(--cz-text-sm) + var(--cz-spacing-xs));
+        margin-top: calc(var(--cz-font-size-sm) + var(--cz-spacing-xs));
     }
 
     /* Label NONE: etiqueta estática simple, sin animaciones */
@@ -77,7 +77,7 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--cz-theme-input-label, var(--cz-color-gray-500));
-            font-size: var(--cz-text-base);
+            font-size: var(--cz-font-size);
         }
 
         /* Diseño inicial del Over Label (dentro del input como placeholder) */
@@ -85,7 +85,7 @@
             left: var(--cz-spacing-md);
             top: 50%;
             transform: translateY(-50%);
-            font-size: var(--cz-text-base);
+            font-size: var(--cz-font-size);
             font-weight: 400;
             color: var(--cz-theme-input-label, var(--cz-color-gray-500));
         }
@@ -93,17 +93,17 @@
 
     /* Tamaños (Sizes) */
     &[data-size="sm"] .cz-input-native {
-        font-size: var(--cz-text-sm);
+        font-size: var(--cz-font-size-sm);
         padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
     }
 
     &[data-size="md"] .cz-input-native {
-        font-size: var(--cz-text-base);
+        font-size: var(--cz-font-size);
         padding: var(--cz-spacing-sm) var(--cz-spacing-md);
     }
 
     &[data-size="lg"] .cz-input-native {
-        font-size: var(--cz-text-lg);
+        font-size: var(--cz-font-size-lg);
         padding: var(--cz-spacing-md) var(--cz-spacing-lg);
     }
 
@@ -133,7 +133,7 @@
         .cz-input-label-over {
             top: -0.5rem;
             left: 0;
-            font-size: var(--cz-text-sm);
+            font-size: var(--cz-font-size-sm);
             font-weight: 500;
             color: var(--cz-theme-input-label-active, var(--cz-color-gray-900));
             transform: translateY(-100%);
@@ -200,7 +200,7 @@
         .cz-input-label-inner {
             top: var(--cz-spacing-sm);
             transform: none;
-            font-size: var(--cz-text-base);
+            font-size: var(--cz-font-size);
             color: var(--cz-theme-input-label, var(--cz-color-gray-500));
             transition: font-size 0.2s ease, color 0.2s ease;
         }
@@ -223,7 +223,7 @@
         /* Estado inicial: label GRANDE centrado como placeholder */
         .cz-input-label-inner {
             top: 50%;
-            font-size: var(--cz-text-base);
+            font-size: var(--cz-font-size);
             color: var(--cz-theme-input-label, var(--cz-color-gray-500));
             transition: all 0.2s ease;
         }

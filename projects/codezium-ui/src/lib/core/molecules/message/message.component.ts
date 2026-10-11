@@ -2,6 +2,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     computed,
+    inject,
     input,
     output,
     signal,
@@ -17,6 +18,7 @@ import {
     type LucideIconInput,
 } from '@lucide/angular';
 import { CzSeverity } from '../../types';
+import { CzMessageService } from './message.service';
 
 @Component({
     selector: 'cz-message',
@@ -27,7 +29,8 @@ import { CzSeverity } from '../../types';
     encapsulation: ViewEncapsulation.None,
     host: {
         'class': 'cz-message',
-        '[class.cz-message--closed]': 'closed()',
+        '[class.cz-message--closed]': 'closed() && !fromService()',
+        '[class.cz-message--service]': 'fromService()',
         '[attr.data-severity]': 'severity()',
     },
 })
@@ -44,11 +47,19 @@ export class CzMessageComponent {
     /** Shows the close button */
     closable = input<boolean>(false);
 
+    /** Renders the messages pushed through CzMessageService instead */
+    fromService = input<boolean>(false);
+
     /** Emitted when the message is closed */
     onClose = output<void>();
 
     /** Internal closed state */
     closed = signal<boolean>(false);
+
+    private readonly service = inject(CzMessageService);
+
+    /** Service-driven messages (only used when fromService is enabled) */
+    readonly messages = this.service.messages;
 
     readonly defaultIcon = computed<LucideIconInput>(() => {
         switch (this.severity()) {
@@ -61,8 +72,21 @@ export class CzMessageComponent {
 
     actualIcon = computed(() => this.icon() ?? this.defaultIcon());
 
+    iconFor(severity: CzSeverity): LucideIconInput {
+        switch (severity) {
+            case 'success': return LucideCircleCheck;
+            case 'warning': return LucideCircleAlert;
+            case 'danger': return LucideCircleX;
+            default: return LucideInfo;
+        }
+    }
+
     close(): void {
         this.closed.set(true);
         this.onClose.emit();
+    }
+
+    removeFromService(id: number): void {
+        this.service.remove(id);
     }
 }

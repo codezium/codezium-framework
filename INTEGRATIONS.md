@@ -222,7 +222,7 @@ All share `CzSeverity`, so colors stay consistent across the app.
 ## 4. Harmony rules
 
 - **Never nest conflicting scrolls**: `cz-scroll-area` and `cz-virtual-scroller` are alternatives.
-- **`cz-float-label` / `cz-ifta-label`** work with native `input` + `label` pairs; `cz-input-text` and friends already provide `labelPosition`.
+- **`cz-float-label` / `cz-ifta-label`** work with native `input` + `label` pairs; `cz-input-text`, `cz-password`, `cz-textarea`, `cz-select` and `cz-autocomplete` already provide `labelPosition` (`none` / `over` / `in` / `float`).
 - **Sizes**: use `CzInputSize` (`sm` / `md` / `lg`) so buttons, inputs and tables line up.
 - **Severities**: use `CzSeverity` everywhere (`primary`, `secondary`, `success`, `info`, `warning`, `danger`, `dark`).
 - **Overlays**: all use `--cz-z-glass-overlay` and render above regular content; keep the four service hosts at the root.

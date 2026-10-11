@@ -1,38 +1,55 @@
-import { afterNextRender, ChangeDetectionStrategy, Component, inject, output, signal, computed, NgZone } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { LanguageService, APP_LANGUAGES, type AppLanguage } from '../../core/services/language.service';
-import { ThemeService, APP_THEMES, type AppTheme } from '../../core/services/theme.service';
+import { afterNextRender, ChangeDetectionStrategy, Component, computed, inject, output, signal, NgZone } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { CzCommandMenuComponent, CzRippleDirective, CzTooltipDirective, type CzMenuItem } from 'codezium-ui';
+import { LanguageService } from '../../core/services/language.service';
+import { ThemeService } from '../../core/services/theme.service';
+import { DocsPrefsComponent } from '../docs-prefs/docs-prefs';
+import { DOCS_NAV } from '../docs-nav/docs-nav.data';
+
+const SEARCH_I18N: Record<string, { placeholder: string; empty: string }> = {
+    en: { placeholder: 'Search documentation…', empty: 'No results found' },
+    es: { placeholder: 'Buscar en la documentación…', empty: 'Sin resultados' },
+    pt: { placeholder: 'Pesquisar na documentação…', empty: 'Nenhum resultado' },
+    fr: { placeholder: 'Rechercher dans la documentation…', empty: 'Aucun résultat' },
+    de: { placeholder: 'Dokumentation durchsuchen…', empty: 'Keine Ergebnisse' },
+};
 
 @Component({
     selector: 'cz-docs-header',
-    imports: [RouterLink, RouterLinkActive],
+    imports: [RouterLink, RouterLinkActive, DocsPrefsComponent, CzCommandMenuComponent, CzRippleDirective, CzTooltipDirective],
     templateUrl: './docs-header.html',
     styleUrl: './docs-header.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.cz-docs-header--scrolled]': 'scrolled()',
+        '(document:keydown)': 'onGlobalKeydown($event)',
     },
 })
 export class DocsHeaderComponent {
     private readonly zone = inject(NgZone);
+    private readonly router = inject(Router);
     readonly mobileNavToggled = output<void>();
 
     // ── Services ───────────────────────────────────
-    private readonly languageService = inject(LanguageService);
     private readonly themeService = inject(ThemeService);
+    private readonly languageService = inject(LanguageService);
 
     // ── State ──────────────────────────────────────
     readonly mobileMenuOpen = signal(false);
-    readonly langOpen = signal(false);
-    readonly themeOpen = signal(false);
     readonly searchOpen = signal(false);
-    readonly isDark = signal(false);
     readonly scrolled = signal(false);
+    readonly isDark = this.themeService.isDark;
 
-    readonly locales = APP_LANGUAGES;
-    readonly themes = APP_THEMES;
-    readonly activeLocale = this.languageService.currentLang;
-    readonly activeTheme = this.themeService.currentTheme;
+    /** Flat command list built from the docs navigation tree */
+    readonly searchItems: CzMenuItem[] = this.buildSearchItems();
+
+    readonly searchPlaceholder = computed(
+        () => SEARCH_I18N[this.languageService.currentLang()]?.placeholder ?? SEARCH_I18N['en'].placeholder,
+    );
+
+    readonly searchEmpty = computed(
+        () => SEARCH_I18N[this.languageService.currentLang()]?.empty ?? SEARCH_I18N['en'].empty,
+    );
 
     constructor() {
         afterNextRender(() => {
@@ -49,54 +66,48 @@ export class DocsHeaderComponent {
         });
     }
 
-    readonly currentLang = computed(() => {
-        const loc = this.locales.find(l => l.code === this.activeLocale());
-        return loc ? `${loc.flag} ${loc.label}` : '';
-    });
-
-    readonly currentFlag = computed(() => {
-        const loc = this.locales.find(l => l.code === this.activeLocale());
-        return loc ? loc.flag : '🇺🇸';
-    });
-
-    readonly currentThemeIcon = computed(() => {
-        const t = this.themes.find(t => t.code === this.activeTheme());
-        return t ? t.icon : '🎨';
-    });
-
     // ── Actions ─────────────────────────────────────
     toggleMobileMenu(): void {
         this.mobileMenuOpen.update(v => !v);
         this.mobileNavToggled.emit();
     }
 
-    toggleLang(): void {
-        this.langOpen.update(v => !v);
-        if (this.langOpen()) this.themeOpen.set(false);
-    }
-
-    closeLang(): void { this.langOpen.set(false); }
-
-    setLocale(code: AppLanguage): void {
-        this.languageService.setLanguage(code);
-        this.langOpen.set(false);
-    }
-
-    toggleTheme(): void {
-        this.themeOpen.update(v => !v);
-        if (this.themeOpen()) this.langOpen.set(false);
-    }
-
-    setTheme(code: AppTheme): void {
-        this.themeService.setTheme(code);
-        this.themeOpen.set(false);
-    }
-
     toggleDarkMode(): void {
-        this.isDark.update(v => !v);
-        // Toggle .dark class on root
-        document.documentElement.classList.toggle('dark', this.isDark());
+        this.themeService.toggleDarkMode();
     }
 
     openSearch(): void { this.searchOpen.set(true); }
+
+    /** Ctrl/Cmd + K opens the documentation search */
+    onGlobalKeydown(event: KeyboardEvent): void {
+        if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+            event.preventDefault();
+            this.openSearch();
+        }
+    }
+
+    private buildSearchItems(): CzMenuItem[] {
+        const items: CzMenuItem[] = [];
+
+        for (const group of DOCS_NAV) {
+            if (group.children?.length) {
+                for (const child of group.children) {
+                    if (!child.path) continue;
+                    items.push({
+                        label: child.label,
+                        badge: group.label,
+                        command: () => this.router.navigateByUrl(child.path!),
+                    });
+                }
+            } else if (group.path) {
+                items.push({
+                    label: group.label,
+                    badge: 'Docs',
+                    command: () => this.router.navigateByUrl(group.path!),
+                });
+            }
+        }
+
+        return items;
+    }
 }

@@ -1,62 +1,144 @@
-<div class="cz-table-container">
+<div class="cz-table-container" [class.cz-table-container--scroll]="!!scrollHeight()" [style.max-height]="scrollHeight()">
     <table class="cz-table-native">
         <thead>
-            <tr>
-                @for (column of columns(); track column.field) {
-                    <th
-                        scope="col"
-                        [style.width]="column.width || null"
-                        [class.cz-table-th--sortable]="isColumnSortable(column)"
-                        [attr.aria-sort]="isSorted(column) ? (sortOrder() === 'asc' ? 'ascending' : 'descending') : null"
-                    >
-                        <button
-                            type="button"
-                            class="cz-table-sort-btn"
-                            [disabled]="!isColumnSortable(column)"
-                            (click)="toggleSort(column)"
-                        >
-                            <span>{{ column.header }}</span>
-                            @if (isColumnSortable(column)) {
-                                <svg
-                                    [lucideIcon]="sortOrder() === 'asc' && isSorted(column) ? AscIcon : sortOrder() === 'desc' && isSorted(column) ? DescIcon : SortIcon"
-                                    [size]="14"
-                                    class="cz-table-sort-icon"
-                                ></svg>
-                            }
-                        </button>
-                    </th>
-                }
-            </tr>
+            @if (headerTemplate(); as headerTpl) {
+                <ng-container *ngTemplateOutlet="headerTpl" />
+            } @else {
+                <tr>
+                    @if (selectionMode() === 'multiple') {
+                        <th scope="col" class="cz-table-th--selection">
+                            <cz-checkbox [binary]="true" [ngModel]="allSelected()" (ngModelChange)="toggleAll($event)"
+                                ariaLabel="Select all rows" />
+                        </th>
+                    }
+
+                    @if (expansionTemplate()) {
+                        <th scope="col" class="cz-table-th--expander"></th>
+                    }
+
+                    @for (column of columns(); track column.field) {
+                        <th scope="col" [style.width]="column.width || null"
+                            [class.cz-table-th--sortable]="isColumnSortable(column)"
+                            [attr.aria-sort]="isSorted(column) ? (sortOrder() === 'asc' ? 'ascending' : 'descending') : null">
+                            <button type="button" class="cz-table-sort-btn" [disabled]="!isColumnSortable(column)"
+                                (click)="toggleSort(column)">
+                                <span>{{ column.header }}</span>
+                                @if (isColumnSortable(column)) {
+                                    <svg [lucideIcon]="isSorted(column) && sortOrder() === 'asc' ? AscIcon : isSorted(column) && sortOrder() === 'desc' ? DescIcon : SortIcon"
+                                        [size]="14" class="cz-table-sort-icon"></svg>
+                                }
+                            </button>
+                        </th>
+                    }
+                </tr>
+            }
         </thead>
 
         <tbody>
-            @for (row of paginatedValue(); track $index) {
-                <tr
-                    class="cz-table-row"
-                    [class.cz-table-row--selected]="selectedRow() === row"
-                    [class.cz-table-row--selectable]="selectionMode() === 'single'"
-                    (click)="selectRow(row)"
-                >
-                    @for (column of columns(); track column.field) {
-                        <td>{{ row[column.field] }}</td>
+            @for (row of paginatedValue(); track trackRow($index, row); let i = $index) {
+                @if (rowTemplate(); as rowTpl) {
+                    <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: row, index: i }" />
+                } @else {
+                    <tr class="cz-table-row" [class.cz-table-row--selected]="isRowHighlighted(row)"
+                        [class.cz-table-row--selectable]="selectionMode() !== 'none' || !!contextMenuItems().length"
+                        (click)="selectRow(row)" (contextmenu)="handleRowContextMenu(row, $event)">
+                        @if (selectionMode() === 'multiple') {
+                            <td class="cz-table-td--selection" (click)="$event.stopPropagation()">
+                                <cz-checkbox [binary]="true" [ngModel]="isSelected(row)"
+                                    (ngModelChange)="toggleRow(row, $event)" ariaLabel="Select row" />
+                            </td>
+                        }
+
+                        @if (expansionTemplate()) {
+                            <td class="cz-table-td--expander">
+                                <button type="button" class="cz-table-expander" [attr.aria-expanded]="isExpanded(row)"
+                                    aria-label="Toggle row" (click)="toggleExpand(row, $event)">
+                                    <svg [lucideIcon]="isExpanded(row) ? CollapseIcon : ExpandIcon" [size]="14"></svg>
+                                </button>
+                            </td>
+                        }
+
+                        @for (column of columns(); track column.field) {
+                            <td>
+                                @if (column.template; as cellTpl) {
+                                    <ng-container
+                                        *ngTemplateOutlet="cellTpl; context: { $implicit: row, value: row[column.field], index: i }"
+                                    />
+                                } @else {
+                                    {{ row[column.field] }}
+                                }
+                            </td>
+                        }
+                    </tr>
+
+                    @if (expansionTemplate(); as expansionTpl) {
+                        @if (isExpanded(row)) {
+                            <tr class="cz-table-expansion-row">
+                                <td [attr.colspan]="totalColumns()">
+                                    <ng-container
+                                        *ngTemplateOutlet="expansionTpl; context: { $implicit: row, index: i }"
+                                    />
+                                </td>
+                            </tr>
+                        }
                     }
-                </tr>
+                }
             } @empty {
                 <tr class="cz-table-empty-row">
-                    <td [attr.colspan]="columns().length || 1">{{ emptyMessage() }}</td>
+                    <td [attr.colspan]="totalColumns() || 1">
+                        @if (emptyTemplate(); as emptyTpl) {
+                            <ng-container *ngTemplateOutlet="emptyTpl" />
+                        } @else {
+                            {{ emptyMessage() }}
+                        }
+                    </td>
                 </tr>
             }
         </tbody>
+
+        @if (footerTemplate(); as footerTpl) {
+            <tfoot>
+                <ng-container *ngTemplateOutlet="footerTpl" />
+            </tfoot>
+        }
     </table>
+
+    @if (loading()) {
+        <div class="cz-table-loading" role="status" aria-live="polite">
+            <cz-progress-spinner [size]="40" [strokeWidth]="4" ariaLabel="Loading" />
+        </div>
+    }
 </div>
 
 @if (rows() > 0) {
     <div class="cz-table-footer">
         <cz-paginator
-            [totalRecords]="value().length"
+            [totalRecords]="sortedValue().length"
             [rows]="rows()"
+            [rowsPerPageOptions]="rowsPerPageOptions()"
             [ngModel]="page()"
             (ngModelChange)="page.set($event)"
         />
     </div>
+}
+
+@if (contextMenuVisible()) {
+    <ul class="cz-table-context-menu" role="menu" [style.z-index]="contextMenuZIndex()"
+        [style.left.px]="contextMenuPosition().x" [style.top.px]="contextMenuPosition().y">
+        @for (item of contextMenuItems(); track $index) {
+            @if (item.separator) {
+                <li class="cz-table-context-menu-separator" role="separator"></li>
+            } @else {
+                <li role="none">
+                    <button type="button" class="cz-table-context-menu-item" role="menuitem"
+                        [disabled]="item.disabled || false" (click)="activateContextMenuItem(item, $event)">
+                        @if (item.icon; as iconRef) {
+                            <svg [lucideIcon]="iconRef" [size]="14" class="cz-table-context-menu-icon"></svg>
+                        }
+                        <span>{{ item.label }}</span>
+                    </button>
+                </li>
+            }
+        }
+    </ul>
 }

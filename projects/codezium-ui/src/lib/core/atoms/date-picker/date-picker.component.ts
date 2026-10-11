@@ -18,7 +18,7 @@ import {
     LucideDynamicIcon,
     LucideX,
 } from '@lucide/angular';
-import { CzInputSize } from '../../types';
+import { CzInputSize, CzOverlayZIndex, czOverlayZIndex } from '../../types';
 
 export interface CzDatePickerChangeEvent {
     value: Date | null;
@@ -66,6 +66,11 @@ export class CzDatePickerComponent implements ControlValueAccessor {
 
     /** Component size */
     size = input<CzInputSize>('md');
+    /** Overlay z-index: a number overrides it, 'none' keeps it in normal flow, null = theme default */
+    zIndex = input<CzOverlayZIndex>(null);
+
+    readonly panelZIndex = computed(() => czOverlayZIndex(this.zIndex()));
+
 
     /** Accessible label */
     ariaLabel = input<string>('Date');

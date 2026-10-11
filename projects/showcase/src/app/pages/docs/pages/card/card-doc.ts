@@ -21,7 +21,7 @@ import { CARD_DOC_I18N } from './card-doc.i18n';
             <section>
                 <h2 id="basic">{{ t().basic }}</h2>
                 <p>{{ t().basicDesc }}</p>
-                <div class="cz-grid cz-grid-cols-1 md:cz-grid-cols-2 cz-gap-md cz-mb-md">
+                <div class="cz-grid cz-grid-cols-1 cz-md:grid-cols-2 cz-gap-md cz-mb-md">
                     <cz-card>
                         <p>Simple card with a paragraph of content.</p>
                     </cz-card>

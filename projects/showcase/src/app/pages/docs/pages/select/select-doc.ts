@@ -59,7 +59,7 @@ import { SELECT_DOC_I18N } from './select-doc.i18n';
       <section>
         <h2 id="labels">{{ t().labelsTitle }}</h2>
         <p [innerHTML]="t().labelsDesc"></p>
-        <div class="cz-grid cz-grid-cols-1 md:cz-grid-cols-2 cz-gap-lg cz-mb-md">
+        <div class="cz-grid cz-grid-cols-1 cz-md:grid-cols-2 cz-gap-lg cz-mb-md">
           <div class="cz-flex cz-flex-col cz-gap-xs">
             <cz-select [options]="cities" optionLabel="name" label="No Position" labelPosition="none" placeholder="Select one"></cz-select>
           </div>
@@ -80,7 +80,7 @@ import { SELECT_DOC_I18N } from './select-doc.i18n';
       <section>
         <h2 id="themes">{{ t().themesTitle }}</h2>
         <p [innerHTML]="t().themesDesc"></p>
-        <div class="cz-grid cz-grid-cols-1 md:cz-grid-cols-3 cz-gap-md cz-mb-md">
+        <div class="cz-grid cz-grid-cols-1 cz-md:grid-cols-3 cz-gap-md cz-mb-md">
           <div class="cz-p-md cz-border cz-rounded-lg" style="background: var(--cz-theme-surface);">
             <small class="cz-text-muted cz-mb-sm cz-display-block">Base</small>
             <cz-select [options]="cities" optionLabel="name" label="Base theme"></cz-select>
@@ -100,7 +100,7 @@ import { SELECT_DOC_I18N } from './select-doc.i18n';
       <section>
         <h2 id="colors">{{ t().colorsTitle }}</h2>
         <p [innerHTML]="t().colorsDesc"></p>
-        <div class="cz-grid cz-grid-cols-2 md:cz-grid-cols-3 cz-gap-lg cz-mb-md">
+        <div class="cz-grid cz-grid-cols-2 cz-md:grid-cols-3 cz-gap-lg cz-mb-md">
           <cz-select color="primary" label="Primary" [options]="cities" optionLabel="name"></cz-select>
           <cz-select color="secondary" label="Secondary" [options]="cities" optionLabel="name"></cz-select>
           <div class="cz-p-sm cz-rounded-md" style="background: #111827;">
@@ -127,6 +127,7 @@ import { SELECT_DOC_I18N } from './select-doc.i18n';
               <tr><td><code>filter</code></td><td><code>boolean</code></td><td><code>false</code></td><td>When specified, displays a filter input in the panel.</td></tr>
               <tr><td><code>showClear</code></td><td><code>boolean</code></td><td><code>false</code></td><td>When enabled, a clear icon is displayed to clear the value.</td></tr>
               <tr><td><code>placeholder</code></td><td><code>string</code></td><td><code>null</code></td><td>Default text to display when no option is selected.</td></tr>
+                <tr><td><code>zIndex</code></td><td><code>number | 'none' | null</code></td><td><code>null</code></td><td>Overlay z-index: a number overrides it, <code>'none'</code> keeps it in normal flow, <code>null</code> = theme default (above everything).</td></tr>
             </tbody>
           </table>
         </div>

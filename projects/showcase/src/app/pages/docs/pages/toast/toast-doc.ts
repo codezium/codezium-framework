@@ -52,6 +52,7 @@ import { TOAST_DOC_I18N } from './toast-doc.i18n';
                             <tr><td><code>add(message)</code></td><td><code>service</code></td><td>Pushes a message, returns its id.</td></tr>
                             <tr><td><code>success/info/warning/error</code></td><td><code>service</code></td><td>Severity helpers.</td></tr>
                             <tr><td><code>remove(id)</code> / <code>clear()</code></td><td><code>service</code></td><td>Removes one or all messages.</td></tr>
+                            <tr><td><code>zIndex</code></td><td><code>number | 'none' | null</code></td><td><code>null</code></td><td>Overlay z-index: a number overrides it, <code>'none'</code> keeps it in normal flow, <code>null</code> = theme default (above everything).</td></tr>
                         </tbody>
                     </table>
                 </div>

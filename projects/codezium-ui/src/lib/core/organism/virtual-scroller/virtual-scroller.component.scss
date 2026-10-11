@@ -4,6 +4,10 @@
 
 .cz-virtual-scroller {
     display: block;
+
+    &--inline {
+        display: inline-block;
+    }
 }
 
 .cz-virtual-scroller-viewport {
@@ -16,21 +20,45 @@
 
     &:focus-visible {
         border-color: var(--cz-color-primary);
-        box-shadow: 0 0 0 3px var(--cz-color-primary-200);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--cz-color-primary) 25%, transparent);
+    }
+
+    &--horizontal {
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+
+    &--grid {
+        overflow: auto;
+    }
+}
+
+.cz-virtual-scroller-list {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    width: 100%;
+
+    &--horizontal {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &--grid {
+        display: flex;
+        flex-wrap: wrap;
     }
 }
 
 .cz-virtual-scroller-spacer {
     width: 1px;
     visibility: hidden;
-}
+    flex-shrink: 0;
 
-.cz-virtual-scroller-items {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    will-change: transform;
+    &--grid {
+        width: 100%;
+    }
 }
 
 .cz-virtual-scroller-item {
@@ -45,4 +73,17 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex-shrink: 0;
+}
+
+.cz-virtual-scroller-loader {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--cz-theme-surface) 78%, transparent);
+    backdrop-filter: var(--cz-theme-backdrop-filter);
+    -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
 }

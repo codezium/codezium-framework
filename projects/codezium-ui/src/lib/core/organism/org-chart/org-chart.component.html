@@ -1,4 +1,4 @@
-<div class="cz-org-chart-container">
+<div class="cz-org-chart-container" [style.--cz-org-chart-gap]="gapStyle()">
     @if (value(); as root) {
         <ng-container [ngTemplateOutlet]="nodeTpl" [ngTemplateOutletContext]="{ $implicit: root }" />
     }
@@ -6,11 +6,24 @@
 
 <ng-template #nodeTpl let-node>
     <div class="cz-org-chart-node-group">
-        <button type="button" class="cz-org-chart-node" (click)="onNodeSelect.emit(node)">
-            <span class="cz-org-chart-label">{{ node.label }}</span>
-        </button>
+        <div class="cz-org-chart-node-wrapper">
+            <button type="button" class="cz-org-chart-node" (click)="onNodeSelect.emit(node)">
+                @if (nodeTemplate(); as tpl) {
+                    <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="{ $implicit: node }" />
+                } @else {
+                    <span class="cz-org-chart-label">{{ node.label }}</span>
+                }
+            </button>
 
-        @if (node.children?.length) {
+            @if (collapsible() && node.children?.length) {
+                <button type="button" class="cz-org-chart-toggle" [attr.aria-expanded]="!isCollapsed(node)"
+                    [attr.aria-label]="isCollapsed(node) ? 'Expand' : 'Collapse'" (click)="toggleNode(node, $event)">
+                    <svg [lucideIcon]="isCollapsed(node) ? DownIcon : UpIcon" [size]="12"></svg>
+                </button>
+            }
+        </div>
+
+        @if (node.children?.length && !isCollapsed(node)) {
             <div class="cz-org-chart-children">
                 @for (child of node.children; track child) {
                     <ng-container

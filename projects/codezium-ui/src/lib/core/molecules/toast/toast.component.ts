@@ -15,6 +15,7 @@ import {
     LucideInfo,
     type LucideIconInput,
 } from '@lucide/angular';
+import { CzOverlayZIndex, czOverlayZIndex } from '../../types';
 import { CzToastMessage, CzToastService } from './toast.service';
 
 export type CzToastPosition =
@@ -40,6 +41,11 @@ export type CzToastPosition =
 export class CzToastComponent {
     /** Screen position of the stack */
     position = input<CzToastPosition>('top-right');
+
+    /** Overlay z-index: a number overrides it, 'none' keeps it in normal flow, null = theme default */
+    zIndex = input<CzOverlayZIndex>(null);
+
+    readonly stackZIndex = computed(() => czOverlayZIndex(this.zIndex()));
 
     private readonly service = inject(CzToastService);
 

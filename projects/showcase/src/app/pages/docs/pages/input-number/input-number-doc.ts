@@ -54,6 +54,47 @@ import { INPUT_NUMBER_DOC_I18N } from './input-number-doc.i18n';
         <app-code [code]="numeralsCode" />
       </section>
 
+      <!-- ── LABEL POSITIONS ── -->
+      <section>
+        <h2 id="labels">{{ t().labelsTitle }}</h2>
+        <p [innerHTML]="t().labelsDesc"></p>
+        <form [formGroup]="testForm" class="cz-flex cz-flex-wrap cz-gap-xl cz-mb-md cz-items-end">
+          <cz-input-text
+            formControlName="val9"
+            label="No Position"
+            labelPosition="none"
+            placeholder="0"
+            czInputNumber
+            mode="decimal"
+          ></cz-input-text>
+          <cz-input-text
+            formControlName="val10"
+            label="Over Label"
+            labelPosition="over"
+            placeholder="0"
+            czInputNumber
+            mode="decimal"
+          ></cz-input-text>
+          <cz-input-text
+            formControlName="val11"
+            label="Inner Label"
+            labelPosition="in"
+            placeholder="0"
+            czInputNumber
+            mode="decimal"
+          ></cz-input-text>
+          <cz-input-text
+            formControlName="val12"
+            label="Floating Label"
+            labelPosition="float"
+            placeholder="0"
+            czInputNumber
+            mode="decimal"
+          ></cz-input-text>
+        </form>
+        <app-code [code]="labelsCode" />
+      </section>
+
       <!-- ── CURRENCY ── -->
       <section>
         <h2 id="currency">{{ t().currencyTitle }}</h2>
@@ -264,6 +305,10 @@ export class InputNumberDocPage {
     val6: new FormControl(36.1),
     val7: new FormControl(85),
     val8: new FormControl(999.99),
+    val9: new FormControl(42),
+    val10: new FormControl(42),
+    val11: new FormControl(42),
+    val12: new FormControl(42),
   });
 
   typeOf(val: any) {
@@ -283,6 +328,14 @@ export class InputNumberDocPage {
     mode="decimal" 
     [minFractionDigits]="2">
 </cz-input-text>`,
+  };
+
+  labelsCode: Code = {
+    html: `<!-- czInputNumber inherits the four label positions from cz-input-text -->
+<cz-input-text formControlName="val9" label="No Position" labelPosition="none" czInputNumber mode="decimal"></cz-input-text>
+<cz-input-text formControlName="val10" label="Over Label" labelPosition="over" czInputNumber mode="decimal"></cz-input-text>
+<cz-input-text formControlName="val11" label="Inner Label" labelPosition="in" czInputNumber mode="decimal"></cz-input-text>
+<cz-input-text formControlName="val12" label="Floating Label" labelPosition="float" czInputNumber mode="decimal"></cz-input-text>`,
   };
 
   currencyCode: Code = {

@@ -1,11 +1,12 @@
 @if (visible()) {
     @if (modal()) {
-        <div class="cz-drawer-mask" (click)="onMaskClick()"></div>
+        <div class="cz-drawer-mask" [style.z-index]="maskZIndex()" (click)="onMaskClick()"></div>
     }
 
     <div
         #drawerEl
         class="cz-drawer"
+        [style.z-index]="panelZIndex()"
         role="dialog"
         aria-modal="true"
         tabindex="-1"

@@ -24,7 +24,7 @@
     </div>
 
     @if (isOpen()) {
-        <div class="cz-tree-select-panel" role="tree" [attr.aria-label]="ariaLabel()">
+        <div class="cz-tree-select-panel" [style.z-index]="panelZIndex()" role="tree" [attr.aria-label]="ariaLabel()">
             @for (row of visibleRows(); track row.node) {
                 <div
                     class="cz-tree-select-node"

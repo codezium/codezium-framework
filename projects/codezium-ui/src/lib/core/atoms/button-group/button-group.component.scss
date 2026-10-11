@@ -1,0 +1,45 @@
+/* ==========================================================================
+   BUTTON GROUP (cz-button-group)
+   Collapses inner radii and connects adjacent buttons into one control.
+   ========================================================================== */
+
+.cz-button-group {
+    display: inline-flex;
+    align-items: stretch;
+    position: relative;
+
+    /* --- cz-button children --- */
+    > cz-button:not(:first-child) .cz-button-native {
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
+        margin-inline-start: -1px;
+    }
+
+    > cz-button:not(:last-child) .cz-button-native {
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+    }
+
+    /* --- Native children (button / a) --- */
+    > button:not(:first-child),
+    > a:not(:first-child) {
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
+        margin-inline-start: -1px;
+    }
+
+    > button:not(:last-child),
+    > a:not(:last-child) {
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+    }
+
+    /* --- Keep the interacted button above its neighbours --- */
+    > cz-button:hover .cz-button-native,
+    > cz-button:focus-within .cz-button-native,
+    > button:hover,
+    > button:focus-visible {
+        position: relative;
+        z-index: 1;
+    }
+}

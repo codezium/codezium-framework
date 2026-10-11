@@ -1,4 +1,5 @@
 import {
+    computed,
     ChangeDetectionStrategy,
     Component,
     input,
@@ -8,7 +9,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideDynamicIcon } from '@lucide/angular';
-import { CzMenuItem } from '../../types';
+import { CzMenuItem, CzOverlayZIndex, czOverlayZIndex } from '../../types';
 
 @Component({
     selector: 'cz-context-menu',
@@ -27,6 +28,11 @@ import { CzMenuItem } from '../../types';
 export class CzContextMenuComponent {
     /** Menu items (supports `separator` and `disabled`) */
     items = input<CzMenuItem[]>([]);
+    /** Overlay z-index: a number overrides it, 'none' keeps it in normal flow, null = theme default */
+    zIndex = input<CzOverlayZIndex>(null);
+
+    readonly panelZIndex = computed(() => czOverlayZIndex(this.zIndex()));
+
 
     /** Emitted when a leaf item is activated */
     onItemSelect = output<CzMenuItem>();

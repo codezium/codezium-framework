@@ -1,0 +1,43 @@
+<!-- Theme picker -->
+<cz-popover [(visible)]="themeOpen" position="bottom">
+    <button czPopoverTrigger class="docs-prefs__btn cz-flex cz-items-center cz-gap-xs" czRipple
+        [attr.aria-expanded]="themeOpen()" aria-haspopup="listbox" id="docs-theme-btn" title="Select Theme">
+        <span aria-hidden="true">{{ currentThemeIcon() }}</span>
+        <svg class="docs-prefs__chevron" [class.docs-prefs__chevron--open]="themeOpen()" width="12" height="12"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9" />
+        </svg>
+    </button>
+
+    <ul class="docs-prefs__menu" role="listbox" aria-labelledby="docs-theme-btn">
+        @for (theme of themes; track theme.code) {
+        <li class="docs-prefs__item cz-flex cz-items-center cz-gap-sm" role="option"
+            [attr.aria-selected]="activeTheme() === theme.code"
+            [class.docs-prefs__item--active]="activeTheme() === theme.code" (click)="setTheme(theme.code)">
+            <span aria-hidden="true">{{ theme.icon }}</span> {{ theme.label }}
+        </li>
+        }
+    </ul>
+</cz-popover>
+
+<!-- Language picker -->
+<cz-popover [(visible)]="langOpen" position="bottom">
+    <button czPopoverTrigger class="docs-prefs__btn cz-flex cz-items-center cz-gap-xs" czRipple
+        [attr.aria-expanded]="langOpen()" aria-haspopup="listbox" id="docs-lang-btn" title="Select Language">
+        <span aria-hidden="true">{{ currentFlag() }}</span>
+        <svg class="docs-prefs__chevron" [class.docs-prefs__chevron--open]="langOpen()" width="12" height="12"
+            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9" />
+        </svg>
+    </button>
+
+    <ul class="docs-prefs__menu" role="listbox" aria-labelledby="docs-lang-btn">
+        @for (locale of locales; track locale.code) {
+        <li class="docs-prefs__item cz-flex cz-items-center cz-gap-sm" role="option"
+            [attr.aria-selected]="activeLocale() === locale.code"
+            [class.docs-prefs__item--active]="activeLocale() === locale.code" (click)="setLocale(locale.code)">
+            <span aria-hidden="true">{{ locale.flag }}</span> {{ locale.label }}
+        </li>
+        }
+    </ul>
+</cz-popover>

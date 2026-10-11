@@ -51,6 +51,7 @@ import { TOOLTIP_DOC_I18N } from './tooltip-doc.i18n';
                             <tr><td><code>czTooltip</code></td><td><code>string</code></td><td><code>''</code></td><td>Tooltip text.</td></tr>
                             <tr><td><code>tooltipPosition</code></td><td><code>'top' | 'bottom' | 'left' | 'right'</code></td><td><code>'top'</code></td><td>Tooltip position.</td></tr>
                             <tr><td><code>tooltipDisabled</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Disables the tooltip.</td></tr>
+                            <tr><td><code>tooltipZIndex</code></td><td><code>number | 'none' | null</code></td><td><code>null</code></td><td>Tooltip z-index: a number overrides it, <code>'none'</code> keeps it in normal flow, <code>null</code> = theme default (above everything).</td></tr>
                         </tbody>
                     </table>
                 </div>

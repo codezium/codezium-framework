@@ -8,6 +8,7 @@ import {
     DOCUMENT,
 } from '@angular/core';
 import { CzPopoverPosition } from '../popover';
+import { CzOverlayZIndex, czOverlayZIndex } from '../../types';
 
 let nextTooltipId = 0;
 
@@ -38,6 +39,9 @@ export class CzTooltipDirective implements OnDestroy {
 
     /** Disables the tooltip */
     tooltipDisabled = input<boolean>(false);
+
+    /** Tooltip z-index: a number overrides it, 'none' keeps it in normal flow, null = theme default */
+    tooltipZIndex = input<CzOverlayZIndex>(null);
 
     private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
     private readonly renderer = inject(Renderer2);
@@ -85,6 +89,11 @@ export class CzTooltipDirective implements OnDestroy {
 
         this.renderer.setStyle(tooltip, 'left', `${Math.max(offset, left)}px`);
         this.renderer.setStyle(tooltip, 'top', `${Math.max(offset, top)}px`);
+
+        const zIndex = czOverlayZIndex(this.tooltipZIndex());
+        if (zIndex !== null) {
+            this.renderer.setStyle(tooltip, 'z-index', String(zIndex));
+        }
 
         host.setAttribute('aria-describedby', this.tooltipId);
         this.tooltipEl = tooltip;

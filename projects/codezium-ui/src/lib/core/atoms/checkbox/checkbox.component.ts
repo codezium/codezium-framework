@@ -87,6 +87,8 @@ export class CzCheckboxComponent implements ControlValueAccessor, OnInit {
     color = input<CzCheckboxColor>('primary');
     size = input<CzCheckboxSize>('md');
     circle = input<boolean>(false);
+    /** Visually mixed state (partially selected), e.g. for tree propagation */
+    indeterminate = input<boolean>(false);
 
     /** Emit on interaction */
     onChangeEvent = output<CzCheckboxChangeEvent>({ alias: 'onChange' });
@@ -133,6 +135,7 @@ export class CzCheckboxComponent implements ControlValueAccessor, OnInit {
         return {
             'cz-checkbox-box': true,
             'cz-checkbox-box--checked': this.checked(),
+            'cz-checkbox-box--indeterminate': this.indeterminate() && !this.checked(),
             'cz-checkbox-box--focused': this.focused,
             [`cz-checkbox-box--${this.color()}`]: true,
             [`cz-checkbox-box--${this.size()}`]: true,

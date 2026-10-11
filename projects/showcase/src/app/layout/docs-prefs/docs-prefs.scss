@@ -1,0 +1,75 @@
+:host {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+/* Right-align the popover panels (they live at the right edge of the header) */
+:host ::ng-deep .cz-popover-panel[data-position='bottom'] {
+    left: auto;
+    right: 0;
+}
+
+.docs-prefs {
+    &__btn {
+        padding: 6px 10px;
+        height: 40px;
+        background: none;
+        border: none;
+        border-radius: var(--cz-radius-md, 8px);
+        font-size: var(--cz-font-size-sm, 0.875rem);
+        color: var(--cz-theme-text-secondary);
+        cursor: pointer;
+        transition: color 0.15s ease, background 0.15s ease;
+
+        &:hover {
+            color: var(--cz-theme-text-primary);
+            background: var(--cz-theme-surface-hover);
+        }
+
+        &:focus-visible {
+            outline: none;
+            box-shadow: var(--cz-focus-shadow-primary);
+        }
+    }
+
+    &__chevron {
+        opacity: 0.6;
+        transition: transform 0.2s ease;
+
+        &--open {
+            transform: rotate(180deg);
+        }
+    }
+
+    /* Rendered inside the cz-popover panel (which provides chrome) */
+    &__menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    &__item {
+        padding: 9px 10px;
+        border-radius: var(--cz-radius-sm, 6px);
+        font-size: var(--cz-font-size-sm, 0.875rem);
+        color: var(--cz-theme-text-secondary);
+        cursor: pointer;
+        transition: background 0.12s ease, color 0.12s ease;
+
+        &:hover {
+            background: var(--cz-theme-surface-hover);
+            color: var(--cz-theme-text-primary);
+        }
+
+        &--active {
+            color: var(--cz-corp-azul, #2235e4) !important;
+            font-weight: var(--cz-font-weight-medium, 500);
+        }
+    }
+}
+
+/* Cian accent in dark mode */
+:host-context(.dark) .docs-prefs__item--active {
+    color: var(--cz-corp-cian, #00c8ff) !important;
+}

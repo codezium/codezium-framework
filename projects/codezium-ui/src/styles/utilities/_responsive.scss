@@ -38,15 +38,15 @@ $spacings: (
 
 /* Array de tamaños de tipografía ligados a las variables globales core */
 $text-sizes: (
-  "xs": var(--cz-text-xs),
-  "sm": var(--cz-text-sm),
-  "base": var(--cz-text-base),
-  "lg": var(--cz-text-lg),
-  "xl": var(--cz-text-xl),
-  "2xl": var(--cz-text-2xl),
-  "3xl": var(--cz-text-3xl),
-  "4xl": var(--cz-text-4xl),
-  "5xl": var(--cz-text-5xl)
+  "xs": var(--cz-font-size-xs),
+  "sm": var(--cz-font-size-sm),
+  "base": var(--cz-font-size),
+  "lg": var(--cz-font-size-lg),
+  "xl": var(--cz-font-size-xl),
+  "2xl": var(--cz-font-size-2xl),
+  "3xl": var(--cz-font-size-3xl),
+  "4xl": var(--cz-font-size-4xl),
+  "5xl": var(--cz-font-size-5xl)
 );
 
 

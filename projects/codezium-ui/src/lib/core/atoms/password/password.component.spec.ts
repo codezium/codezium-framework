@@ -143,4 +143,53 @@ describe('CzPasswordComponent', () => {
       expect(wrapper).toBeTruthy();
     });
   });
+
+  describe('Label positions', () => {
+    let directFixture: ComponentFixture<CzPasswordComponent>;
+    let directComponent: CzPasswordComponent;
+
+    beforeEach(() => {
+      directFixture = TestBed.createComponent(CzPasswordComponent);
+      directComponent = directFixture.componentInstance;
+    });
+
+    it('should render the static label for labelPosition none', () => {
+      directFixture.componentRef.setInput('label', 'Static');
+      directFixture.detectChanges();
+
+      const label = directFixture.nativeElement.querySelector('.cz-input-label-static');
+      expect(label).toBeTruthy();
+      expect(label.textContent).toContain('Static');
+    });
+
+    it('should render over/in/float labels and the data attribute', () => {
+      directFixture.componentRef.setInput('label', 'Field');
+      directFixture.componentRef.setInput('labelPosition', 'over');
+      directFixture.detectChanges();
+      expect(directFixture.nativeElement.querySelector('.cz-input-label-over')).toBeTruthy();
+
+      directFixture.componentRef.setInput('labelPosition', 'in');
+      directFixture.detectChanges();
+      expect(directFixture.nativeElement.querySelector('.cz-input-label-inner')).toBeTruthy();
+
+      directFixture.componentRef.setInput('labelPosition', 'float');
+      directFixture.detectChanges();
+      expect(directFixture.nativeElement.querySelector('.cz-input-label-inner')).toBeTruthy();
+
+      const wrapper = directFixture.nativeElement.querySelector('.cz-input-wrapper');
+      expect(wrapper.getAttribute('data-label-position')).toBe('float');
+    });
+
+    it('should activate the float label when the control has a value', () => {
+      directFixture.componentRef.setInput('label', 'Password');
+      directFixture.componentRef.setInput('labelPosition', 'float');
+      directFixture.detectChanges();
+
+      directComponent.writeValue('secret');
+      directFixture.detectChanges();
+
+      const container = directFixture.nativeElement.querySelector('.cz-input-container');
+      expect(container.classList.contains('cz-float-active')).toBe(true);
+    });
+  });
 });

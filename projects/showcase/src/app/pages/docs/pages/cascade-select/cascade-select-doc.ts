@@ -53,6 +53,7 @@ import { CASCADE_SELECT_DOC_I18N } from './cascade-select-doc.i18n';
                             <tr><td><code>optionValue</code></td><td><code>string</code></td><td><code>'value'</code></td><td>Property used as value.</td></tr>
                             <tr><td><code>clearable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows the clear button.</td></tr>
                             <tr><td><code>onChange</code></td><td><code>output&lt;&#123; value, originalEvent &#125;&gt;</code></td><td>-</td><td>Emitted on value change.</td></tr>
+                            <tr><td><code>zIndex</code></td><td><code>number | 'none' | null</code></td><td><code>null</code></td><td>Overlay z-index: a number overrides it, <code>'none'</code> keeps it in normal flow, <code>null</code> = theme default (above everything).</td></tr>
                         </tbody>
                     </table>
                 </div>

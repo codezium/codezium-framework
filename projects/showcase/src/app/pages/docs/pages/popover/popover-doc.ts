@@ -62,6 +62,7 @@ import { POPOVER_DOC_I18N } from './popover-doc.i18n';
                             <tr><td><code>position</code></td><td><code>'top' | 'bottom' | 'left' | 'right'</code></td><td><code>'bottom'</code></td><td>Panel position.</td></tr>
                             <tr><td><code>dismissable</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Closes on outside click.</td></tr>
                             <tr><td><code>[czPopoverTrigger]</code></td><td><code>attribute</code></td><td>-</td><td>Marks the trigger element.</td></tr>
+                            <tr><td><code>zIndex</code></td><td><code>number | 'none' | null</code></td><td><code>null</code></td><td>Overlay z-index: a number overrides it, <code>'none'</code> keeps it in normal flow, <code>null</code> = theme default (above everything).</td></tr>
                         </tbody>
                     </table>
                 </div>

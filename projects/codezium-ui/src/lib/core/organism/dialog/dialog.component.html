@@ -1,34 +1,66 @@
-@if (visible()) {
+@if (isVisible()) {
     @if (modal()) {
-        <div class="cz-dialog-mask" (click)="onMaskClick()"></div>
+        <div class="cz-dialog-mask" [style.z-index]="maskZIndex()" (click)="onMaskClick()"></div>
     }
 
-    <div class="cz-dialog-wrapper" [attr.data-position]="position()">
+    <div class="cz-dialog-wrapper" [style.z-index]="wrapperZIndex()" [class.cz-dialog-wrapper--maximized]="maximized()"
+        [attr.data-position]="maximized() ? 'center' : position()">
         <div
             #dialogEl
             class="cz-dialog"
+            [class.cz-dialog--draggable]="draggable()"
+            [class.cz-dialog--resizable]="resizable()"
+            [class.cz-dialog--maximized]="maximized()"
+            [class]="styleClass()"
             role="dialog"
             aria-modal="true"
             tabindex="-1"
             [attr.aria-label]="header() || null"
-            [style.width]="width()"
+            [style.width]="dialogWidth()"
+            [style.height]="dialogHeight()"
+            [style.transform]="transformStyle()"
             [czFocusTrap]="true"
             [focusTrapAutoFocus]="false"
         >
-            @if (header() || closable()) {
-                <div class="cz-dialog-header">
-                    <span class="cz-dialog-title">{{ header() }}</span>
-                    @if (closable()) {
-                        <button type="button" class="cz-dialog-close" aria-label="Close" (click)="close()">
-                            &times;
-                        </button>
-                    }
+            @if (showHeader() && (header() || closable() || maximizable())) {
+                <div class="cz-dialog-header" (pointerdown)="onHeaderPointerDown($event)"
+                    (pointermove)="onHeaderPointerMove($event)" (pointerup)="onHeaderPointerUp()">
+                    <div class="cz-dialog-title">
+                        <ng-content select="[czDialogHeader]" />
+                        @if (header()) {
+                            <span>{{ header() }}</span>
+                        }
+                    </div>
+
+                    <div class="cz-dialog-header-actions">
+                        @if (maximizable()) {
+                            <button type="button" class="cz-dialog-maximize"
+                                [attr.aria-label]="maximized() ? 'Restore' : 'Maximize'" (click)="toggleMaximize()">
+                                <svg [lucideIcon]="maximized() ? MinimizeIcon : MaximizeIcon" [size]="15"></svg>
+                            </button>
+                        }
+                        @if (closable()) {
+                            <button type="button" class="cz-dialog-close" [attr.aria-label]="closeAriaLabel()"
+                                (click)="close()">
+                                &times;
+                            </button>
+                        }
+                    </div>
                 </div>
             }
 
             <div class="cz-dialog-content">
                 <ng-content />
             </div>
+
+            <div class="cz-dialog-footer">
+                <ng-content select="[czDialogFooter]" />
+            </div>
+
+            @if (resizable() && !maximized()) {
+                <span class="cz-dialog-resize-handle" aria-hidden="true" (pointerdown)="onResizePointerDown($event)"
+                    (pointermove)="onResizePointerMove($event)" (pointerup)="onResizePointerUp()"></span>
+            }
         </div>
     </div>
 }

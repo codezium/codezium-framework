@@ -5,7 +5,7 @@
         @if (item.children && item.children.length > 0) {
         <!-- GROUP WITH CHILDREN -->
         <li class="docs-nav__group">
-            <button class="docs-nav__group-btn" [attr.aria-expanded]="isExpanded(item.label)"
+            <button class="docs-nav__group-btn" czRipple [attr.aria-expanded]="isExpanded(item.label)"
                 (click)="toggleGroup(item.label)">
                 @if (item.icon) {
                 <cz-icon class="docs-nav__icon" [icon]="item.icon" [size]="16" aria-hidden="true" />

@@ -26,7 +26,7 @@
 
 .cz-rating-label {
     font-size: var(--cz-rating-label-fs, 0.875rem);
-    color: var(--cz-text-main);
+    color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
     user-select: none;
     line-height: normal;
     display: flex;

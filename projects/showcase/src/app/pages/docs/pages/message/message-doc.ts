@@ -51,6 +51,7 @@ import { MESSAGE_DOC_I18N } from './message-doc.i18n';
                             <tr><td><code>text</code></td><td><code>string</code></td><td><code>''</code></td><td>Message text.</td></tr>
                             <tr><td><code>icon</code></td><td><code>LucideIconInput</code></td><td><code>null</code></td><td>Custom icon.</td></tr>
                             <tr><td><code>closable</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Shows the close button.</td></tr>
+                            <tr><td><code>fromService</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Renders the messages pushed through <code>CzMessageService</code> (see Services).</td></tr>
                             <tr><td><code>onClose</code></td><td><code>output&lt;void&gt;</code></td><td>-</td><td>Emitted when closed.</td></tr>
                         </tbody>
                     </table>

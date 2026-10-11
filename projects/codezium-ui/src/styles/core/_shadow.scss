@@ -92,7 +92,7 @@ $input-focus: (
 
 @each $input in $input-focus {
     .cz-shadow-input-focus-#{$input} {
-        box-shadow: var(--cz-input-focus-#{$input}) !important;
+        box-shadow: var(--cz-focus-shadow-#{$input}) !important;
     }
 }
 

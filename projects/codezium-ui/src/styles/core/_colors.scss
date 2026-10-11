@@ -48,7 +48,10 @@ $standard-palettes: (
     "slate",
     "blue",
     "green",
-    "eucalyptus"
+    "eucalyptus",
+    "cyan",
+    // Cian Intelligence — acento de marca
+    "violet" // Violeta Future — gradientes e IA
 );
 
 @each $palette in $standard-palettes {

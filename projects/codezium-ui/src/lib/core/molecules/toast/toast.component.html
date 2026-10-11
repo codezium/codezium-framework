@@ -1,4 +1,4 @@
-<div class="cz-toast-stack" aria-live="polite" aria-atomic="false">
+<div class="cz-toast-stack" [style.z-index]="stackZIndex()" aria-live="polite" aria-atomic="false">
     @for (message of messages(); track message.id) {
         <div class="cz-toast-item" role="status" [attr.data-severity]="message.severity">
             <svg [lucideIcon]="iconFor(message)" [size]="18" class="cz-toast-icon"></svg>

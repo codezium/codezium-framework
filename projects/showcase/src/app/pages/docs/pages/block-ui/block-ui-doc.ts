@@ -56,6 +56,7 @@ import { BLOCK_UI_DOC_I18N } from './block-ui-doc.i18n';
                             <tr><td><code>blocked</code></td><td><code>boolean (model)</code></td><td><code>false</code></td><td>Blocked state (two-way).</td></tr>
                             <tr><td><code>message</code></td><td><code>string</code></td><td><code>''</code></td><td>Message under the spinner.</td></tr>
                             <tr><td><code>showSpinner</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Shows the spinner.</td></tr>
+                            <tr><td><code>fromService</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Also reacts to <code>CzBlockUIService</code> block/unblock (see Services).</td></tr>
                         </tbody>
                     </table>
                 </div>

@@ -9,8 +9,18 @@
   <link rel="icon" type="image/x-icon" href="icons/favicon.ico" />
   <link rel="icon" type="image/png" href="icons/codezium-icon.png" />
   <link rel="apple-touch-icon" href="icons/codezium-icon.png" />
-  <!-- PrismJS Dark Theme for syntax highlighting -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <!-- Apply saved appearance before Angular boots (avoids dark-mode flash).
+       The theme itself is scoped to the docs content area at runtime. -->
+  <script>
+    (function () {
+      try {
+        var dark = localStorage.getItem('cz-docs-dark');
+        if (dark === null || dark === 'true') {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) { /* noop */ }
+    })();
+  </script>
 </head>
 
 <body>

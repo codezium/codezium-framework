@@ -48,6 +48,7 @@ import { CONFIRM_POPUP_DOC_I18N } from './confirm-popup-doc.i18n';
                             <tr><td><code>cz-confirm-popup</code></td><td><code>component</code></td><td>Renders the active popup confirmation.</td></tr>
                             <tr><td><code>confirmPopup(config, event?)</code></td><td><code>service</code></td><td>Opens the popup at the event coordinates.</td></tr>
                             <tr><td><code>accept / reject</code></td><td><code>config</code></td><td>Callbacks.</td></tr>
+                            <tr><td><code>zIndex</code></td><td><code>number | 'none' | null</code></td><td><code>null</code></td><td>Overlay z-index: a number overrides it, <code>'none'</code> keeps it in normal flow, <code>null</code> = theme default (above everything).</td></tr>
                         </tbody>
                     </table>
                 </div>

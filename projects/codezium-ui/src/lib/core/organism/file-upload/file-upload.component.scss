@@ -20,7 +20,7 @@
 
     &--dragging {
         border-color: var(--cz-color-primary);
-        background: var(--cz-color-primary-50);
+        background: color-mix(in srgb, var(--cz-color-primary) 14%, var(--cz-theme-surface));
     }
 }
 

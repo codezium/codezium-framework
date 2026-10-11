@@ -1,4 +1,5 @@
 import {
+    computed,
     ChangeDetectionStrategy,
     Component,
     input,
@@ -7,7 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideChevronRight, LucideDynamicIcon } from '@lucide/angular';
-import { CzMenuItem } from '../../types';
+import { CzMenuItem, CzOverlayZIndex, czOverlayZIndex } from '../../types';
 
 @Component({
     selector: 'cz-tiered-menu',
@@ -23,6 +24,11 @@ import { CzMenuItem } from '../../types';
 export class CzTieredMenuComponent {
     /** Menu items (nested `items` open as flyout submenus on hover) */
     items = input<CzMenuItem[]>([]);
+    /** Overlay z-index: a number overrides it, 'none' keeps it in normal flow, null = theme default */
+    zIndex = input<CzOverlayZIndex>(null);
+
+    readonly panelZIndex = computed(() => czOverlayZIndex(this.zIndex()));
+
 
     /** Emitted when a leaf item is activated */
     onItemSelect = output<CzMenuItem>();

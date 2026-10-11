@@ -15,8 +15,9 @@ import {
   DOCUMENT,
   ChangeDetectorRef,
   ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
-import { CzIconComponent } from 'codezium-ui';
+import { CzIconComponent, CzRippleDirective, CzTooltipDirective, CzToastService } from 'codezium-ui';
 import { LucideCode } from '@lucide/angular';
 
 /* TIPOS */
@@ -32,7 +33,7 @@ export interface Code {
 
 @Component({
   selector: 'app-code',
-  imports: [CzIconComponent],
+  imports: [CzIconComponent, CzRippleDirective, CzTooltipDirective],
   templateUrl: './code-block.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./code-block.component.scss'],
@@ -42,6 +43,8 @@ export class AppCodeComponent implements AfterViewChecked, OnInit {
   @Input() selector: string = '';
 
   @ViewChildren('codeElement') codeElements!: QueryList<ElementRef<HTMLElement>>;
+
+  private readonly toast = inject(CzToastService);
 
   readonly codeIcon = LucideCode;
   lang!: string;
@@ -131,6 +134,7 @@ export class AppCodeComponent implements AfterViewChecked, OnInit {
     try {
       await navigator.clipboard.writeText(text);
       this.copyTitle = 'Copied';
+      this.toast.success('Copied to clipboard');
       this.cdr.markForCheck();
       setTimeout(() => {
         this.copyTitle = 'Copy';
@@ -138,6 +142,7 @@ export class AppCodeComponent implements AfterViewChecked, OnInit {
       }, 3000);
     } catch {
       this.copyTitle = 'Failed';
+      this.toast.error('Could not copy to clipboard');
       this.cdr.markForCheck();
       setTimeout(() => {
         this.copyTitle = 'Copy';

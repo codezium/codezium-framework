@@ -9,9 +9,9 @@
     --cz-theme-html-bg: var(--cz-color-gray-100);
 
     /* Superficie de los componentes (Tarjetas, Modales, Inputs) translúcida clara */
-    --cz-theme-surface: rgba(255, 255, 255, 0.4);
-    --cz-theme-surface-hover: rgba(255, 255, 255, 0.6);
-    --cz-theme-surface-active: rgba(255, 255, 255, 0.8);
+    --cz-theme-surface: rgba(255, 255, 255, 0.55);
+    --cz-theme-surface-hover: rgba(255, 255, 255, 0.72);
+    --cz-theme-surface-active: rgba(255, 255, 255, 0.9);
 
     /* --- 2. TEXTOS Y TIPOGRAFÍA --- */
     --cz-theme-text-primary: var(--cz-color-gray-900);
@@ -20,7 +20,7 @@
     --cz-theme-text-inverse: var(--cz-color-white);
 
     /* --- 3. BORDES Y SEPARADORES --- */
-    --cz-theme-border-color: rgba(255, 255, 255, 0.5);
+    --cz-theme-border-color: rgba(255, 255, 255, 0.65);
     --cz-theme-border-width: var(--cz-glass-border-width);
     --cz-theme-divider: rgba(0, 0, 0, 0.1);
 
@@ -40,9 +40,9 @@
     --cz-theme-transition-base: var(--cz-transition-glass);
 
     /* --- 7. INPUT COMPONENT TOKENS (Glass Light) --- */
-    --cz-theme-input-bg: rgba(255, 255, 255, 0.35);
-    --cz-theme-input-border: rgba(255, 255, 255, 0.6);
-    --cz-theme-input-border-hover: rgba(255, 255, 255, 0.85);
+    --cz-theme-input-bg: rgba(255, 255, 255, 0.5);
+    --cz-theme-input-border: rgba(255, 255, 255, 0.75);
+    --cz-theme-input-border-hover: rgba(255, 255, 255, 0.95);
     --cz-theme-input-placeholder: rgba(0, 0, 0, 0.35);
     --cz-theme-input-label: rgba(0, 0, 0, 0.55);
     --cz-theme-input-label-active: rgba(0, 0, 0, 0.8);
@@ -51,11 +51,11 @@
 [data-theme="glass"].dark,
 .dark [data-theme="glass"] {
     /* --- DARK MODE --- */
-    --cz-theme-html-bg: var(--cz-dark-navy, #0f172a);
+    --cz-theme-html-bg: var(--cz-dark-navy, #080f1f);
 
-    --cz-theme-surface: var(--cz-color-glass-bg);
-    --cz-theme-surface-hover: rgba(255, 255, 255, 0.15);
-    --cz-theme-surface-active: rgba(255, 255, 255, 0.20);
+    --cz-theme-surface: rgba(17, 29, 56, 0.6);
+    --cz-theme-surface-hover: rgba(51, 65, 85, 0.7);
+    --cz-theme-surface-active: rgba(71, 85, 105, 0.8);
 
     --cz-theme-text-primary: var(--cz-color-white);
     --cz-theme-text-secondary: rgba(255, 255, 255, 0.7);
@@ -69,10 +69,91 @@
     --cz-theme-shadow-hover: var(--cz-shadow-glass);
 
     /* --- 7. INPUT COMPONENT TOKENS (Glass Dark) --- */
-    --cz-theme-input-bg: rgba(255, 255, 255, 0.07);
-    --cz-theme-input-border: rgba(255, 255, 255, 0.18);
-    --cz-theme-input-border-hover: rgba(255, 255, 255, 0.3);
+    --cz-theme-input-bg: rgba(255, 255, 255, 0.1);
+    --cz-theme-input-border: rgba(255, 255, 255, 0.2);
+    --cz-theme-input-border-hover: rgba(255, 255, 255, 0.35);
     --cz-theme-input-placeholder: rgba(255, 255, 255, 0.35);
     --cz-theme-input-label: rgba(255, 255, 255, 0.5);
     --cz-theme-input-label-active: rgba(255, 255, 255, 0.9);
+}
+
+/* ==========================================================================
+   8. COMPONENT SURFACES — frosted glass
+   Every component surface gets the theme blur so translucency never
+   looks like plain transparency. Selectors are global because all
+   components use ViewEncapsulation.None.
+   ========================================================================== */
+
+[data-theme="glass"] {
+    .cz-card,
+    .cz-panel,
+    .cz-dialog,
+    .cz-drawer,
+    .cz-sidebar-container,
+    .cz-select-panel,
+    .cz-autocomplete-panel,
+    .cz-cascade-select-panel,
+    .cz-tree-select-panel,
+    .cz-date-picker-panel,
+    .cz-popover-panel,
+    .cz-command-menu-panel,
+    .cz-context-menu-panel,
+    .cz-mega-menu-panel,
+    .cz-mega-menu-root,
+    .cz-menubar-root,
+    .cz-menubar-dropdown,
+    .cz-tiered-menu-list,
+    .cz-toast-item,
+    .cz-tooltip,
+    .cz-toolbar-container,
+    .cz-table-container,
+    .cz-tree-table-container,
+    .cz-tree-container,
+    .cz-tree-filter-input,
+    .cz-data-view-container,
+    .cz-virtual-scroller-viewport,
+    .cz-listbox-items,
+    .cz-pick-list-panel,
+    .cz-order-list-items,
+    .cz-file-upload-dropzone,
+    .cz-inplace-display,
+    .cz-split-button-menu,
+    .cz-confirm-popup,
+    .cz-org-chart-node,
+    .cz-timeline-card,
+    .cz-carousel-slide,
+    .cz-skeleton,
+    .cz-input-group-addon,
+    .cz-chip,
+    .cz-accordion-trigger,
+    .cz-fieldset-native,
+    .cz-paginator-container {
+        backdrop-filter: var(--cz-theme-backdrop-filter);
+        -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
+    }
+
+    /* The tooltip sits on top of content: keep its own translucent tone */
+    .cz-tooltip {
+        background: rgba(17, 29, 56, 0.85);
+    }
+
+    /* --- Buttons & floating actions: frosted --- */
+    .cz-button .cz-button-native,
+    .cz-speed-dial-trigger,
+    .cz-speed-dial-action,
+    .cz-pick-list-btn,
+    .cz-order-list-btn {
+        backdrop-filter: var(--cz-theme-backdrop-filter);
+        -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
+    }
+
+    .cz-button[data-variant="solid"] .cz-button-native {
+        background: color-mix(in srgb, var(--cz-button-color) 72%, transparent);
+        border: 1px solid color-mix(in srgb, var(--cz-button-color) 40%, transparent);
+    }
+
+    .cz-speed-dial-trigger {
+        background: color-mix(in srgb, var(--cz-speed-dial-color, var(--cz-color-primary)) 72%, transparent);
+        border: 1px solid color-mix(in srgb, var(--cz-speed-dial-color, var(--cz-color-primary)) 40%, transparent);
+    }
 }

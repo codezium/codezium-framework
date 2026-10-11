@@ -1,4 +1,4 @@
-import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
   CzConfirmDialogComponent,
@@ -6,6 +6,7 @@ import {
   CzDynamicDialogComponent,
   CzToastComponent,
 } from 'codezium-ui';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -22,4 +23,9 @@ import {
 })
 export class App {
   protected readonly title = signal('showcase');
+
+  constructor() {
+    // Initialize appearance at boot for every route (dark is the corporate default)
+    inject(ThemeService);
+  }
 }

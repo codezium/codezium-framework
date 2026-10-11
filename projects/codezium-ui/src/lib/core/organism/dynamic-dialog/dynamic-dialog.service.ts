@@ -12,6 +12,24 @@ export interface CzDynamicDialogConfig<T = unknown> {
 
     /** Shows the close button */
     closable?: boolean;
+
+    /** Closes when the mask is clicked */
+    dismissableMask?: boolean;
+
+    /** Closes when Escape is pressed */
+    closeOnEscape?: boolean;
+
+    /** Enables repositioning by dragging the header */
+    draggable?: boolean;
+
+    /** Enables resizing from the bottom-right corner */
+    resizable?: boolean;
+
+    /** Enables the full screen mode toggle */
+    maximizable?: boolean;
+
+    /** Widths per breakpoint, e.g. { '1199px': '75vw' } */
+    breakpoints?: Record<string, string> | null;
 }
 
 export interface CzDynamicDialogRef {

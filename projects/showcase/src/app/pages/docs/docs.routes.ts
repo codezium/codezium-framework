@@ -60,6 +60,58 @@ export const docsRoutes: Routes = [
                 ]
             },
             {
+                path: 'styling',
+                children: [
+                    {
+                        path: '',
+                        redirectTo: 'tokens',
+                        pathMatch: 'full',
+                    },
+                    {
+                        path: 'tokens',
+                        loadComponent: () =>
+                            import('./pages/styling/tokens/tokens-doc').then(m => m.TokensDocPage),
+                        title: 'Design Tokens | Codezium UI Docs',
+                    },
+                    {
+                        path: 'colors',
+                        loadComponent: () =>
+                            import('./pages/styling/colors/colors-doc').then(m => m.ColorsDocPage),
+                        title: 'Colors | Codezium UI Docs',
+                    },
+                    {
+                        path: 'typography',
+                        loadComponent: () =>
+                            import('./pages/styling/typography/typography-doc').then(m => m.TypographyDocPage),
+                        title: 'Typography | Codezium UI Docs',
+                    },
+                    {
+                        path: 'spacing',
+                        loadComponent: () =>
+                            import('./pages/styling/spacing/spacing-doc').then(m => m.SpacingDocPage),
+                        title: 'Spacing | Codezium UI Docs',
+                    },
+                    {
+                        path: 'layout',
+                        loadComponent: () =>
+                            import('./pages/styling/layout/layout-doc').then(m => m.LayoutDocPage),
+                        title: 'Layout | Codezium UI Docs',
+                    },
+                    {
+                        path: 'responsive',
+                        loadComponent: () =>
+                            import('./pages/styling/responsive/responsive-doc').then(m => m.ResponsiveDocPage),
+                        title: 'Responsive | Codezium UI Docs',
+                    },
+                    {
+                        path: 'effects',
+                        loadComponent: () =>
+                            import('./pages/styling/effects/effects-doc').then(m => m.EffectsDocPage),
+                        title: 'Effects | Codezium UI Docs',
+                    },
+                ],
+            },
+            {
                 path: 'components/input-text',
                 loadComponent: () =>
                     import('./pages/input-text/input-text-doc').then(m => m.InputTextDocPage),
@@ -142,6 +194,12 @@ export const docsRoutes: Routes = [
                 loadComponent: () =>
                     import('./pages/button/button-doc').then(m => m.ButtonDocPage),
                 title: 'Button | Codezium UI Docs',
+            },
+            {
+                path: 'components/button-group',
+                loadComponent: () =>
+                    import('./pages/button-group/button-group-doc').then(m => m.ButtonGroupDocPage),
+                title: 'ButtonGroup | Codezium UI Docs',
             },
             {
                 path: 'components/badge',
@@ -616,6 +674,52 @@ export const docsRoutes: Routes = [
                 loadComponent: () =>
                     import('./pages/style-class/style-class-doc').then(m => m.StyleClassDocPage),
                 title: 'StyleClass | Codezium UI Docs',
+            },
+            {
+                path: 'services',
+                children: [
+                    {
+                        path: '',
+                        redirectTo: 'block-ui-service',
+                        pathMatch: 'full',
+                    },
+                    {
+                        path: 'block-ui-service',
+                        loadComponent: () =>
+                            import('./pages/services/block-ui-service/block-ui-service-doc').then(m => m.BlockUIServiceDocPage),
+                        title: 'BlockUIService | Codezium UI Docs',
+                    },
+                    {
+                        path: 'confirmation-service',
+                        loadComponent: () =>
+                            import('./pages/services/confirmation-service/confirmation-service-doc').then(m => m.ConfirmationServiceDocPage),
+                        title: 'ConfirmationService | Codezium UI Docs',
+                    },
+                    {
+                        path: 'dialog-service',
+                        loadComponent: () =>
+                            import('./pages/services/dialog-service/dialog-service-doc').then(m => m.DialogServiceDocPage),
+                        title: 'DialogService | Codezium UI Docs',
+                    },
+                    {
+                        path: 'dynamic-dialog-service',
+                        loadComponent: () =>
+                            import('./pages/services/dynamic-dialog-service/dynamic-dialog-service-doc').then(m => m.DynamicDialogServiceDocPage),
+                        title: 'DynamicDialogService | Codezium UI Docs',
+                    },
+                    {
+                        path: 'message-service',
+                        loadComponent: () =>
+                            import('./pages/services/message-service/message-service-doc').then(m => m.MessageServiceDocPage),
+                        title: 'MessageService | Codezium UI Docs',
+                    },
+                    {
+                        path: 'toast-service',
+                        loadComponent: () =>
+                            import('./pages/services/toast-service/toast-service-doc').then(m => m.ToastServiceDocPage),
+                        title: 'ToastService | Codezium UI Docs',
+                    },
+                ],
             },
         ],
     },

@@ -22,7 +22,7 @@ import { LISTBOX_DOC_I18N } from './listbox-doc.i18n';
             <section>
                 <h2 id="basic">{{ t().basic }}</h2>
                 <p>{{ t().basicDesc }}</p>
-                <div class="cz-grid cz-grid-cols-1 md:cz-grid-cols-2 cz-gap-md cz-mb-md">
+                <div class="cz-grid cz-grid-cols-1 cz-md:grid-cols-2 cz-gap-md cz-mb-md">
                     <cz-listbox [options]="cities" optionLabel="label" optionValue="value" [(ngModel)]="single" ariaLabel="Cities" />
                     <div class="cz-text-sm">Selected: {{ single() ?? '-' }}</div>
                 </div>
@@ -32,7 +32,7 @@ import { LISTBOX_DOC_I18N } from './listbox-doc.i18n';
             <section>
                 <h2 id="multiple">{{ t().multiple }}</h2>
                 <p [innerHTML]="t().multipleDesc"></p>
-                <div class="cz-grid cz-grid-cols-1 md:cz-grid-cols-2 cz-gap-md cz-mb-md">
+                <div class="cz-grid cz-grid-cols-1 cz-md:grid-cols-2 cz-gap-md cz-mb-md">
                     <cz-listbox [options]="cities" optionLabel="label" optionValue="value" [multiple]="true" [(ngModel)]="multi" ariaLabel="Cities" />
                     <div class="cz-text-sm">Selected: {{ multi().join(', ') || '-' }}</div>
                 </div>
@@ -42,7 +42,7 @@ import { LISTBOX_DOC_I18N } from './listbox-doc.i18n';
             <section>
                 <h2 id="filter">{{ t().filter }}</h2>
                 <p [innerHTML]="t().filterDesc"></p>
-                <div class="cz-grid cz-grid-cols-1 md:cz-grid-cols-2 cz-gap-md cz-mb-md">
+                <div class="cz-grid cz-grid-cols-1 cz-md:grid-cols-2 cz-gap-md cz-mb-md">
                     <cz-listbox [options]="cities" optionLabel="label" optionValue="value" [filter]="true" size="sm" [(ngModel)]="single" ariaLabel="Cities" />
                     <cz-listbox [options]="cities" optionLabel="label" optionValue="value" [filter]="true" size="lg" [(ngModel)]="single" ariaLabel="Cities" />
                 </div>

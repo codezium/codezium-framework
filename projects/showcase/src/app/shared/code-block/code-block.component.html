@@ -11,29 +11,30 @@
     <div class="actions">
       @if (showCode) {
       @if (code.html) {
-      <button class="mini-btn" [class.active]="lang === 'html'" (click)="changeLang('html')">HTML</button>
+      <button class="mini-btn" czRipple [class.active]="lang === 'html'" (click)="changeLang('html')">HTML</button>
       }
       @if (code.typescript) {
-      <button class="mini-btn" [class.active]="lang === 'typescript'" (click)="changeLang('typescript')">TS</button>
+      <button class="mini-btn" czRipple [class.active]="lang === 'typescript'" (click)="changeLang('typescript')">TS</button>
       }
       @if (code.scss) {
-      <button class="mini-btn" [class.active]="lang === 'scss'" (click)="changeLang('scss')">SCSS</button>
+      <button class="mini-btn" czRipple [class.active]="lang === 'scss'" (click)="changeLang('scss')">SCSS</button>
       }
       @if (code.data) {
-      <button class="mini-btn" [class.active]="lang === 'data'" (click)="changeLang('data')">DB</button>
+      <button class="mini-btn" czRipple [class.active]="lang === 'data'" (click)="changeLang('data')">DB</button>
       }
       @if (code.command) {
-      <button class="mini-btn" [class.active]="lang === 'command'" (click)="changeLang('command')">SH</button>
+      <button class="mini-btn" czRipple [class.active]="lang === 'command'" (click)="changeLang('command')">SH</button>
       }
       }
 
       <!-- Icon button resembling the < > icon in the user's image -->
-      <button class="icon-btn" [class.active]="showCode" (click)="toggleCode()" title="View Source">
+      <button class="icon-btn" czRipple czTooltip="View source" [class.active]="showCode" (click)="toggleCode()"
+        aria-label="View source">
         <cz-icon [icon]="codeIcon"></cz-icon>
       </button>
 
       <!-- Copy -->
-      <button class="text-btn" title="Copy" (click)="copyCode()">{{ copyTitle }}</button>
+      <button class="text-btn" czRipple czTooltip="Copy" (click)="copyCode()">{{ copyTitle }}</button>
     </div>
   </div>
 

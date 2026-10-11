@@ -50,6 +50,7 @@ import { COMMAND_MENU_DOC_I18N } from './command-menu-doc.i18n';
                             <tr><td><code>items</code></td><td><code>CzMenuItem[]</code></td><td><code>[]</code></td><td>Commands (label, icon, command, badge).</td></tr>
                             <tr><td><code>open()</code> / <code>close()</code></td><td><code>methods</code></td><td>-</td><td>Control the palette programmatically.</td></tr>
                             <tr><td><code>onItemSelect</code></td><td><code>output&lt;CzMenuItem&gt;</code></td><td>-</td><td>Emitted when a command is selected.</td></tr>
+                            <tr><td><code>zIndex</code></td><td><code>number | 'none' | null</code></td><td><code>null</code></td><td>Overlay z-index: a number overrides it, <code>'none'</code> keeps it in normal flow, <code>null</code> = theme default (above everything).</td></tr>
                         </tbody>
                     </table>
                 </div>

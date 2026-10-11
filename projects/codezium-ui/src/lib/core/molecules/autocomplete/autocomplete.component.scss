@@ -22,7 +22,7 @@
 
   /* Provide space for the animated over label to go outside the box */
   &[data-label-position="over"] {
-    margin-top: calc(var(--cz-text-sm) + var(--cz-spacing-xs));
+    margin-top: calc(var(--cz-font-size-sm) + var(--cz-spacing-xs));
   }
 
   /* Label NONE: etiqueta estática simple, sin animaciones */
@@ -82,7 +82,7 @@
       top: 50%;
       transform: translateY(-50%);
       color: var(--cz-theme-input-label, var(--cz-color-gray-500));
-      font-size: var(--cz-text-base);
+      font-size: var(--cz-font-size);
       margin: 0;
     }
 
@@ -91,7 +91,7 @@
       left: var(--cz-spacing-md);
       top: 50%;
       transform: translateY(-50%);
-      font-size: var(--cz-text-base);
+      font-size: var(--cz-font-size);
       font-weight: 400;
       color: var(--cz-theme-input-label, var(--cz-color-gray-500));
     }
@@ -100,7 +100,7 @@
   /* Tamaños (Sizes) */
   &[data-size="sm"] {
     .cz-autocomplete-native {
-      font-size: var(--cz-text-sm);
+      font-size: var(--cz-font-size-sm);
       padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
     }
 
@@ -112,7 +112,7 @@
 
   &[data-size="md"] {
     .cz-autocomplete-native {
-      font-size: var(--cz-text-base);
+      font-size: var(--cz-font-size);
       padding: var(--cz-spacing-sm) var(--cz-spacing-md);
     }
 
@@ -124,7 +124,7 @@
 
   &[data-size="lg"] {
     .cz-autocomplete-native {
-      font-size: var(--cz-text-lg);
+      font-size: var(--cz-font-size-lg);
       padding: var(--cz-spacing-md) var(--cz-spacing-lg);
     }
 
@@ -160,7 +160,7 @@
     .cz-autocomplete-label-over {
       top: -0.5rem;
       left: 0;
-      font-size: var(--cz-text-sm);
+      font-size: var(--cz-font-size-sm);
       font-weight: 500;
       color: var(--cz-theme-input-label-active, var(--cz-color-gray-900));
       transform: translateY(-100%);
@@ -233,7 +233,7 @@
     .cz-autocomplete-label-inner {
       top: var(--cz-spacing-sm);
       transform: none;
-      font-size: var(--cz-text-base);
+      font-size: var(--cz-font-size);
       color: var(--cz-theme-input-label, var(--cz-color-gray-500));
       transition: font-size 0.2s ease, color 0.2s ease;
     }
@@ -256,7 +256,7 @@
     /* Estado inicial: label GRANDE centrado como placeholder */
     .cz-autocomplete-label-inner {
       top: 50%;
-      font-size: var(--cz-text-base);
+      font-size: var(--cz-font-size);
       color: var(--cz-theme-input-label, var(--cz-color-gray-500));
       transition: all 0.2s ease;
     }
@@ -594,7 +594,7 @@
 
     /* Focus: borde primary + ring glass */
     &.cz-autocomplete-focused .cz-autocomplete-container {
-      background: rgba(255, 255, 255, 0.55) !important;
+      background: var(--cz-theme-surface-hover) !important;
       border-color: var(--cz-color-primary) !important;
       box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.8),
@@ -643,7 +643,7 @@
 
     /* Float label activo en dark glass: fondo oscuro con blur */
     .cz-autocomplete-container.cz-float-active .cz-autocomplete-label-inner {
-      background: rgba(15, 23, 42, 0.75);
+      background: var(--cz-theme-surface);
       color: var(--cz-theme-input-label-active, rgba(255, 255, 255, 0.9));
     }
 
@@ -654,19 +654,19 @@
 
   /* Glass Panel Overlay */
   .cz-autocomplete-panel {
-    background-color: var(--cz-theme-input-bg, rgba(255, 255, 255, 0.131));
-    border: 1px solid var(--cz-theme-input-border, rgba(255, 255, 255, 0.6));
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background-color: var(--cz-theme-surface);
+    border: 1px solid var(--cz-theme-border-color);
+    backdrop-filter: var(--cz-theme-backdrop-filter);
+    -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
     box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
   }
 
   &.dark .cz-autocomplete-panel,
   .dark & .cz-autocomplete-panel {
-    background-color: var(--cz-theme-input-bg, rgba(15, 23, 42, 0.75));
-    border-color: var(--cz-theme-input-border, rgba(255, 255, 255, 0.18));
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background-color: var(--cz-theme-surface);
+    border-color: var(--cz-theme-border-color);
+    backdrop-filter: var(--cz-theme-backdrop-filter);
+    -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   }
 }
@@ -771,7 +771,7 @@ $cz-input-colors: (
   border: 1px solid var(--cz-theme-border-color, #e5e7eb);
   border-radius: var(--cz-theme-radius-base);
   box-shadow: var(--cz-shadow-lg);
-  z-index: 1000;
+  z-index: var(--cz-z-glass-overlay, 1000);
   max-height: 200px;
   overflow-y: auto;
   opacity: 0;

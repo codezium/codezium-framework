@@ -9,9 +9,20 @@
 
 .cz-speed-dial-container {
     display: inline-flex;
+    position: relative;
+}
+
+.cz-speed-dial-mask {
+    position: fixed;
+    inset: 0;
+    z-index: calc(var(--cz-z-glass-overlay, 1000) - 1);
+    background: rgba(8 15 31 / 0.35);
+    animation: cz-speed-dial-mask-enter 0.15s ease-out;
 }
 
 .cz-speed-dial-trigger {
+    position: relative;
+    z-index: calc(var(--cz-z-glass-overlay, 1000) + 1);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -20,59 +31,104 @@
     padding: 0;
     border: none;
     border-radius: 50%;
-    background: var(--cz-color-primary);
+    background: var(--cz-speed-dial-color, var(--cz-color-primary));
     color: var(--cz-color-white);
     cursor: pointer;
     box-shadow: var(--cz-shadow-lg);
-    transition: var(--cz-transition-transform);
+    transition: transform 0.2s ease, background 0.15s ease;
 
-    &:hover {
+    &[data-severity="primary"] { --cz-speed-dial-color: var(--cz-color-primary); }
+    &[data-severity="secondary"] { --cz-speed-dial-color: var(--cz-color-secondary); }
+    &[data-severity="success"] { --cz-speed-dial-color: var(--cz-color-success); }
+    &[data-severity="info"] { --cz-speed-dial-color: var(--cz-color-info); }
+    &[data-severity="warning"] { --cz-speed-dial-color: var(--cz-color-warning); }
+    &[data-severity="danger"] { --cz-speed-dial-color: var(--cz-color-danger); }
+    &[data-severity="dark"] { --cz-speed-dial-color: var(--cz-color-gray-900); }
+
+    &:hover:not(:disabled) {
         filter: brightness(0.95);
     }
 
-    &.cz-speed-dial-trigger--open {
+    &:disabled {
+        opacity: var(--cz-input-disabled-opacity, 0.5);
+        cursor: not-allowed;
+    }
+
+    &--rotated {
         transform: rotate(45deg);
     }
 }
 
+/* --- Actions list --- */
 .cz-speed-dial-actions {
     position: absolute;
+    z-index: var(--cz-z-glass-overlay, 1000);
     display: flex;
     gap: var(--cz-spacing-sm);
     margin: 0;
     padding: 0;
     list-style: none;
-    animation: cz-speed-dial-enter 0.15s ease-out;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease-out;
+
+    &--visible {
+        opacity: 1;
+        pointer-events: auto;
+    }
 }
 
-.cz-speed-dial[data-direction="up"] .cz-speed-dial-actions {
+/* --- Linear layout --- */
+.cz-speed-dial[data-type="linear"][data-direction="up"] .cz-speed-dial-actions {
     bottom: calc(100% + var(--cz-spacing-sm));
     left: 50%;
     transform: translateX(-50%);
     flex-direction: column-reverse;
 }
 
-.cz-speed-dial[data-direction="down"] .cz-speed-dial-actions {
+.cz-speed-dial[data-type="linear"][data-direction="down"] .cz-speed-dial-actions {
     top: calc(100% + var(--cz-spacing-sm));
     left: 50%;
     transform: translateX(-50%);
     flex-direction: column;
 }
 
-.cz-speed-dial[data-direction="left"] .cz-speed-dial-actions {
+.cz-speed-dial[data-type="linear"][data-direction="left"] .cz-speed-dial-actions {
     right: calc(100% + var(--cz-spacing-sm));
     top: 50%;
     transform: translateY(-50%);
     flex-direction: row-reverse;
 }
 
-.cz-speed-dial[data-direction="right"] .cz-speed-dial-actions {
+.cz-speed-dial[data-type="linear"][data-direction="right"] .cz-speed-dial-actions {
     left: calc(100% + var(--cz-spacing-sm));
     top: 50%;
     transform: translateY(-50%);
     flex-direction: row;
 }
 
+/* --- Radial layouts (circle, semi-circle, quarter-circle) --- */
+.cz-speed-dial:not([data-type="linear"]) .cz-speed-dial-actions {
+    top: 50%;
+    left: 50%;
+    display: block;
+}
+
+.cz-speed-dial:not([data-type="linear"]) .cz-speed-dial-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* center the 2.5rem action on the offset point */
+    margin: -1.25rem 0 0 -1.25rem;
+    opacity: 0;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+.cz-speed-dial:not([data-type="linear"]) .cz-speed-dial-actions--visible .cz-speed-dial-item {
+    opacity: 1;
+}
+
+/* --- Action button --- */
 .cz-speed-dial-action {
     display: inline-flex;
     align-items: center;
@@ -88,7 +144,7 @@
     box-shadow: var(--cz-shadow-md);
 
     &:hover:not(:disabled) {
-        background: var(--cz-color-primary-50);
+        background: color-mix(in srgb, var(--cz-color-primary) 14%, var(--cz-theme-surface));
         color: var(--cz-color-primary);
     }
 
@@ -98,7 +154,7 @@
     }
 }
 
-@keyframes cz-speed-dial-enter {
+@keyframes cz-speed-dial-mask-enter {
     from {
         opacity: 0;
     }

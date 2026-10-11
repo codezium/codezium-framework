@@ -88,7 +88,7 @@
 }
 
 .cz-radio-label {
-    font-size: var(--cz-text-base, 1rem);
+    font-size: var(--cz-font-size, 1rem);
     color: var(--cz-theme-text-primary, #111827);
     cursor: pointer;
 }
@@ -99,12 +99,12 @@
     
     .cz-radio-helper {
         color: var(--cz-theme-text-muted, #6b7280);
-        font-size: var(--cz-text-xs, 0.75rem);
+        font-size: var(--cz-font-size-xs, 0.75rem);
     }
     
     .cz-radio-error {
         color: var(--cz-color-danger, #ef4444);
-        font-size: var(--cz-text-xs, 0.75rem);
+        font-size: var(--cz-font-size-xs, 0.75rem);
     }
 }
 

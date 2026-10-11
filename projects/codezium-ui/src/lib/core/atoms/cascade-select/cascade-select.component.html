@@ -24,7 +24,7 @@
     </div>
 
     @if (isOpen()) {
-        <div class="cz-cascade-select-panel">
+        <div class="cz-cascade-select-panel" [style.z-index]="panelZIndex()">
             <div class="cz-cascade-select-columns">
                 @for (column of columns(); track $index; let colIndex = $index) {
                     <ul class="cz-cascade-select-column" role="listbox">

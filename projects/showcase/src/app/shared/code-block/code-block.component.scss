@@ -1,14 +1,14 @@
-// 🎨 Variables
-$font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Liberation Mono, monospace;
+// 🎨 Variables — Codezium corporate palette
+$font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, Liberation Mono, monospace;
 $color-text-main: #e2e8f0; // Slate 200
 $color-text-light: #94a3b8; // Slate 400
-$color-accent: #38bdf8; // Sky 400
+$color-accent: #00c8ff; // Cian Intelligence
 
 $border-radius-sm: 6px;
 $border-radius-md: 10px;
 
-$bg-dark: #0f172a; // Slate 900 (code body)
-$bg-doc-code: #1e293b; // Slate 800 (header)
+$bg-dark: #080f1f; // Midnight (code body)
+$bg-doc-code: #111d38; // Deep Navy (header)
 
 // 🖌 Estilos
 :host {

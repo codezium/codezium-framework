@@ -41,10 +41,10 @@
 [data-theme="neo"].dark,
 .dark [data-theme="neo"] {
     /* --- DARK MODE --- */
-    --cz-theme-html-bg: var(--cz-navy, #1e293b);
-    --cz-theme-surface: var(--cz-navy, #1e293b);
-    --cz-theme-surface-hover: var(--cz-navy, #1e293b);
-    --cz-theme-surface-active: var(--cz-navy, #1e293b);
+    --cz-theme-html-bg: var(--cz-navy, #111d38);
+    --cz-theme-surface: var(--cz-navy, #111d38);
+    --cz-theme-surface-hover: var(--cz-navy, #111d38);
+    --cz-theme-surface-active: var(--cz-navy, #111d38);
 
     --cz-theme-text-primary: var(--cz-color-white);
     --cz-theme-text-secondary: var(--cz-slate-300);
@@ -57,4 +57,353 @@
     /* Dark neomorphism shadows: highlight with faint light, shadow with deep black */
     --cz-theme-shadow-base: 6px 6px 12px rgba(0, 0, 0, 0.5), -6px -6px 12px rgba(255, 255, 255, 0.05);
     --cz-theme-shadow-hover: inset 6px 6px 12px rgba(0, 0, 0, 0.5), inset -6px -6px 12px rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================================
+   8. NEO EXTRUSION TOKENS — raised / pressed helpers (light + dark)
+   ========================================================================== */
+
+[data-theme="neo"] {
+    --cz-neo-raised: 6px 6px 12px var(--cz-neo-shadow-dark), -6px -6px 12px var(--cz-neo-shadow-light);
+    --cz-neo-pressed: inset 4px 4px 8px var(--cz-neo-shadow-dark), inset -4px -4px 8px var(--cz-neo-shadow-light);
+    --cz-neo-flat: 3px 3px 7px var(--cz-neo-shadow-dark), -3px -3px 7px var(--cz-neo-shadow-light);
+}
+
+[data-theme="neo"].dark,
+.dark [data-theme="neo"] {
+    --cz-neo-raised: 6px 6px 12px rgba(0, 0, 0, 0.5), -6px -6px 12px rgba(255, 255, 255, 0.05);
+    --cz-neo-pressed: inset 5px 5px 12px rgba(0, 0, 0, 0.55), inset -3px -3px 8px rgba(255, 255, 255, 0.06);
+    --cz-neo-flat: 3px 3px 8px rgba(0, 0, 0, 0.45), -3px -3px 8px rgba(255, 255, 255, 0.04);
+}
+
+/* ==========================================================================
+   9. COMPONENT SURFACES — soft extrusion
+   Selectors are global because all components use ViewEncapsulation.None.
+   ========================================================================== */
+
+[data-theme="neo"] {
+    .cz-card,
+    .cz-panel,
+    .cz-dialog,
+    .cz-drawer,
+    .cz-sidebar-container,
+    .cz-select-panel,
+    .cz-autocomplete-panel,
+    .cz-cascade-select-panel,
+    .cz-tree-select-panel,
+    .cz-date-picker-panel,
+    .cz-popover-panel,
+    .cz-command-menu-panel,
+    .cz-context-menu-panel,
+    .cz-mega-menu-panel,
+    .cz-mega-menu-root,
+    .cz-menubar-root,
+    .cz-menubar-dropdown,
+    .cz-tiered-menu-list,
+    .cz-toast-item,
+    .cz-toolbar-container,
+    .cz-table-container,
+    .cz-tree-table-container,
+    .cz-tree-container,
+    .cz-data-view-container,
+    .cz-virtual-scroller-viewport,
+    .cz-listbox-items,
+    .cz-pick-list-panel,
+    .cz-order-list-items,
+    .cz-file-upload-dropzone,
+    .cz-inplace-display,
+    .cz-split-button-menu,
+    .cz-confirm-popup,
+    .cz-org-chart-node,
+    .cz-timeline-card,
+    .cz-carousel-slide,
+    .cz-fieldset-native,
+    .cz-accordion-trigger,
+    .cz-input-group-addon {
+        background: var(--cz-theme-surface);
+        border: none;
+        box-shadow: var(--cz-neo-raised);
+    }
+
+    /* --- Buttons: neomorphic raised, pressed when active --- */
+    .cz-button .cz-button-native {
+        border: none;
+        box-shadow: var(--cz-neo-raised);
+        background: var(--cz-theme-surface);
+        color: var(--cz-button-color);
+    }
+
+    .cz-button[data-variant="solid"] .cz-button-native {
+        background: color-mix(in srgb, var(--cz-button-color) 14%, var(--cz-theme-surface));
+        color: color-mix(in srgb, var(--cz-button-color) 85%, var(--cz-theme-text-primary));
+    }
+
+    .cz-button .cz-button-native:hover:not(:disabled) {
+        filter: none;
+        box-shadow: var(--cz-neo-raised);
+    }
+
+    .cz-button .cz-button-native:active:not(:disabled) {
+        box-shadow: var(--cz-neo-pressed);
+    }
+
+    /* --- Button group: one raised pill, flat halves --- */
+    .cz-button-group {
+        border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+        box-shadow: var(--cz-neo-raised);
+
+        .cz-button .cz-button-native {
+            box-shadow: none;
+
+            &:active:not(:disabled) {
+                box-shadow: var(--cz-neo-pressed);
+            }
+        }
+    }
+
+    /* --- Data view: neomorphic sort toggle --- */
+    .cz-data-view-sort {
+        background: var(--cz-theme-surface);
+        border: none;
+        box-shadow: var(--cz-neo-flat);
+
+        &:active {
+            box-shadow: var(--cz-neo-pressed);
+        }
+    }
+
+    /* --- Table: flat header on the raised surface, tinted row hover --- */
+    .cz-table-native thead th,
+    .cz-tree-table-native thead th {
+        background: var(--cz-theme-surface);
+    }
+
+    .cz-table-row--selectable:hover,
+    .cz-table-row:hover,
+    .cz-tree-table-row--selectable:hover {
+        background: color-mix(in srgb, var(--cz-color-primary) 8%, var(--cz-theme-surface));
+    }
+
+    .cz-table--striped .cz-table-row:nth-child(even),
+    .cz-tree-table--striped .cz-tree-table-row:nth-child(even) {
+        background: color-mix(in srgb, var(--cz-theme-text-primary) 4%, var(--cz-theme-surface));
+    }
+
+    /* --- List control buttons (order list & pick list) --- */
+    .cz-pick-list-btn,
+    .cz-order-list-btn {
+        border: none;
+        background: var(--cz-theme-surface);
+        box-shadow: var(--cz-neo-flat);
+
+        &:active:not(:disabled) {
+            box-shadow: var(--cz-neo-pressed);
+        }
+    }
+
+    /* --- Tabs: raised pills, active pressed --- */
+    .cz-tabs-header {
+        border-bottom: none;
+        gap: var(--cz-spacing-sm);
+    }
+
+    .cz-tabs-tab {
+        border: none;
+        border-radius: var(--cz-theme-radius-base);
+        background: var(--cz-theme-surface);
+        box-shadow: var(--cz-neo-flat);
+    }
+
+    .cz-tabs-tab.cz-tabs-tab--active {
+        border-bottom-color: transparent;
+        box-shadow: var(--cz-neo-pressed);
+        color: var(--cz-color-primary);
+    }
+
+    /* --- Paginator: one raised pill, flat buttons, pressed active page --- */
+    .cz-paginator-pages {
+        padding: 4px;
+        border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+        background: var(--cz-theme-surface);
+        box-shadow: var(--cz-neo-raised);
+    }
+
+    .cz-paginator-page,
+    .cz-paginator-nav {
+        border: none;
+        background: transparent;
+        box-shadow: none;
+        border-radius: var(--cz-radius-sm, 6px);
+    }
+
+    .cz-paginator-page:hover:not(:disabled),
+    .cz-paginator-nav:hover:not(:disabled) {
+        background: color-mix(in srgb, var(--cz-color-primary) 10%, transparent);
+        box-shadow: none;
+    }
+
+    .cz-paginator-page--active,
+    .cz-paginator-page.cz-paginator-page--active {
+        background: var(--cz-theme-surface);
+        box-shadow: var(--cz-neo-pressed);
+        color: var(--cz-color-primary);
+    }
+
+    .cz-paginator-rows {
+        border: none;
+        background: var(--cz-theme-surface);
+        box-shadow: var(--cz-neo-raised);
+        border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+    }
+
+    /* --- Small surfaces that would blend into the background --- */
+    .cz-progress-bar-track {
+        background: var(--cz-theme-surface);
+        box-shadow: var(--cz-neo-pressed);
+    }
+
+    .cz-avatar {
+        box-shadow: var(--cz-neo-flat);
+    }
+
+    .cz-chip {
+        background: var(--cz-theme-surface);
+        box-shadow: var(--cz-neo-flat);
+    }
+
+    .cz-input-otp-input,
+    .cz-input-tags-container {
+        background: var(--cz-theme-surface);
+        border: none;
+        box-shadow: var(--cz-neo-flat);
+    }
+
+    /* --- Interactive list items: pressed feedback --- */
+    .cz-listbox-item:hover,
+    .cz-menu-link:hover,
+    .cz-context-menu-link:hover,
+    .cz-mega-menu-link:hover,
+    .cz-menubar-link:hover,
+    .cz-tiered-menu-link:hover,
+    .cz-select-item:hover,
+    .cz-select-item-hovered,
+    .cz-cascade-select-option--hovered,
+    .cz-tree-select-node:hover,
+    .cz-tree-node:hover,
+    .cz-split-button-item:hover:not(:disabled) {
+        background: var(--cz-theme-surface);
+        box-shadow: var(--cz-neo-pressed);
+    }
+
+    /* --- Virtual scroller: flat rows on the raised surface --- */
+    .cz-virtual-scroller-item {
+        border-bottom: none;
+
+        &:hover {
+            background: color-mix(in srgb, var(--cz-color-primary) 6%, var(--cz-theme-surface));
+        }
+    }
+
+    /* --- Tree: flat raised toggler, inset filter --- */
+    .cz-tree-toggle {
+        border: none;
+        background: var(--cz-theme-surface);
+        box-shadow: var(--cz-neo-flat);
+
+        &:hover {
+            background: var(--cz-theme-surface);
+            box-shadow: var(--cz-neo-pressed);
+            color: var(--cz-color-primary);
+        }
+    }
+
+    .cz-tree-filter-input {
+        border: none;
+        background: var(--cz-theme-surface);
+        box-shadow: var(--cz-neo-pressed);
+
+        &:focus {
+            border: none;
+            box-shadow: var(--cz-neo-pressed), 0 0 0 3px color-mix(in srgb, var(--cz-color-primary) 20%, transparent);
+        }
+    }
+
+    /* --- Split button: one raised pill, pressed halves --- */
+    .cz-split-button-container {
+        border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+        box-shadow: var(--cz-neo-raised);
+    }
+
+    .cz-split-button-main,
+    .cz-split-button-toggle {
+        background: var(--cz-theme-surface);
+        color: color-mix(in srgb, var(--cz-split-color, var(--cz-color-primary)) 85%, var(--cz-theme-text-primary));
+        border: none;
+        box-shadow: none;
+
+        &:hover:not(:disabled) {
+            filter: none;
+        }
+
+        &:active:not(:disabled) {
+            box-shadow: var(--cz-neo-pressed);
+        }
+    }
+
+    .cz-split-button-toggle {
+        border-left: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+    }
+
+    /* --- Speed dial: neomorphic trigger and actions --- */
+    .cz-speed-dial-trigger {
+        background: var(--cz-theme-surface);
+        color: color-mix(in srgb, var(--cz-speed-dial-color, var(--cz-color-primary)) 85%, var(--cz-theme-text-primary));
+        border: none;
+        box-shadow: var(--cz-neo-raised);
+
+        &:hover:not(:disabled) {
+            filter: none;
+        }
+
+        &:active:not(:disabled) {
+            box-shadow: var(--cz-neo-pressed);
+        }
+    }
+
+    .cz-speed-dial-action {
+        background: var(--cz-theme-surface);
+        box-shadow: var(--cz-neo-flat);
+
+        &:hover:not(:disabled) {
+            background: var(--cz-theme-surface);
+            box-shadow: var(--cz-neo-pressed);
+            color: var(--cz-color-primary);
+        }
+    }
+}
+
+/* Dark neo: lift severity colors so they stay legible on the dark surface */
+[data-theme="neo"].dark,
+.dark [data-theme="neo"] {
+    .cz-button .cz-button-native {
+        color: color-mix(in srgb, var(--cz-button-color) 55%, #ffffff);
+    }
+
+    .cz-button[data-variant="solid"] .cz-button-native {
+        color: color-mix(in srgb, var(--cz-button-color) 70%, #ffffff);
+    }
+
+    .cz-paginator-page--active,
+    .cz-paginator-page.cz-paginator-page--active {
+        color: color-mix(in srgb, var(--cz-color-primary) 55%, #ffffff);
+    }
+
+    .cz-speed-dial-trigger {
+        color: color-mix(in srgb, var(--cz-speed-dial-color, var(--cz-color-primary)) 55%, #ffffff);
+    }
+
+    .cz-split-button-main,
+    .cz-split-button-toggle {
+        color: color-mix(in srgb, var(--cz-split-color, var(--cz-color-primary)) 55%, #ffffff);
+    }
 }

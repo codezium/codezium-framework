@@ -93,7 +93,8 @@
 
   <!-- OVERLAY PANEL -->
   <div 
-    class="cz-autocomplete-panel" 
+    class="cz-autocomplete-panel"
+    [style.z-index]="panelZIndex()" 
     [class.cz-autocomplete-panel-visible]="overlayVisible()"
     (mousedown)="onOverlayMouseDown($event)"
   >

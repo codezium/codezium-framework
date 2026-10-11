@@ -36,7 +36,7 @@ import { BASE_THEME_I18N } from './base.i18n';
                         <tr>
                             <td><code>--cz-theme-surface</code></td>
                             <td><div class="cz-flex cz-items-center cz-gap-sm"><div class="cz-w-4 cz-h-4 cz-rounded-sm cz-border cz-border-light" style="background-color: #ffffff"></div>var(--cz-color-white)</div></td>
-                            <td><div class="cz-flex cz-items-center cz-gap-sm"><div class="cz-w-4 cz-h-4 cz-rounded-sm cz-border cz-border-light" style="background-color: #1e293b"></div>var(--cz-navy)</div></td>
+                            <td><div class="cz-flex cz-items-center cz-gap-sm"><div class="cz-w-4 cz-h-4 cz-rounded-sm cz-border cz-border-light" style="background-color: #111d38"></div>var(--cz-navy)</div></td>
                             <td>{{ t().variables.surface.desc }}</td>
                         </tr>
                         <tr>

@@ -69,7 +69,7 @@ import { RATING_DOC_I18N } from './rating-doc.i18n';
             <!-- ── THEMES ── -->
             <section>
                 <h2 id="themes">{{ t().neoTheme }} / {{ t().glassTheme }}</h2>
-                <div class="cz-grid cz-grid-cols-1 md:cz-grid-cols-2 cz-gap-md cz-mb-md">
+                <div class="cz-grid cz-grid-cols-1 cz-md:grid-cols-2 cz-gap-md cz-mb-md">
                     <div class="cz-p-md cz-border cz-rounded-lg" data-theme="neo">
                         <small class="cz-text-muted cz-mb-sm cz-display-block">Neo Theme</small>
                         <cz-rating [(ngModel)]="val3" />

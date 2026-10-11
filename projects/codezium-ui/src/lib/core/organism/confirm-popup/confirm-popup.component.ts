@@ -3,9 +3,11 @@ import {
     Component,
     computed,
     inject,
+    input,
     ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CzOverlayZIndex, czOverlayZIndex } from '../../types';
 import { CzButtonComponent } from '../../atoms/button';
 import { CzConfirmationService } from '../confirmation';
 
@@ -28,6 +30,11 @@ export class CzConfirmPopupComponent {
     readonly position = this.service.popupPosition;
 
     readonly visible = computed(() => !!this.config() && this.service.mode() === 'popup');
+
+    /** Overlay z-index: a number overrides it, 'none' keeps it in normal flow, null = theme default */
+    zIndex = input<CzOverlayZIndex>(null);
+
+    readonly panelZIndex = computed(() => czOverlayZIndex(this.zIndex()));
 
     accept(): void {
         this.service.accept();

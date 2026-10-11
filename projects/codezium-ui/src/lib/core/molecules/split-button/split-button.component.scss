@@ -50,7 +50,7 @@
 .cz-split-button-toggle {
     border-start-end-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
     border-end-end-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
-    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 1px solid color-mix(in srgb, currentColor 30%, transparent);
 }
 
 .cz-split-button[data-size="sm"] .cz-split-button-main,

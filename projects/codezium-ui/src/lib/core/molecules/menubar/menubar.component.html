@@ -21,7 +21,8 @@
             </button>
 
             @if (item.items?.length && openIndex() === i) {
-                <ul class="cz-menubar-dropdown" role="menu">
+                <ul class="cz-menubar-dropdown"
+                [style.z-index]="panelZIndex()" role="menu">
                     @for (child of item.items; track $index) {
                         @if (child.separator) {
                             <li class="cz-menubar-separator" role="separator"></li>

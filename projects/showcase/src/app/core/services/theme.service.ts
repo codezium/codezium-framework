@@ -16,6 +16,7 @@ export const APP_THEMES: ThemeConfig[] = [
 ];
 
 const THEME_STORAGE_KEY = 'cz-theme';
+const DARK_STORAGE_KEY = 'cz-docs-dark';
 
 @Injectable({
     providedIn: 'root'
@@ -24,30 +25,41 @@ export class ThemeService {
     private platformId = inject(PLATFORM_ID);
     readonly currentTheme = signal<AppTheme>('base');
 
+    /** Dark mode — Midnight is the default corporate appearance */
+    readonly isDark = signal<boolean>(true);
+
     constructor() {
         if (isPlatformBrowser(this.platformId)) {
             const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as AppTheme | null;
             if (savedTheme && ['base', 'glass', 'neo'].includes(savedTheme)) {
-                this.setTheme(savedTheme, false);
-            } else {
-                // Default theme apply without saving to storage explicitly yet
-                this.applyThemeToDocument('base');
+                this.currentTheme.set(savedTheme);
             }
+
+            const savedDark = localStorage.getItem(DARK_STORAGE_KEY);
+            this.setDarkMode(savedDark === null ? true : savedDark === 'true', false);
         }
     }
 
     setTheme(theme: AppTheme, saveToStorage = true): void {
         this.currentTheme.set(theme);
 
+        if (isPlatformBrowser(this.platformId) && saveToStorage) {
+            localStorage.setItem(THEME_STORAGE_KEY, theme);
+        }
+    }
+
+    setDarkMode(isDark: boolean, saveToStorage = true): void {
+        this.isDark.set(isDark);
+
         if (isPlatformBrowser(this.platformId)) {
-            this.applyThemeToDocument(theme);
+            document.documentElement.classList.toggle('dark', isDark);
             if (saveToStorage) {
-                localStorage.setItem(THEME_STORAGE_KEY, theme);
+                localStorage.setItem(DARK_STORAGE_KEY, String(isDark));
             }
         }
     }
 
-    private applyThemeToDocument(theme: AppTheme): void {
-        document.documentElement.setAttribute('data-theme', theme);
+    toggleDarkMode(): void {
+        this.setDarkMode(!this.isDark());
     }
 }

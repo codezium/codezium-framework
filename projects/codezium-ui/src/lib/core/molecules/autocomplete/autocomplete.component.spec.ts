@@ -214,4 +214,53 @@ describe('CzAutocompleteComponent', () => {
     const inputEl = readonlyFixture.debugElement.query(By.css('input')).nativeElement;
     expect(inputEl.readOnly).toBe(true);
   });
+
+  describe('Label positions', () => {
+    let directFixture: ComponentFixture<CzAutocompleteComponent>;
+    let directComponent: CzAutocompleteComponent;
+
+    beforeEach(() => {
+      directFixture = TestBed.createComponent(CzAutocompleteComponent);
+      directComponent = directFixture.componentInstance;
+    });
+
+    it('should render the static label for labelPosition none', () => {
+      directFixture.componentRef.setInput('label', 'Static');
+      directFixture.detectChanges();
+
+      const label = directFixture.nativeElement.querySelector('.cz-autocomplete-label-static');
+      expect(label).toBeTruthy();
+      expect(label.textContent).toContain('Static');
+    });
+
+    it('should render over/in/float labels and the data attribute', () => {
+      directFixture.componentRef.setInput('label', 'Field');
+      directFixture.componentRef.setInput('labelPosition', 'over');
+      directFixture.detectChanges();
+      expect(directFixture.nativeElement.querySelector('.cz-autocomplete-label-over')).toBeTruthy();
+
+      directFixture.componentRef.setInput('labelPosition', 'in');
+      directFixture.detectChanges();
+      expect(directFixture.nativeElement.querySelector('.cz-autocomplete-label-inner')).toBeTruthy();
+
+      directFixture.componentRef.setInput('labelPosition', 'float');
+      directFixture.detectChanges();
+      expect(directFixture.nativeElement.querySelector('.cz-autocomplete-label-inner')).toBeTruthy();
+
+      const wrapper = directFixture.nativeElement.querySelector('.cz-autocomplete-wrapper');
+      expect(wrapper.getAttribute('data-label-position')).toBe('float');
+    });
+
+    it('should activate the float label when the control has a value', () => {
+      directFixture.componentRef.setInput('label', 'Search');
+      directFixture.componentRef.setInput('labelPosition', 'float');
+      directFixture.detectChanges();
+
+      directComponent.writeValue('angular');
+      directFixture.detectChanges();
+
+      const container = directFixture.nativeElement.querySelector('.cz-autocomplete-container');
+      expect(container.classList.contains('cz-float-active')).toBe(true);
+    });
+  });
 });

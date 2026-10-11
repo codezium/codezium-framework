@@ -1,4 +1,5 @@
 import {
+    computed,
     ChangeDetectionStrategy,
     Component,
     effect,
@@ -10,6 +11,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CzOverlayZIndex, czOverlayZIndex } from '../../types';
 
 export type CzDrawerPosition = 'left' | 'right' | 'top' | 'bottom';
 
@@ -40,6 +42,13 @@ export class CzDrawerComponent {
 
     /** Shows the backdrop mask */
     modal = input<boolean>(true);
+
+    /** Overlay z-index: a number overrides it, 'none' keeps it in normal flow, null = theme default */
+    zIndex = input<CzOverlayZIndex>(null);
+
+    readonly maskZIndex = computed(() => czOverlayZIndex(this.zIndex()));
+
+    readonly panelZIndex = computed(() => czOverlayZIndex(this.zIndex(), 1));
 
     /** Closes when the mask is clicked */
     dismissableMask = input<boolean>(true);

@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideChevronDown, LucideDynamicIcon } from '@lucide/angular';
-import { CzMenuItem } from '../../types';
+import { CzMenuItem, CzOverlayZIndex, czOverlayZIndex } from '../../types';
 
 interface MegaMenuGroup {
     label: string;
@@ -34,6 +34,11 @@ interface MegaMenuGroup {
 export class CzMegaMenuComponent {
     /** Root items; children are grouped by their `group` property into columns */
     items = input<CzMenuItem[]>([]);
+    /** Overlay z-index: a number overrides it, 'none' keeps it in normal flow, null = theme default */
+    zIndex = input<CzOverlayZIndex>(null);
+
+    readonly panelZIndex = computed(() => czOverlayZIndex(this.zIndex()));
+
 
     /** Emitted when a leaf item is activated */
     onItemSelect = output<CzMenuItem>();

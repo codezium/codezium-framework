@@ -188,4 +188,71 @@ describe('CzSelectComponent', () => {
     expect(component.actualDisabled()).toBe(true);
     expect(fixture.debugElement.query(By.css('.cz-input-disabled'))).toBeTruthy();
   });
+
+  describe('Label positions', () => {
+    let directFixture: ComponentFixture<CzSelectComponent>;
+    let directComponent: CzSelectComponent;
+
+    beforeEach(() => {
+      directFixture = TestBed.createComponent(CzSelectComponent);
+      directComponent = directFixture.componentInstance;
+    });
+
+    it('should render the static label for labelPosition none', () => {
+      directFixture.componentRef.setInput('label', 'Static');
+      directFixture.detectChanges();
+
+      const label = directFixture.nativeElement.querySelector('.cz-input-label-static');
+      expect(label).toBeTruthy();
+      expect(label.textContent).toContain('Static');
+    });
+
+    it('should render over/in/float labels and the data attribute', () => {
+      directFixture.componentRef.setInput('label', 'Field');
+      directFixture.componentRef.setInput('labelPosition', 'over');
+      directFixture.detectChanges();
+      expect(directFixture.nativeElement.querySelector('.cz-input-label-over')).toBeTruthy();
+
+      directFixture.componentRef.setInput('labelPosition', 'in');
+      directFixture.detectChanges();
+      expect(directFixture.nativeElement.querySelector('.cz-input-label-inner')).toBeTruthy();
+
+      directFixture.componentRef.setInput('labelPosition', 'float');
+      directFixture.detectChanges();
+      expect(directFixture.nativeElement.querySelector('.cz-input-label-inner')).toBeTruthy();
+
+      const wrapper = directFixture.nativeElement.querySelector('.cz-input-wrapper');
+      expect(wrapper.getAttribute('data-label-position')).toBe('float');
+    });
+
+    it('should apply the overlay z-index to the panel and support none', () => {
+      directFixture.componentRef.setInput('zIndex', 500);
+      directComponent.toggleDropdown();
+      directFixture.detectChanges();
+
+      let panel = directFixture.nativeElement.querySelector('.cz-select-panel') as HTMLElement;
+      expect(panel.style.zIndex).toBe('500');
+
+      directFixture.componentRef.setInput('zIndex', 'none');
+      directFixture.detectChanges();
+      panel = directFixture.nativeElement.querySelector('.cz-select-panel') as HTMLElement;
+      expect(panel.style.zIndex).toBe('auto');
+    });
+
+    it('should hide the placeholder while the label occupies the center', () => {
+      directFixture.componentRef.setInput('label', 'Country');
+      directFixture.componentRef.setInput('labelPosition', 'float');
+      directFixture.componentRef.setInput('placeholder', 'Pick one');
+      directFixture.detectChanges();
+
+      expect(directComponent.actualPlaceholder()).toBe('');
+
+      directComponent.writeValue(1);
+      directFixture.detectChanges();
+
+      expect(directComponent.actualPlaceholder()).toBe('Pick one');
+      const container = directFixture.nativeElement.querySelector('.cz-input-container');
+      expect(container.classList.contains('cz-float-active')).toBe(true);
+    });
+  });
 });

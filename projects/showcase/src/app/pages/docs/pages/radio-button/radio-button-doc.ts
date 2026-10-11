@@ -37,7 +37,7 @@ import { RADIO_BUTTON_DOC_I18N } from './radio-button-doc.i18n';
             <section>
                 <h2 id="themes">{{ t().themesTitle }}</h2>
                 <p [innerHTML]="t().themesDesc"></p>
-                <div class="cz-grid cz-grid-cols-1 md:cz-grid-cols-3 cz-gap-md cz-mb-md">
+                <div class="cz-grid cz-grid-cols-1 cz-md:grid-cols-3 cz-gap-md cz-mb-md">
                     <div class="cz-p-md cz-border cz-rounded-lg">
                         <small class="cz-text-muted cz-mb-sm cz-display-block">Base</small>
                         <cz-radio-button label="Base Theme" name="theme-base" value="1" [(ngModel)]="themeValue" />

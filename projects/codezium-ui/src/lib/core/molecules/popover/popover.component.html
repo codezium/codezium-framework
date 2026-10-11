@@ -6,6 +6,7 @@
     @if (visible()) {
         <div
             class="cz-popover-panel"
+            [style.z-index]="panelZIndex()"
             role="dialog"
             [attr.data-position]="position()"
         >

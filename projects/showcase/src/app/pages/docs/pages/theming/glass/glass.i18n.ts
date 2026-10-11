@@ -22,7 +22,7 @@ export const GLASS_THEME_I18N = {
                 desc: 'Description'
             },
             surface: { desc: 'Translucent background color for all floating elements.' },
-            backdrop: { desc: 'Standard background blur applied to surfaces (typically 25px).' },
+            backdrop: { desc: 'Standard background blur applied to surfaces (typically 20px).' },
             border: { desc: 'Soft white/gray semi-transparent borders creating the glass edge.' },
             shadow: { desc: 'Gentle, wide shadows that separate the glass from the background.' }
         }
@@ -50,7 +50,7 @@ export const GLASS_THEME_I18N = {
                 desc: 'Descripción'
             },
             surface: { desc: 'Color de fondo translúcido para todos los elementos flotantes.' },
-            backdrop: { desc: 'Desenfoque de fondo estándar aplicado a superficies (típicamente 25px).' },
+            backdrop: { desc: 'Desenfoque de fondo estándar aplicado a superficies (típicamente 20px).' },
             border: { desc: 'Bordes blancos/grises suaves y semitransparentes que crean el borde del cristal.' },
             shadow: { desc: 'Sombras amplias y suaves que separan el cristal del fondo.' }
         }
@@ -78,7 +78,7 @@ export const GLASS_THEME_I18N = {
                 desc: 'Descrição'
             },
             surface: { desc: 'Cor de fundo translúcida para todos os elementos flutuantes.' },
-            backdrop: { desc: 'Desfoque de fundo padrão aplicado às superfícies (geralmente 25px).' },
+            backdrop: { desc: 'Desfoque de fundo padrão aplicado às superfícies (geralmente 20px).' },
             border: { desc: 'Bordas brancas/cinzas suaves e semitransparentes que criam a borda do vidro.' },
             shadow: { desc: 'Sombras amplas e suaves que separam o vidro do fundo.' }
         }
@@ -106,7 +106,7 @@ export const GLASS_THEME_I18N = {
                 desc: 'Description'
             },
             surface: { desc: 'Couleur d\'arrière-plan translucide pour tous les éléments flottants.' },
-            backdrop: { desc: 'Flou d\'arrière-plan standard appliqué aux surfaces (généralement 25px).' },
+            backdrop: { desc: 'Flou d\'arrière-plan standard appliqué aux surfaces (généralement 20px).' },
             border: { desc: 'Bordures blanches/grises douces et semi-transparentes créant le bord en verre.' },
             shadow: { desc: 'Ombres douces et larges qui séparent le verre de l\'arrière-plan.' }
         }
@@ -134,7 +134,7 @@ export const GLASS_THEME_I18N = {
                 desc: 'Beschreibung'
             },
             surface: { desc: 'Durchscheinende Hintergrundfarbe für alle schwebenden Elemente.' },
-            backdrop: { desc: 'Standardmäßige Hintergrundunschärfe (normalerweise 25px).' },
+            backdrop: { desc: 'Standardmäßige Hintergrundunschärfe (normalerweise 20px).' },
             border: { desc: 'Weiche weiße/graue halbdurchlässige Rahmen, die die Glaskante bilden.' },
             shadow: { desc: 'Sanfte, breite Schatten, die das Glas vom Hintergrund trennen.' }
         }

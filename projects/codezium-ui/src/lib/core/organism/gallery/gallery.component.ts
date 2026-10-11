@@ -7,6 +7,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CzOverlayZIndex, czOverlayZIndex } from '../../types';
 import {
     LucideChevronLeft,
     LucideChevronRight,
@@ -35,6 +36,11 @@ export interface CzGalleryImage {
 export class CzGalleryComponent {
     /** Images to display */
     images = input<CzGalleryImage[]>([]);
+
+    /** Overlay z-index: a number overrides it, 'none' keeps it in normal flow, null = theme default */
+    zIndex = input<CzOverlayZIndex>(null);
+
+    readonly fullscreenZIndex = computed(() => czOverlayZIndex(this.zIndex()));
 
     /** Active image index */
     activeIndex = model<number>(0);

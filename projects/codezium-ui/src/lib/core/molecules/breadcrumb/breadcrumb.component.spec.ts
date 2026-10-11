@@ -1,8 +1,12 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CzBreadcrumbComponent, CzBreadcrumbItem } from './breadcrumb.component';
 import { provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+
+@Component({ selector: 'cz-test-page', standalone: true, template: '' })
+class TestPageComponent {}
 
 describe('CzBreadcrumbComponent', () => {
     let component: CzBreadcrumbComponent;
@@ -16,7 +20,7 @@ describe('CzBreadcrumbComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [CzBreadcrumbComponent],
-            providers: [provideRouter([])],
+            providers: [provideRouter([{ path: '**', component: TestPageComponent }])],
         }).compileComponents();
 
         fixture = TestBed.createComponent(CzBreadcrumbComponent);

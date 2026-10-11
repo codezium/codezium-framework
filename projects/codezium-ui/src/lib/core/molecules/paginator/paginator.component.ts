@@ -48,6 +48,9 @@ export class CzPaginatorComponent implements ControlValueAccessor {
     /** Options for the rows per page select */
     rowsPerPageOptions = input<number[]>([]);
 
+    /** Number of page links to display (0 = all) */
+    pageLinkSize = input<number>(5);
+
     /** Shows the first/last page buttons */
     showFirstLastIcon = input<boolean>(true);
 
@@ -76,7 +79,18 @@ export class CzPaginatorComponent implements ControlValueAccessor {
 
     pageCount = computed(() => Math.max(1, Math.ceil(this.totalRecords() / this.effectiveRows())));
 
-    pages = computed(() => Array.from({ length: this.pageCount() }, (_, i) => i));
+    pages = computed(() => {
+        const count = this.pageCount();
+        const size = this.pageLinkSize();
+
+        if (size <= 0 || size >= count) {
+            return Array.from({ length: count }, (_, i) => i);
+        }
+
+        let start = this.page() - Math.floor(size / 2);
+        start = Math.max(0, Math.min(start, count - size));
+        return Array.from({ length: size }, (_, i) => start + i);
+    });
 
     first = computed(() => this.page() * this.effectiveRows());
 

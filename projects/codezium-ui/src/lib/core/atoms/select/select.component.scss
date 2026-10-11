@@ -17,17 +17,17 @@
     }
 
     &[data-size="sm"] .cz-select-trigger {
-        font-size: var(--cz-text-sm);
+        font-size: var(--cz-font-size-sm);
         padding: var(--cz-spacing-xs) var(--cz-spacing-sm);
     }
 
     &[data-size="md"] .cz-select-trigger {
-        font-size: var(--cz-text-base);
+        font-size: var(--cz-font-size);
         padding: var(--cz-spacing-sm) var(--cz-spacing-md);
     }
 
     &[data-size="lg"] .cz-select-trigger {
-        font-size: var(--cz-text-lg);
+        font-size: var(--cz-font-size-lg);
         padding: var(--cz-spacing-md) var(--cz-spacing-lg);
     }
 
@@ -95,7 +95,7 @@
         border-radius: var(--cz-theme-radius-base);
         margin-top: var(--cz-spacing-xs);
         box-shadow: var(--cz-theme-shadow-lg);
-        z-index: 100;
+        z-index: var(--cz-z-glass-overlay, 1000);
         overflow: hidden;
         animation: cz-fade-in-down 0.2s ease-out;
     }
@@ -114,7 +114,7 @@
         background: var(--cz-theme-surface);
         color: var(--cz-theme-text-primary);
         outline: none;
-        font-size: var(--cz-text-sm);
+        font-size: var(--cz-font-size-sm);
         
         &:focus {
             border-color: var(--cz-color-primary);
@@ -137,14 +137,14 @@
         cursor: pointer;
         transition: background 0.15s ease;
         color: var(--cz-theme-text-primary);
-        font-size: var(--cz-text-base);
+        font-size: var(--cz-font-size);
 
         &:hover, &.cz-select-item-hovered {
             background: var(--cz-theme-surface-hover, var(--cz-color-gray-50));
         }
 
         &.cz-select-item-selected {
-            background: var(--cz-color-primary-50);
+            background: color-mix(in srgb, var(--cz-color-primary) 14%, var(--cz-theme-surface));
             color: var(--cz-color-primary-700);
             font-weight: 500;
         }
@@ -198,15 +198,15 @@
 [data-theme="glass"] {
     .cz-select-wrapper {
         .cz-select-panel {
-            background: rgba(255, 255, 255, 0.13) !important;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.45) !important;
+            background: var(--cz-theme-surface) !important;
+            backdrop-filter: var(--cz-theme-backdrop-filter);
+            -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
+            border: 1px solid var(--cz-theme-border-color) !important;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15) !important;
         }
 
         .cz-select-item:hover, .cz-select-item-hovered {
-            background: rgba(255, 255, 255, 0.2) !important;
+            background: var(--cz-theme-surface-hover) !important;
         }
     }
 
@@ -222,9 +222,9 @@
     &.dark .cz-select-wrapper,
     .dark & .cz-select-wrapper {
         .cz-select-panel {
-            background: rgba(15, 23, 42, 0.75) !important;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: var(--cz-theme-surface) !important;
+            backdrop-filter: var(--cz-theme-backdrop-filter);
+            -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
             border: 1px solid rgba(255, 255, 255, 0.15) !important;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35) !important;
         }
@@ -233,7 +233,7 @@
     &.dark .cz-select-wrapper:not([data-color]),
     .dark & .cz-select-wrapper:not([data-color]) {
         .cz-select-trigger {
-            background: rgba(255, 255, 255, 0.07) !important;
+            background: var(--cz-theme-input-bg) !important;
             border-color: rgba(255, 255, 255, 0.18) !important;
         }
     }

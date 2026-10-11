@@ -1,52 +1,142 @@
-<div class="cz-tree-table-container">
+<div class="cz-tree-table-container" [class.cz-tree-table-container--scroll]="!!scrollHeight()" [style.max-height]="scrollHeight()">
     <table class="cz-tree-table-native">
         <thead>
-            <tr>
-                @for (column of columns(); track column.field) {
-                    <th scope="col" [style.width]="column.width || null">{{ column.header }}</th>
-                }
-            </tr>
+            @if (headerTemplate(); as headerTpl) {
+                <ng-container *ngTemplateOutlet="headerTpl" />
+            } @else {
+                <tr>
+                    @if (selectionMode() === 'multiple') {
+                        <th scope="col" class="cz-tree-table-th--selection">
+                            <cz-checkbox [binary]="true" [ngModel]="allSelected()" (ngModelChange)="toggleAll($event)"
+                                ariaLabel="Select all rows" />
+                        </th>
+                    }
+
+                    @for (column of columns(); track column.field; let first = $first) {
+                        <th scope="col" [style.width]="column.width || null"
+                            [class.cz-tree-table-th--sortable]="isColumnSortable(column)"
+                            [attr.aria-sort]="isSorted(column) ? (sortOrder() === 'asc' ? 'ascending' : 'descending') : null">
+                            <button type="button" class="cz-tree-table-sort-btn" [disabled]="!isColumnSortable(column)"
+                                (click)="toggleSort(column)">
+                                <span>{{ column.header }}</span>
+                                @if (isColumnSortable(column)) {
+                                    <svg [lucideIcon]="isSorted(column) && sortOrder() === 'asc' ? AscIcon : isSorted(column) && sortOrder() === 'desc' ? DescIcon : SortIcon"
+                                        [size]="14" class="cz-tree-table-sort-icon"></svg>
+                                }
+                            </button>
+                        </th>
+                    }
+                </tr>
+            }
         </thead>
 
         <tbody>
-            @for (row of visibleRows(); track row.node) {
-                <tr class="cz-tree-table-row">
-                    @for (column of columns(); track column.field; let first = $first) {
-                        <td>
-                            @if (first) {
-                                <span
-                                    class="cz-tree-table-cell"
-                                    [style.paddingLeft.rem]="row.depth * 1.5"
-                                >
-                                    @if (row.expandable) {
-                                        <button
-                                            type="button"
-                                            class="cz-tree-table-toggle"
-                                            [attr.aria-expanded]="isExpanded(row.node)"
-                                            [attr.aria-label]="isExpanded(row.node) ? 'Collapse' : 'Expand'"
-                                            (click)="toggle(row.node, $event)"
-                                        >
-                                            <svg
-                                                [lucideIcon]="isExpanded(row.node) ? ChevronDownIcon : ChevronRightIcon"
-                                                [size]="14"
-                                            ></svg>
-                                        </button>
+            @for (row of paginatedRows(); track trackRow($index, row); let i = $index) {
+                @if (rowTemplate(); as rowTpl) {
+                    <ng-container *ngTemplateOutlet="rowTpl; context: { $implicit: row.node, depth: row.depth, index: i }" />
+                } @else {
+                    <tr class="cz-tree-table-row" [class.cz-tree-table-row--selected]="isRowHighlighted(row.node)"
+                        [class.cz-tree-table-row--selectable]="selectionMode() !== 'none' || !!contextMenuItems().length"
+                        (click)="selectNode(row.node)" (contextmenu)="handleRowContextMenu(row.node, $event)">
+                        @if (selectionMode() === 'multiple') {
+                            <td class="cz-tree-table-td--selection" (click)="$event.stopPropagation()">
+                                <cz-checkbox [binary]="true" [ngModel]="isSelected(row.node)"
+                                    (ngModelChange)="toggleNodeSelection(row.node, $event)" ariaLabel="Select row" />
+                            </td>
+                        }
+
+                        @for (column of columns(); track column.field; let first = $first) {
+                            <td>
+                                @if (first) {
+                                    <span class="cz-tree-table-cell" [style.paddingLeft.rem]="row.depth * 1.5">
+                                        @if (row.expandable) {
+                                            <button type="button" class="cz-tree-table-toggle"
+                                                [attr.aria-expanded]="isExpanded(row.node)"
+                                                [attr.aria-label]="isExpanded(row.node) ? 'Collapse' : 'Expand'"
+                                                (click)="toggle(row.node, $event)">
+                                                <svg [lucideIcon]="isExpanded(row.node) ? CollapseIcon : ExpandIcon" [size]="14"></svg>
+                                            </button>
+                                        } @else {
+                                            <span class="cz-tree-table-spacer"></span>
+                                        }
+
+                                        @if (column.template; as cellTpl) {
+                                            <ng-container
+                                                *ngTemplateOutlet="cellTpl; context: { $implicit: row.node.data, value: row.node.data[column.field], index: i, node: row.node }"
+                                            />
+                                        } @else {
+                                            <span>{{ row.node.data[column.field] }}</span>
+                                        }
+                                    </span>
+                                } @else {
+                                    @if (column.template; as cellTpl) {
+                                        <ng-container
+                                            *ngTemplateOutlet="cellTpl; context: { $implicit: row.node.data, value: row.node.data[column.field], index: i, node: row.node }"
+                                        />
                                     } @else {
-                                        <span class="cz-tree-table-spacer"></span>
+                                        {{ row.node.data[column.field] }}
                                     }
-                                    <span>{{ row.node.data[column.field] }}</span>
-                                </span>
-                            } @else {
-                                {{ row.node.data[column.field] }}
-                            }
-                        </td>
-                    }
-                </tr>
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
             } @empty {
                 <tr class="cz-tree-table-empty-row">
-                    <td [attr.colspan]="columns().length || 1">{{ emptyMessage() }}</td>
+                    <td [attr.colspan]="totalColumns() || 1">
+                        @if (emptyTemplate(); as emptyTpl) {
+                            <ng-container *ngTemplateOutlet="emptyTpl" />
+                        } @else {
+                            {{ emptyMessage() }}
+                        }
+                    </td>
                 </tr>
             }
         </tbody>
+
+        @if (footerTemplate(); as footerTpl) {
+            <tfoot>
+                <ng-container *ngTemplateOutlet="footerTpl" />
+            </tfoot>
+        }
     </table>
+
+    @if (loading()) {
+        <div class="cz-tree-table-loading" role="status" aria-live="polite">
+            <cz-progress-spinner [size]="40" [strokeWidth]="4" ariaLabel="Loading" />
+        </div>
+    }
 </div>
+
+@if (rows() > 0) {
+    <div class="cz-tree-table-footer">
+        <cz-paginator
+            [totalRecords]="visibleRows().length"
+            [rows]="rows()"
+            [rowsPerPageOptions]="rowsPerPageOptions()"
+            [ngModel]="page()"
+            (ngModelChange)="page.set($event)"
+        />
+    </div>
+}
+
+@if (contextMenuVisible()) {
+    <ul class="cz-tree-table-context-menu" role="menu" [style.z-index]="contextMenuZIndex()"
+        [style.left.px]="contextMenuPosition().x" [style.top.px]="contextMenuPosition().y">
+        @for (item of contextMenuItems(); track $index) {
+            @if (item.separator) {
+                <li class="cz-tree-table-context-menu-separator" role="separator"></li>
+            } @else {
+                <li role="none">
+                    <button type="button" class="cz-tree-table-context-menu-item" role="menuitem"
+                        [disabled]="item.disabled || false" (click)="activateContextMenuItem(item, $event)">
+                        @if (item.icon; as iconRef) {
+                            <svg [lucideIcon]="iconRef" [size]="14" class="cz-tree-table-context-menu-icon"></svg>
+                        }
+                        <span>{{ item.label }}</span>
+                    </button>
+                </li>
+            }
+        }
+    </ul>
+}

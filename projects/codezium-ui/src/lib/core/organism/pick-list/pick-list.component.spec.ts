@@ -1,4 +1,7 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CzAvatarComponent } from '../../atoms/avatar';
 import { CzPickListComponent } from './pick-list.component';
 import { By } from '@angular/platform-browser';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
@@ -114,4 +117,88 @@ describe('CzPickListComponent', () => {
         expect(buttons().every((b) => b.disabled)).toBe(true);
         expect(fixture.nativeElement.classList.contains('cz-pick-list--disabled')).toBe(true);
     });
+
+    it('should render the headers and filter the lists', () => {
+        component.writeValue(initialTarget);
+        fixture.componentRef.setInput('sourceHeader', 'Available');
+        fixture.componentRef.setInput('targetHeader', 'Selected');
+        fixture.componentRef.setInput('filterBy', 'name');
+        fixture.detectChanges();
+
+        const headers = fixture.nativeElement.querySelectorAll('.cz-pick-list-header');
+        expect(headers.length).toBe(2);
+        expect(headers[0].textContent).toContain('Available');
+
+        const filterInput = fixture.debugElement.query(By.css('.cz-pick-list-filter-input')).nativeElement as HTMLInputElement;
+        filterInput.value = 'tw';
+        filterInput.dispatchEvent(new Event('input'));
+        fixture.detectChanges();
+
+        expect(component.filteredSource().length).toBe(1);
+        expect(panels()[0].length).toBe(1);
+        expect(panels()[0][0].textContent).toContain('Two');
+    });
+
+    it('should reorder within the source list with the side controls', () => {
+        component.writeValue(initialTarget);
+        fixture.componentRef.setInput('showSourceControls', true);
+        fixture.detectChanges();
+
+        const sideButtons = fixture.debugElement.queryAll(By.css('.cz-pick-list-side-controls .cz-pick-list-btn'));
+        expect(sideButtons.length).toBe(4);
+
+        panels()[0][0].click();
+        fixture.detectChanges();
+        sideButtons[3].nativeElement.click();
+        fixture.detectChanges();
+
+        expect(component.availableItems()[2].name).toBe('One');
+        expect(component.selectedSource()).toBe(2);
+    });
+
+    it('should transfer items with drag & drop across lists', () => {
+        component.writeValue(initialTarget);
+        fixture.componentRef.setInput('dragdrop', true);
+        fixture.detectChanges();
+
+        const sourceItem = panels()[0][0];
+        const targetItem = panels()[1][0];
+
+        sourceItem.dispatchEvent(new Event('dragstart'));
+        targetItem.dispatchEvent(new Event('dragover'));
+        targetItem.dispatchEvent(new Event('drop'));
+        fixture.detectChanges();
+
+        expect(component.target().map(t => t.name)).toEqual(['One', 'Four']);
+        expect(component.availableItems().map(i => i.name)).toEqual(['Two', 'Three']);
+        expect(component.dragFrom()).toBeNull();
+    });
+
+    it('should render a custom item template with library components', () => {
+        const hostFixture = TestBed.createComponent(TemplateHostComponent);
+        hostFixture.detectChanges();
+
+        const avatars = hostFixture.nativeElement.querySelectorAll('.custom-item cz-avatar');
+        expect(avatars.length).toBe(3);
+        expect(hostFixture.nativeElement.querySelector('.custom-item').textContent).toContain('One');
+    });
 });
+
+@Component({
+    imports: [CzPickListComponent, CzAvatarComponent, ReactiveFormsModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
+        <cz-pick-list [source]="source" [formControl]="control" [itemTemplate]="itemTpl"></cz-pick-list>
+
+        <ng-template #itemTpl let-item>
+            <span class="custom-item cz-flex cz-items-center cz-gap-sm">
+                <cz-avatar [label]="item.name" shape="circle" size="sm" />
+                {{ item.name }}
+            </span>
+        </ng-template>
+    `,
+})
+class TemplateHostComponent {
+    readonly control = new FormControl([]);
+    readonly source = [{ name: 'One' }, { name: 'Two' }, { name: 'Three' }];
+}

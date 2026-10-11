@@ -47,6 +47,7 @@ import { GALLERY_DOC_I18N } from './gallery-doc.i18n';
                             <tr><td><code>images</code></td><td><code>CzGalleryImage[]</code></td><td><code>[]</code></td><td>Images (src, alt, thumbnail).</td></tr>
                             <tr><td><code>activeIndex</code></td><td><code>number (model)</code></td><td><code>0</code></td><td>Active image index.</td></tr>
                             <tr><td><code>fullscreen</code></td><td><code>boolean (model)</code></td><td><code>false</code></td><td>Preview visibility.</td></tr>
+                            <tr><td><code>zIndex</code></td><td><code>number | 'none' | null</code></td><td><code>null</code></td><td>Overlay z-index: a number overrides it, <code>'none'</code> keeps it in normal flow, <code>null</code> = theme default (above everything).</td></tr>
                         </tbody>
                     </table>
                 </div>

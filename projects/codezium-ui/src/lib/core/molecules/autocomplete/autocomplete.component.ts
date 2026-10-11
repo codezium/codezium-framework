@@ -17,7 +17,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { CZ_VALIDATION_MESSAGES, CzValidationLocale, CzValidationErrorKeys } from '../../i18n';
-import { CzInputSize, CzLabelPosition, CzInputColor } from '../../types';
+import { CzInputSize, CzLabelPosition, CzInputColor, CzOverlayZIndex, czOverlayZIndex } from '../../types';
 
 @Component({
   selector: 'cz-autocomplete',
@@ -35,6 +35,11 @@ export class CzAutocompleteComponent implements ControlValueAccessor, OnInit {
   label = input<string>('');
   labelPosition = input<CzLabelPosition>('none');
   size = input<CzInputSize>('md');
+    /** Overlay z-index: a number overrides it, 'none' keeps it in normal flow, null = theme default */
+    zIndex = input<CzOverlayZIndex>(null);
+
+    readonly panelZIndex = computed(() => czOverlayZIndex(this.zIndex()));
+
   color = input<CzInputColor>('');
   filled = input<boolean>(false);
   fluid = input<boolean>(false);

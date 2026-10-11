@@ -51,6 +51,7 @@ import { DRAWER_DOC_I18N } from './drawer-doc.i18n';
                             <tr><td><code>position</code></td><td><code>'left' | 'right' | 'top' | 'bottom'</code></td><td><code>'right'</code></td><td>Screen edge.</td></tr>
                             <tr><td><code>size</code></td><td><code>string</code></td><td><code>'22rem'</code></td><td>Size along its axis.</td></tr>
                             <tr><td><code>dismissableMask</code></td><td><code>boolean</code></td><td><code>true</code></td><td>Closes on mask click.</td></tr>
+                            <tr><td><code>zIndex</code></td><td><code>number | 'none' | null</code></td><td><code>null</code></td><td>Overlay z-index: a number overrides it, <code>'none'</code> keeps it in normal flow, <code>null</code> = theme default (above everything).</td></tr>
                         </tbody>
                     </table>
                 </div>

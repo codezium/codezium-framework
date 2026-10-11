@@ -5,9 +5,27 @@
     <!-- ── BODY: left sidebar + content + right sidebar ── -->
     <div class="docs-body">
 
-        <!-- LEFT SIDEBAR: navigation -->
+        <!-- LEFT SIDEBAR: navigation (drawer on mobile) -->
         <aside class="docs-sidebar docs-sidebar--left" [class.docs-sidebar--open]="sidebarOpen()"
             aria-label="Documentation sidebar">
+
+            <!-- Mobile-only drawer header: brand + preferences + close -->
+            <div class="docs-drawer-head cz-flex cz-items-center cz-justify-between cz-gap-sm cz-md:hidden">
+                <span class="docs-drawer-head__brand">
+                    Codezium <strong class="cz-corp-gradient-text">UI</strong>
+                </span>
+                <div class="cz-flex cz-items-center cz-gap-xs">
+                    <cz-docs-prefs />
+                    <button class="docs-drawer-head__close" czRipple (click)="toggleSidebar()" aria-label="Close menu">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                            <line x1="18" y1="6" x2="6" y2="18" />
+                            <line x1="6" y1="6" x2="18" y2="18" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
             <cz-docs-nav />
         </aside>
 
@@ -16,14 +34,19 @@
         <div class="docs-overlay" (click)="toggleSidebar()" aria-hidden="true"></div>
         }
 
-        <!-- MAIN CONTENT: router outlet for doc pages  -->
-        <main class="docs-content" id="main-content" role="main">
+        <!-- MAIN CONTENT: router outlet for doc pages. The selected theme is
+             scoped here so only the components react to it. -->
+        <main class="docs-content" id="main-content" role="main" #mainContent
+            [attr.data-theme]="theme()" [class.dark]="isDark()">
+            @if (breadcrumbItems().length) {
+            <cz-breadcrumb class="docs-breadcrumb" [home]="breadcrumbHome" [items]="breadcrumbItems()" />
+            }
             <router-outlet />
         </main>
 
         <!-- RIGHT SIDEBAR: table of contents -->
         <aside class="docs-sidebar docs-sidebar--right" aria-label="On this page">
-            <cz-docs-toc [sections]="tocSections()" />
+            <cz-docs-toc [sections]="tocSections()" [activeId]="tocActiveId()" />
         </aside>
 
     </div>

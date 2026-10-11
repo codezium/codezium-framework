@@ -1,6 +1,5 @@
 /* === RESET GENERAL === */
 
-
 *{
     box-sizing: border-box;
     margin: 0;
@@ -12,16 +11,12 @@
 }
 
 body {
-    font-family: var(--font-base);
-    font-size: var(--font-size-md);
-    color: var(--color-gray-900);
-    background-color: var(--color-gray-100);
-    line-height: var(--line-height-base);
+    font-family: var(--cz-font-base);
+    font-size: var(--cz-font-size-md);
+    color: var(--cz-color-gray-900);
+    background-color: var(--cz-color-gray-100);
+    line-height: var(--cz-line-height-base);
     margin: 0;
-}
-
-code {
-    background: rgb(33, 32, 32);
 }
 
 input,
@@ -58,18 +53,18 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="date"] {
   appearance: none;
   -webkit-appearance: none;
-  background-color: var(--input-bg);
-  border: 1px solid var(--input-border);
-  color: var(--input-text);
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-base);
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  background-color: var(--cz-input-bg);
+  border: var(--cz-input-border);
+  color: var(--cz-input-color);
+  padding: var(--cz-input-padding);
+  border-radius: var(--cz-input-radius);
+  font-size: var(--cz-input-font-size);
+  transition: var(--cz-input-transition);
 
   &:focus {
     outline: none;
-    border-color: var(--input-focus-border);
-    box-shadow: var(--focus-primary);
+    border-color: var(--cz-color-primary);
+    box-shadow: var(--cz-input-focus-shadow);
   }
 
   &::-webkit-calendar-picker-indicator {
@@ -79,5 +74,5 @@ input[type="date"] {
 }
 
 strong {
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--cz-font-weight-bold);
 }

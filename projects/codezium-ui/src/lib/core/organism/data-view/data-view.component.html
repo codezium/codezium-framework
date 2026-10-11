@@ -1,38 +1,74 @@
 <div class="cz-data-view-container">
-    @if (sortable() || rows() > 0) {
+    <!-- ── HEADER (slot + built-in sort) ── -->
+    @if (resolvedHeader() || (sortable() && !sortField())) {
         <div class="cz-data-view-header">
-            @if (sortable()) {
-                <button
-                    type="button"
-                    class="cz-data-view-sort"
-                    [attr.aria-label]="'Sort by ' + field()"
-                    (click)="toggleSort()"
-                >
-                    <svg [lucideIcon]="SortIcon" [size]="14"></svg>
-                    <span>{{ sortOrder() === 'asc' ? 'ASC' : sortOrder() === 'desc' ? 'DESC' : 'SORT' }}</span>
+            @if (resolvedHeader(); as header) {
+                <ng-container *ngTemplateOutlet="header" />
+            }
+
+            @if (sortable() && !sortField()) {
+                <button type="button" class="cz-data-view-sort" [attr.aria-label]="'Sort by ' + field()"
+                    (click)="toggleSort()">
+                    <svg [lucideIcon]="sortIcon()" [size]="14"></svg>
+                    <span>{{ activeSortOrder() === 1 ? 'ASC' : activeSortOrder() === -1 ? 'DESC' : 'SORT' }}</span>
                 </button>
             }
         </div>
     }
 
-    @if (processedValue().length > 0) {
-        <div class="cz-data-view-items" [attr.data-layout]="layout()">
-            @for (item of processedValue(); track $index) {
-                <div class="cz-data-view-item">{{ display(item) }}</div>
-            }
+    <!-- ── PAGINATOR (top) ── -->
+    @if (showPaginator() && (paginatorPosition() === 'top' || paginatorPosition() === 'both')) {
+        <div class="cz-data-view-paginator cz-data-view-paginator--top">
+            <cz-paginator [totalRecords]="effectiveTotal()" [rows]="effectiveRows()"
+                [rowsPerPageOptions]="rowsPerPageOptions()" [ngModel]="page()"
+                (ngModelChange)="changePage($event)" />
         </div>
-    } @else {
-        <div class="cz-data-view-empty">{{ emptyMessage() }}</div>
     }
 
-    @if (rows() > 0) {
+    <!-- ── CONTENT ── -->
+    <div class="cz-data-view-content">
+        @if (processedValue().length > 0) {
+            @if (layout() === 'list' && resolvedList(); as list) {
+                <ng-container *ngTemplateOutlet="list; context: { $implicit: processedValue() }" />
+            } @else if (layout() === 'grid' && resolvedGrid(); as grid) {
+                <ng-container *ngTemplateOutlet="grid; context: { $implicit: processedValue() }" />
+            } @else {
+                <div class="cz-data-view-items" [attr.data-layout]="layout()">
+                    @for (item of processedValue(); track trackItem($index, item)) {
+                        <div class="cz-data-view-item">{{ display(item) }}</div>
+                    }
+                </div>
+            }
+        } @else {
+            <div class="cz-data-view-empty">
+                @if (resolvedEmpty(); as empty) {
+                    <ng-container *ngTemplateOutlet="empty" />
+                } @else {
+                    {{ emptyMessage() }}
+                }
+            </div>
+        }
+
+        @if (loading()) {
+            <div class="cz-data-view-loading" role="status" aria-live="polite">
+                <cz-progress-spinner [size]="40" [strokeWidth]="4" ariaLabel="Loading" />
+            </div>
+        }
+    </div>
+
+    <!-- ── PAGINATOR (bottom) ── -->
+    @if (showPaginator() && (paginatorPosition() === 'bottom' || paginatorPosition() === 'both')) {
+        <div class="cz-data-view-paginator cz-data-view-paginator--bottom">
+            <cz-paginator [totalRecords]="effectiveTotal()" [rows]="effectiveRows()"
+                [rowsPerPageOptions]="rowsPerPageOptions()" [ngModel]="page()"
+                (ngModelChange)="changePage($event)" />
+        </div>
+    }
+
+    <!-- ── FOOTER ── -->
+    @if (resolvedFooter(); as footer) {
         <div class="cz-data-view-footer">
-            <cz-paginator
-                [totalRecords]="value().length"
-                [rows]="rows()"
-                [ngModel]="page()"
-                (ngModelChange)="page.set($event)"
-            />
+            <ng-container *ngTemplateOutlet="footer" />
         </div>
     }
 </div>

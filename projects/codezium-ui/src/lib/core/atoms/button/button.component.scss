@@ -75,6 +75,43 @@
     }
 }
 
+/* Link: textual link styled with the severity color */
+.cz-button[data-variant="link"] .cz-button-native {
+    background: transparent;
+    border-color: transparent;
+    color: var(--cz-button-color);
+    text-decoration: none;
+
+    &:hover:not(:disabled) {
+        background: transparent;
+        filter: none;
+        text-decoration: underline;
+    }
+}
+
+/* Plain: neutral text without hover background */
+.cz-button[data-variant="plain"] .cz-button-native {
+    background: transparent;
+    border-color: transparent;
+    color: var(--cz-theme-text-primary);
+
+    &:hover:not(:disabled) {
+        background: transparent;
+        filter: none;
+    }
+}
+
+/* --- Icon positions --- */
+.cz-button[data-icon-pos="top"] .cz-button-native {
+    flex-direction: column;
+    gap: var(--cz-spacing-xs);
+}
+
+/* --- Badge --- */
+.cz-button-badge {
+    margin-inline-start: var(--cz-spacing-xs);
+}
+
 /* --- Sizes --- */
 .cz-button[data-size="sm"] .cz-button-native {
     font-size: var(--cz-font-size-sm);
@@ -120,6 +157,10 @@
     border-radius: 50%;
     border: 2px solid currentColor;
     border-top-color: transparent;
+    animation: cz-button-spin 0.7s linear infinite;
+}
+
+.cz-button-icon--spin {
     animation: cz-button-spin 0.7s linear infinite;
 }
 

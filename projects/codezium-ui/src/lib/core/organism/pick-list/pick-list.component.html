@@ -1,72 +1,153 @@
 <div class="cz-pick-list-container" [attr.aria-label]="ariaLabel()">
-    <ul class="cz-pick-list-panel" role="listbox" aria-label="Source">
-        @for (item of availableItems(); track $index; let i = $index) {
-            <li
-                class="cz-pick-list-item"
-                role="option"
-                [attr.aria-selected]="i === selectedSource()"
-                [class.cz-pick-list-item--selected]="i === selectedSource()"
-                (click)="selectSource(i)"
-            >
-                {{ display(item) }}
-            </li>
-        } @empty {
-            <li class="cz-pick-list-empty">No items</li>
+    <!-- ── SOURCE ── -->
+    <div class="cz-pick-list-side">
+        @if (sourceHeader()) {
+            <div class="cz-pick-list-header">{{ sourceHeader() }}</div>
         }
-    </ul>
 
+        @if (filterBy()) {
+            <input type="text" class="cz-pick-list-filter-input" [placeholder]="sourceFilterPlaceholder()"
+                [value]="sourceFilter()" [disabled]="actualDisabled()" (input)="onSourceFilterInput($event)"
+                aria-label="Filter source" />
+        }
+
+        <div class="cz-pick-list-panel-wrapper">
+            <ul class="cz-pick-list-panel" role="listbox" aria-label="Source" [style.max-height]="scrollHeight()">
+                @for (item of filteredSource(); track $index; let i = $index) {
+                    <li class="cz-pick-list-item" role="option" [attr.aria-selected]="i === selectedSource()"
+                        [class.cz-pick-list-item--selected]="i === selectedSource()"
+                        [class.cz-pick-list-item--dragging]="isDragging('source', i)"
+                        [class.cz-pick-list-item--over]="isDragOver('source', i)"
+                        [attr.draggable]="dragdrop() ? true : null" (click)="selectSource(i)"
+                        (dragstart)="onItemDragStart('source', i, $event)"
+                        (dragover)="onItemDragOver('source', i, $event)" (drop)="onItemDrop('source', i, $event)"
+                        (dragend)="resetDrag()">
+                        @if (itemTemplate(); as tpl) {
+                            <ng-container
+                                [ngTemplateOutlet]="tpl"
+                                [ngTemplateOutletContext]="{ $implicit: item, index: i, selected: i === selectedSource() }"
+                            />
+                        } @else {
+                            {{ display(item) }}
+                        }
+                    </li>
+                } @empty {
+                    <li class="cz-pick-list-empty">
+                        @if (emptySourceTemplate(); as empty) {
+                            <ng-container [ngTemplateOutlet]="empty" />
+                        } @else {
+                            {{ filterBy() && sourceFilter() ? 'No results' : 'No items' }}
+                        }
+                    </li>
+                }
+            </ul>
+
+            @if (showSourceControls()) {
+                <div class="cz-pick-list-side-controls">
+                    <button type="button" class="cz-pick-list-btn" aria-label="Move source to top"
+                        [disabled]="!canSourceMoveTop()" (click)="sourceMoveTop()">
+                        <svg [lucideIcon]="TopIcon" [size]="14"></svg>
+                    </button>
+                    <button type="button" class="cz-pick-list-btn" aria-label="Move source up"
+                        [disabled]="!canSourceMoveUp()" (click)="sourceMoveUp()">
+                        <svg [lucideIcon]="UpIcon" [size]="14"></svg>
+                    </button>
+                    <button type="button" class="cz-pick-list-btn" aria-label="Move source down"
+                        [disabled]="!canSourceMoveDown()" (click)="sourceMoveDown()">
+                        <svg [lucideIcon]="DownIcon" [size]="14"></svg>
+                    </button>
+                    <button type="button" class="cz-pick-list-btn" aria-label="Move source to bottom"
+                        [disabled]="!canSourceMoveBottom()" (click)="sourceMoveBottom()">
+                        <svg [lucideIcon]="BottomIcon" [size]="14"></svg>
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- ── TRANSFER CONTROLS ── -->
     <div class="cz-pick-list-controls">
-        <button
-            type="button"
-            class="cz-pick-list-btn"
-            aria-label="Move all right"
-            [disabled]="!canMoveAllRight()"
-            (click)="moveAllRight()"
-        >
+        <button type="button" class="cz-pick-list-btn" aria-label="Move all right" [disabled]="!canMoveAllRight()"
+            (click)="moveAllRight()">
             <svg [lucideIcon]="AllRightIcon" [size]="16"></svg>
         </button>
-        <button
-            type="button"
-            class="cz-pick-list-btn"
-            aria-label="Move right"
-            [disabled]="!canMoveRight()"
-            (click)="moveRight()"
-        >
+        <button type="button" class="cz-pick-list-btn" aria-label="Move right" [disabled]="!canMoveRight()"
+            (click)="moveRight()">
             <svg [lucideIcon]="RightIcon" [size]="16"></svg>
         </button>
-        <button
-            type="button"
-            class="cz-pick-list-btn"
-            aria-label="Move left"
-            [disabled]="!canMoveLeft()"
-            (click)="moveLeft()"
-        >
+        <button type="button" class="cz-pick-list-btn" aria-label="Move left" [disabled]="!canMoveLeft()"
+            (click)="moveLeft()">
             <svg [lucideIcon]="LeftIcon" [size]="16"></svg>
         </button>
-        <button
-            type="button"
-            class="cz-pick-list-btn"
-            aria-label="Move all left"
-            [disabled]="!canMoveAllLeft()"
-            (click)="moveAllLeft()"
-        >
+        <button type="button" class="cz-pick-list-btn" aria-label="Move all left" [disabled]="!canMoveAllLeft()"
+            (click)="moveAllLeft()">
             <svg [lucideIcon]="AllLeftIcon" [size]="16"></svg>
         </button>
     </div>
 
-    <ul class="cz-pick-list-panel" role="listbox" aria-label="Target">
-        @for (item of target(); track $index; let i = $index) {
-            <li
-                class="cz-pick-list-item"
-                role="option"
-                [attr.aria-selected]="i === selectedTarget()"
-                [class.cz-pick-list-item--selected]="i === selectedTarget()"
-                (click)="selectTarget(i)"
-            >
-                {{ display(item) }}
-            </li>
-        } @empty {
-            <li class="cz-pick-list-empty">No items</li>
+    <!-- ── TARGET ── -->
+    <div class="cz-pick-list-side">
+        @if (targetHeader()) {
+            <div class="cz-pick-list-header">{{ targetHeader() }}</div>
         }
-    </ul>
+
+        @if (filterBy()) {
+            <input type="text" class="cz-pick-list-filter-input" [placeholder]="targetFilterPlaceholder()"
+                [value]="targetFilter()" [disabled]="actualDisabled()" (input)="onTargetFilterInput($event)"
+                aria-label="Filter target" />
+        }
+
+        <div class="cz-pick-list-panel-wrapper">
+            <ul class="cz-pick-list-panel" role="listbox" aria-label="Target" [style.max-height]="scrollHeight()">
+                @for (item of filteredTarget(); track $index; let i = $index) {
+                    <li class="cz-pick-list-item" role="option" [attr.aria-selected]="i === selectedTarget()"
+                        [class.cz-pick-list-item--selected]="i === selectedTarget()"
+                        [class.cz-pick-list-item--dragging]="isDragging('target', i)"
+                        [class.cz-pick-list-item--over]="isDragOver('target', i)"
+                        [attr.draggable]="dragdrop() ? true : null" (click)="selectTarget(i)"
+                        (dragstart)="onItemDragStart('target', i, $event)"
+                        (dragover)="onItemDragOver('target', i, $event)" (drop)="onItemDrop('target', i, $event)"
+                        (dragend)="resetDrag()">
+                        @if (itemTemplate(); as tpl) {
+                            <ng-container
+                                [ngTemplateOutlet]="tpl"
+                                [ngTemplateOutletContext]="{ $implicit: item, index: i, selected: i === selectedTarget() }"
+                            />
+                        } @else {
+                            {{ display(item) }}
+                        }
+                    </li>
+                } @empty {
+                    <li class="cz-pick-list-empty">
+                        @if (emptyTargetTemplate(); as empty) {
+                            <ng-container [ngTemplateOutlet]="empty" />
+                        } @else {
+                            {{ filterBy() && targetFilter() ? 'No results' : 'No items' }}
+                        }
+                    </li>
+                }
+            </ul>
+
+            @if (showTargetControls()) {
+                <div class="cz-pick-list-side-controls">
+                    <button type="button" class="cz-pick-list-btn" aria-label="Move target to top"
+                        [disabled]="!canTargetMoveTop()" (click)="targetMoveTop()">
+                        <svg [lucideIcon]="TopIcon" [size]="14"></svg>
+                    </button>
+                    <button type="button" class="cz-pick-list-btn" aria-label="Move target up"
+                        [disabled]="!canTargetMoveUp()" (click)="targetMoveUp()">
+                        <svg [lucideIcon]="UpIcon" [size]="14"></svg>
+                    </button>
+                    <button type="button" class="cz-pick-list-btn" aria-label="Move target down"
+                        [disabled]="!canTargetMoveDown()" (click)="targetMoveDown()">
+                        <svg [lucideIcon]="DownIcon" [size]="14"></svg>
+                    </button>
+                    <button type="button" class="cz-pick-list-btn" aria-label="Move target to bottom"
+                        [disabled]="!canTargetMoveBottom()" (click)="targetMoveBottom()">
+                        <svg [lucideIcon]="BottomIcon" [size]="14"></svg>
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
 </div>

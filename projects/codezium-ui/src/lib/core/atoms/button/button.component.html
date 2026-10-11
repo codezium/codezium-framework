@@ -1,15 +1,24 @@
 <button
     class="cz-button-native"
+    [class]="styleClass()"
     [type]="type()"
     [disabled]="actualDisabled()"
+    [autofocus]="autofocus()"
+    [attr.tabindex]="tabindex()"
     [attr.aria-label]="ariaLabel() || null"
     [attr.aria-busy]="loading() || null"
     (click)="handleClick($event)"
+    (focus)="onFocus.emit($event)"
+    (blur)="onBlur.emit($event)"
 >
     @if (loading()) {
-        <span class="cz-button-spinner" aria-hidden="true"></span>
+        @if (loadingIcon(); as loadingIconRef) {
+            <cz-icon class="cz-button-icon cz-button-icon--spin" [icon]="loadingIconRef" [size]="iconSize()" />
+        } @else {
+            <span class="cz-button-spinner" aria-hidden="true"></span>
+        }
     } @else if (icon(); as iconRef) {
-        @if (iconPos() === 'left') {
+        @if (iconPos() === 'left' || iconPos() === 'top') {
             <cz-icon class="cz-button-icon" [icon]="iconRef" [size]="iconSize()" />
         }
     }
@@ -18,7 +27,13 @@
         <span class="cz-button-label">{{ label() }}</span>
     }
 
-    @if (!loading() && iconPos() === 'right') {
+    <ng-content />
+
+    @if (hasBadge()) {
+        <cz-badge class="cz-button-badge" [value]="badge()" [severity]="badgeSeverity()" size="sm" />
+    }
+
+    @if (!loading() && (iconPos() === 'right' || iconPos() === 'bottom')) {
         @if (icon(); as iconRef) {
             <cz-icon class="cz-button-icon" [icon]="iconRef" [size]="iconSize()" />
         }

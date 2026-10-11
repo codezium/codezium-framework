@@ -62,6 +62,43 @@
     color: var(--cz-theme-text-primary, var(--cz-color-gray-900));
 }
 
+.cz-data-view-content {
+    position: relative;
+}
+
+.cz-data-view-paginator {
+    margin-bottom: var(--cz-spacing-md);
+
+    &--bottom {
+        margin-top: var(--cz-spacing-md);
+        margin-bottom: 0;
+    }
+}
+
+.cz-data-view-loading {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--cz-theme-radius-base, var(--cz-radius-md));
+    background: color-mix(in srgb, var(--cz-theme-surface) 72%, transparent);
+    backdrop-filter: var(--cz-theme-backdrop-filter);
+    -webkit-backdrop-filter: var(--cz-theme-backdrop-filter);
+    animation: cz-data-view-loading-enter 0.15s ease-out;
+}
+
+@keyframes cz-data-view-loading-enter {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 .cz-data-view-empty {
     padding: var(--cz-spacing-xl);
     text-align: center;

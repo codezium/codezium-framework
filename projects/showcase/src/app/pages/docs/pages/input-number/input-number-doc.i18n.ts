@@ -9,6 +9,9 @@ export const INPUT_NUMBER_DOC_I18N = {
         numeralsTitle: 'Numerals',
         numeralsDesc: 'InputNumber is used as a directive with the <code>czInputNumber</code> attribute. It can be applied on <code>&#x3C;cz-input-text&#x3E;</code> or native <code>&#x3C;input&#x3E;</code> tags. It formats strict decimal types ensuring the underlying value is a JavaScript number.',
 
+        labelsTitle: 'Label Positions',
+        labelsDesc: 'Applied on <code>&#x3C;cz-input-text&#x3E;</code>, <code>czInputNumber</code> inherits the four label positions: <code>none</code>, <code>over</code>, <code>in</code> and <code>float</code>.',
+
         currencyTitle: 'Currency',
         currencyDesc: 'Currency formatting is specified by setting the <code>mode</code> property to <code>currency</code> and providing the <code>currency</code> code property (e.g., USD, EUR). It utilizes the native Intl API to render symbols and formats accordingly.',
 
@@ -38,6 +41,9 @@ export const INPUT_NUMBER_DOC_I18N = {
 
         numeralsTitle: 'Números y Decimales',
         numeralsDesc: 'InputNumber se utiliza como una directiva con el atributo <code>czInputNumber</code>. Puede aplicarse sobre etiquetas <code>&#x3C;cz-input-text&#x3E;</code> o <code>&#x3C;input&#x3E;</code> nativo. Formatea tipos decimales estrictos asegurando que el valor subyacente sea un número puro de JavaScript.',
+
+        labelsTitle: 'Posiciones de Etiqueta',
+        labelsDesc: 'Aplicado sobre <code>&#x3C;cz-input-text&#x3E;</code>, <code>czInputNumber</code> hereda las cuatro posiciones de etiqueta: <code>none</code>, <code>over</code>, <code>in</code> y <code>float</code>.',
 
         currencyTitle: 'Formato de Moneda',
         currencyDesc: 'El formateo de moneda se especifica configurando la propiedad <code>mode</code> en <code>currency</code> y proporcionando el código <code>currency</code> (ej: USD, EUR). Utiliza la API nativa Intl para renderizar símbolos y formatos automáticamente.',
@@ -69,6 +75,9 @@ export const INPUT_NUMBER_DOC_I18N = {
         numeralsTitle: 'Numerais',
         numeralsDesc: 'O InputNumber é usado como uma diretiva com o atributo <code>czInputNumber</code>. Ele pode ser aplicado a tags <code>&#x3C;cz-input-text&#x3E;</code> ou <code>&#x3C;input&#x3E;</code> nativas. Ele formata tipos decimais estritos garantindo que o valor subjacente seja um número JavaScript.',
 
+        labelsTitle: 'Posições do Rótulo',
+        labelsDesc: 'Aplicado a <code>&#x3C;cz-input-text&#x3E;</code>, o <code>czInputNumber</code> herda as quatro posições de rótulo: <code>none</code>, <code>over</code>, <code>in</code> e <code>float</code>.',
+
         currencyTitle: 'Moeda',
         currencyDesc: 'A formatação de moeda é especificada definindo a propriedade <code>mode</code> como <code>currency</code> e fornecendo o código <code>currency</code> (ex: USD, EUR). Utiliza a API Intl nativa para renderizar símbolos e formatos de acordo.',
 
@@ -99,6 +108,9 @@ export const INPUT_NUMBER_DOC_I18N = {
         numeralsTitle: 'Chiffres',
         numeralsDesc: 'InputNumber est utilisé comme une directive avec l\'attribut <code>czInputNumber</code>. Il peut être appliqué sur les balises <code>&#x3C;cz-input-text&#x3E;</code> ou <code>&#x3C;input&#x3E;</code> natives. Il formate des types décimaux stricts garantissant que la valeur sous-jacente est un nombre JavaScript.',
 
+        labelsTitle: 'Positions du Libellé',
+        labelsDesc: 'Appliqué à <code>&#x3C;cz-input-text&#x3E;</code>, <code>czInputNumber</code> hérite des quatre positions de libellé : <code>none</code>, <code>over</code>, <code>in</code> et <code>float</code>.',
+
         currencyTitle: 'Devise',
         currencyDesc: 'Le formatage des devises est spécifié en définissant la propriété <code>mode</code> sur <code>currency</code> et en fournissant le code <code>currency</code> (ex: USD, EUR). Il utilise l\'API Intl native pour rendre les symboles et formater correctement.',
 
@@ -128,6 +140,9 @@ export const INPUT_NUMBER_DOC_I18N = {
 
         numeralsTitle: 'Zahlen',
         numeralsDesc: 'InputNumber wird als Direktive mit dem Attribut <code>czInputNumber</code> verwendet. Sie kann auf <code>&#x3C;cz-input-text&#x3E;</code>- oder native <code>&#x3C;input&#x3E;</code>-Tags angewendet werden. Sie formatiert eine strikte Dezimaldarstellung, um zu garantieren, dass der zugrunde liegende Wert eine JavaScript-Zahl ist.',
+
+        labelsTitle: 'Label-Positionen',
+        labelsDesc: 'Auf <code>&#x3C;cz-input-text&#x3E;</code> angewendet, erbt <code>czInputNumber</code> die vier Label-Positionen: <code>none</code>, <code>over</code>, <code>in</code> und <code>float</code>.',
 
         currencyTitle: 'Währung',
         currencyDesc: 'Die Währungsformatierung wird festgelegt, indem die Eigenschaft <code>mode</code> auf <code>currency</code> gesetzt und ein <code>currency</code>-Code (z. B. USD, EUR) angegeben wird. Es wird die native Intl-API verwendet, um Symbole und Formate automatisch anzupassen.',

@@ -112,6 +112,7 @@ import { AUTOCOMPLETE_DOC_I18N } from './autocomplete-doc.i18n';
                             <tr><td><code>minLength</code></td><td><code>number</code></td><td><code>1</code></td><td>Minimum characters to trigger search</td></tr>
                             <tr><td><code>delay</code></td><td><code>number</code></td><td><code>300</code></td><td>Delay between keystrokes in ms</td></tr>
                             <tr><td><code>forceSelection</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Clears input if unselected text is entered</td></tr>
+                            <tr><td><code>zIndex</code></td><td><code>number | 'none' | null</code></td><td><code>null</code></td><td>Overlay z-index: a number overrides it, <code>'none'</code> keeps it in normal flow, <code>null</code> = theme default (above everything).</td></tr>
                         </tbody>
                     </table>
                 </div>

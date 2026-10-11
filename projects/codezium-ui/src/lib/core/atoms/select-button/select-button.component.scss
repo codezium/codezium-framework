@@ -132,7 +132,7 @@
 
         &:disabled {
             cursor: not-allowed;
-            color: var(--cz-text-muted, #9ca3af);
+            color: var(--cz-theme-text-muted, #9ca3af);
         }
     }
 

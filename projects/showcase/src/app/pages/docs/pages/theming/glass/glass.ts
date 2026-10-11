@@ -35,19 +35,19 @@ import { GLASS_THEME_I18N } from './glass.i18n';
                     <tbody>
                         <tr>
                             <td><code>--cz-theme-surface</code></td>
-                            <td><div class="cz-flex cz-items-center cz-gap-sm"><div class="cz-w-4 cz-h-4 cz-rounded-sm cz-border cz-border-light" style="background-color: rgba(255, 255, 255, 0.4)"></div>rgba(255, 255, 255, 0.4)</div></td>
-                            <td><div class="cz-flex cz-items-center cz-gap-sm"><div class="cz-w-4 cz-h-4 cz-rounded-sm cz-border cz-border-light" style="background-color: rgba(255, 255, 255, 0.1)"></div>rgba(255, 255, 255, 0.1)</div></td>
+                            <td><div class="cz-flex cz-items-center cz-gap-sm"><div class="cz-w-4 cz-h-4 cz-rounded-sm cz-border cz-border-light" style="background-color: rgba(255, 255, 255, 0.55)"></div>rgba(255, 255, 255, 0.55)</div></td>
+                            <td><div class="cz-flex cz-items-center cz-gap-sm"><div class="cz-w-4 cz-h-4 cz-rounded-sm cz-border cz-border-light" style="background-color: rgba(17, 29, 56, 0.6)"></div>rgba(17, 29, 56, 0.6)</div></td>
                             <td>{{ t().variables.surface.desc }}</td>
                         </tr>
                         <tr>
                             <td><code>--cz-theme-backdrop-filter</code></td>
-                            <td><code>blur(25px)</code></td>
-                            <td><code>blur(25px)</code></td>
+                            <td><code>blur(20px)</code></td>
+                            <td><code>blur(20px)</code></td>
                             <td>{{ t().variables.backdrop.desc }}</td>
                         </tr>
                         <tr>
                             <td><code>--cz-theme-border-color</code></td>
-                            <td><div class="cz-flex cz-items-center cz-gap-sm"><div class="cz-w-4 cz-h-4 cz-rounded-sm cz-border cz-border-light" style="background-color: rgba(255, 255, 255, 0.5)"></div>rgba(255, 255, 255, 0.5)</div></td>
+                            <td><div class="cz-flex cz-items-center cz-gap-sm"><div class="cz-w-4 cz-h-4 cz-rounded-sm cz-border cz-border-light" style="background-color: rgba(255, 255, 255, 0.65)"></div>rgba(255, 255, 255, 0.65)</div></td>
                             <td><div class="cz-flex cz-items-center cz-gap-sm"><div class="cz-w-4 cz-h-4 cz-rounded-sm cz-border cz-border-light" style="background-color: rgba(255, 255, 255, 0.2)"></div>rgba(255, 255, 255, 0.2)</div></td>
                             <td>{{ t().variables.border.desc }}</td>
                         </tr>

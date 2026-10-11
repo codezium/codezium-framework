@@ -13,6 +13,7 @@ export * from './icon-field';
 export * from './knob';
 export * from './toggle-button';
 export * from './button';
+export * from './button-group';
 export * from './badge';
 export * from './tag';
 export * from './chip';

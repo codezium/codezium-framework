@@ -29,7 +29,28 @@ describe('CzPaginatorComponent', () => {
 
         expect(component).toBeTruthy();
         expect(component.pageCount()).toBe(10);
-        expect(pageButtons().length).toBe(10);
+        expect(pageButtons().length).toBe(5);
+    });
+
+    it('should slide the page link window and support showing all links', () => {
+        fixture.componentRef.setInput('totalRecords', 120);
+        fixture.componentRef.setInput('rows', 10);
+        fixture.componentRef.setInput('pageLinkSize', 5);
+        fixture.detectChanges();
+
+        expect(component.pages()).toEqual([0, 1, 2, 3, 4]);
+
+        component.goTo(8);
+        fixture.detectChanges();
+        expect(component.pages()).toEqual([6, 7, 8, 9, 10]);
+
+        component.goTo(11);
+        fixture.detectChanges();
+        expect(component.pages()).toEqual([7, 8, 9, 10, 11]);
+
+        fixture.componentRef.setInput('pageLinkSize', 0);
+        fixture.detectChanges();
+        expect(component.pages().length).toBe(12);
     });
 
     it('should navigate to a page and notify CVA + output', () => {

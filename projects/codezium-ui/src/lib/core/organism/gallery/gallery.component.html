@@ -13,7 +13,7 @@
 </div>
 
 @if (fullscreen() && current(); as image) {
-    <div class="cz-gallery-fullscreen" role="dialog" aria-modal="true" [attr.aria-label]="image.alt || 'Image preview'">
+    <div class="cz-gallery-fullscreen" [style.z-index]="fullscreenZIndex()" role="dialog" aria-modal="true" [attr.aria-label]="image.alt || 'Image preview'">
         <div class="cz-gallery-backdrop" (click)="close()"></div>
 
         <div class="cz-gallery-preview">

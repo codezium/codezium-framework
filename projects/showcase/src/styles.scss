@@ -1,15 +1,193 @@
 /* Codezium UI Design System */
 @use '../../codezium-ui/src/styles/main';
 
+/* ==========================================================================
+   CORPORATE IDENTITY — Codezium v1.0
+   Azul Codezium #2235E4 · Cian Intelligence #00C8FF · Violeta Future #8A4DFF
+   Midnight #080F1F · Deep Navy #111D38 · Sora / Inter / JetBrains Mono
+   ========================================================================== */
+
+:root {
+    /* --- Corporate palette tokens --- */
+    --cz-corp-azul: #2235e4;
+    --cz-corp-cian: #00c8ff;
+    --cz-corp-violeta: #8a4dff;
+    --cz-corp-midnight: #080f1f;
+    --cz-corp-deep-navy: #111d38;
+    --cz-corp-slate-blue: #334155;
+    --cz-corp-steel: #64748b;
+    --cz-corp-cloud: #cbd5e1;
+    --cz-corp-light: #f5f7fb;
+    --cz-corp-light-soft: #f4f7fc;
+    --cz-corp-border-light: #c1cee3;
+
+    /* --- Official gradients --- */
+    --cz-corp-gradient: linear-gradient(100deg, #2235e4 0%, #00c8ff 52%, #8a4dff 100%);
+    --cz-corp-gradient-secondary: linear-gradient(100deg, #8a4dff 0%, #2235e4 100%);
+    --cz-corp-gradient-institutional: linear-gradient(100deg, #080f1f 0%, #111d38 55%, #2235e4 100%);
+
+    /* --- Typography: Sora headings in the showcase (library default stays Inter) --- */
+    --cz-font-heading: 'Sora', 'Inter', system-ui, sans-serif;
+}
+
+/* --- Base theme (light) — corporate palette ---
+   Applied to the app root and to any scope explicitly using the base theme. */
+:root:not([data-theme]):not(.dark),
+[data-theme='base']:not(.dark) {
+    --cz-theme-html-bg: var(--cz-corp-light);
+    --cz-theme-surface: #ffffff;
+    --cz-theme-surface-hover: var(--cz-corp-light-soft);
+    --cz-theme-surface-active: #e9eefa;
+
+    --cz-theme-text-primary: var(--cz-corp-midnight);
+    --cz-theme-text-secondary: var(--cz-corp-slate-blue);
+    --cz-theme-text-muted: var(--cz-corp-steel);
+
+    --cz-theme-border-color: var(--cz-corp-border-light);
+    --cz-theme-divider: var(--cz-corp-border-light);
+
+    --cz-theme-input-border: #94a3b8;
+    --cz-theme-input-border-hover: var(--cz-corp-steel);
+    --cz-theme-input-placeholder: #94a3b8;
+    --cz-theme-input-label: #475569;
+    --cz-theme-input-label-active: var(--cz-corp-midnight);
+    --cz-theme-input-bg: #ffffff;
+}
+
+/* --- Base theme (dark) — Midnight surfaces --- */
+html.dark,
+[data-theme='base'].dark {
+    --cz-theme-html-bg: var(--cz-corp-midnight);
+    --cz-theme-surface: var(--cz-corp-deep-navy);
+    --cz-theme-surface-hover: var(--cz-corp-slate-blue);
+    --cz-theme-surface-active: #3f4d63;
+
+    --cz-theme-text-primary: #ffffff;
+    --cz-theme-text-secondary: var(--cz-corp-cloud);
+    --cz-theme-text-muted: var(--cz-corp-steel);
+
+    --cz-theme-border-color: rgba(255 255 255 / 0.1);
+    --cz-theme-divider: rgba(255 255 255 / 0.1);
+
+    --cz-theme-input-border: rgba(255 255 255 / 0.18);
+    --cz-theme-input-border-hover: rgba(255 255 255 / 0.32);
+    --cz-theme-input-placeholder: rgba(255 255 255 / 0.4);
+    --cz-theme-input-label: rgba(255 255 255 / 0.6);
+    --cz-theme-input-label-active: rgba(255 255 255 / 0.9);
+    --cz-theme-input-bg: rgba(255 255 255 / 0.05);
+}
+
+/* --- Corporate utility helpers (only what the framework lacks) --- */
+.cz-corp-gradient-text {
+    background: var(--cz-corp-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
 html {
     scroll-behavior: smooth;
 }
 
-/* Showcase-specific overrides — dark background for the landing page */
 body {
-    background: #0f0f1a;
-    color: var(--cz-color-white);
+    background: var(--cz-theme-html-bg);
+    color: var(--cz-theme-text-primary);
     font-family: var(--cz-font-base);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   PRISM — Codezium corporate syntax theme (replaces prism-tomorrow CDN)
+   ========================================================================== */
+
+code[class*='language-'],
+pre[class*='language-'] {
+    color: #e2e8f0;
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    text-shadow: none;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    tab-size: 2;
+    hyphens: none;
+}
+
+pre[class*='language-'] {
+    background: var(--cz-corp-midnight, #080f1f);
+}
+
+:not(pre) > code[class*='language-'] {
+    background: rgba(255 255 255 / 0.08);
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: var(--cz-corp-steel, #64748b);
+    font-style: italic;
+}
+
+.token.punctuation {
+    color: #94a3b8;
+}
+
+.token.property,
+.token.tag,
+.token.symbol,
+.token.deleted {
+    color: #93c5fd;
+}
+
+.token.boolean,
+.token.number,
+.token.constant {
+    color: #fbbf24;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #4ddcff;
+}
+
+.token.operator,
+.token.entity,
+.token.url {
+    color: #94a3b8;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #a471ff;
+}
+
+.token.function,
+.token.class-name {
+    color: #60a5fa;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #f59e0b;
+}
+
+.token.important,
+.token.bold {
+    font-weight: 600;
+}
+
+.token.italic {
+    font-style: italic;
 }

@@ -1,8 +1,21 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CzButtonComponent } from './button.component';
 import { LucideCheck, LucideChevronRight } from '@lucide/angular';
 import { By } from '@angular/platform-browser';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+
+@Component({
+    imports: [CzButtonComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
+        <cz-button variant="outlined" ariaLabel="Star action">
+            <svg data-test-custom-icon width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"></svg>
+            Star
+        </cz-button>
+    `,
+})
+class ProjectedContentHostComponent {}
 
 describe('CzButtonComponent', () => {
     let component: CzButtonComponent;
@@ -151,5 +164,81 @@ describe('CzButtonComponent', () => {
         const button = fixture.debugElement.query(By.css('.cz-button-native')).nativeElement as HTMLButtonElement;
         expect(button.getAttribute('type')).toBe('submit');
         expect(button.getAttribute('aria-label')).toBe('Submit form');
+    });
+
+    it('should apply the icon position attribute and render top/bottom icons', () => {
+        fixture.componentRef.setInput('label', 'Search');
+        fixture.componentRef.setInput('icon', LucideCheck);
+        fixture.componentRef.setInput('iconPos', 'top');
+        fixture.detectChanges();
+
+        expect((fixture.nativeElement as HTMLElement).getAttribute('data-icon-pos')).toBe('top');
+        expect(fixture.nativeElement.querySelector('.cz-button-icon')).toBeTruthy();
+    });
+
+    it('should render a badge inside the button', () => {
+        fixture.componentRef.setInput('label', 'Emails');
+        fixture.componentRef.setInput('badge', 2);
+        fixture.componentRef.setInput('badgeSeverity', 'info');
+        fixture.detectChanges();
+
+        const badge = fixture.nativeElement.querySelector('.cz-button-badge');
+        expect(badge).toBeTruthy();
+        expect(badge.textContent).toContain('2');
+    });
+
+    it('should render the custom loading icon while loading', () => {
+        fixture.componentRef.setInput('loading', true);
+        fixture.componentRef.setInput('loadingIcon', LucideCheck);
+        fixture.detectChanges();
+
+        expect(fixture.nativeElement.querySelector('.cz-button-icon--spin')).toBeTruthy();
+        expect(fixture.nativeElement.querySelector('.cz-button-spinner')).toBeNull();
+    });
+
+    it('should apply the styleClass to the native button', () => {
+        fixture.componentRef.setInput('styleClass', 'my-button');
+        fixture.detectChanges();
+
+        const button = fixture.debugElement.query(By.css('.cz-button-native')).nativeElement as HTMLButtonElement;
+        expect(button.classList.contains('my-button')).toBe(true);
+    });
+
+    it('should emit onFocus and onBlur', () => {
+        fixture.detectChanges();
+
+        const focusSpy = vi.fn();
+        const blurSpy = vi.fn();
+        component.onFocus.subscribe(focusSpy);
+        component.onBlur.subscribe(blurSpy);
+
+        const button = fixture.debugElement.query(By.css('.cz-button-native')).nativeElement as HTMLButtonElement;
+        button.dispatchEvent(new Event('focus'));
+        button.dispatchEvent(new Event('blur'));
+
+        expect(focusSpy).toHaveBeenCalled();
+        expect(blurSpy).toHaveBeenCalled();
+    });
+
+    it('should support the link and plain variants', () => {
+        fixture.componentRef.setInput('variant', 'link');
+        fixture.detectChanges();
+        expect((fixture.nativeElement as HTMLElement).getAttribute('data-variant')).toBe('link');
+
+        fixture.componentRef.setInput('variant', 'plain');
+        fixture.detectChanges();
+        expect((fixture.nativeElement as HTMLElement).getAttribute('data-variant')).toBe('plain');
+    });
+
+    it('should render any projected icon or content and keep the normal padding', () => {
+        const hostFixture = TestBed.createComponent(ProjectedContentHostComponent);
+        hostFixture.detectChanges();
+
+        const button = hostFixture.nativeElement.querySelector('.cz-button-native') as HTMLElement;
+        expect(button.querySelector('svg[data-test-custom-icon]')).toBeTruthy();
+        expect(button.textContent).toContain('Star');
+
+        const host = hostFixture.nativeElement.querySelector('cz-button') as HTMLElement;
+        expect(host.classList.contains('cz-button--icon-only')).toBe(false);
     });
 });
